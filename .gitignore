@@ -1,0 +1,44 @@
+# Secrets — ne jamais versionner
+.env
+*.pem
+
+# Base de données locale et journaux
+db.sqlite3
+db.sqlite3-*
+# Le dossier logs/ est versionné (via .gitkeep) mais pas son contenu :
+# l'application échouerait au démarrage s'il n'existait pas.
+logs/*
+!logs/.gitkeep
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Fichiers statiques collectés
+staticfiles/
+
+# Les catalogues .mo sont VERSIONNÉS, contrairement à l'usage habituel pour un
+# artefact de compilation : sans eux, un clone frais perd le multilingue tant
+# que gettext n'est pas installé sur la machine. Quelques kilo-octets contre
+# une démonstration qui fonctionne immédiatement.
+# Les régénérer : make i18n
+
+# Environnements de développement
+# .vscode et .idea/runConfigurations sont VERSIONNÉS : ils font partie du
+# confort d'équipe. Seuls les fichiers propres à une machine sont exclus.
+.idea/*
+!.idea/runConfigurations/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/shelf/
+.DS_Store
+
+# Outillage
+.ruff_cache/
+.pre-commit-cache/
