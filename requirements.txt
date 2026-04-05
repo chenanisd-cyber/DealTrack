@@ -1,0 +1,24 @@
+# DealTrack.be — dépendances de production
+# Versions figées : une mise à jour doit être un acte délibéré, testé.
+
+Django==5.1.5                        # LTS de la branche 5.1
+djangorestframework==3.15.2          # API REST
+djangorestframework-simplejwt==5.3.1 # jetons JWT
+django-filter==24.3                  # filtres déclaratifs de l'API
+django-axes==7.0.0                   # verrouillage après échecs de connexion
+argon2-cffi==23.1.0                  # hachage de mot de passe résistant au GPU
+
+# Base de données
+# SQLite suffit en développement ; PostgreSQL est requis en production
+# (contraintes CHECK complètes, types natifs UUID et JSONB).
+psycopg[binary]==3.2.3
+
+# Serveur d'application
+gunicorn==23.0.0
+
+# Paiement — optionnel : la passerelle « sandbox » fonctionne sans.
+# stripe==11.1.0
+
+# Outillage de développement, à installer séparément :
+#   polib==1.2.0     génération des catalogues de traduction
+#   ruff==0.8.4      analyse statique
