@@ -1,0 +1,124 @@
+{% load i18n static %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}DealTrack.be{% endblock %}</title>
+<meta name="description" content="{% block description %}{% trans "La plateforme communautaire des bons plans en Belgique." %}{% endblock %}">
+{# Le navigateur ne devine pas les autres langues : on les déclare. #}
+{% get_available_languages as LANGUAGES %}
+{% for code, name in LANGUAGES %}
+  <link rel="alternate" hreflang="{{ code }}" href="/{{ code }}{{ request.get_full_path|slice:'3:' }}">
+{% endfor %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/dealtrack.css' %}">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead__top">
+    <a class="brand" href="{% url 'deals:list' %}">
+      <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16 3c5.5 0 10 4.3 10 9.6 0 6.8-10 16.4-10 16.4S6 19.4 6 12.6C6 7.3 10.5 3 16 3Z" fill="#01182B"/>
+        <path d="M16 8.5v9M12 14l4 4 4-4" fill="none" stroke="#CC7857" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand__word">DealTrack<span class="brand__tld">.be</span></span>
+    </a>
+
+    <form class="search" role="search" method="get" action="{% url 'deals:list' %}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <label class="visually-hidden" for="q">{% trans "Rechercher un bon plan" %}</label>
+      <input id="q" name="q" type="search" value="{{ request.GET.q|default:'' }}" placeholder="{% trans 'Recherche…' %}">
+    </form>
+
+    <div class="masthead__actions">
+      {# Sélecteur de langue : POST vers set_language, protégé par CSRF. #}
+      <form action="{% url 'set_language' %}" method="post" class="langswitch">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        {% for code, name in LANGUAGES %}
+          <button type="submit" name="language" value="{{ code }}"
+                  aria-pressed="{% if code == LANGUAGE_CODE %}true{% else %}false{% endif %}">{{ code|upper }}</button>
+        {% endfor %}
+      </form>
+
+      {% if user.is_authenticated %}
+        <a class="pill is-ghost" href="{% url 'accounts:profile' %}">
+          <span class="label">{{ user.display_name }}</span>
+        </a>
+        {% if user.is_moderator %}
+          <a class="pill is-ghost" href="{% url 'admin:index' %}"><span class="label">{% trans "Modération" %}</span></a>
+        {% endif %}
+        <form method="post" action="{% url 'accounts:logout' %}" style="display:inline">
+          {% csrf_token %}
+          <button class="pill is-ghost" type="submit">{% trans "Déconnexion" %}</button>
+        </form>
+        <a class="pill is-accent" href="{% url 'deals:submit' %}">{% trans "Publier" %}</a>
+      {% else %}
+        <a class="pill is-ghost" href="{% url 'accounts:login' %}"><span class="label">{% trans "Connexion" %}</span></a>
+        <a class="pill is-accent" href="{% url 'accounts:register' %}">{% trans "Inscription" %}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <nav class="catnav" aria-label="{% trans 'Catégories' %}">
+    <a href="{% url 'deals:list' %}">{% trans "Tous les deals" %}</a>
+    <a href="{% url 'deals:list' %}?local=1">{% trans "Commerçants locaux" %}</a>
+    <a href="{% url 'payments:plans' %}">{% trans "Club" %}</a>
+  </nav>
+</header>
+
+{% if messages %}
+  <div class="shell" style="padding-top:12px">
+    {% for message in messages %}
+      <div class="moderation" style="margin-bottom:8px{% if message.tags == 'error' %};background:#FBE9EC;color:#BE1C38{% elif message.tags == 'warning' %};background:var(--dt-warn-bg);color:var(--dt-warn){% endif %}">
+        <div><p style="margin:0">{{ message }}</p></div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<main>{% block content %}{% endblock %}</main>
+
+<footer class="foot">
+  <div class="foot__grid">
+    <div>
+      <div class="brand" style="margin-bottom:12px">
+        <span class="brand__word">DealTrack<span class="brand__tld">.be</span></span>
+      </div>
+      <p style="font-size:14px">{% trans "Plateforme communautaire des bons plans en Belgique, disponible en français, néerlandais et allemand." %}</p>
+    </div>
+    <div>
+      <h4>{% trans "Découvrir" %}</h4>
+      <ul>
+        <li><a href="{% url 'deals:list' %}">{% trans "Tous les deals" %}</a></li>
+        <li><a href="{% url 'deals:list' %}?local=1">{% trans "Commerçants locaux" %}</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>{% trans "Participer" %}</h4>
+      <ul>
+        <li><a href="{% url 'deals:submit' %}">{% trans "Publier un deal" %}</a></li>
+        <li><a href="{% url 'payments:plans' %}">{% trans "Abonnement Club" %}</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>{% trans "Vos données" %}</h4>
+      <ul>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'accounts:export' %}">{% trans "Exporter mes données" %}</a></li>
+          <li><a href="{% url 'accounts:close' %}">{% trans "Fermer mon compte" %}</a></li>
+        {% endif %}
+        <li><a href="#">{% trans "Politique de confidentialité" %}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot__legal">
+    <span>© 2025 DealTrack.be — {% trans "Bruxelles, Belgique" %}</span>
+    <span>{% trans "Prix TVA belge comprise." %}</span>
+  </div>
+</footer>
+
+</body>
+</html>
