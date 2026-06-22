@@ -1,0 +1,14 @@
+{% load i18n %}
+{% if form.non_field_errors %}
+  <div class="moderation" style="background:#FBE9EC;color:#BE1C38;margin-bottom:16px">
+    <div>{% for e in form.non_field_errors %}<p style="margin:0">{{ e }}</p>{% endfor %}</div>
+  </div>
+{% endif %}
+{% for field in form %}
+  <div class="field">
+    <label class="field__label" for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+    {{ field }}
+    {% if field.help_text %}<p class="field__hint">{{ field.help_text }}</p>{% endif %}
+    {% for e in field.errors %}<p class="field__hint" style="color:var(--dt-hot)">{{ e }}</p>{% endfor %}
+  </div>
+{% endfor %}
