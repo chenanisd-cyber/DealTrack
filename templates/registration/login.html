@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Connexion" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell"><div class="form">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Connexion" %}</h1>
+  <section class="panel">
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include "_form.html" %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button class="cta is-block" type="submit">{% trans "Se connecter" %}</button>
+    </form>
+    <p class="field__hint" style="margin-top:16px">
+      {% trans "Pas encore de compte ?" %} <a href="{% url 'accounts:register' %}">{% trans "Inscription" %}</a>
+    </p>
+  </section>
+</div></div>
+{% endblock %}
