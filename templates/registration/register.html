@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Inscription" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell"><div class="form">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Créer un compte" %}</h1>
+  <p style="color:var(--dt-ink-2)">{% trans "Douze caractères minimum, mêlant plusieurs types de caractères." %}</p>
+  <section class="panel">
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include "_form.html" %}
+      <button class="cta is-block" type="submit">{% trans "Créer mon compte" %}</button>
+    </form>
+  </section>
+  <p class="field__hint">{% trans "Vos données sont traitées conformément au RGPD. Vous pouvez les exporter ou fermer votre compte à tout moment." %}</p>
+</div></div>
+{% endblock %}
