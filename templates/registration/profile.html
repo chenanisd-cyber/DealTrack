@@ -1,0 +1,49 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Mon compte" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell" style="padding-bottom:40px">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Mon compte" %}</h1>
+
+  <section class="panel">
+    <h2 class="panel__title">{% trans "Mes deals" %}</h2>
+    <table class="table">
+      <thead><tr><th>{% trans "Titre" %}</th><th>{% trans "Statut" %}</th><th>{% trans "Soumis le" %}</th></tr></thead>
+      <tbody>
+      {% for deal in deals %}
+        <tr>
+          <td><span class="table__title">{{ deal.title|truncatechars:70 }}</span></td>
+          <td><span class="stamp{% if deal.status == 'pending' %} is-pending{% endif %}">{{ deal.get_status_display }}</span></td>
+          <td><span class="table__sub">{{ deal.created_at|date:"d/m/Y H:i" }}</span></td>
+        </tr>
+      {% empty %}<tr><td colspan="3" class="table__sub">{% trans "Aucun deal publié pour l'instant." %}</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel__title">{% trans "Mes factures" %}</h2>
+    <table class="table">
+      <thead><tr><th>{% trans "Référence" %}</th><th>{% trans "Montant" %}</th><th>{% trans "Statut" %}</th><th>{% trans "Date" %}</th></tr></thead>
+      <tbody>
+      {% for payment in payments %}
+        <tr>
+          <td><span class="table__title">{{ payment.reference }}</span></td>
+          <td>{{ payment.amount }} € <span class="table__sub">({% trans "dont TVA" %} {{ payment.vat_amount }} €)</span></td>
+          <td>{{ payment.get_status_display }}</td>
+          <td><span class="table__sub">{{ payment.created_at|date:"d/m/Y" }}</span></td>
+        </tr>
+      {% empty %}<tr><td colspan="4" class="table__sub">{% trans "Aucune facture." %}</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel__title">{% trans "Mes données personnelles" %}</h2>
+    <p>{% trans "Le règlement européen vous donne un droit d'accès, de portabilité et d'effacement sur vos données." %}</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
+      <a class="pill" href="{% url 'accounts:export' %}">{% trans "Exporter mes données (JSON)" %}</a>
+      <a class="pill" style="color:var(--dt-hot);border-color:var(--dt-hot)" href="{% url 'accounts:close' %}">{% trans "Fermer mon compte" %}</a>
+    </div>
+  </section>
+</div>
+{% endblock %}
