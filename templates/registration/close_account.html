@@ -1,0 +1,34 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Fermer mon compte" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell"><div class="form">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Fermer mon compte" %}</h1>
+  <section class="panel">
+    {% if has_payments %}
+      <div class="moderation" style="background:var(--dt-warn-bg);color:var(--dt-warn)">
+        <div>
+          <strong>{% trans "Vos factures seront conservées" %}</strong>
+          <p>{% trans "Le droit comptable belge impose de conserver les pièces justificatives sept ans. Votre compte sera immédiatement désactivé et vos données personnelles anonymisées à l'expiration de ce délai. Vos factures resteront rattachées à un identifiant non nominatif." %}</p>
+        </div>
+      </div>
+    {% else %}
+      <p>{% trans "Aucune facture n'est rattachée à ce compte : vos données personnelles seront effacées immédiatement." %}</p>
+    {% endif %}
+
+    <p style="margin-top:20px">{% trans "Vos deals et commentaires publiés restent en ligne, réattribués à un pseudonyme anonyme, afin de ne pas trouer les discussions de la communauté." %}</p>
+
+    <form method="post" style="margin-top:20px">
+      {% csrf_token %}
+      <div class="field">
+        <label class="field__label" for="confirm">{% blocktrans with name=user.display_name %}Tapez « {{ name }} » pour confirmer{% endblocktrans %}</label>
+        <input class="input" id="confirm" name="confirm" required autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="field__label" for="reason">{% trans "Motif (facultatif)" %}</label>
+        <textarea class="textarea" id="reason" name="reason" rows="3" maxlength="300"></textarea>
+      </div>
+      <button class="cta" type="submit" style="background:var(--dt-hot)">{% trans "Fermer définitivement mon compte" %}</button>
+    </form>
+  </section>
+</div></div>
+{% endblock %}

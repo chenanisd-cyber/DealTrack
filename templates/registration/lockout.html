@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Compte temporairement bloqué" %}{% endblock %}
+{% block content %}
+<div class="shell"><div class="form"><section class="panel">
+  <h1 style="font-size:var(--fs-h2)">{% trans "Trop de tentatives" %}</h1>
+  <p>{% trans "Après cinq échecs de connexion, l'accès est suspendu quinze minutes depuis cette adresse. Cette mesure protège votre compte contre les tentatives automatisées." %}</p>
+  <p class="field__hint">{% trans "Si vous avez oublié votre mot de passe, attendez la fin du délai puis utilisez la réinitialisation." %}</p>
+</section></div></div>
+{% endblock %}
