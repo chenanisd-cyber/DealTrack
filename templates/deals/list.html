@@ -1,0 +1,109 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Les meilleurs bons plans en Belgique" %} — DealTrack.be{% endblock %}
+
+{% block content %}
+<div class="regionbar" role="group" aria-label="{% trans 'Filtrer par région' %}">
+  <span class="regionbar__label">{% trans "Région" %}</span>
+  <a class="chip" href="?" aria-pressed="{% if not current_region %}true{% else %}false{% endif %}">{% trans "Toute la Belgique" %}</a>
+  {% for region in regions %}
+    <a class="chip" href="?region={{ region.code }}"
+       aria-pressed="{% if current_region == region.code %}true{% else %}false{% endif %}">{{ region.label_current }}</a>
+  {% endfor %}
+</div>
+
+<div class="tabs" role="tablist">
+  <a class="tab" href="?tri=hot" aria-selected="{% if current_sort == 'hot' %}true{% else %}false{% endif %}">{% trans "Tendance" %}</a>
+  <a class="tab" href="?tri=new" aria-selected="{% if current_sort == 'new' %}true{% else %}false{% endif %}">{% trans "Nouveaux" %}</a>
+  <a class="tab" href="?tri=price" aria-selected="{% if current_sort == 'price' %}true{% else %}false{% endif %}">{% trans "Prix croissant" %}</a>
+</div>
+
+<div class="shell">
+<div class="layout">
+  <div class="feed">
+    {% for deal in page_obj %}
+    <article class="deal{% if deal.is_expired %} is-expired{% endif %}">
+      <div class="deal__media"><span class="avatar is-lg">{{ deal.merchant.name|slice:":2"|upper }}</span></div>
+      <div class="deal__body">
+        <div class="deal__top">
+          <form class="vote" method="post" action="{% url 'deals:vote' deal.slug %}">
+            {% csrf_token %}
+            <button class="vote__btn is-cold" name="value" value="-1" aria-label="{% trans 'Refroidir' %}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M7 14l5 5 5-5"/></svg>
+            </button>
+            <span class="vote__temp">{{ deal.temperature }}°</span>
+            <button class="vote__btn is-hot" name="value" value="1" aria-label="{% trans 'Réchauffer' %}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M7 10l5-5 5 5"/></svg>
+            </button>
+          </form>
+          <span class="stamp{% if deal.is_expired %} is-expired{% endif %}">
+            {% if deal.is_expired %}{% trans "Expiré" %}{% else %}{% blocktrans with when=deal.published_at|timesince %}Publié il y a {{ when }}{% endblocktrans %}{% endif %}
+          </span>
+        </div>
+
+        <div class="deal__flags">
+          {% if deal.merchant.is_verified %}<span class="badge is-verified">{% trans "Offre vérifiée" %}</span>{% endif %}
+          {% if deal.merchant.is_local_independent %}<span class="badge is-local">{% trans "Commerçant local" %}</span>{% endif %}
+          {% if deal.is_cross_border %}<span class="badge is-border">{% trans "Transfrontalier" %}</span>{% endif %}
+          {% if deal.discount_percentage %}<span class="badge is-save">-{{ deal.discount_percentage }} %</span>{% endif %}
+          {% if not deal.is_translated %}<span class="badge is-lang">{% blocktrans with lang=deal.source_language_label %}Offre rédigée en {{ lang }}{% endblocktrans %}</span>{% endif %}
+        </div>
+
+        <h2 class="deal__title"><a href="{{ deal.get_absolute_url }}">{{ deal.title_current }}</a></h2>
+
+        <div class="priceline">
+          <span class="price">{{ deal.price }} €</span>
+          {% if deal.reference_price %}<span class="price--was">{{ deal.reference_price }} €</span>{% endif %}
+          {% if deal.is_free_shipping %}<span class="meta">{% trans "Livraison gratuite" %}</span>{% endif %}
+          <span class="vsep"></span>
+          <span class="meta">{% trans "Dispo. chez" %} <strong>{{ deal.merchant.name }}</strong></span>
+          <span class="meta">{% trans "Partagé par" %} {{ deal.submitted_by.display_name }}</span>
+        </div>
+
+        <p class="deal__desc">{{ deal.description_current|truncatewords:28 }}</p>
+
+        <div class="deal__foot">
+          <a class="iconbtn" href="{{ deal.get_absolute_url }}#discussion">{{ deal.comment_total }} {% trans "commentaires" %}</a>
+          <a class="cta{% if deal.is_expired %} is-off{% endif %}" href="{{ deal.get_absolute_url }}">{% trans "Voir le deal" %}</a>
+        </div>
+      </div>
+    </article>
+    {% empty %}
+      <div class="panel"><p>{% trans "Aucun deal ne correspond à ces critères." %}</p></div>
+    {% endfor %}
+
+    {% if page_obj.has_other_pages %}
+    <nav class="panel" style="display:flex;gap:12px;justify-content:center" aria-label="{% trans 'Pagination' %}">
+      {% if page_obj.has_previous %}<a class="pill" href="?page={{ page_obj.previous_page_number }}">{% trans "Précédent" %}</a>{% endif %}
+      <span class="meta">{% blocktrans with n=page_obj.number total=page_obj.paginator.num_pages %}Page {{ n }} sur {{ total }}{% endblocktrans %}</span>
+      {% if page_obj.has_next %}<a class="pill" href="?page={{ page_obj.next_page_number }}">{% trans "Suivant" %}</a>{% endif %}
+    </nav>
+    {% endif %}
+  </div>
+
+  <aside class="rail">
+    <section class="panel">
+      <h2 class="panel__title">{% trans "Les plus hot" %}</h2>
+      {% for deal in hot_deals %}
+      <div class="hotitem">
+        <div class="hotitem__thumb"><span class="hotitem__temp">{{ deal.temperature }}°</span></div>
+        <div>
+          <p class="hotitem__title"><a href="{{ deal.get_absolute_url }}">{{ deal.title_current|truncatechars:60 }}</a></p>
+          <span class="hotitem__price">{{ deal.price }} €</span>
+        </div>
+      </div>
+      {% endfor %}
+    </section>
+
+    <section class="panel alertbox">
+      <h2 class="panel__title">{% trans "Créer une alerte" %}</h2>
+      <p>{% trans "Recevez un e-mail dès qu'un deal correspond à vos critères." %}</p>
+      {% if user.is_authenticated %}
+        <a class="cta is-block" href="{% url 'accounts:profile' %}">{% trans "Gérer mes alertes" %}</a>
+      {% else %}
+        <a class="cta is-block" href="{% url 'accounts:register' %}">{% trans "Créer un compte" %}</a>
+      {% endif %}
+    </section>
+  </aside>
+</div>
+</div>
+{% endblock %}
