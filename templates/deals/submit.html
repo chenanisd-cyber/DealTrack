@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Publier un deal" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell"><div class="form">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Publier un deal" %}</h1>
+  <p style="color:var(--dt-ink-2)">{% trans "Chaque publication passe par la modération avant d'apparaître dans le flux." %}</p>
+
+  <div class="moderation" style="background:var(--dt-warn-bg);color:var(--dt-warn);margin-bottom:16px">
+    <div>
+      <strong>{% trans "Règle belge sur l'annonce de réduction" %}</strong>
+      <p>{% trans "Le prix de référence doit être le prix le plus bas pratiqué par le marchand durant les 30 jours précédents. Un prix barré gonflé entraîne le refus." %}</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include "_form.html" %}
+      <button class="cta is-block" type="submit">{% trans "Soumettre à la modération" %}</button>
+    </form>
+  </section>
+</div></div>
+{% endblock %}
