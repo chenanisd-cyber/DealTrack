@@ -1,0 +1,29 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Souscrire" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell"><div class="form">
+  <h1 style="font-size:var(--fs-h1)">{{ plan.label_current }}</h1>
+  <p class="detail__price">{{ plan.price }} €</p>
+
+  <section class="panel">
+    <div class="moderation">
+      <div>
+        <strong>{% trans "Aucune donnée bancaire ne transite par DealTrack" %}</strong>
+        <p>{% trans "Votre navigateur communique vos coordonnées directement au prestataire de paiement, qui renvoie un jeton à usage unique. Nos serveurs ne voient jamais votre numéro de carte." %}</p>
+      </div>
+    </div>
+
+    <form method="post" style="margin-top:20px">
+      {% csrf_token %}
+      {# En production, ce champ est renseigné par le SDK du prestataire. #}
+      <div class="field">
+        <label class="field__label" for="payment_token">{% trans "Jeton de paiement" %}</label>
+        <input class="input" id="payment_token" name="payment_token" value="tok_demo_visa" required>
+        <p class="field__hint">{% trans "Environnement de démonstration : « tok_demo_visa » aboutit, « tok_demo_fail » est refusé." %}</p>
+      </div>
+      <button class="cta is-block" type="submit">{% blocktrans with amount=plan.price %}Payer {{ amount }} €{% endblocktrans %}</button>
+    </form>
+    <p class="field__hint" style="margin-top:12px">{% trans "Droit de rétractation : quatorze jours, sauf renonciation expresse à l'exécution immédiate du service (art. VI.53 CDE)." %}</p>
+  </section>
+</div></div>
+{% endblock %}
