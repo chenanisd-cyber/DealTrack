@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Abonnement Club" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell"><div class="form">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Abonnement Club" %}</h1>
+  {% for plan in plans %}
+  <section class="panel">
+    <h2 class="panel__title">{{ plan.label_current }}</h2>
+    <p class="detail__price">{{ plan.price }} €</p>
+    <p class="meta">{% blocktrans with vat=plan.vat_rate days=plan.duration_days %}TVA {{ vat }} % comprise · valable {{ days }} jours{% endblocktrans %}</p>
+    <a class="cta" href="{% url 'payments:subscribe' plan.code %}">{% trans "Souscrire" %}</a>
+  </section>
+  {% endfor %}
+</div></div>
+{% endblock %}
