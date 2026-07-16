@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}500{% endblock %}
+{% block content %}
+<div class="shell"><div class="form"><section class="panel">
+  <h1 style="font-size:var(--fs-h1)">500</h1>
+  <p>{% trans "Cette page n'est pas accessible." %}</p>
+  <a class="cta" href="/">{% trans "Retour aux deals" %}</a>
+</section></div></div>
+{% endblock %}
