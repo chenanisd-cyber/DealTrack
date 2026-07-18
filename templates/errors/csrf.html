@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Session expirée" %}{% endblock %}
+{% block content %}
+<div class="shell"><div class="form"><section class="panel">
+  <h1 style="font-size:var(--fs-h2)">{% trans "Session expirée" %}</h1>
+  <p>{% trans "Le jeton de sécurité de votre formulaire n'est plus valide. Cela arrive après une longue inactivité, ou si la requête ne provient pas de DealTrack. Revenez en arrière et renvoyez le formulaire." %}</p>
+  <a class="cta" href="/">{% trans "Retour aux deals" %}</a>
+</section></div></div>
+{% endblock %}
