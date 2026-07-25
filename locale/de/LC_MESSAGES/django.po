@@ -1,0 +1,1504 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: DealTrack 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-21 17:44+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: DealTrack de\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/accounts/admin.py:20
+msgid "Identité"
+msgstr ""
+
+#: apps/accounts/admin.py:21
+msgid "Rôle et accès"
+msgstr ""
+
+#: apps/accounts/admin.py:23
+msgid "RGPD"
+msgstr ""
+
+#: apps/accounts/admin.py:25
+msgid "Dates"
+msgstr ""
+
+#: apps/accounts/admin.py:34
+msgid "Désinscrire (suppression logique)"
+msgstr ""
+
+#: apps/accounts/admin.py:40
+#, python-format
+msgid "%d compte(s) désinscrit(s)."
+msgstr ""
+
+#: apps/accounts/admin.py:42
+msgid "Anonymiser (droit à l'effacement)"
+msgstr ""
+
+#: apps/accounts/admin.py:50
+#, python-format
+msgid "%d compte(s) anonymisé(s). Les factures restent rattachées."
+msgstr ""
+
+#: apps/accounts/forms.py:17
+msgid ""
+"J'accepte les conditions d'utilisation et la politique de confidentialité"
+msgstr "Ich akzeptiere die Nutzungsbedingungen und die Datenschutzerklärung"
+
+#: apps/accounts/forms.py:19
+msgid "L'acceptation des conditions est obligatoire."
+msgstr "Die Zustimmung zu den Bedingungen ist erforderlich."
+
+#: apps/accounts/forms.py:22
+msgid "Je souhaite recevoir la sélection hebdomadaire des meilleurs deals"
+msgstr "Ich möchte die wöchentliche Auswahl der besten Deals erhalten"
+
+#: apps/accounts/forms.py:24
+msgid "Facultatif, révocable à tout moment. Consentement distinct des CGU."
+msgstr ""
+"Optional, jederzeit widerrufbar. Von den Nutzungsbedingungen getrennte "
+"Einwilligung."
+
+#: apps/accounts/forms.py:51
+msgid "Un compte existe déjà avec cette adresse."
+msgstr "Mit dieser Adresse besteht bereits ein Konto."
+
+#: apps/accounts/forms.py:58
+msgid "Ce pseudonyme est déjà pris."
+msgstr "Dieser Benutzername ist bereits vergeben."
+
+#: apps/accounts/forms.py:81
+msgid "Adresse e-mail"
+msgstr "E-Mail-Adresse"
+
+#: apps/accounts/forms.py:85
+msgid "Mot de passe"
+msgstr "Passwort"
+
+#: apps/accounts/forms.py:89 apps/accounts/forms.py:90
+msgid "Adresse e-mail ou mot de passe incorrect."
+msgstr "E-Mail-Adresse oder Passwort falsch."
+
+#: apps/accounts/forms.py:96
+msgid "Mot-clé"
+msgstr "Stichwort"
+
+#: apps/accounts/forms.py:97
+msgid "Ex. : machine à café"
+msgstr "Z. B.: Kaffeemaschine"
+
+#: apps/accounts/forms.py:99 templates/deals/list.html:6
+msgid "Région"
+msgstr "Region"
+
+#: apps/accounts/forms.py:101
+msgid "Prix maximum"
+msgstr "Höchstpreis"
+
+#: apps/accounts/forms.py:109 templates/deals/list.html:7
+msgid "Toute la Belgique"
+msgstr "Ganz Belgien"
+
+#: apps/accounts/forms.py:117
+msgid "Mot-clé trop court."
+msgstr "Stichwort zu kurz."
+
+#: apps/accounts/models.py:25
+msgid "Membre"
+msgstr "Mitglied"
+
+#: apps/accounts/models.py:26
+msgid "Modérateur"
+msgstr "Moderator"
+
+#: apps/accounts/models.py:27
+msgid "Administrateur"
+msgstr "Administrator"
+
+#: apps/accounts/models.py:44
+msgid "Une adresse e-mail est obligatoire."
+msgstr "Eine E-Mail-Adresse ist erforderlich."
+
+#: apps/accounts/models.py:64
+msgid "Un superutilisateur doit avoir is_staff=True."
+msgstr ""
+
+#: apps/accounts/models.py:72
+msgid "adresse e-mail"
+msgstr "E-Mail-Adresse"
+
+#: apps/accounts/models.py:75
+msgid "Sert d'identifiant de connexion. Stockée en minuscules."
+msgstr ""
+
+#: apps/accounts/models.py:78
+msgid "pseudonyme"
+msgstr "Benutzername"
+
+#: apps/accounts/models.py:85
+msgid "Lettres, chiffres, point, tiret et souligné uniquement."
+msgstr ""
+
+#: apps/accounts/models.py:88
+msgid "Nom affiché publiquement à côté des deals et commentaires."
+msgstr ""
+
+#: apps/accounts/models.py:91
+msgid "rôle"
+msgstr "Rolle"
+
+#: apps/accounts/models.py:94
+msgid "langue préférée"
+msgstr "bevorzugte Sprache"
+
+#: apps/accounts/models.py:101 apps/catalog/models.py:43
+msgid "région"
+msgstr "Region"
+
+#: apps/accounts/models.py:106
+msgid "Sert à trier les deals de proximité. Facultatif."
+msgstr ""
+
+#: apps/accounts/models.py:109
+msgid "actif"
+msgstr "aktiv"
+
+#: apps/accounts/models.py:110
+msgid "accès au back-office"
+msgstr ""
+
+#: apps/accounts/models.py:111
+msgid "inscrit le"
+msgstr ""
+
+#: apps/accounts/models.py:115
+msgid "désinscrit le"
+msgstr ""
+
+#: apps/accounts/models.py:119
+msgid "Renseigné à la désinscription. La ligne n'est jamais supprimée."
+msgstr ""
+
+#: apps/accounts/models.py:122
+msgid "anonymisé le"
+msgstr ""
+
+#: apps/accounts/models.py:125
+msgid "Renseigné une fois les données personnelles écrasées."
+msgstr ""
+
+#: apps/accounts/models.py:129
+msgid "CGU acceptées le"
+msgstr ""
+
+#: apps/accounts/models.py:131
+msgid "consentement marketing"
+msgstr ""
+
+#: apps/accounts/models.py:133
+msgid "Consentement explicite, distinct des CGU (art. 7 RGPD)."
+msgstr ""
+
+#: apps/accounts/models.py:142
+msgid "utilisateur"
+msgstr "Benutzer"
+
+#: apps/accounts/models.py:143
+msgid "utilisateurs"
+msgstr "Benutzer"
+
+#: apps/accounts/validators.py:37
+#, python-format
+msgid ""
+"Le mot de passe doit combiner au moins %(n)d type de caractère parmi "
+"minuscules, majuscules, chiffres et symboles."
+msgid_plural ""
+"Le mot de passe doit combiner au moins %(n)d types de caractères parmi "
+"minuscules, majuscules, chiffres et symboles."
+msgstr[0] ""
+msgstr[1] ""
+
+#: apps/accounts/validators.py:53
+#, python-format
+msgid ""
+"Le mot de passe contient une suite de touches trop évidente (« %(s)s »)."
+msgstr ""
+"Das Passwort enthält eine zu offensichtliche Tastaturfolge (« %(s)s »)."
+
+#: apps/accounts/validators.py:60
+msgid ""
+"Au moins 12 caractères, combinant minuscules, majuscules, chiffres ou "
+"symboles, sans suite de touches."
+msgstr ""
+"Mindestens 12 Zeichen, mit Klein- und Großbuchstaben, Ziffern oder Symbolen,"
+" ohne Tastaturfolgen."
+
+#: apps/accounts/validators.py:81
+msgid "Format attendu : BE suivi de 10 chiffres, par exemple BE0123456749."
+msgstr ""
+"Erwartetes Format: BE gefolgt von 10 Ziffern, zum Beispiel BE0123456749."
+
+#: apps/accounts/validators.py:88
+msgid "La clé de contrôle du numéro de TVA est incorrecte."
+msgstr "Die Prüfziffer der MwSt.-Nummer ist falsch."
+
+#: apps/accounts/validators.py:101
+msgid "Le texte contient un caractère de contrôle interdit."
+msgstr "Der Text enthält ein unzulässiges Steuerzeichen."
+
+#: apps/accounts/views.py:43
+#, python-format
+msgid "Bienvenue sur DealTrack, %(name)s."
+msgstr "Willkommen bei DealTrack, %(name)s."
+
+#: apps/accounts/views.py:88
+msgid "La confirmation ne correspond pas à votre pseudonyme."
+msgstr "Die Bestätigung stimmt nicht mit Ihrem Benutzernamen überein."
+
+#: apps/accounts/views.py:95
+msgid "Votre compte est fermé et vos données personnelles ont été effacées."
+msgstr ""
+"Ihr Konto ist geschlossen und Ihre personenbezogenen Daten wurden gelöscht."
+
+#: apps/accounts/views.py:98
+msgid ""
+"Votre compte est fermé. Vos factures sont conservées le temps du délai "
+"légal, puis vos données seront anonymisées."
+msgstr ""
+"Ihr Konto ist geschlossen. Ihre Rechnungen werden für die gesetzliche Frist "
+"aufbewahrt, danach werden Ihre Daten anonymisiert."
+
+#: apps/api/serializers.py:126 apps/deals/forms.py:52
+msgid "Évitez les titres entièrement en majuscules."
+msgstr "Vermeiden Sie Titel in Großbuchstaben."
+
+#: apps/api/serializers.py:130
+msgid "Un seul point d'exclamation au maximum."
+msgstr "Höchstens ein Ausrufezeichen."
+
+#: apps/api/serializers.py:144 apps/deals/forms.py:58
+msgid "Le lien doit être en HTTPS."
+msgstr "Der Link muss HTTPS verwenden."
+
+#: apps/api/serializers.py:149
+msgid "Le prix ne peut pas être négatif."
+msgstr "Der Preis darf nicht negativ sein."
+
+#: apps/api/serializers.py:151
+msgid "Prix invraisemblable pour un bon plan."
+msgstr "Unglaubwürdiger Preis für ein Schnäppchen."
+
+#: apps/api/serializers.py:162
+msgid ""
+"Le prix de référence doit dépasser le prix affiché, sinon la réduction "
+"annoncée est trompeuse."
+msgstr ""
+"Der Referenzpreis muss über dem angezeigten Preis liegen, sonst ist die "
+"angekündigte Ermäßigung irreführend."
+
+#: apps/api/serializers.py:172
+msgid "La fin de l'offre doit suivre son début."
+msgstr "Das Ende des Angebots muss nach seinem Beginn liegen."
+
+#: apps/api/serializers.py:183 apps/deals/forms.py:76
+msgid "Un marchand hors Belgique impose de cocher « offre transfrontalière »."
+msgstr ""
+"Bei einem Händler außerhalb Belgiens muss « grenzüberschreitendes Angebot » "
+"angekreuzt werden."
+
+#: apps/api/serializers.py:252 apps/deals/forms.py:111
+msgid "Commentaire trop court."
+msgstr "Kommentar zu kurz."
+
+#: apps/catalog/models.py:33
+msgid "code NUTS-1"
+msgstr ""
+
+#: apps/catalog/models.py:36
+msgid "Codes admis : BE1, BE2, BE3."
+msgstr ""
+
+#: apps/catalog/models.py:38
+msgid "nom (fr)"
+msgstr ""
+
+#: apps/catalog/models.py:39
+msgid "nom (nl)"
+msgstr ""
+
+#: apps/catalog/models.py:40
+msgid "nom (de)"
+msgstr ""
+
+#: apps/catalog/models.py:44
+msgid "régions"
+msgstr "Regionen"
+
+#: apps/catalog/models.py:64 apps/catalog/models.py:149
+#: apps/deals/models.py:69
+msgid "identifiant d'URL"
+msgstr ""
+
+#: apps/catalog/models.py:67
+msgid "catégorie parente"
+msgstr ""
+
+#: apps/catalog/models.py:73
+msgid "ordre d'affichage"
+msgstr ""
+
+#: apps/catalog/models.py:74
+msgid "active"
+msgstr ""
+
+#: apps/catalog/models.py:77 apps/deals/models.py:112
+msgid "catégorie"
+msgstr "Kategorie"
+
+#: apps/catalog/models.py:78
+msgid "catégories"
+msgstr "Kategorien"
+
+#: apps/catalog/models.py:113
+msgid "langue"
+msgstr ""
+
+#: apps/catalog/models.py:114
+msgid "libellé"
+msgstr ""
+
+#: apps/catalog/models.py:117
+msgid "libellé de catégorie"
+msgstr ""
+
+#: apps/catalog/models.py:118
+msgid "libellés de catégorie"
+msgstr ""
+
+#: apps/catalog/models.py:139
+msgid "Belgique"
+msgstr "Belgien"
+
+#: apps/catalog/models.py:140
+msgid "Pays-Bas"
+msgstr "Niederlande"
+
+#: apps/catalog/models.py:141
+msgid "France"
+msgstr "Frankreich"
+
+#: apps/catalog/models.py:142
+msgid "Allemagne"
+msgstr "Deutschland"
+
+#: apps/catalog/models.py:143
+msgid "Luxembourg"
+msgstr "Luxemburg"
+
+#: apps/catalog/models.py:147
+msgid "enseigne"
+msgstr "Handelskette"
+
+#: apps/catalog/models.py:151
+msgid "pays"
+msgstr "Land"
+
+#: apps/catalog/models.py:153
+msgid "site web"
+msgstr ""
+
+#: apps/catalog/models.py:155
+msgid "numéro de TVA"
+msgstr ""
+
+#: apps/catalog/models.py:159
+msgid "Format belge uniquement, contrôlé par sa clé modulo 97."
+msgstr ""
+
+#: apps/catalog/models.py:162
+msgid "commerçant indépendant belge"
+msgstr ""
+
+#: apps/catalog/models.py:164
+msgid "Déclenche le badge « Commerçant local » dans le flux."
+msgstr ""
+
+#: apps/catalog/models.py:167
+msgid "enseigne vérifiée"
+msgstr ""
+
+#: apps/catalog/models.py:169
+msgid "Vérifiée par la modération : identité et site marchand contrôlés."
+msgstr ""
+
+#: apps/catalog/models.py:171
+msgid "créée le"
+msgstr ""
+
+#: apps/catalog/models.py:174 apps/deals/models.py:106
+msgid "marchand"
+msgstr "Händler"
+
+#: apps/catalog/models.py:175
+msgid "marchands"
+msgstr "Händler"
+
+#: apps/deals/admin.py:23
+msgid "Publier les offres sélectionnées"
+msgstr ""
+
+#: apps/deals/admin.py:29
+#, python-format
+msgid "%d offre(s) publiée(s)."
+msgstr ""
+
+#: apps/deals/admin.py:31
+msgid "Refuser (motif générique)"
+msgstr ""
+
+#: apps/deals/admin.py:37
+#, python-format
+msgid "%d offre(s) refusée(s)."
+msgstr ""
+
+#: apps/deals/admin.py:39
+msgid "Retirer du flux (suppression logique)"
+msgstr ""
+
+#: apps/deals/admin.py:45
+#, python-format
+msgid "%d offre(s) retirée(s)."
+msgstr ""
+
+#: apps/deals/forms.py:19
+msgid "Régions concernées"
+msgstr ""
+
+#: apps/deals/forms.py:68
+msgid ""
+"Le prix de référence doit dépasser le prix affiché. La loi belge impose d'y "
+"indiquer le prix le plus bas des 30 derniers jours."
+msgstr ""
+"Der Referenzpreis muss über dem angezeigten Preis liegen. Das belgische "
+"Recht verlangt den niedrigsten Preis der letzten 30 Tage."
+
+#: apps/deals/forms.py:103
+msgid "Disponibilité, qualité du service, conditions réelles…"
+msgstr "Verfügbarkeit, Servicequalität, tatsächliche Bedingungen…"
+
+#: apps/deals/models.py:27
+msgid "Brouillon"
+msgstr "Entwurf"
+
+#: apps/deals/models.py:28
+msgid "En attente de modération"
+msgstr "Wartet auf Moderation"
+
+#: apps/deals/models.py:29
+msgid "Publié"
+msgstr "Veröffentlicht"
+
+#: apps/deals/models.py:30
+msgid "Refusé"
+msgstr "Abgelehnt"
+
+#: apps/deals/models.py:31 templates/deals/list.html:39
+msgid "Expiré"
+msgstr "Abgelaufen"
+
+#: apps/deals/models.py:65
+msgid "titre"
+msgstr "Titel"
+
+#: apps/deals/models.py:71
+msgid "description"
+msgstr "Beschreibung"
+
+#: apps/deals/models.py:75
+msgid "lien vers l'offre"
+msgstr ""
+
+#: apps/deals/models.py:78
+msgid "prix"
+msgstr "Preis"
+
+#: apps/deals/models.py:84
+msgid "prix de référence"
+msgstr "Referenzpreis"
+
+#: apps/deals/models.py:91
+msgid ""
+"Prix le plus bas pratiqué par le marchand durant les 30 jours précédents "
+"(Code de droit économique, art. VI.18)."
+msgstr ""
+
+#: apps/deals/models.py:95
+msgid "devise"
+msgstr "Währung"
+
+#: apps/deals/models.py:97
+msgid "frais de livraison"
+msgstr "Lieferkosten"
+
+#: apps/deals/models.py:118
+msgid "régions concernées"
+msgstr ""
+
+#: apps/deals/models.py:127
+msgid "auteur"
+msgstr "Autor"
+
+#: apps/deals/models.py:133
+msgid "statut"
+msgstr "Status"
+
+#: apps/deals/models.py:139
+msgid "offre transfrontalière"
+msgstr ""
+
+#: apps/deals/models.py:141
+msgid "langue de rédaction"
+msgstr ""
+
+#: apps/deals/models.py:144
+msgid "début"
+msgstr ""
+
+#: apps/deals/models.py:145
+msgid "fin"
+msgstr ""
+
+#: apps/deals/models.py:146
+msgid "publié le"
+msgstr ""
+
+#: apps/deals/models.py:149
+msgid "température"
+msgstr "Temperatur"
+
+#: apps/deals/models.py:152
+msgid "Compteur dérivé de la table Vote, recalculable."
+msgstr ""
+
+#: apps/deals/models.py:154
+msgid "créé le"
+msgstr ""
+
+#: apps/deals/models.py:155
+msgid "modifié le"
+msgstr ""
+
+#: apps/deals/models.py:156
+msgid "retiré le"
+msgstr ""
+
+#: apps/deals/models.py:161
+msgid "deal"
+msgstr "Deal"
+
+#: apps/deals/models.py:162
+msgid "deals"
+msgstr "Deals"
+
+#: apps/deals/models.py:276 templates/deals/detail.html:16
+#: templates/deals/list.html:30
+msgid "Refroidir"
+msgstr "Abkühlen"
+
+#: apps/deals/models.py:277 templates/deals/detail.html:20
+#: templates/deals/list.html:34
+msgid "Réchauffer"
+msgstr "Aufwärmen"
+
+#: apps/deals/models.py:284
+msgid "sens du vote"
+msgstr ""
+
+#: apps/deals/models.py:289
+msgid "vote"
+msgstr "Stimme"
+
+#: apps/deals/models.py:290
+msgid "votes"
+msgstr "Stimmen"
+
+#: apps/deals/models.py:334 apps/deals/models.py:343
+msgid "commentaire"
+msgstr "Kommentar"
+
+#: apps/deals/models.py:338
+msgid "achat confirmé"
+msgstr ""
+
+#: apps/deals/models.py:340
+msgid "supprimé le"
+msgstr ""
+
+#: apps/deals/models.py:344 templates/deals/detail.html:24
+#: templates/deals/detail.html:72 templates/deals/list.html:64
+msgid "commentaires"
+msgstr "Kommentare"
+
+#: apps/deals/models.py:366
+msgid "mot-clé"
+msgstr ""
+
+#: apps/deals/models.py:375
+msgid "prix maximum"
+msgstr ""
+
+#: apps/deals/models.py:382
+msgid "alerte"
+msgstr "Benachrichtigung"
+
+#: apps/deals/models.py:383
+msgid "alertes"
+msgstr "Benachrichtigungen"
+
+#: apps/deals/views.py:94
+msgid ""
+"Merci. Votre offre part en modération et sera visible sous deux heures "
+"environ."
+msgstr ""
+"Danke. Ihr Angebot geht in die Moderation und ist in etwa zwei Stunden "
+"sichtbar."
+
+#: apps/deals/views.py:132
+msgid "Commentaire publié."
+msgstr "Kommentar veröffentlicht."
+
+#: apps/deals/views.py:134
+#, python-format
+msgid "Commentaire refusé : %(e)s"
+msgstr "Kommentar abgelehnt: %(e)s"
+
+#: apps/moderation/admin.py:54
+msgid "Marquer comme traité"
+msgstr ""
+
+#: apps/moderation/admin.py:63
+#, python-format
+msgid "%d signalement traité."
+msgid_plural "%d signalements traités."
+msgstr[0] ""
+msgstr[1] ""
+
+#: apps/moderation/admin.py:67
+msgid "Écarter"
+msgstr ""
+
+#: apps/moderation/admin.py:74
+#, python-format
+msgid "%d signalement(s) écarté(s)."
+msgstr ""
+
+#: apps/moderation/models.py:24 templates/base.html:60
+#: templates/registration/login.html:14 templates/registration/register.html:2
+msgid "Inscription"
+msgstr "Registrieren"
+
+#: apps/moderation/models.py:25 templates/base.html:59
+#: templates/registration/login.html:2 templates/registration/login.html:5
+msgid "Connexion"
+msgstr "Anmelden"
+
+#: apps/moderation/models.py:26
+msgid "Échec de connexion"
+msgstr ""
+
+#: apps/moderation/models.py:27
+msgid "Désinscription"
+msgstr ""
+
+#: apps/moderation/models.py:28
+msgid "Anonymisation"
+msgstr ""
+
+#: apps/moderation/models.py:29
+msgid "Export des données"
+msgstr ""
+
+#: apps/moderation/models.py:30
+msgid "Deal soumis"
+msgstr ""
+
+#: apps/moderation/models.py:31
+msgid "Deal publié"
+msgstr ""
+
+#: apps/moderation/models.py:32
+msgid "Deal refusé"
+msgstr ""
+
+#: apps/moderation/models.py:33
+msgid "Deal modifié"
+msgstr ""
+
+#: apps/moderation/models.py:34
+msgid "Deal retiré"
+msgstr ""
+
+#: apps/moderation/models.py:35
+msgid "Commentaire supprimé"
+msgstr ""
+
+#: apps/moderation/models.py:36
+msgid "Paiement initié"
+msgstr ""
+
+#: apps/moderation/models.py:37
+msgid "Paiement abouti"
+msgstr ""
+
+#: apps/moderation/models.py:38
+msgid "Paiement échoué"
+msgstr ""
+
+#: apps/moderation/models.py:39
+msgid "Accès refusé"
+msgstr ""
+
+#: apps/moderation/models.py:40
+msgid "Échec CSRF"
+msgstr ""
+
+#: apps/moderation/models.py:51
+msgid "auteur de l'action"
+msgstr ""
+
+#: apps/moderation/models.py:54
+msgid "auteur (copie)"
+msgstr ""
+
+#: apps/moderation/models.py:55
+msgid ""
+"Pseudonyme figé au moment de l'action, pour survivre à l'anonymisation."
+msgstr ""
+
+#: apps/moderation/models.py:57
+msgid "action"
+msgstr ""
+
+#: apps/moderation/models.py:65
+msgid "adresse IP"
+msgstr ""
+
+#: apps/moderation/models.py:69
+msgid "détails"
+msgstr ""
+
+#: apps/moderation/models.py:73
+msgid "entrée d'audit"
+msgstr ""
+
+#: apps/moderation/models.py:74
+msgid "journal d'audit"
+msgstr ""
+
+#: apps/moderation/models.py:135
+msgid "Publiée"
+msgstr ""
+
+#: apps/moderation/models.py:136
+msgid "Refusée"
+msgstr ""
+
+#: apps/moderation/models.py:137
+msgid "Marquée expirée"
+msgstr ""
+
+#: apps/moderation/models.py:147
+msgid "motif"
+msgstr ""
+
+#: apps/moderation/models.py:151
+msgid "décision de modération"
+msgstr ""
+
+#: apps/moderation/models.py:152
+msgid "décisions de modération"
+msgstr ""
+
+#: apps/moderation/models.py:170
+msgid "Rupture de stock"
+msgstr "Nicht mehr vorrätig"
+
+#: apps/moderation/models.py:171
+msgid "Prix incorrect"
+msgstr "Falscher Preis"
+
+#: apps/moderation/models.py:172
+msgid "Réduction trompeuse"
+msgstr "Irreführende Ermäßigung"
+
+#: apps/moderation/models.py:173
+msgid "Lien d'affiliation personnel"
+msgstr ""
+
+#: apps/moderation/models.py:174
+msgid "Spam ou compte promotionnel"
+msgstr "Spam oder Werbekonto"
+
+#: apps/moderation/models.py:177
+msgid "Ouvert"
+msgstr "Offen"
+
+#: apps/moderation/models.py:178
+msgid "Traité"
+msgstr "Bearbeitet"
+
+#: apps/moderation/models.py:179
+msgid "Écarté"
+msgstr "Verworfen"
+
+#: apps/moderation/models.py:197
+msgid "signalement"
+msgstr "Meldung"
+
+#: apps/moderation/models.py:198
+msgid "signalements"
+msgstr "Meldungen"
+
+#: apps/payments/models.py:30
+msgid "code"
+msgstr ""
+
+#: apps/payments/models.py:35
+msgid "prix TVAC"
+msgstr ""
+
+#: apps/payments/models.py:41
+msgid "taux de TVA"
+msgstr ""
+
+#: apps/payments/models.py:45
+msgid "Taux belge standard : 21 %."
+msgstr ""
+
+#: apps/payments/models.py:47
+msgid "durée en jours"
+msgstr ""
+
+#: apps/payments/models.py:51
+msgid "formule"
+msgstr "Formel"
+
+#: apps/payments/models.py:52
+msgid "formules"
+msgstr "Formeln"
+
+#: apps/payments/models.py:80
+msgid "En attente"
+msgstr "Ausstehend"
+
+#: apps/payments/models.py:81
+msgid "Réussi"
+msgstr "Erfolgreich"
+
+#: apps/payments/models.py:82
+msgid "Échoué"
+msgstr "Fehlgeschlagen"
+
+#: apps/payments/models.py:83
+msgid "Remboursé"
+msgstr "Erstattet"
+
+#: apps/payments/models.py:90
+msgid "référence de facture"
+msgstr ""
+
+#: apps/payments/models.py:93
+msgid "Format DT-AAAA-NNNNNN, séquentiel et sans rupture."
+msgstr ""
+
+#: apps/payments/models.py:98
+msgid "membre"
+msgstr ""
+
+#: apps/payments/models.py:105
+msgid "montant TVAC"
+msgstr ""
+
+#: apps/payments/models.py:110 templates/registration/profile.html:31
+msgid "dont TVA"
+msgstr "davon MwSt."
+
+#: apps/payments/models.py:116
+msgid "prestataire"
+msgstr ""
+
+#: apps/payments/models.py:118
+msgid "référence prestataire"
+msgstr ""
+
+#: apps/payments/models.py:121
+msgid "Identifiant côté prestataire. Unique : garantit l'idempotence."
+msgstr ""
+
+#: apps/payments/models.py:128
+msgid "réglé le"
+msgstr ""
+
+#: apps/payments/models.py:131
+msgid "paiement"
+msgstr "Zahlung"
+
+#: apps/payments/models.py:132
+msgid "paiements"
+msgstr "Zahlungen"
+
+#: apps/payments/models.py:171
+msgid "Active"
+msgstr "Aktiv"
+
+#: apps/payments/models.py:172
+msgid "Expirée"
+msgstr "Abgelaufen"
+
+#: apps/payments/models.py:173
+msgid "Résiliée"
+msgstr "Gekündigt"
+
+#: apps/payments/models.py:189
+msgid "abonnement"
+msgstr "Abonnement"
+
+#: apps/payments/models.py:190
+msgid "abonnements"
+msgstr "Abonnements"
+
+#: apps/payments/views.py:36
+msgid "Le paiement a été refusé. Aucun montant n'a été débité."
+msgstr "Die Zahlung wurde abgelehnt. Es wurde kein Betrag abgebucht."
+
+#: apps/payments/views.py:42
+#, python-format
+msgid "Abonnement actif jusqu'au %(date)s. Facture %(ref)s."
+msgstr "Abonnement aktiv bis %(date)s. Rechnung %(ref)s."
+
+#: config/settings/base.py:180
+msgid "Français"
+msgstr "Französisch"
+
+#: config/settings/base.py:181
+msgid "Nederlands"
+msgstr "Niederländisch"
+
+#: config/settings/base.py:182
+msgid "Deutsch"
+msgstr "Deutsch"
+
+#: templates/base.html:7
+msgid "La plateforme communautaire des bons plans en Belgique."
+msgstr "Die Community-Plattform für Schnäppchen in Belgien."
+
+#: templates/base.html:31
+msgid "Rechercher un bon plan"
+msgstr "Ein Schnäppchen suchen"
+
+#: templates/base.html:32
+msgid "Recherche…"
+msgstr "Suche…"
+
+#: templates/base.html:51
+msgid "Modération"
+msgstr "Moderation"
+
+#: templates/base.html:55
+msgid "Déconnexion"
+msgstr "Abmelden"
+
+#: templates/base.html:57
+msgid "Publier"
+msgstr "Veröffentlichen"
+
+#: templates/base.html:65
+msgid "Catégories"
+msgstr "Kategorien"
+
+#: templates/base.html:66 templates/base.html:95
+msgid "Tous les deals"
+msgstr "Alle Deals"
+
+#: templates/base.html:67 templates/base.html:96
+msgid "Commerçants locaux"
+msgstr "Lokale Händler"
+
+#: templates/base.html:68
+msgid "Club"
+msgstr "Club"
+
+#: templates/base.html:90
+msgid ""
+"Plateforme communautaire des bons plans en Belgique, disponible en français,"
+" néerlandais et allemand."
+msgstr ""
+"Community-Plattform für Schnäppchen in Belgien, verfügbar auf Französisch, "
+"Niederländisch und Deutsch."
+
+#: templates/base.html:93
+msgid "Découvrir"
+msgstr "Entdecken"
+
+#: templates/base.html:100
+msgid "Participer"
+msgstr "Mitmachen"
+
+#: templates/base.html:102 templates/deals/submit.html:2
+#: templates/deals/submit.html:5
+msgid "Publier un deal"
+msgstr "Einen Deal veröffentlichen"
+
+#: templates/base.html:103 templates/payments/plans.html:2
+#: templates/payments/plans.html:5
+msgid "Abonnement Club"
+msgstr "Club-Abonnement"
+
+#: templates/base.html:107
+msgid "Vos données"
+msgstr "Ihre Daten"
+
+#: templates/base.html:110
+msgid "Exporter mes données"
+msgstr "Meine Daten exportieren"
+
+#: templates/base.html:111 templates/registration/close_account.html:2
+#: templates/registration/close_account.html:5
+#: templates/registration/profile.html:45
+msgid "Fermer mon compte"
+msgstr "Mein Konto schließen"
+
+#: templates/base.html:113
+msgid "Politique de confidentialité"
+msgstr "Datenschutzerklärung"
+
+#: templates/base.html:118
+msgid "Bruxelles, Belgique"
+msgstr "Brüssel, Belgien"
+
+#: templates/base.html:119
+msgid "Prix TVA belge comprise."
+msgstr "Preise inklusive belgischer MwSt."
+
+#: templates/deals/detail.html:7
+msgid "Accueil"
+msgstr "Startseite"
+
+#: templates/deals/detail.html:27 templates/deals/list.html:39
+#, python-format
+msgid "Publié il y a %(when)s"
+msgstr "Vor %(when)s veröffentlicht"
+
+#: templates/deals/detail.html:30 templates/deals/list.html:44
+msgid "Offre vérifiée"
+msgstr "Geprüftes Angebot"
+
+#: templates/deals/detail.html:31 templates/deals/list.html:45
+msgid "Commerçant local"
+msgstr "Lokaler Händler"
+
+#: templates/deals/detail.html:32 templates/deals/list.html:46
+msgid "Transfrontalier"
+msgstr "Grenzüberschreitend"
+
+#: templates/deals/detail.html:38 templates/deals/list.html:55
+msgid "Livraison gratuite"
+msgstr "Kostenlose Lieferung"
+
+#: templates/deals/detail.html:38
+msgid "Livraison"
+msgstr "Lieferung"
+
+#: templates/deals/detail.html:39 templates/deals/list.html:57
+msgid "Dispo. chez"
+msgstr "Verfügbar bei"
+
+#: templates/deals/detail.html:42 templates/deals/list.html:65
+msgid "Voir le deal"
+msgstr "Zum Angebot"
+
+#: templates/deals/detail.html:51
+msgid "Réduction annoncée conforme"
+msgstr "Angekündigte Ermäßigung konform"
+
+#: templates/deals/detail.html:52
+#, python-format
+msgid ""
+"Le prix de référence de %(ref)s € correspond au prix le plus bas pratiqué "
+"par le marchand durant les 30 jours précédents, comme l'exige le Code de "
+"droit économique."
+msgstr ""
+"Der Referenzpreis von %(ref)s € entspricht dem niedrigsten Preis, den der "
+"Händler in den vorangegangenen 30 Tagen verlangt hat, wie es das "
+"Wirtschaftsgesetzbuch vorschreibt."
+
+#: templates/deals/detail.html:59
+msgid "À propos de ce deal"
+msgstr "Über diesen Deal"
+
+#: templates/deals/detail.html:63 templates/deals/list.html:58
+msgid "Partagé par"
+msgstr "Geteilt von"
+
+#: templates/deals/detail.html:64
+msgid "Membre depuis"
+msgstr "Mitglied seit"
+
+#: templates/deals/detail.html:80
+msgid "Achat confirmé"
+msgstr "Kauf bestätigt"
+
+#: templates/deals/detail.html:85
+msgid "Aucun commentaire pour l'instant."
+msgstr "Noch keine Kommentare."
+
+#: templates/deals/detail.html:91
+msgid "Ajouter un commentaire"
+msgstr "Kommentar hinzufügen"
+
+#: templates/deals/detail.html:94
+msgid "Publier le commentaire"
+msgstr "Kommentar veröffentlichen"
+
+#: templates/deals/detail.html:97
+msgid "Connectez-vous pour commenter."
+msgstr "Melden Sie sich an, um zu kommentieren."
+
+#: templates/deals/list.html:2
+msgid "Les meilleurs bons plans en Belgique"
+msgstr "Die besten Schnäppchen Belgiens"
+
+#: templates/deals/list.html:5
+msgid "Filtrer par région"
+msgstr "Nach Region filtern"
+
+#: templates/deals/list.html:15
+msgid "Tendance"
+msgstr "Beliebt"
+
+#: templates/deals/list.html:16
+msgid "Nouveaux"
+msgstr "Neu"
+
+#: templates/deals/list.html:17
+msgid "Prix croissant"
+msgstr "Preis aufsteigend"
+
+#: templates/deals/list.html:70
+msgid "Aucun deal ne correspond à ces critères."
+msgstr "Kein Deal entspricht diesen Kriterien."
+
+#: templates/deals/list.html:74
+msgid "Pagination"
+msgstr "Seitennavigation"
+
+#: templates/deals/list.html:75
+msgid "Précédent"
+msgstr "Zurück"
+
+#: templates/deals/list.html:76
+#, python-format
+msgid "Page %(n)s sur %(total)s"
+msgstr "Seite %(n)s von %(total)s"
+
+#: templates/deals/list.html:77
+msgid "Suivant"
+msgstr "Weiter"
+
+#: templates/deals/list.html:84
+msgid "Les plus hot"
+msgstr "Am beliebtesten"
+
+#: templates/deals/list.html:97
+msgid "Créer une alerte"
+msgstr "Benachrichtigung einrichten"
+
+#: templates/deals/list.html:98
+msgid "Recevez un e-mail dès qu'un deal correspond à vos critères."
+msgstr "Erhalten Sie eine E-Mail, sobald ein Deal Ihren Kriterien entspricht."
+
+#: templates/deals/list.html:100
+msgid "Gérer mes alertes"
+msgstr "Meine Benachrichtigungen verwalten"
+
+#: templates/deals/list.html:102 templates/registration/register.html:5
+msgid "Créer un compte"
+msgstr "Konto erstellen"
+
+#: templates/deals/submit.html:6
+msgid ""
+"Chaque publication passe par la modération avant d'apparaître dans le flux."
+msgstr "Jeder Beitrag wird moderiert, bevor er im Feed erscheint."
+
+#: templates/deals/submit.html:10
+msgid "Règle belge sur l'annonce de réduction"
+msgstr "Belgische Regel zur Ermäßigungsankündigung"
+
+#: templates/deals/submit.html:11
+msgid ""
+"Le prix de référence doit être le prix le plus bas pratiqué par le marchand "
+"durant les 30 jours précédents. Un prix barré gonflé entraîne le refus."
+msgstr ""
+"Der Referenzpreis muss der niedrigste Preis sein, den der Händler in den "
+"vorangegangenen 30 Tagen verlangt hat. Ein überhöhter Streichpreis führt zur"
+" Ablehnung."
+
+#: templates/deals/submit.html:19
+msgid "Soumettre à la modération"
+msgstr "Zur Moderation einreichen"
+
+#: templates/errors/403.html:6 templates/errors/404.html:6
+#: templates/errors/500.html:6
+msgid "Cette page n'est pas accessible."
+msgstr "Diese Seite ist nicht zugänglich."
+
+#: templates/errors/403.html:7 templates/errors/404.html:7
+#: templates/errors/500.html:7 templates/errors/csrf.html:7
+msgid "Retour aux deals"
+msgstr "Zurück zu den Deals"
+
+#: templates/errors/csrf.html:2 templates/errors/csrf.html:5
+msgid "Session expirée"
+msgstr "Sitzung abgelaufen"
+
+#: templates/errors/csrf.html:6
+msgid ""
+"Le jeton de sécurité de votre formulaire n'est plus valide. Cela arrive "
+"après une longue inactivité, ou si la requête ne provient pas de DealTrack. "
+"Revenez en arrière et renvoyez le formulaire."
+msgstr ""
+"Das Sicherheitstoken Ihres Formulars ist nicht mehr gültig. Das passiert "
+"nach längerer Inaktivität oder wenn die Anfrage nicht von DealTrack stammt. "
+"Gehen Sie zurück und senden Sie das Formular erneut."
+
+#: templates/payments/plans.html:10
+#, python-format
+msgid "TVA %(vat)s %% comprise · valable %(days)s jours"
+msgstr "Inklusive %(vat)s %% MwSt. · %(days)s Tage gültig"
+
+#: templates/payments/plans.html:11 templates/payments/subscribe.html:2
+msgid "Souscrire"
+msgstr "Abonnieren"
+
+#: templates/payments/subscribe.html:11
+msgid "Aucune donnée bancaire ne transite par DealTrack"
+msgstr "Keine Bankdaten laufen über DealTrack"
+
+#: templates/payments/subscribe.html:12
+msgid ""
+"Votre navigateur communique vos coordonnées directement au prestataire de "
+"paiement, qui renvoie un jeton à usage unique. Nos serveurs ne voient jamais"
+" votre numéro de carte."
+msgstr ""
+"Ihr Browser übermittelt Ihre Daten direkt an den Zahlungsdienstleister, der "
+"ein Einmal-Token zurückgibt. Unsere Server sehen Ihre Kartennummer nie."
+
+#: templates/payments/subscribe.html:20
+msgid "Jeton de paiement"
+msgstr "Zahlungstoken"
+
+#: templates/payments/subscribe.html:22
+msgid ""
+"Environnement de démonstration : « tok_demo_visa » aboutit, « tok_demo_fail "
+"» est refusé."
+msgstr ""
+"Demo-Umgebung: « tok_demo_visa » gelingt, « tok_demo_fail » wird abgelehnt."
+
+#: templates/payments/subscribe.html:24
+#, python-format
+msgid "Payer %(amount)s €"
+msgstr "%(amount)s € bezahlen"
+
+#: templates/payments/subscribe.html:26
+msgid ""
+"Droit de rétractation : quatorze jours, sauf renonciation expresse à "
+"l'exécution immédiate du service (art. VI.53 CDE)."
+msgstr ""
+"Widerrufsrecht: vierzehn Tage, außer bei ausdrücklichem Verzicht auf die "
+"sofortige Ausführung der Dienstleistung (Art. VI.53 WGB)."
+
+#: templates/registration/close_account.html:10
+msgid "Vos factures seront conservées"
+msgstr "Ihre Rechnungen werden aufbewahrt"
+
+#: templates/registration/close_account.html:11
+msgid ""
+"Le droit comptable belge impose de conserver les pièces justificatives sept "
+"ans. Votre compte sera immédiatement désactivé et vos données personnelles "
+"anonymisées à l'expiration de ce délai. Vos factures resteront rattachées à "
+"un identifiant non nominatif."
+msgstr ""
+"Das belgische Buchhaltungsrecht verlangt die Aufbewahrung von Belegen für "
+"sieben Jahre. Ihr Konto wird sofort deaktiviert und Ihre personenbezogenen "
+"Daten nach Ablauf dieser Frist anonymisiert. Ihre Rechnungen bleiben mit "
+"einer nicht namentlichen Kennung verknüpft."
+
+#: templates/registration/close_account.html:15
+msgid ""
+"Aucune facture n'est rattachée à ce compte : vos données personnelles seront"
+" effacées immédiatement."
+msgstr ""
+"Diesem Konto ist keine Rechnung zugeordnet: Ihre personenbezogenen Daten "
+"werden sofort gelöscht."
+
+#: templates/registration/close_account.html:18
+msgid ""
+"Vos deals et commentaires publiés restent en ligne, réattribués à un "
+"pseudonyme anonyme, afin de ne pas trouer les discussions de la communauté."
+msgstr ""
+"Ihre veröffentlichten Deals und Kommentare bleiben unter einem anonymen "
+"Benutzernamen online, damit die Diskussionen der Community lückenlos "
+"bleiben."
+
+#: templates/registration/close_account.html:23
+#, python-format
+msgid "Tapez « %(name)s » pour confirmer"
+msgstr "Geben Sie « %(name)s » ein, um zu bestätigen"
+
+#: templates/registration/close_account.html:27
+msgid "Motif (facultatif)"
+msgstr "Grund (optional)"
+
+#: templates/registration/close_account.html:30
+msgid "Fermer définitivement mon compte"
+msgstr "Mein Konto endgültig schließen"
+
+#: templates/registration/lockout.html:2
+msgid "Compte temporairement bloqué"
+msgstr "Konto vorübergehend gesperrt"
+
+#: templates/registration/lockout.html:5
+msgid "Trop de tentatives"
+msgstr "Zu viele Versuche"
+
+#: templates/registration/lockout.html:6
+msgid ""
+"Après cinq échecs de connexion, l'accès est suspendu quinze minutes depuis "
+"cette adresse. Cette mesure protège votre compte contre les tentatives "
+"automatisées."
+msgstr ""
+"Nach fünf fehlgeschlagenen Anmeldeversuchen wird der Zugang von dieser "
+"Adresse für fünfzehn Minuten gesperrt. Diese Maßnahme schützt Ihr Konto vor "
+"automatisierten Versuchen."
+
+#: templates/registration/lockout.html:7
+msgid ""
+"Si vous avez oublié votre mot de passe, attendez la fin du délai puis "
+"utilisez la réinitialisation."
+msgstr ""
+"Haben Sie Ihr Passwort vergessen, warten Sie das Ende der Frist ab und "
+"nutzen Sie die Zurücksetzung."
+
+#: templates/registration/login.html:11
+msgid "Se connecter"
+msgstr "Anmelden"
+
+#: templates/registration/login.html:14
+msgid "Pas encore de compte ?"
+msgstr "Noch kein Konto?"
+
+#: templates/registration/profile.html:2 templates/registration/profile.html:5
+msgid "Mon compte"
+msgstr "Mein Konto"
+
+#: templates/registration/profile.html:8
+msgid "Mes deals"
+msgstr "Meine Deals"
+
+#: templates/registration/profile.html:10
+msgid "Titre"
+msgstr "Titel"
+
+#: templates/registration/profile.html:10
+#: templates/registration/profile.html:26
+msgid "Statut"
+msgstr "Status"
+
+#: templates/registration/profile.html:10
+msgid "Soumis le"
+msgstr "Eingereicht am"
+
+#: templates/registration/profile.html:18
+msgid "Aucun deal publié pour l'instant."
+msgstr "Noch keine Deals veröffentlicht."
+
+#: templates/registration/profile.html:24
+msgid "Mes factures"
+msgstr "Meine Rechnungen"
+
+#: templates/registration/profile.html:26
+msgid "Référence"
+msgstr "Referenz"
+
+#: templates/registration/profile.html:26
+msgid "Montant"
+msgstr "Betrag"
+
+#: templates/registration/profile.html:26
+msgid "Date"
+msgstr "Datum"
+
+#: templates/registration/profile.html:35
+msgid "Aucune facture."
+msgstr "Keine Rechnungen."
+
+#: templates/registration/profile.html:41
+msgid "Mes données personnelles"
+msgstr "Meine personenbezogenen Daten"
+
+#: templates/registration/profile.html:42
+msgid ""
+"Le règlement européen vous donne un droit d'accès, de portabilité et "
+"d'effacement sur vos données."
+msgstr ""
+"Die europäische Verordnung gibt Ihnen ein Recht auf Auskunft, "
+"Übertragbarkeit und Löschung Ihrer Daten."
+
+#: templates/registration/profile.html:44
+msgid "Exporter mes données (JSON)"
+msgstr "Meine Daten exportieren (JSON)"
+
+#: templates/registration/register.html:6
+msgid "Douze caractères minimum, mêlant plusieurs types de caractères."
+msgstr "Mindestens zwölf Zeichen, mit verschiedenen Zeichenarten."
+
+#: templates/registration/register.html:11
+msgid "Créer mon compte"
+msgstr "Mein Konto erstellen"
+
+#: templates/registration/register.html:14
+msgid ""
+"Vos données sont traitées conformément au RGPD. Vous pouvez les exporter ou "
+"fermer votre compte à tout moment."
+msgstr ""
+"Ihre Daten werden gemäß der DSGVO verarbeitet. Sie können sie jederzeit "
+"exportieren oder Ihr Konto schließen."
+
+#: apps/deals/models.py:30
+msgid "français"
+msgstr "Französisch"
+
+#: apps/deals/models.py:31
+msgid "néerlandais"
+msgstr "Niederländisch"
+
+#: apps/deals/models.py:32
+msgid "allemand"
+msgstr "Deutsch"
+
+#: templates/deals/detail.html:33 templates/deals/list.html:48
+#, python-format
+msgid "Offre rédigée en %(lang)s"
+msgstr "Angebot verfasst auf %(lang)s"
