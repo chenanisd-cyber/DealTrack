@@ -1,0 +1,54 @@
+# Équivalent GitLab du workflow GitHub. Les deux peuvent coexister.
+image: python:3.12-slim
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths: [.cache/pip]
+
+before_script:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+  - pip install ruff
+
+stages: [qualite, test, demonstration]
+
+lint:
+  stage: qualite
+  script:
+    - ruff check .
+    - ruff format --check .
+
+migrations:
+  stage: qualite
+  variables:
+    DJANGO_SETTINGS_MODULE: config.settings.dev
+  script:
+    - python manage.py makemigrations --check --dry-run
+
+deploiement:
+  stage: qualite
+  variables:
+    DJANGO_ALLOWED_HOSTS: dealtrack.be
+    POSTGRES_DB: dealtrack
+    POSTGRES_USER: dealtrack
+    POSTGRES_PASSWORD: factice
+    EMAIL_HOST: smtp.example.be
+  script:
+    - export DJANGO_SECRET_KEY=$(python -c "import secrets; print(secrets.token_urlsafe(64))")
+    - python manage.py check --deploy --settings=config.settings.prod
+
+tests:
+  stage: test
+  script:
+    - python manage.py test tests --settings=config.settings.test
+
+demonstration:
+  stage: demonstration
+  variables:
+    DJANGO_SETTINGS_MODULE: config.settings.dev
+  script:
+    - python manage.py migrate
+    - python manage.py seed_demo
+    - python manage.py demo_soft_delete --anonymise
