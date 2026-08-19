@@ -1,0 +1,26 @@
+# PostgreSQL local, pour développer dans les mêmes conditions qu'en production.
+# SQLite suffit pour démarrer ; ce fichier sert quand on veut vérifier le
+# comportement réel des contraintes CHECK et des types UUID/JSONB natifs.
+#
+#   docker compose up -d
+#   export DJANGO_SETTINGS_MODULE=config.settings.prod   (avec .env renseigné)
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: dealtrack-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-dealtrack}
+      POSTGRES_USER: ${POSTGRES_USER:-dealtrack}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dealtrack-dev}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dealtrack}"]
+      interval: 5s
+      retries: 5
+
+volumes:
+  pgdata:
