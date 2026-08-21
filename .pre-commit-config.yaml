@@ -1,0 +1,32 @@
+# Contrôles exécutés avant chaque commit.
+#   pip install pre-commit && pre-commit install
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.4
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.(po|pot)$
+      - id: end-of-file-fixer
+        exclude: \.(po|pot|mo)$
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: check-merge-conflict
+      - id: detect-private-key       # empêche de committer une clé par accident
+      - id: check-yaml
+      - id: check-json
+
+  - repo: local
+    hooks:
+      - id: no-missing-migrations
+        name: aucune migration manquante
+        entry: python3 manage.py makemigrations --check --dry-run
+        language: system
+        pass_filenames: false
+        types: [python]
