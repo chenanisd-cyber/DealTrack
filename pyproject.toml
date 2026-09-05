@@ -1,0 +1,68 @@
+# Configuration de l'outillage. Un seul fichier, lu par ruff, pytest et l'IDE.
+
+[project]
+name = "dealtrack"
+version = "1.0.0"
+description = "Plateforme communautaire de bons plans pour la Belgique"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 96
+target-version = "py311"
+exclude = [
+    "*/migrations/*",   # code généré, pas écrit à la main
+    ".venv",
+    "staticfiles",
+]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # isort — ordre des imports
+    "UP",       # pyupgrade
+    "B",        # bugbear — pièges courants
+    "DJ",       # règles spécifiques à Django
+    "S",        # bandit — motifs à risque
+    "C4",       # comprehensions
+]
+ignore = [
+    "S101",     # assert : légitime dans les tests
+    "B008",     # appel dans un argument par défaut : idiomatique en DRF
+    "DJ001",    # null=True sur CharField : justifié au cas par cas
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Mots de passe en dur : ce sont des fixtures de test, pas des secrets.
+"tests/*" = ["S105", "S106"]
+# Les réglages par environnement importent volontairement en étoile.
+"config/settings/prod.py" = ["F403", "F405"]
+# Données de démonstration : `random` sert à varier un jeu d'essai, pas à
+# produire du secret. Les longues chaînes descriptives dépassent la marge et
+# les couper nuirait à leur relecture.
+# La forme dict(titre=…, prix=…) se relit mieux que des clés entre guillemets
+# pour des enregistrements, d'où C408.
+"apps/catalog/management/commands/seed_demo.py" = ["S311", "E501", "S105", "S106", "C408"]
+# Outillage local : URL construite depuis un argument, appel à msgfmt.
+"scripts/*" = ["S310", "S603", "S607", "S105", "S106", "E501"]
+# Clés de développement, jamais employées ailleurs : prod.py exige l'environnement.
+"config/settings/dev.py" = ["F403", "F405", "S105"]
+"config/settings/test.py" = ["F403", "F405", "S105"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["apps", "config"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.coverage.run]
+source = ["apps"]
+omit = ["*/migrations/*", "*/tests/*", "*/apps.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]

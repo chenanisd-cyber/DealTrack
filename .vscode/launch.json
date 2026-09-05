@@ -1,0 +1,41 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Django : serveur de développement",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": ["runserver", "--noreload"],
+      "django": true,
+      "justMyCode": false,
+      "env": { "DJANGO_SETTINGS_MODULE": "config.settings.dev" }
+    },
+    {
+      "name": "Django : suite de tests",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": ["test", "tests", "--settings=config.settings.test"],
+      "django": true,
+      "justMyCode": false
+    },
+    {
+      "name": "Django : test sous le curseur",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": ["test", "${relativeFileDirname}.${fileBasenameNoExtension}",
+               "--settings=config.settings.test"],
+      "django": true
+    },
+    {
+      "name": "Démonstration : suppression logique",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": ["demo_soft_delete", "--anonymise"],
+      "django": true
+    }
+  ]
+}

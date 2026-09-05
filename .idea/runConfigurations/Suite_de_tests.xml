@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Suite de tests" type="Python.DjangoTestsRunConfiguration">
+    <module name="dealtrack" />
+    <envs>
+      <env name="DJANGO_SETTINGS_MODULE" value="config.settings.test" />
+    </envs>
+    <option name="target" value="tests" />
+    <option name="settingsFile" value="config.settings.test" />
+    <method v="2" />
+  </configuration>
+</component>
