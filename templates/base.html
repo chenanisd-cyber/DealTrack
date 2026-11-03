@@ -1,18 +1,18 @@
 {% load i18n static %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{% block title %}DealTrack.be{% endblock %}</title>
-<meta name="description" content="{% block description %}{% trans "La plateforme communautaire des bons plans en Belgique." %}{% endblock %}">
-{# Le navigateur ne devine pas les autres langues : on les déclare. #}
-{% get_available_languages as LANGUAGES %}
-{% for code, name in LANGUAGES %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}DealTrack.be{% endblock %}</title>
+  <meta name="description" content="{% block description %}{% trans "La plateforme communautaire des bons plans en Belgique." %}{% endblock %}">
+  {# Le navigateur ne devine pas les autres langues : on les déclare. #}
+  {% get_available_languages as LANGUAGES %}
+  {% for code, name in LANGUAGES %}
   <link rel="alternate" hreflang="{{ code }}" href="/{{ code }}{{ request.get_full_path|slice:'3:' }}">
-{% endfor %}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/dealtrack.css' %}">
+  {% endfor %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/dealtrack.css' %}">
 </head>
 <body>
 
@@ -38,26 +38,26 @@
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
         {% for code, name in LANGUAGES %}
-          <button type="submit" name="language" value="{{ code }}"
-                  aria-pressed="{% if code == LANGUAGE_CODE %}true{% else %}false{% endif %}">{{ code|upper }}</button>
+        <button type="submit" name="language" value="{{ code }}"
+                aria-pressed="{% if code == LANGUAGE_CODE %}true{% else %}false{% endif %}">{{ code|upper }}</button>
         {% endfor %}
       </form>
 
       {% if user.is_authenticated %}
-        <a class="pill is-ghost" href="{% url 'accounts:profile' %}">
-          <span class="label">{{ user.display_name }}</span>
-        </a>
-        {% if user.is_moderator %}
-          <a class="pill is-ghost" href="{% url 'admin:index' %}"><span class="label">{% trans "Modération" %}</span></a>
-        {% endif %}
-        <form method="post" action="{% url 'accounts:logout' %}" style="display:inline">
-          {% csrf_token %}
-          <button class="pill is-ghost" type="submit">{% trans "Déconnexion" %}</button>
-        </form>
-        <a class="pill is-accent" href="{% url 'deals:submit' %}">{% trans "Publier" %}</a>
+      <a class="pill is-ghost" href="{% url 'accounts:profile' %}">
+        <span class="label">{{ user.display_name }}</span>
+      </a>
+      {% if user.is_moderator %}
+      <a class="pill is-ghost" href="{% url 'admin:index' %}"><span class="label">{% trans "Modération" %}</span></a>
+      {% endif %}
+      <form method="post" action="{% url 'accounts:logout' %}" style="display:inline">
+        {% csrf_token %}
+        <button class="pill is-ghost" type="submit">{% trans "Déconnexion" %}</button>
+      </form>
+      <a class="pill is-accent" href="{% url 'deals:submit' %}">{% trans "Publier" %}</a>
       {% else %}
-        <a class="pill is-ghost" href="{% url 'accounts:login' %}"><span class="label">{% trans "Connexion" %}</span></a>
-        <a class="pill is-accent" href="{% url 'accounts:register' %}">{% trans "Inscription" %}</a>
+      <a class="pill is-accent" style="margin-right: 8px;" href="{% url 'accounts:login' %}">{% trans "Connexion" %}</a>
+      <a class="pill is-accent" href="{% url 'accounts:register' %}">{% trans "Inscription" %}</a>
       {% endif %}
     </div>
   </div>
@@ -70,13 +70,13 @@
 </header>
 
 {% if messages %}
-  <div class="shell" style="padding-top:12px">
-    {% for message in messages %}
-      <div class="moderation" style="margin-bottom:8px{% if message.tags == 'error' %};background:#FBE9EC;color:#BE1C38{% elif message.tags == 'warning' %};background:var(--dt-warn-bg);color:var(--dt-warn){% endif %}">
-        <div><p style="margin:0">{{ message }}</p></div>
-      </div>
-    {% endfor %}
+<div class="shell" style="padding-top:12px">
+  {% for message in messages %}
+  <div class="moderation" style="margin-bottom:8px{% if message.tags == 'error' %};background:#FBE9EC;color:#BE1C38{% elif message.tags == 'warning' %};background:var(--dt-warn-bg);color:var(--dt-warn){% endif %}">
+    <div><p style="margin:0">{{ message }}</p></div>
   </div>
+  {% endfor %}
+</div>
 {% endif %}
 
 <main>{% block content %}{% endblock %}</main>
@@ -107,8 +107,8 @@
       <h4>{% trans "Vos données" %}</h4>
       <ul>
         {% if user.is_authenticated %}
-          <li><a href="{% url 'accounts:export' %}">{% trans "Exporter mes données" %}</a></li>
-          <li><a href="{% url 'accounts:close' %}">{% trans "Fermer mon compte" %}</a></li>
+        <li><a href="{% url 'accounts:export' %}">{% trans "Exporter mes données" %}</a></li>
+        <li><a href="{% url 'accounts:close' %}">{% trans "Fermer mon compte" %}</a></li>
         {% endif %}
         <li><a href="#">{% trans "Politique de confidentialité" %}</a></li>
       </ul>
