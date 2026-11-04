@@ -22,8 +22,13 @@
   <div class="feed">
     {% for deal in page_obj %}
     <article class="deal{% if deal.is_expired %} is-expired{% endif %}">
-      <div class="deal__media"><span class="avatar is-lg">{{ deal.merchant.name|slice:":2"|upper }}</span></div>
-      <div class="deal__body">
+      <div class="deal__media">
+        {% if deal.image_url %}
+        <img src="{{ deal.image_url }}" alt="{{ deal.title }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+        {% else %}
+        <span class="avatar is-lg">{{ deal.merchant.name|slice:":2"|upper }}</span>
+        {% endif %}
+      </div>      <div class="deal__body">
         <div class="deal__top">
           <form class="vote" method="post" action="{% url 'deals:vote' deal.slug %}">
             {% csrf_token %}

@@ -81,6 +81,10 @@ class Deal(models.Model):
         max_length=4000,
         validators=[MinLengthValidator(30), validate_no_control_characters],
     )
+    image_url = models.URLField(
+        _("URL de l'image"),
+        max_length=800,
+        blank=True)
     external_url = models.URLField(_("lien vers l'offre"), max_length=600)
 
     price = models.DecimalField(

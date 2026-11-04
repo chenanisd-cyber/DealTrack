@@ -27,6 +27,7 @@ class DealSubmissionForm(forms.ModelForm):
             "title",
             "description",
             "external_url",
+            "image_url",
             "price",
             "reference_price",
             "shipping_cost",

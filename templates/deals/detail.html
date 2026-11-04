@@ -7,8 +7,14 @@
   <nav class="crumb"><a href="{% url 'deals:list' %}">{% trans "Accueil" %}</a> › <span>{{ deal.category.label_current }}</span></nav>
 
   <article class="panel" style="padding:0">
-    <div class="detail">
-      <div class="detail__gallery"><span class="avatar is-lg">{{ deal.merchant.name|slice:":2"|upper }}</span></div>
+    <div class="detail__gallery">
+      {% if deal.image_url %}
+      <img src="{{ deal.image_url }}" alt="{{ deal.title_current }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+      {% else %}
+      <span class="avatar is-lg">{{ deal.merchant.name|slice:":2"|upper }}</span>
+      {% endif %}
+    </div>
+
       <div>
         <div class="detail__bar">
           <form class="vote" method="post" action="{% url 'deals:vote' deal.slug %}">

@@ -15,7 +15,7 @@
       </div>
       <button type="button" id="btn-fetch-data" class="cta is-block">{% trans "Vérifier le lien" %}</button>
       <p id="scrape-status" style="color: var(--dt-warn); margin-top: 12px; display: none; text-align: center;">
-          {% trans "Extraction des données en cours..." %}
+        {% trans "Extraction des données en cours..." %}
       </p>
     </section>
   </div>
@@ -44,54 +44,59 @@
 </div></div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('btn-fetch-data').addEventListener('click', function() {
-        const urlInput = document.getElementById('magic-url-input').value;
-        const statusText = document.getElementById('scrape-status');
+  document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById('btn-fetch-data').addEventListener('click', function() {
+          const urlInput = document.getElementById('magic-url-input').value;
+          const statusText = document.getElementById('scrape-status');
 
-        if (!urlInput) {
-            alert("{% trans 'Veuillez entrer un lien valide.' %}");
-            return;
-        }
+          if (!urlInput) {
+              alert("{% trans 'Veuillez entrer un lien valide.' %}");
+              return;
+          }
 
-        statusText.style.display = 'block';
-        this.disabled = true; // Empêche le double-clic
+          statusText.style.display = 'block';
+          this.disabled = true;
 
-        fetch('{% url "deals:scrape-link" %}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-            },
-            body: JSON.stringify({url: urlInput})
-        })
-        .then(response => response.json())
-        .then(data => {
-            statusText.style.display = 'none';
+          fetch('{% url "deals:scrape-link" %}', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+              },
+              body: JSON.stringify({url: urlInput})
+          })
+          .then(response => response.json())
+          .then(data => {
+              statusText.style.display = 'none';
 
-            // Masquer étape 1, afficher étape 2
-            document.getElementById('step1-link').style.display = 'none';
-            document.getElementById('step2-form').style.display = 'block';
+              // Masquer étape 1, afficher étape 2
+              document.getElementById('step1-link').style.display = 'none';
+              document.getElementById('step2-form').style.display = 'block';
 
-            // Pré-remplir l'URL dans le vrai formulaire
-            const formUrlInput = document.getElementById('id_external_url');
-            if (formUrlInput) formUrlInput.value = urlInput;
+              // Pré-remplir l'URL
+              const formUrlInput = document.getElementById('id_external_url');
+              if (formUrlInput) formUrlInput.value = urlInput;
 
-            // Pré-remplir le titre s'il a été trouvé par le scraper
-            if (data.success && data.title) {
-                const formTitleInput = document.getElementById('id_title');
-                if (formTitleInput) formTitleInput.value = data.title;
-            }
-        })
-        .catch(error => {
-            // En cas d'erreur (ex: sécurité du site tiers), on passe quand même à l'étape 2
-            document.getElementById('step1-link').style.display = 'none';
-            document.getElementById('step2-form').style.display = 'block';
+              // Pré-remplir le titre
+              if (data.success && data.title) {
+                  const formTitleInput = document.getElementById('id_title');
+                  if (formTitleInput) formTitleInput.value = data.title;
+              }
 
-            const formUrlInput = document.getElementById('id_external_url');
-            if (formUrlInput) formUrlInput.value = urlInput;
-        });
-    });
-});
+              // Pré-remplir l'image (le code est maintenant bien intégré ici !)
+              if (data.success && data.image_url) {
+                  const formImageInput = document.getElementById('id_image_url');
+                  if (formImageInput) formImageInput.value = data.image_url;
+              }
+          })
+          .catch(error => {
+              document.getElementById('step1-link').style.display = 'none';
+              document.getElementById('step2-form').style.display = 'block';
+
+              const formUrlInput = document.getElementById('id_external_url');
+              if (formUrlInput) formUrlInput.value = urlInput;
+          });
+      });
+  });
 </script>
 {% endblock %}
