@@ -12,6 +12,10 @@ from apps.moderation.models import AuditLog
 
 from .forms import CommentForm, DealSubmissionForm
 from .models import Deal, Vote
+import json
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from .scraper import fetch_deal_info
 
 
 def deal_list(request):
@@ -163,3 +167,16 @@ def not_found(request, exception=None):
 
 def server_error(request):
     return render(request, "errors/500.html", status=500)
+
+@require_POST
+def scrape_link_view(request):
+    try:
+        data = json.loads(request.body)
+        url = data.get('url')
+        if not url:
+            return JsonResponse({'success': False, 'error': 'URL manquante'})
+
+        info = fetch_deal_info(url)
+        return JsonResponse(info)
+    except Exception:
+        return JsonResponse({'success': False, 'error': 'Requête invalide'})

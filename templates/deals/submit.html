@@ -2,22 +2,96 @@
 {% block title %}{% trans "Publier un deal" %} — DealTrack.be{% endblock %}
 {% block content %}
 <div class="shell"><div class="form">
-  <h1 style="font-size:var(--fs-h1)">{% trans "Publier un deal" %}</h1>
-  <p style="color:var(--dt-ink-2)">{% trans "Chaque publication passe par la modération avant d'apparaître dans le flux." %}</p>
 
-  <div class="moderation" style="background:var(--dt-warn-bg);color:var(--dt-warn);margin-bottom:16px">
-    <div>
-      <strong>{% trans "Règle belge sur l'annonce de réduction" %}</strong>
-      <p>{% trans "Le prix de référence doit être le prix le plus bas pratiqué par le marchand durant les 30 jours précédents. Un prix barré gonflé entraîne le refus." %}</p>
-    </div>
+  <!-- ÉTAPE 1 : Saisie du lien uniquement -->
+  <div id="step1-link">
+    <h1 style="font-size:var(--fs-h1)">{% trans "Partagez un bon plan" %}</h1>
+    <p style="color:var(--dt-ink-2); margin-bottom: 24px;">{% trans "Entrez le lien de la page où il est possible de profiter du deal." %}</p>
+
+    <section class="panel">
+      <div style="margin-bottom: 16px;">
+        <input type="url" id="magic-url-input" placeholder="https://..." required
+               style="width: 100%; padding: 12px; border-radius: 4px; border: 1px solid var(--dt-border); font-size: 16px;">
+      </div>
+      <button type="button" id="btn-fetch-data" class="cta is-block">{% trans "Vérifier le lien" %}</button>
+      <p id="scrape-status" style="color: var(--dt-warn); margin-top: 12px; display: none; text-align: center;">
+          {% trans "Extraction des données en cours..." %}
+      </p>
+    </section>
   </div>
 
-  <section class="panel">
-    <form method="post" novalidate>
-      {% csrf_token %}
-      {% include "_form.html" %}
-      <button class="cta is-block" type="submit">{% trans "Soumettre à la modération" %}</button>
-    </form>
-  </section>
+  <!-- ÉTAPE 2 : Le formulaire complet (caché par défaut) -->
+  <div id="step2-form" style="display: none;">
+    <h1 style="font-size:var(--fs-h1)">{% trans "Publier un deal" %}</h1>
+    <p style="color:var(--dt-ink-2)">{% trans "Chaque publication passe par la modération avant d'apparaître dans le flux." %}</p>
+
+    <div class="moderation" style="background:var(--dt-warn-bg);color:var(--dt-warn);margin-bottom:16px">
+      <div>
+        <strong>{% trans "Règle belge sur l'annonce de réduction" %}</strong>
+        <p>{% trans "Le prix de référence doit être le prix le plus bas pratiqué par le marchand durant les 30 jours précédents. Un prix barré gonflé entraîne le refus." %}</p>
+      </div>
+    </div>
+
+    <section class="panel">
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% include "_form.html" %}
+        <button class="cta is-block" type="submit">{% trans "Soumettre à la modération" %}</button>
+      </form>
+    </section>
+  </div>
+
 </div></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('btn-fetch-data').addEventListener('click', function() {
+        const urlInput = document.getElementById('magic-url-input').value;
+        const statusText = document.getElementById('scrape-status');
+
+        if (!urlInput) {
+            alert("{% trans 'Veuillez entrer un lien valide.' %}");
+            return;
+        }
+
+        statusText.style.display = 'block';
+        this.disabled = true; // Empêche le double-clic
+
+        fetch('{% url "deals:scrape-link" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({url: urlInput})
+        })
+        .then(response => response.json())
+        .then(data => {
+            statusText.style.display = 'none';
+
+            // Masquer étape 1, afficher étape 2
+            document.getElementById('step1-link').style.display = 'none';
+            document.getElementById('step2-form').style.display = 'block';
+
+            // Pré-remplir l'URL dans le vrai formulaire
+            const formUrlInput = document.getElementById('id_external_url');
+            if (formUrlInput) formUrlInput.value = urlInput;
+
+            // Pré-remplir le titre s'il a été trouvé par le scraper
+            if (data.success && data.title) {
+                const formTitleInput = document.getElementById('id_title');
+                if (formTitleInput) formTitleInput.value = data.title;
+            }
+        })
+        .catch(error => {
+            // En cas d'erreur (ex: sécurité du site tiers), on passe quand même à l'étape 2
+            document.getElementById('step1-link').style.display = 'none';
+            document.getElementById('step2-form').style.display = 'block';
+
+            const formUrlInput = document.getElementById('id_external_url');
+            if (formUrlInput) formUrlInput.value = urlInput;
+        });
+    });
+});
+</script>
 {% endblock %}
