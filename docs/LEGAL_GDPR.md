@@ -61,8 +61,8 @@ les seules données figurant sur une pièce comptable.
 **La traduction technique.** Deux opérations distinctes, dans cet ordre.
 
 ```python
-user.soft_delete()   # accès coupé, ligne conservée, deleted_at renseigné
-user.anonymise()     # e-mail et pseudonyme écrasés, mot de passe rendu inutilisable
+user.soft_delete()  # accès coupé, ligne conservée, deleted_at renseigné
+user.anonymise()  # e-mail et pseudonyme écrasés, mot de passe rendu inutilisable
 ```
 
 Et une contrainte de base qui rend l'erreur impossible :

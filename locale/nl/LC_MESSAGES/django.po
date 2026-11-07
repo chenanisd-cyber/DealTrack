@@ -483,7 +483,7 @@ msgstr ""
 
 #: apps/deals/forms.py:19
 msgid "Régions concernées"
-msgstr ""
+msgstr "Betrokken regio's"
 
 #: apps/deals/forms.py:68
 msgid ""
@@ -527,7 +527,7 @@ msgstr "beschrijving"
 
 #: apps/deals/models.py:75
 msgid "lien vers l'offre"
-msgstr ""
+msgstr "link naar de aanbieding"
 
 #: apps/deals/models.py:78
 msgid "prix"
@@ -565,19 +565,19 @@ msgstr "status"
 
 #: apps/deals/models.py:139
 msgid "offre transfrontalière"
-msgstr ""
+msgstr "grensoverschrijdende aanbieding"
 
 #: apps/deals/models.py:141
 msgid "langue de rédaction"
-msgstr ""
+msgstr "taal van de tekst"
 
 #: apps/deals/models.py:144
 msgid "début"
-msgstr ""
+msgstr "begin"
 
 #: apps/deals/models.py:145
 msgid "fin"
-msgstr ""
+msgstr "einde"
 
 #: apps/deals/models.py:146
 msgid "publié le"
@@ -1500,3 +1500,47 @@ msgstr "Duits"
 #, python-format
 msgid "Offre rédigée en %(lang)s"
 msgstr "Aanbieding opgesteld in het %(lang)s"
+
+#: templates/deals/submit.html
+msgid "Partagez un bon plan"
+msgstr "Deel een koopje"
+
+#: templates/deals/submit.html
+msgid "Entrez le lien de la page où il est possible de profiter du deal."
+msgstr "Voer de link in van de pagina waar de deal te vinden is."
+
+#: templates/deals/submit.html
+msgid "Lien de l'offre"
+msgstr "Link naar de aanbieding"
+
+#: templates/deals/submit.html
+msgid "Vérifier le lien"
+msgstr "Link controleren"
+
+#: templates/deals/submit.html
+msgid "Extraction des données en cours..."
+msgstr "Gegevens worden opgehaald..."
+
+#: templates/deals/submit.html
+msgid "Remplir le formulaire sans lien"
+msgstr "Formulier invullen zonder link"
+
+#: templates/deals/submit.html
+msgid "Veuillez entrer un lien valide (http:// ou https://)."
+msgstr "Voer een geldige link in (http:// of https://)."
+
+#: templates/deals/submit.html
+msgid "Impossible de lire cette page : complétez le formulaire vous-même."
+msgstr "Deze pagina kan niet worden gelezen: vul het formulier zelf in."
+
+#: templates/deals/submit.html
+msgid "Ce lien a été refusé. Seules les pages web publiques sont acceptées."
+msgstr "Deze link is geweigerd. Alleen openbare webpagina's worden aanvaard."
+
+#: templates/deals/submit.html
+msgid "Trop de vérifications en peu de temps. Réessayez dans une minute."
+msgstr "Te veel controles in korte tijd. Probeer het over een minuut opnieuw."
+
+#: apps/deals/models.py
+msgid "URL de l'image"
+msgstr "URL van de afbeelding"

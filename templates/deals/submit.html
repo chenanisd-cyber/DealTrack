@@ -3,27 +3,40 @@
 {% block content %}
 <div class="shell"><div class="form">
 
-  <!-- ÉTAPE 1 : Saisie du lien uniquement -->
-  <div id="step1-link">
+  {% comment %}
+    Formulaire en deux étapes : 1) le lien, 2) le formulaire complet.
+    Si le formulaire a déjà été soumis (form.is_bound), on affiche
+    directement l'étape 2 : c'est là que se trouvent les messages d'erreur.
+  {% endcomment %}
+
+  <!-- ÉTAPE 1 : saisie du lien -->
+  <div id="step1-link"{% if form.is_bound %} hidden{% endif %}>
     <h1 style="font-size:var(--fs-h1)">{% trans "Partagez un bon plan" %}</h1>
     <p style="color:var(--dt-ink-2); margin-bottom: 24px;">{% trans "Entrez le lien de la page où il est possible de profiter du deal." %}</p>
 
     <section class="panel">
-      <div style="margin-bottom: 16px;">
-        <input type="url" id="magic-url-input" placeholder="https://..." required
+      <div class="field">
+        <label class="field__label" for="magic-url-input">{% trans "Lien de l'offre" %}</label>
+        <input type="url" id="magic-url-input" placeholder="https://..." maxlength="800" required
                style="width: 100%; padding: 12px; border-radius: 4px; border: 1px solid var(--dt-border); font-size: 16px;">
+        <p id="url-error" class="field__hint" style="color:var(--dt-hot)" hidden></p>
       </div>
       <button type="button" id="btn-fetch-data" class="cta is-block">{% trans "Vérifier le lien" %}</button>
-      <p id="scrape-status" style="color: var(--dt-warn); margin-top: 12px; display: none; text-align: center;">
+      <p id="scrape-status" style="color: var(--dt-warn); margin-top: 12px; text-align: center;" hidden>
         {% trans "Extraction des données en cours..." %}
+      </p>
+      <p style="margin-top: 12px; text-align: center;">
+        <a href="#" id="skip-link">{% trans "Remplir le formulaire sans lien" %}</a>
       </p>
     </section>
   </div>
 
-  <!-- ÉTAPE 2 : Le formulaire complet (caché par défaut) -->
-  <div id="step2-form" style="display: none;">
+  <!-- ÉTAPE 2 : le formulaire complet -->
+  <div id="step2-form"{% if not form.is_bound %} hidden{% endif %}>
     <h1 style="font-size:var(--fs-h1)">{% trans "Publier un deal" %}</h1>
     <p style="color:var(--dt-ink-2)">{% trans "Chaque publication passe par la modération avant d'apparaître dans le flux." %}</p>
+
+    <p id="scrape-warning" class="moderation" style="background:var(--dt-warn-bg);color:var(--dt-warn);margin-bottom:16px" hidden></p>
 
     <div class="moderation" style="background:var(--dt-warn-bg);color:var(--dt-warn);margin-bottom:16px">
       <div>
@@ -44,59 +57,87 @@
 </div></div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-      document.getElementById('btn-fetch-data').addEventListener('click', function() {
-          const urlInput = document.getElementById('magic-url-input').value;
-          const statusText = document.getElementById('scrape-status');
+  document.addEventListener("DOMContentLoaded", function () {
+    // Textes traduits côté serveur ; escapejs évite qu'une apostrophe casse le script.
+    const MSG = {
+      invalid: "{% trans 'Veuillez entrer un lien valide (http:// ou https://).' as m %}{{ m|escapejs }}",
+      failed: "{% trans 'Impossible de lire cette page : complétez le formulaire vous-même.' as m %}{{ m|escapejs }}",
+      refused: "{% trans 'Ce lien a été refusé. Seules les pages web publiques sont acceptées.' as m %}{{ m|escapejs }}",
+      tooMany: "{% trans 'Trop de vérifications en peu de temps. Réessayez dans une minute.' as m %}{{ m|escapejs }}"
+    };
 
-          if (!urlInput) {
-              alert("{% trans 'Veuillez entrer un lien valide.' %}");
-              return;
+    const step1 = document.getElementById("step1-link");
+    const step2 = document.getElementById("step2-form");
+    const urlInput = document.getElementById("magic-url-input");
+    const urlError = document.getElementById("url-error");
+    const status = document.getElementById("scrape-status");
+    const warning = document.getElementById("scrape-warning");
+    const button = document.getElementById("btn-fetch-data");
+
+    function setValue(id, value) {
+      const field = document.getElementById(id);
+      if (field && value) field.value = value;
+    }
+
+    function showForm(url, message) {
+      step1.hidden = true;
+      step2.hidden = false;
+      setValue("id_external_url", url);
+      if (message) {
+        warning.textContent = message;
+        warning.hidden = false;
+      }
+    }
+
+    document.getElementById("skip-link").addEventListener("click", function (e) {
+      e.preventDefault();
+      showForm("", "");
+    });
+
+    button.addEventListener("click", function () {
+      const url = urlInput.value.trim();
+      urlError.hidden = true;
+
+      // Validation côté navigateur (confort) ; le serveur revalide tout.
+      if (!urlInput.checkValidity() || !/^https?:\/\//i.test(url)) {
+        urlError.textContent = MSG.invalid;
+        urlError.hidden = false;
+        return;
+      }
+
+      status.hidden = false;
+      button.disabled = true;
+
+      fetch("{% url 'deals:scrape-link' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+        },
+        body: JSON.stringify({ url: url })
+      })
+        .then(function (response) { return response.json(); })
+        .then(function (data) {
+          if (data.success) {
+            showForm(url, "");
+            setValue("id_title", data.title);
+            setValue("id_image_url", data.image_url);
+          } else if (data.error === "unsafe_url") {
+            urlError.textContent = MSG.refused;
+            urlError.hidden = false;
+          } else if (data.error === "rate_limited") {
+            urlError.textContent = MSG.tooMany;
+            urlError.hidden = false;
+          } else {
+            showForm(url, MSG.failed);
           }
-
-          statusText.style.display = 'block';
-          this.disabled = true;
-
-          fetch('{% url "deals:scrape-link" %}', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-              },
-              body: JSON.stringify({url: urlInput})
-          })
-          .then(response => response.json())
-          .then(data => {
-              statusText.style.display = 'none';
-
-              // Masquer étape 1, afficher étape 2
-              document.getElementById('step1-link').style.display = 'none';
-              document.getElementById('step2-form').style.display = 'block';
-
-              // Pré-remplir l'URL
-              const formUrlInput = document.getElementById('id_external_url');
-              if (formUrlInput) formUrlInput.value = urlInput;
-
-              // Pré-remplir le titre
-              if (data.success && data.title) {
-                  const formTitleInput = document.getElementById('id_title');
-                  if (formTitleInput) formTitleInput.value = data.title;
-              }
-
-              // Pré-remplir l'image (le code est maintenant bien intégré ici !)
-              if (data.success && data.image_url) {
-                  const formImageInput = document.getElementById('id_image_url');
-                  if (formImageInput) formImageInput.value = data.image_url;
-              }
-          })
-          .catch(error => {
-              document.getElementById('step1-link').style.display = 'none';
-              document.getElementById('step2-form').style.display = 'block';
-
-              const formUrlInput = document.getElementById('id_external_url');
-              if (formUrlInput) formUrlInput.value = urlInput;
-          });
-      });
+        })
+        .catch(function () { showForm(url, MSG.failed); })
+        .finally(function () {
+          status.hidden = true;
+          button.disabled = false;
+        });
+    });
   });
 </script>
 {% endblock %}

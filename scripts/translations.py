@@ -286,6 +286,25 @@ NL = {
     "Ouvert": "Open",
     "Traité": "Behandeld",
     "Écarté": "Afgewezen",
+    # -- Formulaire de dépôt en deux étapes (pré-remplissage par lien) --
+    "Partagez un bon plan": "Deel een koopje",
+    "Entrez le lien de la page où il est possible de profiter du deal.": "Voer de link in van de pagina waar de deal te vinden is.",
+    "Lien de l'offre": "Link naar de aanbieding",
+    "Vérifier le lien": "Link controleren",
+    "Extraction des données en cours...": "Gegevens worden opgehaald...",
+    "Remplir le formulaire sans lien": "Formulier invullen zonder link",
+    "Veuillez entrer un lien valide (http:// ou https://).": "Voer een geldige link in (http:// of https://).",
+    "Impossible de lire cette page : complétez le formulaire vous-même.": "Deze pagina kan niet worden gelezen: vul het formulier zelf in.",
+    "Ce lien a été refusé. Seules les pages web publiques sont acceptées.": "Deze link is geweigerd. Alleen openbare webpagina's worden aanvaard.",
+    "Trop de vérifications en peu de temps. Réessayez dans une minute.": "Te veel controles in korte tijd. Probeer het over een minuut opnieuw.",
+    # -- Libellés des champs du formulaire de dépôt --
+    "lien vers l'offre": "link naar de aanbieding",
+    "URL de l'image": "URL van de afbeelding",
+    "Régions concernées": "Betrokken regio's",
+    "langue de rédaction": "taal van de tekst",
+    "offre transfrontalière": "grensoverschrijdende aanbieding",
+    "début": "begin",
+    "fin": "einde",
 }
 
 DE = {
@@ -569,6 +588,25 @@ DE = {
     "Ouvert": "Offen",
     "Traité": "Bearbeitet",
     "Écarté": "Verworfen",
+    # -- Formulaire de dépôt en deux étapes (pré-remplissage par lien) --
+    "Partagez un bon plan": "Teilen Sie ein Schnäppchen",
+    "Entrez le lien de la page où il est possible de profiter du deal.": "Geben Sie den Link der Seite ein, auf der das Angebot verfügbar ist.",
+    "Lien de l'offre": "Link zum Angebot",
+    "Vérifier le lien": "Link prüfen",
+    "Extraction des données en cours...": "Daten werden abgerufen...",
+    "Remplir le formulaire sans lien": "Formular ohne Link ausfüllen",
+    "Veuillez entrer un lien valide (http:// ou https://).": "Bitte geben Sie einen gültigen Link ein (http:// oder https://).",
+    "Impossible de lire cette page : complétez le formulaire vous-même.": "Diese Seite kann nicht gelesen werden: Bitte füllen Sie das Formular selbst aus.",
+    "Ce lien a été refusé. Seules les pages web publiques sont acceptées.": "Dieser Link wurde abgelehnt. Nur öffentliche Webseiten sind zulässig.",
+    "Trop de vérifications en peu de temps. Réessayez dans une minute.": "Zu viele Prüfungen in kurzer Zeit. Bitte versuchen Sie es in einer Minute erneut.",
+    # -- Libellés des champs du formulaire de dépôt --
+    "lien vers l'offre": "Link zum Angebot",
+    "URL de l'image": "Bild-URL",
+    "Régions concernées": "Betroffene Regionen",
+    "langue de rédaction": "Sprache des Textes",
+    "offre transfrontalière": "grenzüberschreitendes Angebot",
+    "début": "Beginn",
+    "fin": "Ende",
 }
 
 CATALOGUES = {"nl": NL, "de": DE}

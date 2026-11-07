@@ -84,8 +84,8 @@ Les champs de décision sont fixés par le serveur :
 # apps/api/serializers.py — DealWriteSerializer.create
 deal = Deal.objects.create(
     **validated,
-    submitted_by=request.user,     # ignore toute valeur envoyée
-    status=DealStatus.PENDING,     # imposé, quoi que dise la charge utile
+    submitted_by=request.user,  # ignore toute valeur envoyée
+    status=DealStatus.PENDING,  # imposé, quoi que dise la charge utile
 )
 ```
 
@@ -202,7 +202,7 @@ l'adresse existe ou non :
 ```python
 error_messages = {
     "invalid_login": _("Adresse e-mail ou mot de passe incorrect."),
-    "inactive":      _("Adresse e-mail ou mot de passe incorrect."),  # ← identique
+    "inactive": _("Adresse e-mail ou mot de passe incorrect."),  # ← identique
 }
 ```
 
@@ -278,6 +278,28 @@ if region_code and Region.objects.filter(code=region_code).exists():
 L'ORM paramètre de toute façon ses requêtes — aucune concaténation SQL n'existe
 dans le projet. `test_url_parameter_injection_is_ignored` passe `' OR 1=1--`
 en paramètre de région : la page répond 200 sans rien révéler.
+
+### 6.1 Pré-remplissage par lien — SSRF (OWASP A10)
+
+Le formulaire de dépôt propose de coller le lien de l'offre : le serveur va
+chercher la page pour en lire le titre et l'image (`apps/deals/scraper.py`).
+Le serveur télécharge donc une adresse choisie par l'utilisateur, le scénario
+type d'une **SSRF** : sans contrôle, on pourrait lui faire interroger
+`http://127.0.0.1`, le réseau interne ou `169.254.169.254` (métadonnées cloud).
+
+| Protection | Où |
+|---|---|
+| Membre connecté + jeton CSRF (`X-CSRFToken`) | `scrape_link_view` |
+| 10 appels par minute et par membre (sinon 429) | `scrape_link_view` |
+| Schémas `http` / `https` uniquement | `validate_public_url` |
+| Toutes les IP du domaine doivent être publiques (`ip.is_global`) | `validate_public_url` |
+| Redirections suivies à la main, chaque étape revérifiée | `_download` |
+| Réponse coupée à 1 Mo, délai de 5 s | `_download` |
+| Codes d'erreur génériques, détail dans les logs | `fetch_deal_info` |
+
+Limite assumée : le *DNS rebinding* (le domaine change d'IP entre la
+vérification et la connexion). Le risque reste faible : la requête est en
+lecture seule et la page téléchargée n'est jamais renvoyée au client.
 
 ---
 
@@ -415,3 +437,4 @@ Un document de sécurité qui n'énonce que des réussites n'est pas crédible.
 | Limitation de débit | `apps/api/throttles.py` | `BruteForceTests` |
 | Piste d'audit | `apps/moderation/` | dispersés |
 | Paiement | `apps/payments/gateways.py`, `services.py` | `PaymentTests` |
+| SSRF (lien d'offre) | `apps/deals/scraper.py`, `views.py` | `tests/test_scraper.py` |

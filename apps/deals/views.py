@@ -1,5 +1,8 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.http import HttpResponseBadRequest, JsonResponse
@@ -12,9 +15,6 @@ from apps.moderation.models import AuditLog
 
 from .forms import CommentForm, DealSubmissionForm
 from .models import Deal, Vote
-import json
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
 from .scraper import fetch_deal_info
 
 
@@ -168,15 +168,36 @@ def not_found(request, exception=None):
 def server_error(request):
     return render(request, "errors/500.html", status=500)
 
+
+# --------------------------------------------------------------------------
+# Pré-remplissage du formulaire de dépôt (appel AJAX depuis submit.html)
+# --------------------------------------------------------------------------
+SCRAPE_LIMIT = 10  # appels autorisés…
+SCRAPE_WINDOW = 60  # …par fenêtre de 60 secondes et par utilisateur
+
+
+@login_required
 @require_POST
 def scrape_link_view(request):
+    """
+    Réservé aux membres connectés (seuls eux peuvent publier) et protégé par
+    le jeton CSRF envoyé en en-tête X-CSRFToken. Le nombre d'appels est
+    limité : sans cela, le serveur servirait de robot de téléchargement.
+    La validation de l'URL elle-même (anti-SSRF) est faite dans scraper.py.
+    """
+    key = f"scrape-rate:{request.user.pk}"
+    calls = cache.get_or_set(key, 0, SCRAPE_WINDOW)
+    if calls >= SCRAPE_LIMIT:
+        return JsonResponse({"success": False, "error": "rate_limited"}, status=429)
+    cache.incr(key)
+
     try:
         data = json.loads(request.body)
-        url = data.get('url')
-        if not url:
-            return JsonResponse({'success': False, 'error': 'URL manquante'})
+    except (ValueError, UnicodeDecodeError):
+        return JsonResponse({"success": False, "error": "bad_request"}, status=400)
 
-        info = fetch_deal_info(url)
-        return JsonResponse(info)
-    except Exception:
-        return JsonResponse({'success': False, 'error': 'Requête invalide'})
+    url = data.get("url") if isinstance(data, dict) else None
+    if not isinstance(url, str) or not url.strip() or len(url) > 800:
+        return JsonResponse({"success": False, "error": "bad_request"}, status=400)
+
+    return JsonResponse(fetch_deal_info(url.strip()))

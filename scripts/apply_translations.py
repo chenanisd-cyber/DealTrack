@@ -7,7 +7,6 @@ chaque `makemessages`, donc les traductions doivent vivre dans un fichier
 versionné à part, réinjectable.
 """
 
-import subprocess
 import sys
 from pathlib import Path
 
@@ -50,8 +49,9 @@ def apply_language(code, mapping):
     )
     catalogue.save(str(path))
 
-    mo = path.with_suffix(".mo")
-    subprocess.run(["msgfmt", "-o", str(mo), str(path)], check=True)
+    # Compilation par polib plutôt que par msgfmt : gettext n'est souvent pas
+    # installé sous Windows, et polib produit le même fichier binaire.
+    catalogue.save_as_mofile(str(path.with_suffix(".mo")))
 
     total = len(catalogue)
     print(

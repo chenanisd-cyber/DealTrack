@@ -10,5 +10,5 @@ urlpatterns = [
     path("deal/<slug:slug>/", views.deal_detail, name="detail"),
     path("deal/<slug:slug>/vote/", views.deal_vote, name="vote"),
     path("deal/<slug:slug>/commentaire/", views.comment_create, name="comment"),
-    path('api/scrape/', views.scrape_link_view, name='scrape-link'),
+    path("api/scrape/", views.scrape_link_view, name="scrape-link"),
 ]

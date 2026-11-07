@@ -388,8 +388,7 @@ class ApiTests(BaseIntegrationTest):
                 {
                     "title": "Aspirateur balai Dyson V12 Detect Slim Absolute",
                     "description": (
-                        "Prix le plus bas relevé en Belgique depuis quatre mois, "
-                        "stock limité."
+                        "Prix le plus bas relevé en Belgique depuis quatre mois, stock limité."
                     ),
                     "external_url": "https://www.coolblue.be/fr/produit/dyson-v12",
                     "price": "399.00",
@@ -848,7 +847,7 @@ class FormValidationTests(BaseIntegrationTest):
             {
                 "title": "Sèche-linge Bosch pompe à chaleur huit kilos",
                 "description": (
-                    "Vendu par un marchand néerlandais, à vingt kilomètres " "de la frontière."
+                    "Vendu par un marchand néerlandais, à vingt kilomètres de la frontière."
                 ),
                 "external_url": "https://example.nl/bosch-seche-linge",
                 "price": "449.00",

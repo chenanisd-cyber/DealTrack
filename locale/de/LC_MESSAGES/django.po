@@ -484,7 +484,7 @@ msgstr ""
 
 #: apps/deals/forms.py:19
 msgid "Régions concernées"
-msgstr ""
+msgstr "Betroffene Regionen"
 
 #: apps/deals/forms.py:68
 msgid ""
@@ -528,7 +528,7 @@ msgstr "Beschreibung"
 
 #: apps/deals/models.py:75
 msgid "lien vers l'offre"
-msgstr ""
+msgstr "Link zum Angebot"
 
 #: apps/deals/models.py:78
 msgid "prix"
@@ -566,19 +566,19 @@ msgstr "Status"
 
 #: apps/deals/models.py:139
 msgid "offre transfrontalière"
-msgstr ""
+msgstr "grenzüberschreitendes Angebot"
 
 #: apps/deals/models.py:141
 msgid "langue de rédaction"
-msgstr ""
+msgstr "Sprache des Textes"
 
 #: apps/deals/models.py:144
 msgid "début"
-msgstr ""
+msgstr "Beginn"
 
 #: apps/deals/models.py:145
 msgid "fin"
-msgstr ""
+msgstr "Ende"
 
 #: apps/deals/models.py:146
 msgid "publié le"
@@ -1502,3 +1502,51 @@ msgstr "Deutsch"
 #, python-format
 msgid "Offre rédigée en %(lang)s"
 msgstr "Angebot verfasst auf %(lang)s"
+
+#: templates/deals/submit.html
+msgid "Partagez un bon plan"
+msgstr "Teilen Sie ein Schnäppchen"
+
+#: templates/deals/submit.html
+msgid "Entrez le lien de la page où il est possible de profiter du deal."
+msgstr "Geben Sie den Link der Seite ein, auf der das Angebot verfügbar ist."
+
+#: templates/deals/submit.html
+msgid "Lien de l'offre"
+msgstr "Link zum Angebot"
+
+#: templates/deals/submit.html
+msgid "Vérifier le lien"
+msgstr "Link prüfen"
+
+#: templates/deals/submit.html
+msgid "Extraction des données en cours..."
+msgstr "Daten werden abgerufen..."
+
+#: templates/deals/submit.html
+msgid "Remplir le formulaire sans lien"
+msgstr "Formular ohne Link ausfüllen"
+
+#: templates/deals/submit.html
+msgid "Veuillez entrer un lien valide (http:// ou https://)."
+msgstr "Bitte geben Sie einen gültigen Link ein (http:// oder https://)."
+
+#: templates/deals/submit.html
+msgid "Impossible de lire cette page : complétez le formulaire vous-même."
+msgstr ""
+"Diese Seite kann nicht gelesen werden: Bitte füllen Sie das Formular selbst "
+"aus."
+
+#: templates/deals/submit.html
+msgid "Ce lien a été refusé. Seules les pages web publiques sont acceptées."
+msgstr "Dieser Link wurde abgelehnt. Nur öffentliche Webseiten sind zulässig."
+
+#: templates/deals/submit.html
+msgid "Trop de vérifications en peu de temps. Réessayez dans une minute."
+msgstr ""
+"Zu viele Prüfungen in kurzer Zeit. Bitte versuchen Sie es in einer Minute "
+"erneut."
+
+#: apps/deals/models.py
+msgid "URL de l'image"
+msgstr "Bild-URL"
