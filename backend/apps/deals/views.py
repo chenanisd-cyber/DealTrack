@@ -60,6 +60,7 @@ def deal_list(request):
             "current_region": region_code,
             "current_sort": sort,
             "hot_deals": Deal.objects.live()
+            .select_related("merchant")
             .prefetch_related("translations")
             .order_by("-temperature")[:3],
         },

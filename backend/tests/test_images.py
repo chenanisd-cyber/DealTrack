@@ -86,6 +86,17 @@ class DealPhotoTests(TestCase):
         self.assertIn(f'<span class="dealmedia__name">{deal.merchant.name}</span>', html)
         self.assertNotIn("dealmedia__photo", html)
 
+    def test_miniatures_de_la_colonne_les_plus_hot(self):
+        """La colonne « Les plus hot » et le profil ont aussi un visuel."""
+        deal = self.publish()
+        html = self.client.get(reverse("deals:list")).content.decode()
+        self.assertIn('<div class="dealmedia is-small">', html)
+
+        self.client.force_login(self.member)
+        profile = self.client.get(reverse("accounts:profile")).content.decode()
+        self.assertIn('<span class="table__thumb">', profile)
+        self.assertIn(deal.merchant.name, profile)
+
     def test_image_externe_affichee_par_dessus_la_vignette(self):
         self.publish(image_url="https://shop.example/casque.jpg")
         html = self.client.get(reverse("deals:list")).content.decode()

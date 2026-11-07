@@ -87,7 +87,10 @@
       <h2 class="panel__title">{% trans "Les plus hot" %}</h2>
       {% for deal in hot_deals %}
       <div class="hotitem">
-        <div class="hotitem__thumb"><span class="hotitem__temp">{{ deal.temperature }}°</span></div>
+        <a class="hotitem__thumb" href="{{ deal.get_absolute_url }}" tabindex="-1" aria-hidden="true">
+          {% include "deals/_media.html" with small=True %}
+          <span class="hotitem__temp">{{ deal.temperature }}°</span>
+        </a>
         <div>
           <p class="hotitem__title"><a href="{{ deal.get_absolute_url }}">{{ deal.title_current|truncatechars:60 }}</a></p>
           <span class="hotitem__price">{{ deal.price }} €</span>

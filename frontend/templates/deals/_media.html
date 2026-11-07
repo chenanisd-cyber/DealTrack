@@ -1,5 +1,7 @@
 {% comment %}
-  Visuel d'une offre, partagé par le flux et la page de détail.
+  Visuel d'une offre, partagé par le flux, la page de détail, la colonne
+  « Les plus hot » et le profil. Variantes : large=True (détail),
+  small=True (miniatures).
 
   Ordre de priorité :
     1. la photo envoyée par le membre (deal.image) ;
@@ -13,7 +15,7 @@
   de DealTrack vient le visiteur.
 {% endcomment %}
 {% with merchant=deal.merchant %}
-<div class="dealmedia{% if large %} is-large{% endif %}">
+<div class="dealmedia{% if large %} is-large{% endif %}{% if small %} is-small{% endif %}">
   <div class="dealmedia__brand{% if merchant.logo %} has-logo{% endif %}"
        style="--brand:{{ merchant.brand_color }}; --brand-ink:{{ merchant.brand_text_color }}">
     {% if merchant.logo %}

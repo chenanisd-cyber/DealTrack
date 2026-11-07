@@ -58,7 +58,9 @@ def profile(request):
         request,
         "registration/profile.html",
         {
-            "deals": request.user.submitted_deals.order_by("-created_at")[:20],
+            "deals": request.user.submitted_deals.select_related("merchant").order_by(
+                "-created_at"
+            )[:20],
             "payments": request.user.payments.order_by("-created_at")[:20],
             "subscriptions": request.user.subscriptions.all(),
         },

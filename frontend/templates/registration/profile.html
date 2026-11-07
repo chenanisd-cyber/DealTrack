@@ -11,7 +11,12 @@
       <tbody>
       {% for deal in deals %}
         <tr>
-          <td><span class="table__title">{{ deal.title|truncatechars:70 }}</span></td>
+          <td>
+            <div class="table__deal">
+              <span class="table__thumb">{% include "deals/_media.html" with small=True %}</span>
+              <span class="table__title">{{ deal.title|truncatechars:70 }}</span>
+            </div>
+          </td>
           <td><span class="stamp{% if deal.status == 'pending' %} is-pending{% endif %}">{{ deal.get_status_display }}</span></td>
           <td><span class="table__sub">{{ deal.created_at|date:"d/m/Y H:i" }}</span></td>
         </tr>
