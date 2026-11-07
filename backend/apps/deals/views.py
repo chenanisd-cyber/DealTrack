@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods, require_POST
 
@@ -74,7 +75,11 @@ def deal_detail(request, slug):
         .prefetch_related("translations"),
         slug=slug,
     )
-    comments = deal.comments.filter(deleted_at__isnull=True).select_related("author")
+    comments = (
+        deal.comments.filter(deleted_at__isnull=True)
+        .select_related("author")
+        .prefetch_related("translations")
+    )
     user_vote = None
     if request.user.is_authenticated:
         user_vote = Vote.objects.filter(deal=deal, user=request.user).first()
@@ -145,6 +150,8 @@ def comment_create(request, slug):
         comment = form.save(commit=False)
         comment.deal = deal
         comment.author = request.user
+        # Langue de la page depuis laquelle le membre écrit (fr, nl ou de).
+        comment.language = get_language() or "fr"
         comment.save()
         messages.success(request, _("Commentaire publié."))
     else:

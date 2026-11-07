@@ -40,6 +40,13 @@ MODERATOR_PERMISSIONS = {
         "change_deal",
         "view_comment",
         "change_comment",
+        # Traduire une offre ou un commentaire depuis le back-office.
+        "view_dealtranslation",
+        "add_dealtranslation",
+        "change_dealtranslation",
+        "view_commenttranslation",
+        "add_commenttranslation",
+        "change_commenttranslation",
         "view_vote",
         "view_alert",
     ],

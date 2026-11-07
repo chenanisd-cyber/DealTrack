@@ -449,6 +449,11 @@ class Comment(models.Model):
         max_length=2000,
         validators=[MinLengthValidator(2), validate_no_control_characters],
     )
+    # Langue dans laquelle le membre a écrit : celle de la page au moment de
+    # l'envoi. Sert à savoir si le lecteur voit l'original ou une traduction.
+    language = models.CharField(
+        _("langue de rédaction"), max_length=5, choices=settings.LANGUAGES, default="fr"
+    )
     is_verified_purchase = models.BooleanField(_("achat confirmé"), default=False)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     deleted_at = models.DateTimeField(_("supprimé le"), null=True, blank=True)
@@ -461,12 +466,78 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.author} sur {self.deal}"
 
+    # -- Multilingue : même logique que Deal (voir Deal._translation) ------
+    def _translation(self, language):
+        for translation in self.translations.all():  # consomme le prefetch
+            if translation.language == language:
+                return translation
+        return None
+
+    @property
+    def body_current(self):
+        """Texte dans la langue de la page, avec repli sur l'original."""
+        language = get_language() or "fr"
+        if language == self.language:
+            return self.body
+        translation = self._translation(language)
+        return translation.body if translation else self.body
+
+    @property
+    def is_translated(self):
+        """Vrai si le lecteur lit le commentaire dans la langue de la page."""
+        language = get_language() or "fr"
+        return self.language == language or self._translation(language) is not None
+
+    @property
+    def shows_translation(self):
+        """Vrai si le texte affiché est une traduction (le gabarit le signale)."""
+        return self.language != (get_language() or "fr") and self.is_translated
+
+    @property
+    def source_language_label(self):
+        return LANGUAGE_NAMES.get(self.language, self.language)
+
     def soft_delete(self, *, actor):
         from apps.moderation.models import AuditLog
 
         self.deleted_at = timezone.now()
         self.save(update_fields=["deleted_at"])
         AuditLog.record(actor=actor, action=AuditLog.Action.COMMENT_DELETED, target=self)
+
+
+class CommentTranslation(models.Model):
+    """
+    Commentaire dans une autre langue. Même modèle que DealTranslation : une
+    ligne par langue, unicité (commentaire, langue) garantie par la base.
+    Les traductions sont ajoutées par la modération dans le back-office.
+    """
+
+    id = models.BigAutoField(primary_key=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="translations")
+    language = models.CharField(_("langue"), max_length=5, choices=settings.LANGUAGES)
+    body = models.TextField(
+        _("commentaire"),
+        max_length=2000,
+        validators=[MinLengthValidator(2), validate_no_control_characters],
+    )
+    is_machine_translated = models.BooleanField(
+        _("traduction automatique"),
+        default=False,
+        help_text=_("À cocher tant qu'un humain n'a pas relu le texte."),
+    )
+
+    class Meta:
+        verbose_name = _("traduction de commentaire")
+        verbose_name_plural = _("traductions de commentaire")
+        ordering = ["language"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["comment", "language"], name="uniq_comment_language"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.comment_id} [{self.language}]"
 
 
 class Alert(models.Model):

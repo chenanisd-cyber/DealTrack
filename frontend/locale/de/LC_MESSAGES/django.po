@@ -1578,3 +1578,13 @@ msgstr "Bild zu groß: höchstens 6000 Pixel pro Seite."
 #: apps/deals/forms.py
 msgid "L'adresse de l'image doit être en HTTPS."
 msgstr "Die Bildadresse muss HTTPS verwenden."
+
+#: templates/deals/detail.html
+#, python-format
+msgid "Traduit — original en %(lang)s"
+msgstr "Übersetzt — Original auf %(lang)s"
+
+#: templates/deals/detail.html
+#, python-format
+msgid "Commentaire rédigé en %(lang)s"
+msgstr "Kommentar verfasst auf %(lang)s"

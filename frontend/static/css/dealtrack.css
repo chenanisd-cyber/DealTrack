@@ -349,6 +349,7 @@ img{max-width:100%}
 }
 .hotitem__thumb .dealmedia__brand{padding-top:22px}  /* laisse la place à la température */
 .table__deal{display:flex; align-items:center; gap:12px}
+.comment .comment__lang{margin:4px 0 0; font-size:var(--fs-meta); color:var(--dt-ink-2); font-style:italic}
 .table__thumb{width:56px; height:42px; flex:none}
 .deal__body{padding:18px 22px 14px; min-width:0}
 .deal__top{display:flex; align-items:center; gap:12px; margin-bottom:12px}

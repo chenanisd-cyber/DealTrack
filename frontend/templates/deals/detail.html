@@ -82,7 +82,12 @@
           <span class="comment__time">{{ comment.created_at|timesince }}</span>
           {% if comment.is_verified_purchase %}<span class="badge is-verified">{% trans "Achat confirmé" %}</span>{% endif %}
         </div>
-        <p>{{ comment.body|linebreaksbr }}</p>
+        <p>{{ comment.body_current|linebreaksbr }}</p>
+        {% if comment.shows_translation %}
+          <p class="comment__lang">{% blocktrans with lang=comment.source_language_label %}Traduit — original en {{ lang }}{% endblocktrans %}</p>
+        {% elif not comment.is_translated %}
+          <p class="comment__lang">{% blocktrans with lang=comment.source_language_label %}Commentaire rédigé en {{ lang }}{% endblocktrans %}</p>
+        {% endif %}
       </div>
     </div>
     {% empty %}<p class="meta">{% trans "Aucun commentaire pour l'instant." %}</p>{% endfor %}

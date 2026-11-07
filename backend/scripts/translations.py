@@ -313,6 +313,9 @@ NL = {
     "Format refusé : JPEG, PNG ou WebP uniquement.": "Formaat geweigerd: alleen JPEG, PNG of WebP.",
     "Image trop grande : 6000 pixels de côté au maximum.": "Afbeelding te groot: maximaal 6000 pixels per zijde.",
     "L'adresse de l'image doit être en HTTPS.": "Het adres van de afbeelding moet HTTPS gebruiken.",
+    # -- Commentaires traduits --
+    "Traduit — original en %(lang)s": "Vertaald — origineel in het %(lang)s",
+    "Commentaire rédigé en %(lang)s": "Reactie geschreven in het %(lang)s",
 }
 
 DE = {
@@ -623,6 +626,9 @@ DE = {
     "Format refusé : JPEG, PNG ou WebP uniquement.": "Format abgelehnt: nur JPEG, PNG oder WebP.",
     "Image trop grande : 6000 pixels de côté au maximum.": "Bild zu groß: höchstens 6000 Pixel pro Seite.",
     "L'adresse de l'image doit être en HTTPS.": "Die Bildadresse muss HTTPS verwenden.",
+    # -- Commentaires traduits --
+    "Traduit — original en %(lang)s": "Übersetzt — Original auf %(lang)s",
+    "Commentaire rédigé en %(lang)s": "Kommentar verfasst auf %(lang)s",
 }
 
 CATALOGUES = {"nl": NL, "de": DE}

@@ -1572,3 +1572,13 @@ msgstr "Afbeelding te groot: maximaal 6000 pixels per zijde."
 #: apps/deals/forms.py
 msgid "L'adresse de l'image doit être en HTTPS."
 msgstr "Het adres van de afbeelding moet HTTPS gebruiken."
+
+#: templates/deals/detail.html
+#, python-format
+msgid "Traduit — original en %(lang)s"
+msgstr "Vertaald — origineel in het %(lang)s"
+
+#: templates/deals/detail.html
+#, python-format
+msgid "Commentaire rédigé en %(lang)s"
+msgstr "Reactie geschreven in het %(lang)s"

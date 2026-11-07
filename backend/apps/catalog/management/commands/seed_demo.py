@@ -18,7 +18,14 @@ from django.utils.text import slugify
 
 from apps.accounts.models import Role, User
 from apps.catalog.models import Category, CategoryTranslation, Merchant, Region
-from apps.deals.models import Comment, Deal, DealStatus, DealTranslation, Vote
+from apps.deals.models import (
+    Comment,
+    CommentTranslation,
+    Deal,
+    DealStatus,
+    DealTranslation,
+    Vote,
+)
 from apps.moderation.models import ModerationDecision, Report
 from apps.payments.models import Payment, Plan, Subscription
 
@@ -399,24 +406,55 @@ DEALS = [
 ]
 
 COMMENTS = [
+    # (texte original en français, achat confirmé, traductions)
     (
         "Commandé ce matin, retrait à Gand dans l'heure. Le prix passe bien à 249 € au panier sans code.",
         True,
+        {
+            "nl": "Vanochtend besteld, binnen het uur afgehaald in Gent. De prijs staat zonder code op 249 € in het winkelmandje.",
+            "de": "Heute Morgen bestellt, innerhalb einer Stunde in Gent abgeholt. Der Preis liegt ohne Code bei 249 € im Warenkorb.",
+        },
     ),
     (
         "Attention, chez le même marchand aux Pays-Bas il est dix euros moins cher, mais la garantie se règle depuis Rotterdam.",
         False,
+        {
+            "nl": "Let op: bij dezelfde handelaar in Nederland is het tien euro goedkoper, maar de garantie wordt vanuit Rotterdam geregeld.",
+            "de": "Achtung: Beim selben Händler in den Niederlanden ist es zehn Euro günstiger, aber die Garantie wird über Rotterdam abgewickelt.",
+        },
     ),
-    ("Stock épuisé sur Bruxelles depuis midi. Le noir reste disponible en ligne.", False),
+    (
+        "Stock épuisé sur Bruxelles depuis midi. Le noir reste disponible en ligne.",
+        False,
+        {
+            "nl": "Sinds de middag uitverkocht in Brussel. De zwarte versie blijft online beschikbaar.",
+            "de": "Seit Mittag in Brüssel ausverkauft. Die schwarze Variante ist online weiterhin erhältlich.",
+        },
+    ),
     (
         "Testé le week-end dernier, la qualité est au rendez-vous. Je recommande sans réserve.",
         True,
+        {
+            "nl": "Vorig weekend getest, de kwaliteit is uitstekend. Ik raad het zonder voorbehoud aan.",
+            "de": "Letztes Wochenende getestet, die Qualität stimmt. Ich kann es uneingeschränkt empfehlen.",
+        },
     ),
     (
         "Le prix de référence me semble optimiste, je l'ai vu à 299 € il y a trois semaines chez un concurrent.",
         False,
+        {
+            "nl": "De referentieprijs lijkt me optimistisch, ik zag het drie weken geleden aan 299 € bij een concurrent.",
+            "de": "Der Referenzpreis scheint mir optimistisch, ich habe es vor drei Wochen bei einem Konkurrenten für 299 € gesehen.",
+        },
     ),
-    ("Livraison en deux jours ouvrables jusqu'à Liège, emballage soigné.", True),
+    (
+        "Livraison en deux jours ouvrables jusqu'à Liège, emballage soigné.",
+        True,
+        {
+            "nl": "Levering in twee werkdagen tot in Luik, zorgvuldig verpakt.",
+            "de": "Lieferung in zwei Werktagen bis nach Lüttich, sorgfältig verpackt.",
+        },
+    ),
 ]
 
 
@@ -648,17 +686,19 @@ class Command(BaseCommand):
         for deal in deals:
             if deal.status != DealStatus.PUBLISHED:
                 continue
-            for body, verified in random.sample(COMMENTS, k=random.randint(1, 3)):
+            for body, verified, translations in random.sample(COMMENTS, k=random.randint(1, 3)):
                 author = random.choice([m for m in members if m != deal.submitted_by])
-                if Comment.objects.filter(deal=deal, author=author, body=body).exists():
-                    continue
-                Comment.objects.create(
+                comment, created = Comment.objects.get_or_create(
                     deal=deal,
                     author=author,
                     body=body,
-                    is_verified_purchase=verified,
+                    defaults={"is_verified_purchase": verified, "language": "fr"},
                 )
-                count += 1
+                count += created
+                for language, text in translations.items():
+                    CommentTranslation.objects.update_or_create(
+                        comment=comment, language=language, defaults={"body": text}
+                    )
         self.stdout.write(f"Commentaires : {count}")
 
     def _payments(self, members):

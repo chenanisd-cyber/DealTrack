@@ -188,14 +188,15 @@ Sept autres comptes membres existent, répartis sur les trois régions.
 python manage.py test tests --settings=config.settings.test
 ```
 
-136 tests, répartis en quatre fichiers dans `backend/tests/` :
+142 tests, répartis en cinq fichiers dans `backend/tests/` :
 
 | Fichier | Tests | Contenu |
 |---|---|---|
 | test_unit.py | 41 | Mots de passe, TVA belge, contraintes de base, vote, suppression logique, paiement |
 | test_integration.py | 72 | CSRF, XSS, force brute, contrôle d'accès, API REST, RGPD, multilingue, formulaires |
 | test_scraper.py | 11 | Protection SSRF du pré-remplissage par lien, limite d'appels, affichage des erreurs |
-| test_images.py | 12 | Validation des photos envoyées, priorité photo / image externe / vignette du marchand |
+| test_images.py | 13 | Validation des photos envoyées, priorité photo / image externe / vignette du marchand |
+| test_comments.py | 5 | Commentaires traduits selon la langue de la page, repli sur l'original |
 
 ## API REST
 

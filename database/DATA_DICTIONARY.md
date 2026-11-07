@@ -28,6 +28,7 @@
 | `catalog_region` | régions | code · VARCHAR | 3 |
 | `deals_alert` | alertes | id · UUID | 0 |
 | `deals_comment` | commentaires | id · UUID | 14 |
+| `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 28 |
 | `deals_deal` | deals | id · UUID | 10 |
 | `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 14 |
 | `deals_vote` | votes | id · BIGINT auto | 32 |
@@ -160,7 +161,7 @@ Alerte par mot-clé : la fonctionnalité « ne rien manquer » du projet.
 - `alert_max_price_positive` — vérification : `(OR: ('max_price__isnull', True), ('max_price__gt', 0))`
 
 ### `deals_comment`
-Comment(id, deal, author, body, is_verified_purchase, created_at, deleted_at)
+Comment(id, deal, author, body, language, is_verified_purchase, created_at, deleted_at)
 
 | Colonne | Type | Null | Défaut | Contraintes et rôle |
 |---|---|---|---|---|
@@ -168,9 +169,24 @@ Comment(id, deal, author, body, is_verified_purchase, created_at, deleted_at)
 | `deal_id` | FK | non | — | indexée · → `deals_deal` · `CASCADE` |
 | `author_id` | FK | non | — | indexée · → `accounts_user` · `PROTECT` · _bloque la suppression physique du parent_ |
 | `body` | TEXT | non | — | — |
+| `language` | VARCHAR(5) | non | `fr` | valeurs : `fr`, `nl`, `de` |
 | `is_verified_purchase` | BOOLEAN | non | `False` | — |
 | `created_at` | TIMESTAMP | non | — | indexée |
 | `deleted_at` | TIMESTAMP | oui | — | — |
+
+### `deals_commenttranslation`
+Commentaire dans une autre langue. Même modèle que DealTranslation : une ligne par langue, unicité (commentaire, langue) garantie par la base. Les traductions sont ajoutées par la modération dans le back-office.
+
+| Colonne | Type | Null | Défaut | Contraintes et rôle |
+|---|---|---|---|---|
+| `id` | BIGINT auto | non | auto | **clé primaire** |
+| `comment_id` | FK | non | — | indexée · → `deals_comment` · `CASCADE` |
+| `language` | VARCHAR(5) | non | — | valeurs : `fr`, `nl`, `de` |
+| `body` | TEXT | non | — | — |
+| `is_machine_translated` | BOOLEAN | non | `False` | À cocher tant qu'un humain n'a pas relu le texte. |
+
+**Contraintes de table**
+- `uniq_comment_language` — unicité sur `comment`, `language`
 
 ### `deals_deal`
 Deal(id, title, slug, description, image, image_url, external_url, price, reference_price, currency, shipping_cost, merchant, category, submitted_by, status, is_cross_border, language, starts_at, ends_at, published_at, temperature, created_at, updated_at, deleted_at)
@@ -392,4 +408,4 @@ Le comportement de suppression est choisi champ par champ, jamais laissé par d�
 
 ---
 
-_Schéma : 29 tables, moteur `sqlite`._
+_Schéma : 30 tables, moteur `sqlite`._

@@ -1,7 +1,15 @@
 from django.contrib import admin, messages
 from django.utils.translation import gettext_lazy as _
 
-from .models import Alert, Comment, Deal, DealStatus, DealTranslation, Vote
+from .models import (
+    Alert,
+    Comment,
+    CommentTranslation,
+    Deal,
+    DealStatus,
+    DealTranslation,
+    Vote,
+)
 
 
 class DealTranslationInline(admin.StackedInline):
@@ -71,12 +79,18 @@ class DealAdmin(admin.ModelAdmin):
         return False
 
 
+class CommentTranslationInline(admin.TabularInline):
+    model = CommentTranslation
+    extra = 0
+
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ("author", "deal", "created_at", "deleted_at")
-    list_filter = ("created_at", "is_verified_purchase")
+    list_display = ("author", "deal", "language", "created_at", "deleted_at")
+    list_filter = ("language", "created_at", "is_verified_purchase")
     search_fields = ("body", "author__display_name", "deal__title")
     autocomplete_fields = ("deal", "author")
+    inlines = [CommentTranslationInline]
 
     def has_delete_permission(self, request, obj=None):
         return False
