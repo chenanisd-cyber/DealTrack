@@ -7,6 +7,8 @@ description = "Plateforme communautaire de bons plans pour la Belgique"
 requires-python = ">=3.11"
 
 [tool.ruff]
+# Le code Python vit dans backend/ : ruff y résout les imports « apps » et « config ».
+src = ["backend"]
 line-length = 96
 target-version = "py311"
 exclude = [
@@ -34,20 +36,20 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 # Mots de passe en dur : ce sont des fixtures de test, pas des secrets.
-"tests/*" = ["S105", "S106"]
+"backend/tests/*" = ["S105", "S106"]
 # Les réglages par environnement importent volontairement en étoile.
-"config/settings/prod.py" = ["F403", "F405"]
+"backend/config/settings/prod.py" = ["F403", "F405"]
 # Données de démonstration : `random` sert à varier un jeu d'essai, pas à
 # produire du secret. Les longues chaînes descriptives dépassent la marge et
 # les couper nuirait à leur relecture.
 # La forme dict(titre=…, prix=…) se relit mieux que des clés entre guillemets
 # pour des enregistrements, d'où C408.
-"apps/catalog/management/commands/seed_demo.py" = ["S311", "E501", "S105", "S106", "C408"]
+"backend/apps/catalog/management/commands/seed_demo.py" = ["S311", "E501", "S105", "S106", "C408"]
 # Outillage local : URL construite depuis un argument, appel à msgfmt.
-"scripts/*" = ["S310", "S603", "S607", "S105", "S106", "E501"]
+"backend/scripts/*" = ["S310", "S603", "S607", "S105", "S106", "E501"]
 # Clés de développement, jamais employées ailleurs : prod.py exige l'environnement.
-"config/settings/dev.py" = ["F403", "F405", "S105"]
-"config/settings/test.py" = ["F403", "F405", "S105"]
+"backend/config/settings/dev.py" = ["F403", "F405", "S105"]
+"backend/config/settings/test.py" = ["F403", "F405", "S105"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["apps", "config"]
@@ -57,7 +59,7 @@ quote-style = "double"
 indent-style = "space"
 
 [tool.coverage.run]
-source = ["apps"]
+source = ["backend/apps"]
 omit = ["*/migrations/*", "*/tests/*", "*/apps.py"]
 
 [tool.coverage.report]

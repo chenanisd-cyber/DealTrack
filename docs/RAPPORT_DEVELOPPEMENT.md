@@ -421,7 +421,7 @@ garantie**.
 
 ### 5.4 Tests fonctionnels
 
-**API en direct** — `scripts/api_demo.py` exécute 13 scénarios contre un
+**API en direct** — `backend/scripts/api_demo.py` exécute 13 scénarios contre un
 serveur réel et compare le code obtenu au code attendu. Résultat : 21 contrôles
 conformes, 0 écart.
 

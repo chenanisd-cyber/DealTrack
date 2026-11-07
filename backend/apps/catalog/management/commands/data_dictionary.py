@@ -3,7 +3,7 @@ Génère le dictionnaire de données à partir du schéma réel.
 
 Écrire ce document à la main garantit qu'il diverge du code à la première
 migration. En le dérivant de l'introspection Django, il reste exact par
-construction : `python3 manage.py data_dictionary > docs/DATA_DICTIONARY.md`.
+construction : `python3 manage.py data_dictionary > ../database/DATA_DICTIONARY.md`.
 """
 
 from django.apps import apps

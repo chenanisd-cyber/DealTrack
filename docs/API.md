@@ -11,6 +11,7 @@ Format d'échange : JSON. Encodage : UTF-8.
 ## Démarrage rapide
 
 ```bash
+cd backend
 python3 manage.py runserver          # terminal 1
 python3 scripts/api_demo.py          # terminal 2
 ```
@@ -324,7 +325,7 @@ Toute erreur suit la même enveloppe :
 {"error": {"code": "…", "trace_id": "…", "detail": {…}}}
 ```
 
-Le `trace_id` rapproche la réponse et la ligne de `logs/dealtrack.log`. Aucune
+Le `trace_id` rapproche la réponse et la ligne de `backend/logs/dealtrack.log`. Aucune
 trace d'exécution n'est jamais renvoyée au client.
 
 ---

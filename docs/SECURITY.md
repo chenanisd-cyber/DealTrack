@@ -309,8 +309,8 @@ lecture seule et la page téléchargée n'est jamais renvoyée au client.
 
 | Fichier | Contenu | Rotation |
 |---|---|---|
-| `logs/dealtrack.log` | applicatif, erreurs 500 avec trace | 5 Mo × 5 |
-| `logs/security.log` | authentification, refus d'accès, CSRF, audit métier | 5 Mo × 10 |
+| `backend/logs/dealtrack.log` | applicatif, erreurs 500 avec trace | 5 Mo × 5 |
+| `backend/logs/security.log` | authentification, refus d'accès, CSRF, audit métier | 5 Mo × 10 |
 
 **Trois niveaux de trace.**
 

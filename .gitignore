@@ -3,12 +3,13 @@
 *.pem
 
 # Base de données locale et journaux
+database/db.sqlite3
+database/db.sqlite3-*
 db.sqlite3
-db.sqlite3-*
 # Le dossier logs/ est versionné (via .gitkeep) mais pas son contenu :
 # l'application échouerait au démarrage s'il n'existait pas.
-logs/*
-!logs/.gitkeep
+backend/logs/*
+!backend/logs/.gitkeep
 *.log
 
 # Python

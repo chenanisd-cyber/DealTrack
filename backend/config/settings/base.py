@@ -13,7 +13,14 @@ from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext_lazy as _
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+# Le dépôt est découpé en trois dossiers :
+#   backend/   code Python (Django) : config/, apps/, tests/, scripts/
+#   frontend/  ce que voit le navigateur : templates/, static/, locale/
+#   database/  base SQLite locale, PostgreSQL (Docker), dictionnaire de données
+BASE_DIR = Path(__file__).resolve().parent.parent.parent  # → backend/
+PROJECT_DIR = BASE_DIR.parent  # → racine du dépôt
+FRONTEND_DIR = PROJECT_DIR / "frontend"
+DATABASE_DIR = PROJECT_DIR / "database"
 
 
 def env(name, default=None, required=False):
@@ -72,7 +79,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [FRONTEND_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -93,7 +100,7 @@ TEMPLATES = [
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": DATABASE_DIR / "db.sqlite3",
         "OPTIONS": {"transaction_mode": "IMMEDIATE"},
     }
 }
@@ -182,7 +189,7 @@ LANGUAGES = [
     ("nl", _("Nederlands")),
     ("de", _("Deutsch")),
 ]
-LOCALE_PATHS = [BASE_DIR / "locale"]
+LOCALE_PATHS = [FRONTEND_DIR / "locale"]
 USE_I18N = True
 USE_TZ = True
 TIME_ZONE = "Europe/Brussels"
@@ -194,8 +201,8 @@ LANGUAGE_COOKIE_SAMESITE = "Lax"
 # Fichiers statiques
 # --------------------------------------------------------------------------
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [FRONTEND_DIR / "static"]
+STATIC_ROOT = PROJECT_DIR / "staticfiles"
 
 # --------------------------------------------------------------------------
 # API REST

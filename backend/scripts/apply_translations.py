@@ -15,7 +15,8 @@ import polib
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from translations import CATALOGUES  # noqa: E402
 
-BASE = Path(__file__).resolve().parent.parent
+BASE = Path(__file__).resolve().parent.parent  # → backend/
+LOCALE_DIR = BASE.parent / "frontend" / "locale"
 
 
 def normalise(text):
@@ -24,7 +25,7 @@ def normalise(text):
 
 
 def apply_language(code, mapping):
-    path = BASE / "locale" / code / "LC_MESSAGES" / "django.po"
+    path = LOCALE_DIR / code / "LC_MESSAGES" / "django.po"
     catalogue = polib.pofile(str(path))
 
     lookup = {normalise(k): v for k, v in mapping.items()}

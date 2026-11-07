@@ -29,6 +29,7 @@
 | `deals_alert` | alertes | id · UUID | 0 |
 | `deals_comment` | commentaires | id · UUID | 14 |
 | `deals_deal` | deals | id · UUID | 10 |
+| `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 14 |
 | `deals_vote` | votes | id · BIGINT auto | 32 |
 | `payments_payment` | paiements | id · UUID | 4 |
 | `payments_plan` | formules | id · UUID | 2 |
@@ -170,7 +171,7 @@ Comment(id, deal, author, body, is_verified_purchase, created_at, deleted_at)
 | `deleted_at` | TIMESTAMP | oui | — | — |
 
 ### `deals_deal`
-Deal(id, title, slug, description, external_url, price, reference_price, currency, shipping_cost, merchant, category, submitted_by, status, is_cross_border, language, starts_at, ends_at, published_at, temperature, created_at, updated_at, deleted_at)
+Deal(id, title, slug, description, image_url, external_url, price, reference_price, currency, shipping_cost, merchant, category, submitted_by, status, is_cross_border, language, starts_at, ends_at, published_at, temperature, created_at, updated_at, deleted_at)
 
 | Colonne | Type | Null | Défaut | Contraintes et rôle |
 |---|---|---|---|---|
@@ -178,6 +179,7 @@ Deal(id, title, slug, description, external_url, price, reference_price, currenc
 | `title` | VARCHAR(140) | non | — | — |
 | `slug` | VARCHAR (slug)(160) | non | — | unique |
 | `description` | TEXT | non | — | — |
+| `image_url` | VARCHAR(800) | non | — | — |
 | `external_url` | VARCHAR(600) | non | — | — |
 | `price` | DECIMAL(10,2) | non | — | — |
 | `reference_price` | DECIMAL(10,2) | oui | — | Prix le plus bas pratiqué par le marchand durant les 30 jours précédents (Code de droit économique, art. VI.18). |
@@ -206,6 +208,21 @@ Deal(id, title, slug, description, external_url, price, reference_price, currenc
 - `deal_published_requires_date` — vérification : `(OR: (NOT (AND: ('status', 'published'))), ('published_at__isnull', False))`
 
 **Index** : `deal_status_pub_idx`, `deal_merchant_status_idx`
+
+### `deals_dealtranslation`
+Titre et description d'une offre dans une autre langue.
+
+| Colonne | Type | Null | Défaut | Contraintes et rôle |
+|---|---|---|---|---|
+| `id` | BIGINT auto | non | auto | **clé primaire** |
+| `deal_id` | FK | non | — | indexée · → `deals_deal` · `CASCADE` |
+| `language` | VARCHAR(5) | non | — | valeurs : `fr`, `nl`, `de` |
+| `title` | VARCHAR(140) | non | — | — |
+| `description` | TEXT | non | — | — |
+| `is_machine_translated` | BOOLEAN | non | `False` | À cocher tant qu'un humain n'a pas relu le texte. |
+
+**Contraintes de table**
+- `uniq_deal_language` — unicité sur `deal`, `language`
 
 ### `deals_vote`
 Un vote par membre et par deal. La contrainte d'unicité est portée par la base : c'est la seule couche que deux requêtes concurrentes ne peuvent pas contourner.
@@ -372,4 +389,4 @@ Le comportement de suppression est choisi champ par champ, jamais laissé par d�
 
 ---
 
-_Schéma : 28 tables, moteur `sqlite`._
+_Schéma : 29 tables, moteur `sqlite`._

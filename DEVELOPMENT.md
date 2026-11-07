@@ -4,7 +4,7 @@
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 pip install ruff polib          # outillage, hors production
 
 make reset                      # base vierge + données de démonstration
@@ -21,10 +21,11 @@ configurations de débogage sont fournies (F5), dont « test sous le curseur ».
 
 **PyCharm** — ouvrez le dossier racine, puis :
 1. *Settings → Languages & Frameworks → Django* : cocher « Enable Django Support »,
-   racine = le dossier du projet, settings = `config/settings/dev.py`,
-   manage script = `manage.py`.
-2. *Project Structure* : marquer `templates` comme *Template folder* et
-   `static` comme *Resource root*.
+   racine = `backend/`, settings = `config/settings/dev.py`,
+   manage script = `backend/manage.py`.
+2. *Project Structure* : marquer `backend` comme *Sources root*,
+   `frontend/templates` comme *Template folder* et `frontend/static` comme
+   *Resource root*.
 3. Deux configurations d'exécution sont déjà présentes dans
    `.idea/runConfigurations/`.
 
@@ -64,9 +65,21 @@ les hooks : `pre-commit install`.
 **Commentaires** — expliquer une décision, jamais paraphraser le code.
 Un commentaire qui répète la ligne suivante est du bruit.
 
+## Organisation du dépôt
+
+| Dossier | Contenu | On y travaille pour… |
+|---|---|---|
+| `backend/` | Django : réglages, applications, tests, scripts | la logique métier, la sécurité, l'API |
+| `frontend/` | gabarits HTML, CSS, traductions | l'apparence et les textes |
+| `database/` | SQLite, PostgreSQL (Docker), dictionnaire de données | la base et sa documentation |
+
+Les commandes `python3 manage.py …` se lancent depuis `backend/`. Les cibles
+du `Makefile` se lancent depuis la racine et s'en chargent.
+
 ## Ajouter un champ à un modèle
 
 ```bash
+cd backend
 # 1. modifier le modèle
 # 2. générer la migration
 python3 manage.py makemigrations <app>
@@ -83,9 +96,10 @@ migrations divergent.
 ## Ajouter une langue
 
 ```bash
-python3 manage.py makemessages -l es
-# ajouter le dictionnaire ES dans scripts/translations.py
-python3 scripts/apply_translations.py
+# depuis la racine : makemessages parcourt backend/ ET frontend/
+python3 backend/manage.py makemessages -l es -i ".venv/*"
+# ajouter le dictionnaire ES dans backend/scripts/translations.py
+python3 backend/scripts/apply_translations.py
 ```
 
 Puis déclarer la langue dans `LANGUAGES` (`config/settings/base.py`). Les
@@ -95,12 +109,13 @@ catégorie, aucune migration nécessaire.
 ## Tests
 
 ```bash
-make test                                              # les 101
+make test                                              # les 124
+cd backend
 python3 manage.py test tests.test_unit --settings=config.settings.test
 python3 manage.py test tests.test_integration.ApiTests --settings=config.settings.test
 ```
 
-Les fabriques sont dans `tests/factories.py`. `seed_reference_data()` crée le
+Les fabriques sont dans `backend/tests/factories.py`. `seed_reference_data()` crée le
 minimum de référentiels ; `make_user`, `make_deal` et `make_merchant` produisent
 des objets valides qu'on surcharge par mots-clés.
 
@@ -115,16 +130,16 @@ SQLite convient au quotidien, mais certaines contraintes se comportent
 différemment. Pour vérifier :
 
 ```bash
-docker compose up -d
+docker compose -f database/docker-compose.yml up -d
 cp .env.example .env       # renseigner POSTGRES_*
-DJANGO_SETTINGS_MODULE=config.settings.prod python3 manage.py migrate
+cd backend && DJANGO_SETTINGS_MODULE=config.settings.prod python3 manage.py migrate
 ```
 
 ## Pour aller plus loin
 
 | Sujet | Document |
 |---|---|
-| Schéma détaillé | `docs/DATA_DICTIONARY.md` |
+| Schéma détaillé | `database/DATA_DICTIONARY.md` |
 | Sécurité, couche par couche | `docs/SECURITY.md` |
 | Points d'entrée de l'API | `docs/API.md` |
 | RGPD et droit belge | `docs/LEGAL_GDPR.md` |

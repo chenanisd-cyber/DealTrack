@@ -304,7 +304,7 @@ heure sert accessoirement à faire obstacle à l'extraction systématique.
 | Sécurité du traitement (art. 32) | ✅ | `SECURITY.md` |
 | Contrôle de l'annonce de réduction | ✅ | contrainte + validation + interface |
 | Facturation numérotée avec TVA distincte | ✅ | `Payment.next_reference` |
-| Trilinguisme du front-office | ✅ | `locale/` |
+| Trilinguisme du front-office | ✅ | `frontend/locale/` |
 | Signalement et modération tracée | ✅ | `Report`, `ModerationDecision` |
 | Renonciation expresse au droit de rétractation | ⚠️ mentionnée, pas recueillie | `payments/subscribe.html` |
 | Divulgation des liens d'affiliation | ❌ à implémenter | — |

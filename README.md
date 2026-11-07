@@ -33,24 +33,43 @@ annonce de réduction, conservation des pièces comptables, droit à l'oubli.
 
 ## Structure du projet
 
+Le dépôt est découpé en trois parties, chacune avec son propre README :
+
 ```
-config/                     # Réglages Django (base, dev, test, prod)
-apps/
-    accounts/               # Utilisateurs, rôles, RGPD
-    catalog/                # Régions, catégories, marchands
-    deals/                  # Offres, votes, commentaires, alertes
-    payments/               # Formules, paiements, abonnements
-    moderation/             # Journal d'audit, décisions, signalements
-    api/                    # API REST (sérialiseurs, vues, permissions)
-templates/                  # Gabarits HTML
-static/css/                 # Feuille de style
-locale/                     # Traductions néerlandaises et allemandes
-tests/                      # Tests unitaires et d'intégration
-scripts/                    # Démonstration API, traductions, Postman
-docs/                       # Documentation technique
-requirements.txt            # Dépendances Python
-manage.py                   # Commandes Django
+DealTrack/
+├── backend/                    # Serveur : logique métier, sécurité, API (Python / Django)
+│   ├── manage.py               # Point d'entrée des commandes Django
+│   ├── requirements.txt        # Dépendances Python
+│   ├── config/                 # Réglages (base, dev, test, prod), URL racines
+│   ├── apps/
+│   │   ├── accounts/           # Utilisateurs, rôles, RGPD
+│   │   ├── catalog/            # Régions, catégories, marchands
+│   │   ├── deals/              # Offres, votes, commentaires, alertes
+│   │   ├── payments/           # Formules, paiements, abonnements
+│   │   ├── moderation/         # Journal d'audit, décisions, signalements
+│   │   └── api/                # API REST (sérialiseurs, vues, permissions)
+│   ├── tests/                  # Tests unitaires et d'intégration
+│   ├── scripts/                # Démonstration API, traductions, Postman
+│   └── logs/                   # Journaux applicatifs et de sécurité
+│
+├── frontend/                   # Interface : ce que le navigateur reçoit
+│   ├── templates/              # Gabarits HTML (Django templates)
+│   ├── static/css/             # Feuille de style
+│   └── locale/                 # Traductions néerlandaises et allemandes
+│
+├── database/                   # Données
+│   ├── DATA_DICTIONARY.md      # Dictionnaire de données (généré depuis le schéma)
+│   ├── docker-compose.yml      # PostgreSQL 16 local
+│   └── db.sqlite3              # Base SQLite de développement (non versionnée)
+│
+├── docs/                       # Documentation technique (API, sécurité, RGPD…)
+├── Makefile                    # Raccourcis : make run, make test…
+└── pyproject.toml              # Configuration de ruff
 ```
+
+Les modèles (tables) et les migrations restent dans `backend/apps/<module>/` :
+Django les lie à leur application. `database/` regroupe ce qui concerne la
+base elle-même : le fichier SQLite, PostgreSQL et la documentation du schéma.
 
 ## Installation et configuration
 
@@ -72,6 +91,7 @@ python -m venv .venv
 # ou
 source .venv/bin/activate    # Linux / Mac
 
+cd backend
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py seed_demo
@@ -86,6 +106,9 @@ Sous Windows, si PowerShell refuse le script d'activation :
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
+
+Toutes les commandes `python manage.py …` se lancent depuis le dossier
+`backend/`.
 
 ### Chargement des données de test
 
@@ -110,7 +133,7 @@ commande, un modérateur se connecte au back-office mais n'y voit rien :
 ### Réinitialisation
 
 ```bash
-rm db.sqlite3
+rm ../database/db.sqlite3
 python manage.py migrate
 python manage.py seed_demo
 python manage.py setup_roles
@@ -164,25 +187,13 @@ Sept autres comptes membres existent, répartis sur les trois régions.
 python manage.py test tests --settings=config.settings.test
 ```
 
-101 tests : 41 unitaires et 60 d'intégration.
+124 tests, répartis en trois fichiers dans `backend/tests/` :
 
-| Catégorie | Nombre |
-|---|---|
-| Politique de mot de passe | 6 |
-| Validateur TVA belge | 4 |
-| Contraintes de base de données | 10 |
-| Logique de vote | 5 |
-| Suppression logique | 8 |
-| Paiement | 8 |
-| Règles métier | 6 |
-| Protection CSRF | 4 |
-| Protection XSS | 4 |
-| Force brute | 4 |
-| Contrôle d'accès | 12 |
-| API REST | 14 |
-| RGPD | 6 |
-| Multilingue | 8 |
-| Validation des formulaires | 8 |
+| Fichier | Tests | Contenu |
+|---|---|---|
+| test_unit.py | 41 | Mots de passe, TVA belge, contraintes de base, vote, suppression logique, paiement |
+| test_integration.py | 72 | CSRF, XSS, force brute, contrôle d'accès, API REST, RGPD, multilingue, formulaires |
+| test_scraper.py | 11 | Protection SSRF du pré-remplissage par lien, limite d'appels, affichage des erreurs |
 
 ## API REST
 
@@ -210,7 +221,7 @@ Démonstration en ligne de commande, avec le serveur démarré dans un autre
 terminal :
 
 ```bash
-python scripts/api_demo.py
+python scripts/api_demo.py      # depuis backend/
 ```
 
 ## Commandes de gestion
@@ -237,8 +248,7 @@ python scripts/api_demo.py
 
 ## Base de données
 
-16 tables, 140 colonnes, 24 clés étrangères, 19 contraintes CHECK et 13
-contraintes d'unicité.
+16 tables, avec clés étrangères, contraintes CHECK et contraintes d'unicité.
 
 Trois stratégies de clé primaire sont employées :
 
@@ -246,16 +256,14 @@ Trois stratégies de clé primaire sont employées :
 - code NUTS-1 pour les régions (BE1, BE2, BE3),
 - BigAutoField pour les tables en ajout seul.
 
-Le détail figure dans `docs/RAPPORT_BASE_DE_DONNEES.md`.
+Le détail figure dans `database/DATA_DICTIONARY.md` (régénéré par `make dict`).
 
 ## Documentation
 
 | Fichier | Contenu |
 |---|---|
-| docs/MANUEL_UTILISATEUR.md | Configuration requise, installation, utilisation par rôle |
 | docs/RAPPORT_DEVELOPPEMENT.md | Plan de programmation, modules, choix techniques, difficultés |
-| docs/RAPPORT_BASE_DE_DONNEES.md | Schéma, clés primaires, normalisation, intégrité |
-| docs/DATA_DICTIONARY.md | Dictionnaire de données généré depuis le schéma |
+| database/DATA_DICTIONARY.md | Dictionnaire de données généré depuis le schéma |
 | docs/SECURITY.md | Protections mises en œuvre |
 | docs/API.md | Documentation de l'API |
 | docs/LEGAL_GDPR.md | RGPD et droit belge |

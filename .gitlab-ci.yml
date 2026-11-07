@@ -9,7 +9,7 @@ cache:
 
 before_script:
   - pip install --upgrade pip
-  - pip install -r requirements.txt
+  - pip install -r backend/requirements.txt
   - pip install ruff
 
 stages: [qualite, test, demonstration]
@@ -25,7 +25,7 @@ migrations:
   variables:
     DJANGO_SETTINGS_MODULE: config.settings.dev
   script:
-    - python manage.py makemigrations --check --dry-run
+    - cd backend && python manage.py makemigrations --check --dry-run
 
 deploiement:
   stage: qualite
@@ -37,18 +37,19 @@ deploiement:
     EMAIL_HOST: smtp.example.be
   script:
     - export DJANGO_SECRET_KEY=$(python -c "import secrets; print(secrets.token_urlsafe(64))")
-    - python manage.py check --deploy --settings=config.settings.prod
+    - cd backend && python manage.py check --deploy --settings=config.settings.prod
 
 tests:
   stage: test
   script:
-    - python manage.py test tests --settings=config.settings.test
+    - cd backend && python manage.py test tests --settings=config.settings.test
 
 demonstration:
   stage: demonstration
   variables:
     DJANGO_SETTINGS_MODULE: config.settings.dev
   script:
+    - cd backend
     - python manage.py migrate
     - python manage.py seed_demo
     - python manage.py demo_soft_delete --anonymise

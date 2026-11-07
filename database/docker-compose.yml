@@ -2,7 +2,7 @@
 # SQLite suffit pour démarrer ; ce fichier sert quand on veut vérifier le
 # comportement réel des contraintes CHECK et des types UUID/JSONB natifs.
 #
-#   docker compose up -d
+#   docker compose -f database/docker-compose.yml up -d   (depuis la racine)
 #   export DJANGO_SETTINGS_MODULE=config.settings.prod   (avec .env renseigné)
 
 services:

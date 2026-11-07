@@ -462,11 +462,11 @@ def main():
         ],
     }
 
-    out = BASE / "docs" / "DealTrack.postman_collection.json"
+    out = BASE.parent / "docs" / "DealTrack.postman_collection.json"
     out.write_text(json.dumps(collection, ensure_ascii=False, indent=2), encoding="utf-8")
 
     total = sum(len(g["item"]) for g in collection["item"])
-    print(f"Collection écrite : {out.relative_to(BASE)}")
+    print(f"Collection écrite : {out.relative_to(BASE.parent)}")
     print(f"  {len(collection['item'])} dossiers, {total} requêtes")
     for group in collection["item"]:
         print(f"    {group['name']:.<44} {len(group['item'])} requêtes")
