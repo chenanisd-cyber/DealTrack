@@ -17,11 +17,13 @@
     <section class="panel">
       <div class="field">
         <label class="field__label" for="magic-url-input">{% trans "Lien de l'offre" %}</label>
-        <input type="url" id="magic-url-input" placeholder="https://..." maxlength="800" required
-               style="width: 100%; padding: 12px; border-radius: 4px; border: 1px solid var(--dt-border); font-size: 16px;">
+        <div class="linkbox">
+          <input type="url" id="magic-url-input" class="input" placeholder="https://www.amazon.com.be/dp/..." maxlength="800" required autofocus>
+          <button type="button" id="btn-fetch-data" class="cta">{% trans "Vérifier le lien" %}</button>
+        </div>
+        <p class="field__hint">{% trans "Collez le lien : titre, prix, photo et marchand sont récupérés automatiquement." %}</p>
         <p id="url-error" class="field__hint" style="color:var(--dt-hot)" hidden></p>
       </div>
-      <button type="button" id="btn-fetch-data" class="cta is-block">{% trans "Vérifier le lien" %}</button>
       <p id="scrape-status" style="color: var(--dt-warn); margin-top: 12px; text-align: center;" hidden>
         {% trans "Extraction des données en cours..." %}
       </p>
@@ -37,6 +39,16 @@
     <p style="color:var(--dt-ink-2)">{% trans "Chaque publication passe par la modération avant d'apparaître dans le flux." %}</p>
 
     <p id="scrape-warning" class="moderation" style="background:var(--dt-warn-bg);color:var(--dt-warn);margin-bottom:16px" hidden></p>
+
+    {# Aperçu de ce que le lien a permis de récupérer #}
+    <div id="scrape-preview" class="scrapepreview" hidden>
+      <img id="preview-img" alt="" referrerpolicy="no-referrer" hidden>
+      <div>
+        <strong id="preview-title"></strong>
+        <p id="preview-price" class="scrapepreview__price"></p>
+        <p id="preview-found" class="field__hint"></p>
+      </div>
+    </div>
 
     <div class="moderation" style="background:var(--dt-warn-bg);color:var(--dt-warn);margin-bottom:16px">
       <div>
@@ -63,7 +75,19 @@
       invalid: "{% trans 'Veuillez entrer un lien valide (http:// ou https://).' as m %}{{ m|escapejs }}",
       failed: "{% trans 'Impossible de lire cette page : complétez le formulaire vous-même.' as m %}{{ m|escapejs }}",
       refused: "{% trans 'Ce lien a été refusé. Seules les pages web publiques sont acceptées.' as m %}{{ m|escapejs }}",
-      tooMany: "{% trans 'Trop de vérifications en peu de temps. Réessayez dans une minute.' as m %}{{ m|escapejs }}"
+      tooMany: "{% trans 'Trop de vérifications en peu de temps. Réessayez dans une minute.' as m %}{{ m|escapejs }}",
+      blocked: "{% trans 'Ce site bloque la lecture automatique : complétez les champs vous-même, le lien est déjà renseigné.' as m %}{{ m|escapejs }}",
+      found: "{% trans 'Récupéré automatiquement :' as m %}{{ m|escapejs }}",
+      missing: "{% trans 'À compléter :' as m %}{{ m|escapejs }}",
+      check: "{% trans 'Vérifiez avant d’envoyer.' as m %}{{ m|escapejs }}",
+      fields: {
+        title: "{% trans 'titre' as m %}{{ m|escapejs }}",
+        price: "{% trans 'prix' as m %}{{ m|escapejs }}",
+        reference: "{% trans 'prix de référence (30 jours)' as m %}{{ m|escapejs }}",
+        photo: "{% trans 'photo' as m %}{{ m|escapejs }}",
+        merchant: "{% trans 'marchand' as m %}{{ m|escapejs }}",
+        description: "{% trans 'description' as m %}{{ m|escapejs }}"
+      }
     };
 
     const step1 = document.getElementById("step1-link");
@@ -88,6 +112,52 @@
         warning.hidden = false;
       }
     }
+
+    function showPreview(data) {
+      const found = [], missing = [];
+      const add = function (ok, key) { (ok ? found : missing).push(MSG.fields[key]); };
+      add(data.title, "title");
+      add(data.price, "price");
+      add(data.reference_price, "reference");
+      add(data.image_url, "photo");
+      add(data.merchant_id, "merchant");
+      add(data.description, "description");
+
+      const img = document.getElementById("preview-img");
+      img.hidden = !data.image_url;
+      if (data.image_url) img.src = data.image_url;
+      document.getElementById("preview-title").textContent = data.title || "";
+      document.getElementById("preview-price").textContent =
+        (data.price ? data.price.replace(".", ",") + " €" : "") +
+        (data.merchant_name ? " · " + data.merchant_name : "");
+      document.getElementById("preview-found").textContent =
+        MSG.found + " " + (found.join(", ") || "—") + ". " +
+        (missing.length ? MSG.missing + " " + missing.join(", ") + ". " : "") + MSG.check;
+      document.getElementById("scrape-preview").hidden = false;
+    }
+
+    function fillForm(data) {
+      setValue("id_title", data.title);
+      setValue("id_image_url", data.image_url);
+      setValue("id_price", data.price);
+      setValue("id_reference_price", data.reference_price);
+      setValue("id_merchant", data.merchant_id);
+      // La description du marchand n'est qu'un point de départ (30 caractères minimum).
+      const description = document.getElementById("id_description");
+      if (description && !description.value && data.description && data.description.length >= 30) {
+        description.value = data.description;
+      }
+      const crossBorder = document.getElementById("id_is_cross_border");
+      if (crossBorder && data.is_cross_border) crossBorder.checked = true;
+    }
+
+    // Comme sur les grands sites de deals : coller un lien lance la vérification.
+    urlInput.addEventListener("paste", function () {
+      setTimeout(function () { if (/^https?:\/\//i.test(urlInput.value.trim())) button.click(); }, 50);
+    });
+    urlInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { e.preventDefault(); button.click(); }
+    });
 
     document.getElementById("skip-link").addEventListener("click", function (e) {
       e.preventDefault();
@@ -120,8 +190,10 @@
         .then(function (data) {
           if (data.success) {
             showForm(url, "");
-            setValue("id_title", data.title);
-            setValue("id_image_url", data.image_url);
+            fillForm(data);
+            showPreview(data);
+          } else if (data.error === "blocked") {
+            showForm(url, MSG.blocked);
           } else if (data.error === "unsafe_url") {
             urlError.textContent = MSG.refused;
             urlError.hidden = false;

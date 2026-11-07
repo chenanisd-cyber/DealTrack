@@ -23,9 +23,17 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Merchant)
 class MerchantAdmin(admin.ModelAdmin):
-    list_display = ("name", "country", "is_local_independent", "is_verified", "vat_number")
-    list_filter = ("country", "is_local_independent", "is_verified")
-    search_fields = ("name", "vat_number", "slug")
+    list_display = (
+        "name",
+        "country",
+        "city",
+        "shop_type",
+        "is_local_independent",
+        "is_verified",
+        "vat_number",
+    )
+    list_filter = ("country", "is_local_independent", "is_verified", "city", "shop_type")
+    search_fields = ("name", "vat_number", "slug", "city", "address")
     prepopulated_fields = {"slug": ("name",)}
 
 

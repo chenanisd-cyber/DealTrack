@@ -22,7 +22,16 @@ urlpatterns += i18n_patterns(
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG or getattr(settings, "SERVE_MEDIA", False):
+    # static() ne fait rien hors DEBUG : en mode partage on sert les photos
+    # explicitement (django.views.static.serve refuse les chemins « ../ »).
+    from django.urls import re_path
+    from django.views.static import serve
+
+    urlpatterns += [
+        re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
+    ]
 
 handler403 = "apps.deals.views.forbidden"
 handler404 = "apps.deals.views.not_found"

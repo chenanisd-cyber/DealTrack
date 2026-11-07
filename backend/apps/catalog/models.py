@@ -129,6 +129,22 @@ class CategoryTranslation(models.Model):
         return f"{self.category.slug} [{self.language}]"
 
 
+# Types de commerce OpenStreetMap (clé « shop ») retenus pour l'annuaire.
+SHOP_TYPES = {
+    "bakery": _("Boulangerie"),
+    "pastry": _("Pâtisserie"),
+    "butcher": _("Boucherie"),
+    "cheese": _("Fromagerie"),
+    "deli": _("Épicerie fine"),
+    "greengrocer": _("Primeur"),
+    "wine": _("Caviste"),
+    "coffee": _("Café et torréfaction"),
+    "chocolate": _("Chocolatier"),
+    "books": _("Librairie"),
+    "bicycle": _("Vélos"),
+}
+
+
 class Merchant(models.Model):
     """
     Enseigne chez qui le deal est disponible.
@@ -188,6 +204,25 @@ class Merchant(models.Model):
         ],
         help_text=_("Fond de la vignette affichée à la place de la photo."),
     )
+    # -- Commerçants locaux (annuaire alimenté par OpenStreetMap) -----------
+    shop_type = models.CharField(
+        _("type de commerce"), max_length=30, blank=True, help_text=_("Valeur OSM « shop ».")
+    )
+    address = models.CharField(_("adresse"), max_length=200, blank=True)
+    city = models.CharField(_("ville"), max_length=80, blank=True, db_index=True)
+    latitude = models.DecimalField(
+        _("latitude"), max_digits=9, decimal_places=6, null=True, blank=True
+    )
+    longitude = models.DecimalField(
+        _("longitude"), max_digits=9, decimal_places=6, null=True, blank=True
+    )
+    osm_id = models.BigIntegerField(
+        _("identifiant OpenStreetMap"),
+        null=True,
+        blank=True,
+        unique=True,
+        help_text=_("Évite les doublons lors d'un nouvel import."),
+    )
     created_at = models.DateTimeField(_("créée le"), auto_now_add=True)
 
     class Meta:
@@ -209,6 +244,14 @@ class Merchant(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def shop_type_label(self):
+        return SHOP_TYPES.get(self.shop_type, "")
+
+    @property
+    def osm_url(self):
+        return f"https://www.openstreetmap.org/node/{self.osm_id}" if self.osm_id else ""
 
     @property
     def brand_text_color(self):

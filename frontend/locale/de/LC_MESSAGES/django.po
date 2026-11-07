@@ -1588,3 +1588,237 @@ msgstr "Übersetzt — Original auf %(lang)s"
 #, python-format
 msgid "Commentaire rédigé en %(lang)s"
 msgstr "Kommentar verfasst auf %(lang)s"
+
+#: templates
+msgid "Partager sur WhatsApp"
+msgstr "Über WhatsApp teilen"
+
+#: templates
+msgid "Partager"
+msgstr "Teilen"
+
+#: templates
+msgid "Lien copié !"
+msgstr "Link kopiert!"
+
+#: templates
+msgid "Copier le lien"
+msgstr "Link kopieren"
+
+#: templates
+msgid "Brûlant"
+msgstr "Brandheiß"
+
+#: templates
+msgid "Nouveau"
+msgstr "Neu"
+
+#: templates
+msgid "Les commerçants indépendants de votre région et leurs bons plans."
+msgstr "Die unabhängigen Händler Ihrer Region und ihre Angebote."
+
+#: templates
+msgid ""
+"Des commerces indépendants près de chez vous : boulangeries, fromageries, "
+"librairies, vélocistes… Vous connaissez une bonne affaire chez l'un d'eux ? "
+"Partagez-la."
+msgstr ""
+"Unabhängige Geschäfte in Ihrer Nähe: Bäckereien, Käsereien, Buchhandlungen, "
+"Fahrradläden… Sie kennen ein gutes Angebot bei einem davon? Teilen Sie es."
+
+#: templates
+msgid "Filtrer par ville"
+msgstr "Nach Stadt filtern"
+
+#: templates
+msgid "Toutes les villes"
+msgstr "Alle Städte"
+
+#: templates
+msgid "Bons plans chez les commerçants locaux"
+msgstr "Angebote bei lokalen Händlern"
+
+#: templates
+msgid "Site web"
+msgstr "Website"
+
+#: templates
+msgid "Voir sur la carte"
+msgstr "Auf der Karte ansehen"
+
+#: templates
+msgid "Proposer un deal ici"
+msgstr "Hier ein Angebot vorschlagen"
+
+#: templates
+msgid "Aucun commerçant local pour cette ville pour l'instant."
+msgstr "Noch keine lokalen Händler für diese Stadt."
+
+#: templates
+msgid "Annuaire construit à partir d'OpenStreetMap"
+msgstr "Verzeichnis auf Grundlage von OpenStreetMap"
+
+#: templates
+msgid "les contributeurs OpenStreetMap"
+msgstr "die OpenStreetMap-Mitwirkenden"
+
+#: templates
+msgid ""
+"Collez le lien : titre, prix, photo et marchand sont récupérés "
+"automatiquement."
+msgstr ""
+"Link einfügen: Titel, Preis, Foto und Händler werden automatisch übernommen."
+
+#: templates
+msgid ""
+"Ce site bloque la lecture automatique : complétez les champs vous-même, le "
+"lien est déjà renseigné."
+msgstr ""
+"Diese Website blockiert das automatische Auslesen: Bitte füllen Sie die "
+"Felder selbst aus, der Link ist bereits eingetragen."
+
+#: templates
+msgid "Récupéré automatiquement :"
+msgstr "Automatisch übernommen:"
+
+#: templates
+msgid "À compléter :"
+msgstr "Noch auszufüllen:"
+
+#: templates
+msgid "Vérifiez avant d’envoyer."
+msgstr "Bitte vor dem Absenden prüfen."
+
+#: templates
+msgid "prix de référence (30 jours)"
+msgstr "Referenzpreis (30 Tage)"
+
+#: templates
+msgid "Paiement"
+msgstr "Zahlung"
+
+#: templates
+msgid "Mode démonstration"
+msgstr "Demomodus"
+
+#: templates
+msgid ""
+"cette page remplace celle du prestataire de paiement. Aucun argent réel "
+"n'est débité."
+msgstr ""
+"diese Seite ersetzt die des Zahlungsdienstleisters. Es wird kein echtes Geld"
+" abgebucht."
+
+#: templates
+msgid "Payer avec l'application ou la carte Bancontact"
+msgstr "Mit der Bancontact-App oder -Karte bezahlen"
+
+#: templates
+msgid "Carte bancaire"
+msgstr "Bankkarte"
+
+#: templates
+msgid "carte de test 4242 4242 4242 4242"
+msgstr "Testkarte 4242 4242 4242 4242"
+
+#: templates
+msgid "Simuler un refus de la banque"
+msgstr "Ablehnung durch die Bank simulieren"
+
+#: templates
+msgid "Annuler et revenir"
+msgstr "Abbrechen und zurück"
+
+#: templates
+msgid "Total à payer"
+msgstr "Zu zahlender Betrag"
+
+#: templates
+msgid "Moyens de paiement acceptés"
+msgstr "Akzeptierte Zahlungsmittel"
+
+#: templates
+msgid "Paiement sécurisé par notre prestataire"
+msgstr "Sichere Zahlung über unseren Zahlungsdienstleister"
+
+#: templates
+msgid ""
+"Vous serez redirigé vers la page de paiement sécurisée du prestataire "
+"(HTTPS, 3D Secure). DealTrack ne voit et ne stocke jamais votre numéro de "
+"carte."
+msgstr ""
+"Sie werden auf die sichere Zahlungsseite des Dienstleisters weitergeleitet "
+"(HTTPS, 3D Secure). DealTrack sieht und speichert Ihre Kartennummer nie."
+
+#: templates
+msgid ""
+"Je demande que l'abonnement commence immédiatement et je reconnais perdre "
+"mon droit de rétractation de 14 jours une fois le service démarré (art. "
+"VI.53 CDE)."
+msgstr ""
+"Ich verlange den sofortigen Beginn des Abonnements und bestätige, dass ich "
+"mein 14-tägiges Widerrufsrecht mit Beginn der Leistung verliere (Art. VI.53 "
+"WGB)."
+
+#: templates
+msgid "Cochez la case pour confirmer le démarrage immédiat de l'abonnement."
+msgstr ""
+"Kreuzen Sie das Feld an, um den sofortigen Beginn des Abonnements zu "
+"bestätigen."
+
+#: templates
+#, python-format
+msgid "Paiement reçu : abonnement actif jusqu'au %(date)s. Facture %(ref)s."
+msgstr "Zahlung erhalten: Abonnement aktiv bis %(date)s. Rechnung %(ref)s."
+
+#: templates
+msgid "Paiement en cours de confirmation par le prestataire."
+msgstr "Die Zahlung wird vom Dienstleister bestätigt."
+
+#: templates
+msgid "Paiement annulé. Aucun montant n'a été débité."
+msgstr "Zahlung abgebrochen. Es wurde kein Betrag abgebucht."
+
+#: templates
+msgid "Boulangerie"
+msgstr "Bäckerei"
+
+#: templates
+msgid "Pâtisserie"
+msgstr "Konditorei"
+
+#: templates
+msgid "Boucherie"
+msgstr "Metzgerei"
+
+#: templates
+msgid "Fromagerie"
+msgstr "Käserei"
+
+#: templates
+msgid "Épicerie fine"
+msgstr "Feinkostladen"
+
+#: templates
+msgid "Primeur"
+msgstr "Obst und Gemüse"
+
+#: templates
+msgid "Caviste"
+msgstr "Weinhandlung"
+
+#: templates
+msgid "Café et torréfaction"
+msgstr "Kaffee und Rösterei"
+
+#: templates
+msgid "Chocolatier"
+msgstr "Chocolatier"
+
+#: templates
+msgid "Librairie"
+msgstr "Buchhandlung"
+
+#: templates
+msgid "Vélos"
+msgstr "Fahrräder"

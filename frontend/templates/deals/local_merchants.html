@@ -1,0 +1,58 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Commerçants locaux" %} — DealTrack.be{% endblock %}
+{% block description %}{% trans "Les commerçants indépendants de votre région et leurs bons plans." %}{% endblock %}
+
+{% block content %}
+<div class="shell">
+  <section class="panel">
+    <h1 style="font-size:var(--fs-h1); margin-top:0">{% trans "Commerçants locaux" %}</h1>
+    <p style="color:var(--dt-ink-2)">{% trans "Des commerces indépendants près de chez vous : boulangeries, fromageries, librairies, vélocistes… Vous connaissez une bonne affaire chez l'un d'eux ? Partagez-la." %}</p>
+
+    <nav class="regionbar" style="padding:0; margin:12px 0 0" aria-label="{% trans 'Filtrer par ville' %}">
+      <a class="chip" href="?" aria-pressed="{% if not current_city %}true{% else %}false{% endif %}">{% trans "Toutes les villes" %}</a>
+      {% for city in cities %}
+        <a class="chip" href="?ville={{ city|urlencode }}" aria-pressed="{% if current_city == city %}true{% else %}false{% endif %}">{{ city }}</a>
+      {% endfor %}
+    </nav>
+  </section>
+
+  {% if local_deals %}
+  <section class="panel">
+    <h2 class="panel__title">{% trans "Bons plans chez les commerçants locaux" %}</h2>
+    {% for deal in local_deals %}
+      <p><a href="{{ deal.get_absolute_url }}">{{ deal.title_current }}</a> — <strong>{{ deal.price }} €</strong> · {{ deal.merchant.name }}</p>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <div class="localgrid">
+    {% for merchant in merchants %}
+    <article class="localcard">
+      <div class="localcard__badge" style="--brand:{{ merchant.brand_color }}; --brand-ink:{{ merchant.brand_text_color }}">
+        {{ merchant.name|slice:":1"|upper }}
+      </div>
+      <div class="localcard__body">
+        <h2 class="localcard__name">{{ merchant.name }}</h2>
+        <p class="localcard__meta">
+          {% if merchant.shop_type_label %}<span class="badge is-local">{{ merchant.shop_type_label }}</span>{% endif %}
+          {{ merchant.address|default:merchant.city }}
+        </p>
+        <div class="localcard__links">
+          {% if merchant.website %}<a href="{{ merchant.website }}" target="_blank" rel="noopener nofollow">{% trans "Site web" %}</a>{% endif %}
+          {% if merchant.osm_url %}<a href="{{ merchant.osm_url }}" target="_blank" rel="noopener">{% trans "Voir sur la carte" %}</a>{% endif %}
+        </div>
+        <a class="pill" href="{% url 'deals:submit' %}?marchand={{ merchant.pk }}">{% trans "Proposer un deal ici" %}</a>
+      </div>
+    </article>
+    {% empty %}
+      <div class="panel"><p>{% trans "Aucun commerçant local pour cette ville pour l'instant." %}</p></div>
+    {% endfor %}
+  </div>
+
+  {# Licence ODbL : la réutilisation des données impose cette mention. #}
+  <p class="meta" style="margin:16px 0 32px">
+    {% trans "Annuaire construit à partir d'OpenStreetMap" %} —
+    <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© {% trans "les contributeurs OpenStreetMap" %}</a> (ODbL).
+  </p>
+</div>
+{% endblock %}

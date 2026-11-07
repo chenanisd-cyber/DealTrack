@@ -37,11 +37,34 @@ def purchase_subscription(*, user, plan: Plan, token: str, request=None):
     envoi du formulaire produit la même clé, donc un seul débit chez le
     prestataire, et l'unicité de gateway_reference verrouille le doublon en base.
     """
+    payment = _create_pending_payment(user=user, plan=plan, request=request)
+
+    gateway = get_gateway()
+    idempotency_key = f"{user.pk}:{plan.code}:{token}"
+    result = gateway.charge(
+        token=token,
+        amount=payment.amount,
+        currency="EUR",
+        idempotency_key=idempotency_key,
+        description=f"DealTrack {plan.code} — {payment.reference}",
+    )
+
+    payment.gateway_reference = result.reference
+    return _settle(
+        payment,
+        succeeded=result.succeeded,
+        card_brand=result.card_brand,
+        card_last4=result.card_last4,
+        failure_code=result.failure_code,
+        request=request,
+    )
+
+
+def _create_pending_payment(*, user, plan, request=None):
     if not plan.is_active:
         raise PaymentError("Cette formule n'est plus proposée.", code="plan_inactive")
     if user.is_deleted:
         raise PaymentError("Ce compte est désinscrit.", code="account_closed")
-
     amount = plan.price
     payment = Payment.objects.create(
         reference=Payment.next_reference(),
@@ -61,22 +84,59 @@ def purchase_subscription(*, user, plan: Plan, token: str, request=None):
         request=request,
         metadata={"plan": plan.code, "amount": str(amount)},
     )
+    return payment
 
-    gateway = get_gateway()
-    idempotency_key = f"{user.pk}:{plan.code}:{token}"
-    result = gateway.charge(
-        token=token,
-        amount=amount,
-        currency="EUR",
-        idempotency_key=idempotency_key,
-        description=f"DealTrack {plan.code} — {payment.reference}",
+
+@transaction.atomic
+def start_checkout(*, user, plan: Plan, success_url: str, cancel_url: str, request=None):
+    """
+    Étape 1 du paiement hébergé : crée la ligne Payment « en attente », puis
+    la session chez le prestataire. Renvoie (payment, adresse de la page de
+    paiement vers laquelle rediriger le navigateur).
+    """
+    payment = _create_pending_payment(user=user, plan=plan, request=request)
+    session = get_gateway().create_checkout(
+        payment=payment,
+        description=f"DealTrack {plan.label_current} — {payment.reference}",
+        success_url=success_url,
+        cancel_url=cancel_url,
+    )
+    payment.gateway_reference = session.id
+    payment.save(update_fields=["gateway_reference"])
+    return payment, session.url
+
+
+@transaction.atomic
+def confirm_checkout(*, payment, request=None):
+    """
+    Étape 2 : au retour du membre (ou à l'arrivée du webhook), on DEMANDE au
+    prestataire si la session est payée. On ne croit jamais un paramètre
+    d'URL du type « ?paid=1 ». Idempotent : un deuxième appel ne crée pas de
+    second abonnement.
+    """
+    payment = Payment.objects.select_for_update().get(pk=payment.pk)
+    if payment.status == Payment.Status.SUCCEEDED:
+        return payment, getattr(payment, "subscription", None)
+    status = get_gateway().checkout_status(payment.gateway_reference)
+    if not status.paid and not status.failure_code:
+        return payment, None  # pas encore payé : on laisse « en attente »
+    return _settle(
+        payment,
+        succeeded=status.paid,
+        card_brand=status.card_brand,
+        card_last4=status.card_last4,
+        failure_code=status.failure_code,
+        request=request,
     )
 
-    payment.gateway_reference = result.reference
-    payment.card_brand = result.card_brand
-    payment.card_last4 = result.card_last4
 
-    if not result.succeeded:
+def _settle(payment, *, succeeded, card_brand, card_last4, failure_code, request=None):
+    """Enregistre l'issue du paiement et, s'il a réussi, crée l'abonnement."""
+    user, plan = payment.user, payment.plan
+    payment.card_brand = card_brand[:20]
+    payment.card_last4 = card_last4[:4]
+
+    if not succeeded:
         payment.status = Payment.Status.FAILED
         payment.save(update_fields=["status", "gateway_reference", "card_brand", "card_last4"])
         AuditLog.record(
@@ -84,7 +144,7 @@ def purchase_subscription(*, user, plan: Plan, token: str, request=None):
             actor=user,
             target=payment,
             request=request,
-            metadata={"failure_code": result.failure_code},
+            metadata={"failure_code": failure_code},
         )
         return payment, None
 

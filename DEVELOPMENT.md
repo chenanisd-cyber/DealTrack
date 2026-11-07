@@ -109,7 +109,7 @@ catégorie, aucune migration nécessaire.
 ## Tests
 
 ```bash
-make test                                              # les 142
+make test                                              # les 162
 cd backend
 python3 manage.py test tests.test_unit --settings=config.settings.test
 python3 manage.py test tests.test_integration.ApiTests --settings=config.settings.test

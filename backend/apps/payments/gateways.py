@@ -5,6 +5,12 @@ Deux implémentations derrière une interface commune :
   - SandboxGateway  : déterministe, hors ligne, pour le développement et les tests.
   - StripeGateway   : appelle l'API réelle, vérifie la signature des webhooks.
 
+Parcours retenu : la page de paiement hébergée (« Checkout »). Le membre
+clique sur « Payer », est redirigé vers la page sécurisée du prestataire
+(carte ou Bancontact), puis revient sur DealTrack. C'est le parcours le plus
+simple pour l'utilisateur et le plus sûr pour nous : le formulaire de carte
+n'existe pas sur nos pages.
+
 Le principe de sécurité est le même dans les deux cas : le serveur ne voit
 jamais un numéro de carte. Le navigateur envoie les coordonnées bancaires
 directement au prestataire, qui rend un jeton à usage unique ; c'est ce jeton
@@ -34,6 +40,22 @@ class PaymentError(Exception):
 
 
 @dataclass(frozen=True)
+class CheckoutSession:
+    """Session de paiement hébergée : identifiant et adresse de la page à ouvrir."""
+
+    id: str
+    url: str
+
+
+@dataclass(frozen=True)
+class CheckoutStatus:
+    paid: bool
+    card_brand: str = ""
+    card_last4: str = ""
+    failure_code: str = ""
+
+
+@dataclass(frozen=True)
 class ChargeResult:
     reference: str
     succeeded: bool
@@ -51,6 +73,14 @@ class BaseGateway:
         raise NotImplementedError
 
     def verify_webhook(self, payload: bytes, signature_header: str) -> bool:
+        raise NotImplementedError
+
+    def create_checkout(
+        self, *, payment, description: str, success_url: str, cancel_url: str
+    ) -> CheckoutSession:
+        raise NotImplementedError
+
+    def checkout_status(self, session_id: str) -> CheckoutStatus:
         raise NotImplementedError
 
 
@@ -93,8 +123,84 @@ class SandboxGateway(BaseGateway):
         expected = hmac.new(secret, payload, hashlib.sha256).hexdigest()
         return hmac.compare_digest(expected, signature_header or "")
 
+    # -- Page de paiement simulée -------------------------------------------
+    # La page /abonnement/paiement-test/<session>/ joue le rôle du prestataire.
+    # Le résultat choisi est gardé côté serveur (cache) : le retour sur le site
+    # ne peut pas le falsifier en modifiant l'URL.
+    def create_checkout(self, *, payment, description, success_url, cancel_url):
+        from django.urls import reverse
 
-class StripeGateway(BaseGateway):
+        session_id = f"cs_test_{uuid.uuid4().hex}"
+        return CheckoutSession(
+            id=session_id, url=reverse("payments:sandbox_checkout", args=[session_id])
+        )
+
+    @staticmethod
+    def record_outcome(session_id, *, paid, method="card"):
+        from django.core.cache import cache
+
+        cache.set(f"sandbox-checkout:{session_id}", {"paid": paid, "method": method}, 3600)
+
+    def checkout_status(self, session_id):
+        from django.core.cache import cache
+
+        outcome = cache.get(f"sandbox-checkout:{session_id}") or {}
+        if outcome.get("paid"):
+            brand = "bancontact" if outcome.get("method") == "bancontact" else "visa"
+            return CheckoutStatus(paid=True, card_brand=brand, card_last4="4242")
+        return CheckoutStatus(paid=False, failure_code="card_declined" if outcome else "")
+
+
+class StripeCheckoutMixin:
+    """Stripe Checkout : page de paiement hébergée par Stripe (carte, Bancontact)."""
+
+    def create_checkout(self, *, payment, description, success_url, cancel_url):
+        try:
+            session = self._stripe.checkout.Session.create(
+                mode="payment",
+                line_items=[
+                    {
+                        "quantity": 1,
+                        "price_data": {
+                            "currency": payment.currency.lower(),
+                            "unit_amount": int(payment.amount * 100),
+                            "product_data": {"name": description},
+                        },
+                    }
+                ],
+                client_reference_id=str(payment.pk),
+                customer_email=payment.user.email,
+                success_url=success_url + "?session_id={CHECKOUT_SESSION_ID}",
+                cancel_url=cancel_url + "?session_id={CHECKOUT_SESSION_ID}",
+                locale="auto",
+                idempotency_key=f"checkout-{payment.pk}",
+            )
+        except self._stripe.error.StripeError as exc:
+            logger.error("Erreur Stripe Checkout : %s", exc, exc_info=True)
+            raise PaymentError(
+                "Le prestataire de paiement est indisponible. Réessayez dans un instant.",
+                code="gateway_error",
+            ) from exc
+        return CheckoutSession(id=session["id"], url=session["url"])
+
+    def checkout_status(self, session_id):
+        try:
+            session = self._stripe.checkout.Session.retrieve(
+                session_id, expand=["payment_intent.payment_method"]
+            )
+        except self._stripe.error.StripeError as exc:
+            logger.error("Erreur Stripe (lecture de session) : %s", exc, exc_info=True)
+            raise PaymentError("Paiement introuvable chez le prestataire.") from exc
+        method = ((session.get("payment_intent") or {}).get("payment_method")) or {}
+        card = method.get("card") or {}
+        return CheckoutStatus(
+            paid=session.get("payment_status") == "paid",
+            card_brand=card.get("brand", "") or method.get("type", ""),
+            card_last4=card.get("last4", ""),
+        )
+
+
+class StripeGateway(StripeCheckoutMixin, BaseGateway):
     """
     Adaptateur Stripe.
 

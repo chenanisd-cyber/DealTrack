@@ -73,6 +73,156 @@ CATEGORIES = [
     ("mode", {"fr": "Mode", "nl": "Mode", "de": "Mode"}),
 ]
 
+# Site officiel de chaque enseigne : sert à reconnaître le marchand quand un
+# membre colle un lien dans le formulaire de publication.
+MERCHANT_WEBSITES = {
+    "Coolblue": "https://www.coolblue.be",
+    "Colruyt": "https://www.colruyt.be",
+    "Delhaize": "https://www.delhaize.be",
+    "Krëfel": "https://www.krefel.be",
+    "MediaMarkt": "https://www.mediamarkt.be",
+    "Proximus": "https://www.proximus.be",
+    "Bol.com": "https://www.bol.com",
+    "Amazon.com.be": "https://www.amazon.com.be",
+}
+
+# Commerçants indépendants réels, extraits d'OpenStreetMap le 7 novembre 2026
+# (données © les contributeurs OpenStreetMap, licence ODbL). Pour en ajouter :
+#   python manage.py import_local_merchants --area "Gent"
+# (osm_id, nom, type OSM, adresse, ville, latitude, longitude, site web)
+LOCAL_MERCHANTS = [
+    (
+        1403028749,
+        "Tropismes",
+        "books",
+        "",
+        "Bruxelles",
+        "50.848174",
+        "4.354839",
+        "https://www.tropismes.com/",
+    ),
+    (
+        3885939395,
+        "Passa Porta Bookshop",
+        "books",
+        "",
+        "Bruxelles",
+        "50.849439",
+        "4.346492",
+        "https://www.passaportabookshop.be/",
+    ),
+    (
+        3885979057,
+        "Le Wolf",
+        "books",
+        "",
+        "Bruxelles",
+        "50.845544",
+        "4.352185",
+        "https://www.lewolf.be/",
+    ),
+    (
+        2385585705,
+        "Piola Libri",
+        "books",
+        "",
+        "Bruxelles",
+        "50.845606",
+        "4.387061",
+        "https://piolalibri.be/",
+    ),
+    (
+        2514211688,
+        "Chocolatier Gerbaud",
+        "chocolate",
+        "",
+        "Bruxelles",
+        "50.844094",
+        "4.358769",
+        "https://chocolatsgerbaud.be",
+    ),
+    (
+        2665166201,
+        "Cave 1929",
+        "wine",
+        "",
+        "Bruxelles",
+        "50.841816",
+        "4.353439",
+        "https://www.cave1929.be/",
+    ),
+    (
+        2594805954,
+        "Coureur",
+        "bicycle",
+        "",
+        "Bruxelles",
+        "50.848247",
+        "4.344099",
+        "https://www.coureur.brussels/",
+    ),
+    (
+        2387949125,
+        "Morning Cycles",
+        "bicycle",
+        "",
+        "Bruxelles",
+        "50.847005",
+        "4.388389",
+        "https://morningcycles.com/",
+    ),
+    (
+        2225073582,
+        "Hinkelspel",
+        "cheese",
+        "Ferdinand Lousbergskaai 33, 9000 Gent",
+        "Gent",
+        "51.050155",
+        "3.738078",
+        "https://www.hethinkelspel.be/",
+    ),
+    (
+        1314094556,
+        "Bakkerij Martens",
+        "bakery",
+        "Oudburg 74, 9000 Gent",
+        "Gent",
+        "51.058876",
+        "3.724802",
+        "https://www.martens-gent.be/",
+    ),
+    (
+        1532805919,
+        "Bakkerij Aernoudt",
+        "bakery",
+        "Kortemunt 1, Gent",
+        "Gent",
+        "51.055611",
+        "3.722320",
+        "https://bakkerijaernoudt.be/",
+    ),
+    (
+        1295215428,
+        "De Gentsche Koekedoos",
+        "bakery",
+        "Goudstraat 31, 9000 Gent",
+        "Gent",
+        "51.059721",
+        "3.727789",
+        "",
+    ),
+    (
+        311986274,
+        "Eriks Fietsateljee",
+        "bicycle",
+        "Kolegemkouter 10, Gent",
+        "Gent",
+        "51.078223",
+        "3.702254",
+        "https://www.eriksfietsateljee.com/",
+    ),
+]
+
 MERCHANTS = [
     # (nom, pays, indépendant belge, vérifié, TVA, couleur de la vignette)
     # La couleur sert de fond quand une offre n'a pas de photo ; elle
@@ -400,6 +550,333 @@ DEALS = [
             ),
         },
     ),
+    # -- Deuxième relevé, même jour ----------------------------------------
+    dict(
+        title='TV TCL QD Mini-LED 55" C69K Pro (2026) à 599 € au lieu de 699 €',
+        merchant="Coolblue",
+        category="high-tech",
+        price="599.00",
+        reference="699.00",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=734,
+        description=(
+            "Téléviseur Mini-LED de 55 pouces, modèle 2026, noté 9,6/10 par les clients "
+            "Coolblue. Distance de recul conseillée : 2,5 à 3 mètres. 100 € de remise "
+            "sur le prix barré, soit -14 %."
+        ),
+        url="https://www.coolblue.be/fr/produit/978460/tcl-qd-mini-led-55-c69k-pro-2026.html",
+        image="https://image.coolblue.be/transparent/max/380xauto/products/617174214",
+        translations={
+            "nl": (
+                'Tv TCL QD Mini-LED 55" C69K Pro (2026) voor 599 € in plaats van 699 €',
+                "Mini-led-tv van 55 inch, model 2026, door Coolblue-klanten beoordeeld met "
+                "9,6/10. Aanbevolen kijkafstand: 2,5 tot 3 meter. 100 € korting op de "
+                "doorstreepte prijs, of -14 %.",
+            ),
+            "de": (
+                'TV TCL QD Mini-LED 55" C69K Pro (2026) für 599 € statt 699 €',
+                "Mini-LED-Fernseher mit 55 Zoll, Modell 2026, von Coolblue-Kunden mit 9,6/10 "
+                "bewertet. Empfohlener Sitzabstand: 2,5 bis 3 Meter. 100 € Rabatt auf den "
+                "durchgestrichenen Preis, also -14 %.",
+            ),
+        },
+    ),
+    dict(
+        title='TV Philips Ambilight 50" PQS9001 QLED (2026) à 699 € au lieu de 899 €',
+        merchant="Coolblue",
+        category="high-tech",
+        price="699.00",
+        reference="899.00",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=468,
+        description=(
+            "Téléviseur QLED de 50 pouces avec Ambilight et dalle 100 Hz, modèle 2026. "
+            "200 € de remise sur le prix barré, soit -22 %."
+        ),
+        url="https://www.coolblue.be/fr/produit/981660/philips-ambilight-50-pqs9001-2026.html",
+        image="https://image.coolblue.be/transparent/max/380xauto/products/854998982",
+        translations={
+            "nl": (
+                'Tv Philips Ambilight 50" PQS9001 QLED (2026) voor 699 € in plaats van 899 €',
+                "QLED-tv van 50 inch met Ambilight en 100 Hz-scherm, model 2026. 200 € "
+                "korting op de doorstreepte prijs, of -22 %.",
+            ),
+            "de": (
+                'TV Philips Ambilight 50" PQS9001 QLED (2026) für 699 € statt 899 €',
+                "QLED-Fernseher mit 50 Zoll, Ambilight und 100-Hz-Panel, Modell 2026. 200 € "
+                "Rabatt auf den durchgestrichenen Preis, also -22 %.",
+            ),
+        },
+    ),
+    dict(
+        title='TV Samsung LED 50" U8070H (2026) à 399 € au lieu de 469 €',
+        merchant="Coolblue",
+        category="high-tech",
+        price="399.00",
+        reference="469.00",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=301,
+        description=(
+            "Téléviseur LED Samsung de 50 pouces, modèle 2026, pour une distance de "
+            "recul de 2,5 mètres. 70 € de remise sur le prix barré, soit -15 %."
+        ),
+        url="https://www.coolblue.be/fr/produit/978774/samsung-led-50-u8070h-2026.html",
+        image="https://image.coolblue.be/transparent/max/380xauto/products/1986163679",
+        translations={
+            "nl": (
+                'Tv Samsung LED 50" U8070H (2026) voor 399 € in plaats van 469 €',
+                "Led-tv van Samsung van 50 inch, model 2026, voor een kijkafstand van 2,5 "
+                "meter. 70 € korting op de doorstreepte prijs, of -15 %.",
+            ),
+            "de": (
+                'TV Samsung LED 50" U8070H (2026) für 399 € statt 469 €',
+                "LED-Fernseher von Samsung mit 50 Zoll, Modell 2026, für 2,5 Meter "
+                "Sitzabstand. 70 € Rabatt auf den durchgestrichenen Preis, also -15 %.",
+            ),
+        },
+    ),
+    dict(
+        title="Aspirateur sans fil Rowenta X-Force Flex 14.60 à 350 € au lieu de 482 €",
+        merchant="Coolblue",
+        category="maison",
+        price="350.00",
+        reference="482.00",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=287,
+        description=(
+            "Aspirateur balai sans fil Rowenta X-Force Flex 14.60 (référence RH99C3), "
+            "avec tube flexible pour passer sous les meubles. 132 € de remise sur le "
+            "prix barré, soit -27 %."
+        ),
+        url="https://www.coolblue.be/fr/produit/939623/rowenta-x-force-flex-14-60-rh99c3.html",
+        image="https://image.coolblue.be/transparent/max/380xauto/products/1983543",
+        translations={
+            "nl": (
+                "Draadloze stofzuiger Rowenta X-Force Flex 14.60 voor 350 € in plaats van 482 €",
+                "Draadloze steelstofzuiger Rowenta X-Force Flex 14.60 (referentie RH99C3), "
+                "met flexibele buis om onder meubels te zuigen. 132 € korting op de "
+                "doorstreepte prijs, of -27 %.",
+            ),
+            "de": (
+                "Akku-Staubsauger Rowenta X-Force Flex 14.60 für 350 € statt 482 €",
+                "Kabelloser Stielstaubsauger Rowenta X-Force Flex 14.60 (Referenz RH99C3) "
+                "mit flexiblem Rohr für die Reinigung unter Möbeln. 132 € Rabatt auf den "
+                "durchgestrichenen Preis, also -27 %.",
+            ),
+        },
+    ),
+    dict(
+        title="Lave-linge Samsung Bespoke WW11DB7B34GBU3 à 679 € au lieu de 829 €",
+        merchant="Coolblue",
+        category="maison",
+        price="679.00",
+        reference="829.00",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=244,
+        description=(
+            "Machine à laver Samsung Bespoke Super Speed (référence WW11DB7B34GBU3). "
+            "150 € de remise sur le prix barré, et Coolblue signale une promotion "
+            "« lessive offerte » sur ce modèle : conditions sur la page du produit."
+        ),
+        url=(
+            "https://www.coolblue.be/fr/produit/946999/"
+            "samsung-ww11db7b34gbu3-bespoke-super-speed.html"
+        ),
+        image="https://image.coolblue.be/transparent/max/380xauto/products/2040306",
+        translations={
+            "nl": (
+                "Wasmachine Samsung Bespoke WW11DB7B34GBU3 voor 679 € in plaats van 829 €",
+                "Wasmachine Samsung Bespoke Super Speed (referentie WW11DB7B34GBU3). 150 € "
+                "korting op de doorstreepte prijs, en Coolblue vermeldt een actie "
+                "« gratis wasmiddel » op dit model: voorwaarden op de productpagina.",
+            ),
+            "de": (
+                "Waschmaschine Samsung Bespoke WW11DB7B34GBU3 für 679 € statt 829 €",
+                "Waschmaschine Samsung Bespoke Super Speed (Referenz WW11DB7B34GBU3). 150 € "
+                "Rabatt auf den durchgestrichenen Preis, und Coolblue nennt eine Aktion "
+                "„Waschmittel gratis“ für dieses Modell: Bedingungen auf der Produktseite.",
+            ),
+        },
+    ),
+    dict(
+        title="Lave-linge Bosch WAN2827YFG Iron Assist à 529 € au lieu de 614 €",
+        merchant="Coolblue",
+        category="maison",
+        price="529.00",
+        reference="614.00",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=196,
+        description=(
+            "Machine à laver Bosch série 4 avec fonction Iron Assist, qui réduit les plis "
+            "à la vapeur. 85 € de remise sur le prix barré, soit -14 %."
+        ),
+        url="https://www.coolblue.be/fr/produit/972640/bosch-wan2827yfg-iron-assist.html",
+        image="https://image.coolblue.be/transparent/max/380xauto/products/1716363506",
+        translations={
+            "nl": (
+                "Wasmachine Bosch WAN2827YFG Iron Assist voor 529 € in plaats van 614 €",
+                "Wasmachine Bosch serie 4 met Iron Assist, die kreuken met stoom vermindert. "
+                "85 € korting op de doorstreepte prijs, of -14 %.",
+            ),
+            "de": (
+                "Waschmaschine Bosch WAN2827YFG Iron Assist für 529 € statt 614 €",
+                "Waschmaschine Bosch Serie 4 mit Iron Assist, das Falten mit Dampf reduziert. "
+                "85 € Rabatt auf den durchgestrichenen Preis, also -14 %.",
+            ),
+        },
+    ),
+    dict(
+        title="PC portable HP Laptop 14-em0957nb à 649 € au lieu de 739 €",
+        merchant="Coolblue",
+        category="high-tech",
+        price="649.00",
+        reference="739.00",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=158,
+        description=(
+            "Ordinateur portable HP de 14 pouces (référence 14-em0957nb, clavier "
+            "AZERTY). 90 € de remise sur le prix barré, soit -12 %."
+        ),
+        url="https://www.coolblue.be/fr/produit/962795/hp-laptop-14-em0957nb-azerty.html",
+        image="https://image.coolblue.be/transparent/max/380xauto/products/2238621",
+        translations={
+            "nl": (
+                "Laptop HP 14-em0957nb voor 649 € in plaats van 739 €",
+                "HP-laptop van 14 inch (referentie 14-em0957nb, AZERTY-toetsenbord). 90 € "
+                "korting op de doorstreepte prijs, of -12 %.",
+            ),
+            "de": (
+                "Notebook HP Laptop 14-em0957nb für 649 € statt 739 €",
+                "HP-Notebook mit 14 Zoll (Referenz 14-em0957nb, AZERTY-Tastatur). 90 € "
+                "Rabatt auf den durchgestrichenen Preis, also -12 %.",
+            ),
+        },
+    ),
+    dict(
+        title="Robot aspirateur laveur Dreame L50s Pro Ultra-A à 499 €",
+        merchant="Amazon.com.be",
+        category="maison",
+        price="499.00",
+        reference="579.00",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=421,
+        cross_border=True,
+        description=(
+            "Robot aspirateur laveur avec serpillière auto-nettoyante à 100 °C. Prix de "
+            "référence légal (plus bas des 30 derniers jours) : 579 €, soit 14 % de "
+            "remise réelle. Vendu et expédié par Amazon.com.be."
+        ),
+        url="https://www.amazon.com.be/dp/B0H2F5YPTN",
+        image="https://m.media-amazon.com/images/I/61FmvnlvLZL._AC_SL1500_.jpg",
+        translations={
+            "nl": (
+                "Robotstofzuiger met dweilfunctie Dreame L50s Pro Ultra-A voor 499 €",
+                "Robotstofzuiger met zelfreinigende dweil op 100 °C. Wettelijke "
+                "referentieprijs (laagste van de voorbije 30 dagen): 579 €, dus 14 % echte "
+                "korting. Verkocht en verzonden door Amazon.com.be.",
+            ),
+            "de": (
+                "Saug- und Wischroboter Dreame L50s Pro Ultra-A für 499 €",
+                "Saug- und Wischroboter mit selbstreinigendem Wischmopp bei 100 °C. "
+                "Gesetzlicher Referenzpreis (niedrigster der letzten 30 Tage): 579 €, also "
+                "14 % echter Rabatt. Verkauft und versandt von Amazon.com.be.",
+            ),
+        },
+    ),
+    dict(
+        title="Robot aspirateur laveur roborock Qrevo S Pro à 329,99 €",
+        merchant="Amazon.com.be",
+        category="maison",
+        price="329.99",
+        reference="379.99",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=217,
+        cross_border=True,
+        description=(
+            "Robot aspirateur laveur 18 500 Pa avec brosse anti-enchevêtrement, vendu "
+            "par la boutique officielle Roborock sur Amazon.com.be. Prix de référence "
+            "légal (plus bas des 30 derniers jours) : 379,99 €."
+        ),
+        url="https://www.amazon.com.be/dp/B0GHN39ZGJ",
+        image="https://m.media-amazon.com/images/I/61faWSZ6LXL._AC_SL1500_.jpg",
+        translations={
+            "nl": (
+                "Robotstofzuiger met dweilfunctie roborock Qrevo S Pro voor 329,99 €",
+                "Robotstofzuiger met dweilfunctie, 18 500 Pa en anti-klitborstel, verkocht "
+                "door de officiële Roborock-winkel op Amazon.com.be. Wettelijke "
+                "referentieprijs (laagste van de voorbije 30 dagen): 379,99 €.",
+            ),
+            "de": (
+                "Saug- und Wischroboter roborock Qrevo S Pro für 329,99 €",
+                "Saug- und Wischroboter mit 18 500 Pa und Anti-Verhedderungs-Bürste, "
+                "verkauft vom offiziellen Roborock-Shop auf Amazon.com.be. Gesetzlicher "
+                "Referenzpreis (niedrigster der letzten 30 Tage): 379,99 €.",
+            ),
+        },
+    ),
+    dict(
+        title="Carottes Delhaize 1 kg : 2 achetés, le 3e offert",
+        merchant="Delhaize",
+        category="supermarche",
+        price="1.49",
+        reference=None,
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=133,
+        description=(
+            "Promotion « 2+1 gratuit » sur le sachet de carottes Delhaize de 1 kg "
+            "(1,49 € le sachet) : 3 kg pour 2,98 €, soit environ 0,99 €/kg. Promotion "
+            "de la semaine, dans la limite des stocks disponibles."
+        ),
+        url=(
+            "https://www.delhaize.be/fr/shop/Fruits-et-legumes-frais/Legumes-frais/"
+            "Carottes-et-legumes-racines/Carottes/Carottes/p/F2013100800315600000"
+        ),
+        image="https://static.delhaize.be/medias/sys_master/products/he6/hfc/13907354648606.jpg?imwidth=600",
+        translations={
+            "nl": (
+                "Wortelen Delhaize 1 kg: 2 gekocht, de 3e gratis",
+                "Actie « 2+1 gratis » op de zak wortelen van Delhaize van 1 kg (1,49 € per "
+                "zak): 3 kg voor 2,98 €, of ongeveer 0,99 €/kg. Promotie van de week, "
+                "zolang de voorraad strekt.",
+            ),
+            "de": (
+                "Karotten Delhaize 1 kg: 2 kaufen, die 3. gratis",
+                "Aktion „2+1 gratis“ auf den 1-kg-Beutel Karotten von Delhaize (1,49 € pro "
+                "Beutel): 3 kg für 2,98 €, also etwa 0,99 €/kg. Angebot der Woche, solange "
+                "der Vorrat reicht.",
+            ),
+        },
+    ),
     # -- En attente de modération : pour la démonstration du back-office ----
     dict(
         title='PC portable HP OmniBook 3 OLED 16" à 679 € au lieu de 899 €',
@@ -514,6 +991,7 @@ class Command(BaseCommand):
         regions = self._regions()
         categories = self._categories()
         merchants = self._merchants()
+        self._local_merchants()
         staff, members = self._users(regions)
         deals = self._deals(merchants, categories, regions, members, staff)
         self._votes(deals, members + staff)
@@ -578,11 +1056,36 @@ class Command(BaseCommand):
                     "is_local_independent": local,
                     "is_verified": verified,
                     "brand_color": color,
-                    "website": f"https://example.{country.lower()}/{slugify(name)}",
+                    "website": MERCHANT_WEBSITES[name],
                 },
             )
         self.stdout.write(f"Marchands : {len(out)}")
         return out
+
+    def _local_merchants(self):
+        from decimal import Decimal
+
+        from apps.catalog.management.commands.import_local_merchants import SHOP_COLORS
+
+        for osm_id, name, shop, address, city, lat, lon, website in LOCAL_MERCHANTS:
+            Merchant.objects.update_or_create(
+                osm_id=osm_id,
+                defaults={
+                    "name": name,
+                    "slug": slugify(name),
+                    "country": "BE",
+                    "shop_type": shop,
+                    "address": address,
+                    "city": city,
+                    "latitude": Decimal(lat),
+                    "longitude": Decimal(lon),
+                    "website": website,
+                    "is_local_independent": True,
+                    "is_verified": False,
+                    "brand_color": SHOP_COLORS.get(shop, "#01182B"),
+                },
+            )
+        self.stdout.write(f"Commerçants locaux (OpenStreetMap) : {len(LOCAL_MERCHANTS)}")
 
     def _users(self, regions):
         # Mot de passe commun aux comptes de démonstration : il satisfait la

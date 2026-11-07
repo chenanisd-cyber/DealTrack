@@ -44,3 +44,6 @@ staticfiles/
 # Outillage
 .ruff_cache/
 .pre-commit-cache/
+
+# Outils téléchargés localement (cloudflared pour partager.ps1)
+.tools/

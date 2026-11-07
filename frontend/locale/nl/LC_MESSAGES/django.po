@@ -1582,3 +1582,237 @@ msgstr "Vertaald — origineel in het %(lang)s"
 #, python-format
 msgid "Commentaire rédigé en %(lang)s"
 msgstr "Reactie geschreven in het %(lang)s"
+
+#: templates
+msgid "Partager sur WhatsApp"
+msgstr "Delen via WhatsApp"
+
+#: templates
+msgid "Partager"
+msgstr "Delen"
+
+#: templates
+msgid "Lien copié !"
+msgstr "Link gekopieerd!"
+
+#: templates
+msgid "Copier le lien"
+msgstr "Link kopiëren"
+
+#: templates
+msgid "Brûlant"
+msgstr "Gloeiend heet"
+
+#: templates
+msgid "Nouveau"
+msgstr "Nieuw"
+
+#: templates
+msgid "Les commerçants indépendants de votre région et leurs bons plans."
+msgstr "De zelfstandige handelaars in je buurt en hun koopjes."
+
+#: templates
+msgid ""
+"Des commerces indépendants près de chez vous : boulangeries, fromageries, "
+"librairies, vélocistes… Vous connaissez une bonne affaire chez l'un d'eux ? "
+"Partagez-la."
+msgstr ""
+"Zelfstandige zaken in je buurt: bakkerijen, kaaswinkels, boekhandels, "
+"fietsenmakers… Ken je een goede deal bij een van hen? Deel hem."
+
+#: templates
+msgid "Filtrer par ville"
+msgstr "Filteren op stad"
+
+#: templates
+msgid "Toutes les villes"
+msgstr "Alle steden"
+
+#: templates
+msgid "Bons plans chez les commerçants locaux"
+msgstr "Koopjes bij lokale handelaars"
+
+#: templates
+msgid "Site web"
+msgstr "Website"
+
+#: templates
+msgid "Voir sur la carte"
+msgstr "Bekijk op de kaart"
+
+#: templates
+msgid "Proposer un deal ici"
+msgstr "Hier een deal voorstellen"
+
+#: templates
+msgid "Aucun commerçant local pour cette ville pour l'instant."
+msgstr "Nog geen lokale handelaars voor deze stad."
+
+#: templates
+msgid "Annuaire construit à partir d'OpenStreetMap"
+msgstr "Gids opgebouwd met OpenStreetMap"
+
+#: templates
+msgid "les contributeurs OpenStreetMap"
+msgstr "de bijdragers van OpenStreetMap"
+
+#: templates
+msgid ""
+"Collez le lien : titre, prix, photo et marchand sont récupérés "
+"automatiquement."
+msgstr ""
+"Plak de link: titel, prijs, foto en handelaar worden automatisch opgehaald."
+
+#: templates
+msgid ""
+"Ce site bloque la lecture automatique : complétez les champs vous-même, le "
+"lien est déjà renseigné."
+msgstr ""
+"Deze site blokkeert automatisch uitlezen: vul de velden zelf in, de link "
+"staat er al."
+
+#: templates
+msgid "Récupéré automatiquement :"
+msgstr "Automatisch opgehaald:"
+
+#: templates
+msgid "À compléter :"
+msgstr "Nog in te vullen:"
+
+#: templates
+msgid "Vérifiez avant d’envoyer."
+msgstr "Controleer voor je verstuurt."
+
+#: templates
+msgid "prix de référence (30 jours)"
+msgstr "referentieprijs (30 dagen)"
+
+#: templates
+msgid "Paiement"
+msgstr "Betaling"
+
+#: templates
+msgid "Mode démonstration"
+msgstr "Demonstratiemodus"
+
+#: templates
+msgid ""
+"cette page remplace celle du prestataire de paiement. Aucun argent réel "
+"n'est débité."
+msgstr ""
+"deze pagina vervangt die van de betaaldienst. Er wordt geen echt geld "
+"afgeschreven."
+
+#: templates
+msgid "Payer avec l'application ou la carte Bancontact"
+msgstr "Betalen met de Bancontact-app of -kaart"
+
+#: templates
+msgid "Carte bancaire"
+msgstr "Bankkaart"
+
+#: templates
+msgid "carte de test 4242 4242 4242 4242"
+msgstr "testkaart 4242 4242 4242 4242"
+
+#: templates
+msgid "Simuler un refus de la banque"
+msgstr "Een weigering door de bank simuleren"
+
+#: templates
+msgid "Annuler et revenir"
+msgstr "Annuleren en terugkeren"
+
+#: templates
+msgid "Total à payer"
+msgstr "Te betalen"
+
+#: templates
+msgid "Moyens de paiement acceptés"
+msgstr "Aanvaarde betaalmiddelen"
+
+#: templates
+msgid "Paiement sécurisé par notre prestataire"
+msgstr "Beveiligde betaling via onze betaaldienst"
+
+#: templates
+msgid ""
+"Vous serez redirigé vers la page de paiement sécurisée du prestataire "
+"(HTTPS, 3D Secure). DealTrack ne voit et ne stocke jamais votre numéro de "
+"carte."
+msgstr ""
+"Je wordt doorgestuurd naar de beveiligde betaalpagina van de betaaldienst "
+"(HTTPS, 3D Secure). DealTrack ziet en bewaart nooit je kaartnummer."
+
+#: templates
+msgid ""
+"Je demande que l'abonnement commence immédiatement et je reconnais perdre "
+"mon droit de rétractation de 14 jours une fois le service démarré (art. "
+"VI.53 CDE)."
+msgstr ""
+"Ik vraag dat het abonnement onmiddellijk start en erken dat ik mijn "
+"herroepingsrecht van 14 dagen verlies zodra de dienst gestart is (art. VI.53"
+" WER)."
+
+#: templates
+msgid "Cochez la case pour confirmer le démarrage immédiat de l'abonnement."
+msgstr ""
+"Vink het vakje aan om de onmiddellijke start van het abonnement te "
+"bevestigen."
+
+#: templates
+#, python-format
+msgid "Paiement reçu : abonnement actif jusqu'au %(date)s. Facture %(ref)s."
+msgstr "Betaling ontvangen: abonnement actief tot %(date)s. Factuur %(ref)s."
+
+#: templates
+msgid "Paiement en cours de confirmation par le prestataire."
+msgstr "Betaling wordt bevestigd door de betaaldienst."
+
+#: templates
+msgid "Paiement annulé. Aucun montant n'a été débité."
+msgstr "Betaling geannuleerd. Er werd geen bedrag afgeschreven."
+
+#: templates
+msgid "Boulangerie"
+msgstr "Bakkerij"
+
+#: templates
+msgid "Pâtisserie"
+msgstr "Patisserie"
+
+#: templates
+msgid "Boucherie"
+msgstr "Slagerij"
+
+#: templates
+msgid "Fromagerie"
+msgstr "Kaaswinkel"
+
+#: templates
+msgid "Épicerie fine"
+msgstr "Delicatessenzaak"
+
+#: templates
+msgid "Primeur"
+msgstr "Groenten en fruit"
+
+#: templates
+msgid "Caviste"
+msgstr "Wijnhandel"
+
+#: templates
+msgid "Café et torréfaction"
+msgstr "Koffie en branderij"
+
+#: templates
+msgid "Chocolatier"
+msgstr "Chocolatier"
+
+#: templates
+msgid "Librairie"
+msgstr "Boekhandel"
+
+#: templates
+msgid "Vélos"
+msgstr "Fietsen"

@@ -118,10 +118,11 @@ python manage.py seed_demo
 ```
 
 Cette commande peuple la base avec 3 régions, 6 catégories traduites en 3
-langues, 8 marchands réels, 10 comptes utilisateurs, 10 offres, des votes,
-des commentaires traduits, 2 formules d'abonnement et 4 paiements.
+langues, 8 enseignes, 13 commerçants indépendants (OpenStreetMap), 10 comptes
+utilisateurs, 20 offres, des votes, des commentaires traduits, 2 formules
+d'abonnement et 4 paiements.
 
-Les 10 offres sont **de vrais deals** relevés le 7 novembre 2026 sur Coolblue,
+Les 20 offres sont **de vrais deals** relevés le 7 novembre 2026 sur Coolblue,
 Amazon.com.be, Proximus et Delhaize : titre, prix, prix barré, lien et photo
 du marchand. Les prix évoluent : avant une démonstration, vérifiez-les sur les
 sites et mettez à jour `DEALS` dans
@@ -163,8 +164,64 @@ Sept autres comptes membres existent, répartis sur les trois régions.
 | URL | Contenu |
 |---|---|
 | /fr/ /nl/ /de/ | Front-office dans les trois langues |
+| /fr/publier/ | Publier un deal : coller le lien suffit |
+| /fr/commercants-locaux/ | Annuaire des commerçants indépendants |
+| /fr/abonnement/ | Abonnement Club et paiement |
 | /fr/back-office/ | Administration |
 | /api/v1/deals/ | API REST, lecture publique |
+
+## Publier un deal en collant un lien
+
+Comme sur les grands sites de deals : le membre colle le lien de l'offre, le
+serveur lit la page et pré-remplit le formulaire (titre, photo, prix, prix de
+référence légal des 30 derniers jours, marchand reconnu d'après le domaine,
+description). Sources : données structurées schema.org (JSON-LD), balises
+Open Graph, repères Amazon. Un site qui bloque les robots (ex. Coolblue) n'est
+pas contourné : le membre complète alors les champs. Protections : voir
+`docs/SECURITY.md` (SSRF).
+
+## Commerçants locaux (OpenStreetMap)
+
+L'annuaire `/fr/commercants-locaux/` liste des commerces indépendants réels.
+Les données viennent d'OpenStreetMap (licence ODbL, attribution affichée),
+pas de Google Maps : l'API Google Places est payante et ses conditions
+interdisent de recopier les fiches. Pour ajouter une ville :
+
+```bash
+python manage.py import_local_merchants --area "Gent"
+python manage.py import_local_merchants --area "Bruxelles - Brussel" --admin-level 8
+```
+
+Les commerces importés arrivent « non vérifiés » ; la modération confirme.
+
+## Paiement
+
+Bouton « Payer » → page de paiement sécurisée du prestataire (Stripe Checkout :
+Bancontact, Visa, Mastercard, 3D Secure) → retour sur DealTrack. Le numéro de
+carte ne passe jamais par nos serveurs (PCI-DSS SAQ-A). Au retour, le serveur
+demande lui-même au prestataire si la session est payée (aucun paramètre d'URL
+n'est cru) ; un webhook signé (HMAC) couvre le cas où le membre ferme son
+navigateur. Case obligatoire de renonciation au droit de rétractation pour un
+démarrage immédiat (art. VI.53 CDE).
+
+- **Sans clés Stripe** (`PAYMENT_GATEWAY=sandbox`, par défaut) : une page de
+  paiement de démonstration remplace celle de Stripe.
+- **Avec Stripe en mode test** : créez un compte Stripe, puis dans `.env` :
+  `PAYMENT_GATEWAY=stripe`, `STRIPE_SECRET_KEY=sk_test_…`,
+  `STRIPE_WEBHOOK_SECRET=whsec_…`. Carte de test : 4242 4242 4242 4242.
+
+## Partager le site (lien WhatsApp)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\partager.ps1
+```
+
+Le script démarre le site en mode partage (`config.settings.share` : DEBUG
+désactivé, cookies HTTPS, back-office fermé aux visiteurs d'Internet) et ouvre
+un tunnel Cloudflare gratuit. Il affiche un lien `https://….trycloudflare.com`
+à envoyer sur WhatsApp. Le lien marche tant que la fenêtre reste ouverte et
+change à chaque lancement. `cloudflared.exe` est attendu dans `.tools/`
+(téléchargement officiel : github.com/cloudflare/cloudflared/releases).
 
 ## Technologies utilisées
 
@@ -196,7 +253,7 @@ Sept autres comptes membres existent, répartis sur les trois régions.
 python manage.py test tests --settings=config.settings.test
 ```
 
-142 tests, répartis en cinq fichiers dans `backend/tests/` :
+162 tests, répartis en sept fichiers dans `backend/tests/` :
 
 | Fichier | Tests | Contenu |
 |---|---|---|
@@ -205,6 +262,8 @@ python manage.py test tests --settings=config.settings.test
 | test_scraper.py | 11 | Protection SSRF du pré-remplissage par lien, limite d'appels, affichage des erreurs |
 | test_images.py | 13 | Validation des photos envoyées, priorité photo / image externe / vignette du marchand |
 | test_comments.py | 5 | Commentaires traduits selon la langue de la page, repli sur l'original |
+| test_checkout.py | 8 | Paiement hébergé : parcours, fraude au retour, idempotence, webhook |
+| test_live_features.py | 12 | Lecture du prix, marchand par domaine, vote en direct, annuaire, mode partage |
 
 ## API REST
 
@@ -244,6 +303,7 @@ python scripts/api_demo.py      # depuis backend/
 | demo_soft_delete --anonymise | Démontre la suppression logique et son impact en base |
 | audit_report --days 30 | Produit le rapport d'audit d'activité |
 | data_dictionary | Régénère le dictionnaire de données |
+| import_local_merchants --area … | Importe des commerçants indépendants depuis OpenStreetMap |
 
 ## Sécurité
 

@@ -3,27 +3,36 @@
 {% block content %}
 <div class="shell"><div class="form">
   <h1 style="font-size:var(--fs-h1)">{{ plan.label_current }}</h1>
-  <p class="detail__price">{{ plan.price }} €</p>
 
   <section class="panel">
-    <div class="moderation">
+    <div class="paysummary">
       <div>
-        <strong>{% trans "Aucune donnée bancaire ne transite par DealTrack" %}</strong>
-        <p>{% trans "Votre navigateur communique vos coordonnées directement au prestataire de paiement, qui renvoie un jeton à usage unique. Nos serveurs ne voient jamais votre numéro de carte." %}</p>
+        <p class="meta" style="margin:0">{% trans "Total à payer" %}</p>
+        <p class="detail__price" style="margin:0">{{ plan.price }} €</p>
+        <p class="meta" style="margin:0">{% blocktrans with vat=plan.vat_rate days=plan.duration_days %}TVA {{ vat }} % comprise · valable {{ days }} jours{% endblocktrans %}</p>
+      </div>
+      <div class="paymethods" aria-label="{% trans 'Moyens de paiement acceptés' %}">
+        <span class="paymethod">Bancontact</span>
+        <span class="paymethod">Visa</span>
+        <span class="paymethod">Mastercard</span>
+      </div>
+    </div>
+
+    <div class="moderation" style="margin-top:16px">
+      <div>
+        <strong>🔒 {% trans "Paiement sécurisé par notre prestataire" %}</strong>
+        <p>{% trans "Vous serez redirigé vers la page de paiement sécurisée du prestataire (HTTPS, 3D Secure). DealTrack ne voit et ne stocke jamais votre numéro de carte." %}</p>
       </div>
     </div>
 
     <form method="post" style="margin-top:20px">
       {% csrf_token %}
-      {# En production, ce champ est renseigné par le SDK du prestataire. #}
-      <div class="field">
-        <label class="field__label" for="payment_token">{% trans "Jeton de paiement" %}</label>
-        <input class="input" id="payment_token" name="payment_token" value="tok_demo_visa" required>
-        <p class="field__hint">{% trans "Environnement de démonstration : « tok_demo_visa » aboutit, « tok_demo_fail » est refusé." %}</p>
-      </div>
-      <button class="cta is-block" type="submit">{% blocktrans with amount=plan.price %}Payer {{ amount }} €{% endblocktrans %}</button>
+      <label class="checkline">
+        <input type="checkbox" name="immediate_start" required>
+        <span>{% trans "Je demande que l'abonnement commence immédiatement et je reconnais perdre mon droit de rétractation de 14 jours une fois le service démarré (art. VI.53 CDE)." %}</span>
+      </label>
+      <button class="cta is-block is-lg" type="submit" style="margin-top:16px">{% blocktrans with amount=plan.price %}Payer {{ amount }} €{% endblocktrans %}</button>
     </form>
-    <p class="field__hint" style="margin-top:12px">{% trans "Droit de rétractation : quatorze jours, sauf renonciation expresse à l'exécution immédiate du service (art. VI.53 CDE)." %}</p>
   </section>
 </div></div>
 {% endblock %}

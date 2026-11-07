@@ -24,19 +24,19 @@
 | `accounts_user` | utilisateurs | id · UUID | 10 |
 | `catalog_category` | catégories | id · UUID | 6 |
 | `catalog_categorytranslation` | libellés de catégorie | id · BIGINT auto | 18 |
-| `catalog_merchant` | marchands | id · UUID | 8 |
+| `catalog_merchant` | marchands | id · UUID | 21 |
 | `catalog_region` | régions | code · VARCHAR | 3 |
 | `deals_alert` | alertes | id · UUID | 0 |
-| `deals_comment` | commentaires | id · UUID | 18 |
-| `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 36 |
-| `deals_deal` | deals | id · UUID | 10 |
-| `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 16 |
-| `deals_vote` | votes | id · BIGINT auto | 38 |
+| `deals_comment` | commentaires | id · UUID | 34 |
+| `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 68 |
+| `deals_deal` | deals | id · UUID | 20 |
+| `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 36 |
+| `deals_vote` | votes | id · BIGINT auto | 72 |
 | `payments_payment` | paiements | id · UUID | 4 |
 | `payments_plan` | formules | id · UUID | 2 |
 | `payments_subscription` | abonnements | id · UUID | 4 |
-| `moderation_auditlog` | journal d'audit | id · BIGINT auto | 2 |
-| `moderation_moderationdecision` | décisions de modération | id · UUID | 8 |
+| `moderation_auditlog` | journal d'audit | id · BIGINT auto | 0 |
+| `moderation_moderationdecision` | décisions de modération | id · UUID | 18 |
 | `moderation_report` | signalements | id · UUID | 3 |
 
 ---
@@ -120,6 +120,12 @@ Enseigne chez qui le deal est disponible.
 | `is_verified` | BOOLEAN | non | `False` | Vérifiée par la modération : identité et site marchand contrôlés. |
 | `logo` | FileField | non | — | JPEG, PNG ou WebP, 2 Mo maximum. |
 | `brand_color` | VARCHAR(7) | non | `#01182B` | Fond de la vignette affichée à la place de la photo. |
+| `shop_type` | VARCHAR(30) | non | — | Valeur OSM « shop ». |
+| `address` | VARCHAR(200) | non | — | — |
+| `city` | VARCHAR(80) | non | — | indexée |
+| `latitude` | DECIMAL(9,6) | oui | — | — |
+| `longitude` | DECIMAL(9,6) | oui | — | — |
+| `osm_id` | BigIntegerField | oui | — | unique · Évite les doublons lors d'un nouvel import. |
 | `created_at` | TIMESTAMP | non | — | — |
 
 **Contraintes de table**

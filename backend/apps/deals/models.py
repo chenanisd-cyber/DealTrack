@@ -9,6 +9,7 @@ ligne affichée. Le compteur est recalculable à tout moment par la commande
 """
 
 import uuid
+from datetime import timedelta
 from decimal import Decimal
 
 from django.conf import settings
@@ -24,6 +25,8 @@ from apps.accounts.validators import validate_no_control_characters
 from apps.catalog.images import IMAGE_VALIDATORS, deal_image_path
 
 TEMPERATURE_BASE = 100  # tout deal publié démarre à 100 °
+HOT_THRESHOLD = 500  # au-delà, badge « Brûlant »
+NEW_WINDOW = timedelta(hours=24)  # badge « Nouveau »
 
 # Nom de la langue de rédaction, décliné dans la langue de lecture : le badge
 # doit dire « Offre rédigée en néerlandais », pas « rédigée en Nederlands ».
@@ -217,6 +220,16 @@ class Deal(models.Model):
 
     def get_absolute_url(self):
         return reverse("deals:detail", kwargs={"slug": self.slug})
+
+    @property
+    def is_hot(self):
+        """Badge « Brûlant » : la communauté a fortement réchauffé l'offre."""
+        return self.temperature >= HOT_THRESHOLD
+
+    @property
+    def is_new(self):
+        """Badge « Nouveau » : publiée depuis moins de 24 heures."""
+        return bool(self.published_at) and timezone.now() - self.published_at < NEW_WINDOW
 
     @property
     def photo_url(self):

@@ -1,4 +1,5 @@
 import json
+from urllib.parse import urlparse
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -11,7 +12,7 @@ from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods, require_POST
 
-from apps.catalog.models import Category, Region
+from apps.catalog.models import Category, Merchant, Region
 from apps.moderation.models import AuditLog
 
 from .forms import CommentForm, DealSubmissionForm
@@ -99,7 +100,14 @@ def deal_detail(request, slug):
 @login_required
 @require_http_methods(["GET", "POST"])
 def deal_submit(request):
-    form = DealSubmissionForm(request.POST or None, request.FILES or None, user=request.user)
+    # « Proposer un deal ici » depuis l'annuaire : le marchand est présélectionné.
+    initial = {}
+    merchant_id = request.GET.get("marchand", "")
+    if merchant_id and Merchant.objects.filter(pk=_safe_uuid(merchant_id)).exists():
+        initial["merchant"] = merchant_id
+    form = DealSubmissionForm(
+        request.POST or None, request.FILES or None, user=request.user, initial=initial
+    )
     if request.method == "POST" and form.is_valid():
         deal = form.save()
         AuditLog.record(
@@ -137,7 +145,12 @@ def deal_vote(request, slug):
     temperature = Vote.cast(deal=deal, user=request.user, value=value)
 
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
-        return JsonResponse({"temperature": temperature})
+        # Vote en direct (dealtrack.js) : la page met à jour la température
+        # et l'état des boutons sans se recharger.
+        vote = Vote.objects.filter(deal=deal, user=request.user).first()
+        return JsonResponse(
+            {"temperature": temperature, "user_vote": vote.value if vote else 0}
+        )
     return redirect(deal.get_absolute_url())
 
 
@@ -157,6 +170,48 @@ def comment_create(request, slug):
     else:
         messages.error(request, _("Commentaire refusé : %(e)s") % {"e": form.errors.as_text()})
     return redirect(deal.get_absolute_url())
+
+
+def local_merchants(request):
+    """
+    Annuaire des commerçants indépendants (données OpenStreetMap), filtrable
+    par ville. La ville vient de l'URL : elle n'est utilisée que si elle existe
+    dans la base, jamais injectée telle quelle.
+    """
+    merchants = Merchant.objects.filter(is_local_independent=True).order_by("city", "name")
+    # sorted(set()) et non .distinct() : le tri par nom ajouté par order_by
+    # ferait ressortir une ville par commerçant.
+    cities = sorted(set(merchants.exclude(city="").values_list("city", flat=True)))
+    current_city = request.GET.get("ville", "")
+    if current_city in cities:
+        merchants = merchants.filter(city=current_city)
+    else:
+        current_city = ""
+    local_deals = (
+        Deal.objects.live()
+        .filter(merchant__is_local_independent=True)
+        .select_related("merchant")
+        .prefetch_related("translations")[:10]
+    )
+    return render(
+        request,
+        "deals/local_merchants.html",
+        {
+            "merchants": merchants,
+            "cities": cities,
+            "current_city": current_city,
+            "local_deals": local_deals,
+        },
+    )
+
+
+def _safe_uuid(value):
+    import uuid
+
+    try:
+        return uuid.UUID(str(value))
+    except ValueError:
+        return None
 
 
 # --------------------------------------------------------------------------
@@ -208,4 +263,33 @@ def scrape_link_view(request):
     if not isinstance(url, str) or not url.strip() or len(url) > 800:
         return JsonResponse({"success": False, "error": "bad_request"}, status=400)
 
-    return JsonResponse(fetch_deal_info(url.strip()))
+    info = fetch_deal_info(url.strip())
+    if info.get("success"):
+        merchant = match_merchant(info.get("final_url") or url)
+        if merchant:
+            info["merchant_id"] = str(merchant.pk)
+            info["merchant_name"] = merchant.name
+            info["is_cross_border"] = merchant.country != "BE"
+    return JsonResponse(info)
+
+
+def _domain(url):
+    host = (urlparse(url).hostname or "").lower()
+    return host[4:] if host.startswith("www.") else host
+
+
+def match_merchant(url):
+    """
+    Reconnaît le marchand d'après le nom de domaine du lien : un lien
+    amazon.com.be sélectionne « Amazon.com.be » dans le formulaire. Un
+    sous-domaine (smile.amazon.com.be) correspond aussi ; un domaine qui ne
+    fait que contenir le nom (amazon.com.be.example.org) ne correspond pas.
+    """
+    host = _domain(url)
+    if not host:
+        return None
+    for merchant in Merchant.objects.exclude(website=""):
+        domain = _domain(merchant.website)
+        if domain and (host == domain or host.endswith("." + domain)):
+            return merchant
+    return None

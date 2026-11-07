@@ -1,0 +1,34 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Paiement" %} — DealTrack.be{% endblock %}
+{% block content %}
+{% comment %}
+  Page qui SIMULE la page de paiement hébergée du prestataire (Stripe
+  Checkout), uniquement en mode démonstration. Avec de vraies clés Stripe,
+  le membre est envoyé sur checkout.stripe.com et cette page n'existe pas.
+{% endcomment %}
+<div class="shell"><div class="form">
+  <p class="moderation" style="background:var(--dt-warn-bg); color:var(--dt-warn); margin-bottom:16px">
+    <strong>{% trans "Mode démonstration" %}</strong> — {% trans "cette page remplace celle du prestataire de paiement. Aucun argent réel n'est débité." %}
+  </p>
+
+  <section class="panel checkout">
+    <p class="meta" style="margin:0">DealTrack.be · {{ payment.reference }}</p>
+    <h1 style="font-size:var(--fs-h1); margin:4px 0">{{ payment.plan.label_current }}</h1>
+    <p class="detail__price" style="margin:0 0 20px">{{ payment.amount }} €</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button class="checkout__method" name="action" value="bancontact">
+        <strong>Bancontact</strong><span>{% trans "Payer avec l'application ou la carte Bancontact" %}</span>
+      </button>
+      <button class="checkout__method" name="action" value="card">
+        <strong>{% trans "Carte bancaire" %}</strong><span>Visa · Mastercard — {% trans "carte de test 4242 4242 4242 4242" %}</span>
+      </button>
+      <div class="checkout__secondary">
+        <button class="pill" name="action" value="decline">{% trans "Simuler un refus de la banque" %}</button>
+        <button class="pill" name="action" value="cancel">{% trans "Annuler et revenir" %}</button>
+      </div>
+    </form>
+  </section>
+</div></div>
+{% endblock %}

@@ -303,6 +303,54 @@ img{max-width:100%}
   font-variant-numeric:tabular-nums;
 }
 .vote__temp.is-cold{color:var(--dt-cold)}
+.vote__temp.is-bump{animation:temp-bump .35s ease}
+.vote.is-busy{opacity:.6}
+@keyframes temp-bump{50%{transform:scale(1.25)}}
+@media (prefers-reduced-motion:reduce){.vote__temp.is-bump{animation:none}}
+.badge.is-hot{background:#FFE4E1; color:var(--dt-hot)}
+.badge.is-new{background:var(--dt-accent-soft); color:var(--dt-accent-dark)}
+
+/* Paiement */
+.paysummary{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap}
+.paymethods{display:flex; gap:6px; flex-wrap:wrap}
+.paymethod{padding:4px 10px; border:1px solid var(--dt-border); border-radius:6px; font-size:var(--fs-meta); font-weight:700}
+.checkline{display:flex; gap:10px; align-items:flex-start; font-size:var(--fs-meta); color:var(--dt-ink-2)}
+.checkline input{margin-top:3px}
+.checkout__method{
+  display:flex; flex-direction:column; gap:2px; width:100%; margin-bottom:10px; padding:14px 16px;
+  text-align:left; font:inherit; background:var(--dt-surface); cursor:pointer;
+  border:1px solid var(--dt-border); border-radius:var(--r-card);
+}
+.checkout__method:hover{border-color:var(--dt-accent)}
+.checkout__method span{color:var(--dt-ink-2); font-size:var(--fs-meta)}
+.checkout__secondary{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+
+/* Annuaire des commerçants locaux */
+.localgrid{display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px}
+.localcard{
+  display:flex; gap:14px; padding:16px; background:var(--dt-surface);
+  border-radius:var(--r-card); box-shadow:var(--sh-card);
+}
+.localcard__badge{
+  width:52px; height:52px; flex:none; border-radius:12px; display:grid; place-items:center;
+  background:var(--brand); color:var(--brand-ink); font-size:22px; font-weight:700;
+}
+.localcard__body{min-width:0; display:flex; flex-direction:column; gap:6px}
+.localcard__name{margin:0; font-size:var(--fs-title)}
+.localcard__meta{margin:0; color:var(--dt-ink-2); font-size:var(--fs-meta)}
+.localcard__links{display:flex; gap:12px; font-size:var(--fs-meta)}
+.localcard .pill{align-self:flex-start}
+
+/* Partage d'un deal */
+.share{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+.share__btn{
+  display:inline-flex; align-items:center; gap:8px; padding:9px 14px;
+  border:1px solid var(--dt-border); border-radius:var(--r-pill);
+  background:var(--dt-surface); color:var(--dt-ink); font:inherit; font-weight:600;
+  cursor:pointer; text-decoration:none;
+}
+.share__btn:hover{text-decoration:none; border-color:var(--dt-ink-2)}
+.share__btn.is-whatsapp{background:#25D366; border-color:#25D366; color:#FFFFFF}
 
 .poll{display:flex; align-items:center; gap:12px}
 .poll .pill{font-weight:500}
@@ -349,6 +397,17 @@ img{max-width:100%}
 }
 .hotitem__thumb .dealmedia__brand{padding-top:22px}  /* laisse la place à la température */
 .table__deal{display:flex; align-items:center; gap:12px}
+/* Publication : champ de lien + bouton sur une ligne, aperçu de la récupération */
+.linkbox{display:flex; gap:8px}
+.linkbox .input{flex:1; min-width:0; font-size:16px}
+.scrapepreview{
+  display:flex; gap:16px; align-items:center; margin-bottom:16px; padding:14px;
+  background:var(--dt-surface); border:1px solid var(--dt-surface-2); border-radius:var(--r-card);
+}
+.scrapepreview img{width:96px; height:96px; object-fit:contain; background:#FFFFFF; border-radius:8px; flex:none}
+.scrapepreview p{margin:4px 0 0}
+.scrapepreview__price{font-size:var(--fs-title); font-weight:700; color:var(--dt-price)}
+@media (max-width:560px){ .linkbox{flex-direction:column} }
 .comment .comment__lang{margin:4px 0 0; font-size:var(--fs-meta); color:var(--dt-ink-2); font-style:italic}
 .table__thumb{width:56px; height:42px; flex:none}
 .deal__body{padding:18px 22px 14px; min-width:0}

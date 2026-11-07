@@ -27,7 +27,7 @@
       </a>
       <div class="deal__body">
         <div class="deal__top">
-          <form class="vote" method="post" action="{% url 'deals:vote' deal.slug %}">
+          <form class="vote" method="post" action="{% url 'deals:vote' deal.slug %}" data-slug="{{ deal.slug }}">
             {% csrf_token %}
             <button class="vote__btn is-cold" name="value" value="-1" aria-label="{% trans 'Refroidir' %}">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M7 14l5 5 5-5"/></svg>
@@ -43,6 +43,8 @@
         </div>
 
         <div class="deal__flags">
+          {% if deal.is_hot %}<span class="badge is-hot">🔥 {% trans "Brûlant" %}</span>{% endif %}
+          {% if deal.is_new %}<span class="badge is-new">{% trans "Nouveau" %}</span>{% endif %}
           {% if deal.merchant.is_verified %}<span class="badge is-verified">{% trans "Offre vérifiée" %}</span>{% endif %}
           {% if deal.merchant.is_local_independent %}<span class="badge is-local">{% trans "Commerçant local" %}</span>{% endif %}
           {% if deal.is_cross_border %}<span class="badge is-border">{% trans "Transfrontalier" %}</span>{% endif %}
@@ -89,7 +91,7 @@
       <div class="hotitem">
         <a class="hotitem__thumb" href="{{ deal.get_absolute_url }}" tabindex="-1" aria-hidden="true">
           {% include "deals/_media.html" with small=True %}
-          <span class="hotitem__temp">{{ deal.temperature }}°</span>
+          <span class="hotitem__temp" data-temp-for="{{ deal.slug }}">{{ deal.temperature }}°</span>
         </a>
         <div>
           <p class="hotitem__title"><a href="{{ deal.get_absolute_url }}">{{ deal.title_current|truncatechars:60 }}</a></p>
