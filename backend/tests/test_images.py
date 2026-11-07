@@ -120,32 +120,45 @@ class DealPhotoTests(TestCase):
             {
                 "title": "Casque audio sans fil à réduction de bruit",
                 "description": "Autonomie de trente heures, étui de transport et câble inclus.",
-                "external_url": "https://shop.example/casque",
-                "image": image_file("Mon casque.PNG"),
+                "external_url": "https://www.shop.example/casque",
+                "gallery_urls": '["https://cdn.shop.example/casque-face.jpg"]',
+                "gallery_files": [image_file("Mon casque.PNG")],
+                "main_index": "1",  # la photo envoyée devient l'image principale
                 "price": "199.00",
                 "reference_price": "249.00",
+                "availability": "online",
                 "shipping_cost": "0.00",
-                "merchant": Merchant.objects.filter(country="BE").first().pk,
                 "category": Category.objects.filter(is_active=True).first().pk,
                 "language": "fr",
             },
         )
         self.assertEqual(response.status_code, 302, response.content.decode()[:500])
-        deal = Deal.objects.get(external_url="https://shop.example/casque")
+        deal = Deal.objects.get(external_url="https://www.shop.example/casque")
         # Nom aléatoire : le nom d'origine (« Mon casque.PNG ») n'est pas réutilisé.
         self.assertRegex(deal.image.name, r"^deals/[0-9a-f]{32}\.png$")
         self.assertEqual(deal.price, Decimal("199.00"))
+        # L'image externe passe dans la galerie, en deuxième position.
+        self.assertEqual(
+            list(deal.gallery.values_list("image_url", flat=True)),
+            ["https://cdn.shop.example/casque-face.jpg"],
+        )
+        # Marchand inconnu : créé d'après le domaine, non vérifié.
+        self.assertEqual(deal.merchant.name, "Shop")
+        self.assertFalse(deal.merchant.is_verified)
+        self.assertEqual(deal.merchant.website, "https://www.shop.example")
 
     def test_faux_fichier_image_refuse_par_le_formulaire(self):
         self.client.force_login(self.member)
         fake = SimpleUploadedFile("photo.jpg", b"pas une image", content_type="image/jpeg")
-        response = self.client.post(reverse("deals:submit"), {"title": "x", "image": fake})
+        response = self.client.post(
+            reverse("deals:submit"), {"title": "x", "gallery_files": [fake]}
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context["form"].has_error("image"))
+        self.assertTrue(response.context["form"].has_error("gallery_files"))
 
     def test_image_externe_en_http_refusee(self):
         self.client.force_login(self.member)
         response = self.client.post(
-            reverse("deals:submit"), {"image_url": "http://shop.example/casque.jpg"}
+            reverse("deals:submit"), {"gallery_urls": '["http://shop.example/casque.jpg"]'}
         )
-        self.assertTrue(response.context["form"].has_error("image_url"))
+        self.assertTrue(response.context["form"].has_error("gallery_urls"))

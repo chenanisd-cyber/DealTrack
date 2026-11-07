@@ -8,8 +8,19 @@
 
   <article class="panel" style="padding:0">
     <div class="detail">
-      <div class="detail__gallery">
-        {% include "deals/_media.html" with large=True %}
+      <div>
+        <div class="detail__gallery">
+          {% include "deals/_media.html" with large=True %}
+        </div>
+        {% with photos=deal.all_photos %}{% if photos|length > 1 %}
+        <div class="thumbs" role="group" aria-label="{% trans 'Photos du deal' %}">
+          {% for photo in photos %}
+          <button type="button" data-photo="{{ photo }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+            <img src="{{ photo }}" alt="" loading="lazy" referrerpolicy="no-referrer">
+          </button>
+          {% endfor %}
+        </div>
+        {% endif %}{% endwith %}
       </div>
       <div>
         <div class="detail__bar">
@@ -26,23 +37,33 @@
           <span class="meta">{{ comments|length }} {% trans "commentaires" %}</span>
         </div>
 
-        <p class="detail__date">{% blocktrans with when=deal.published_at|timesince %}Publié il y a {{ when }}{% endblocktrans %}</p>
+        <p class="detail__date">{% if deal.published_at %}{% blocktrans with when=deal.published_at|timesince %}Publié il y a {{ when }}{% endblocktrans %}{% else %}<span class="stamp is-pending">{% trans "En attente de modération" %}</span>{% endif %}</p>
+
+        {% if deal.starts_later %}<p class="startsbanner">{% blocktrans with date=deal.starts_at|date:"j F" %}Ce deal commence le {{ date }}{% endblocktrans %}</p>{% endif %}
 
         <div class="deal__flags">
           {% if deal.merchant.is_verified %}<span class="badge is-verified">{% trans "Offre vérifiée" %}</span>{% endif %}
           {% if deal.merchant.is_local_independent %}<span class="badge is-local">{% trans "Commerçant local" %}</span>{% endif %}
           {% if deal.is_cross_border %}<span class="badge is-border">{% trans "Transfrontalier" %}</span>{% endif %}
+          {% if deal.availability == "in_store" %}<span class="badge is-border">{% trans "En magasin" %}</span>{% endif %}
           {% if not deal.is_translated %}<span class="badge is-lang">{% blocktrans with lang=deal.source_language_label %}Offre rédigée en {{ lang }}{% endblocktrans %}</span>{% endif %}
         </div>
 
         <h1 class="detail__h1">{{ deal.title_current }}</h1>
         <div class="detail__price">{{ deal.price }} €</div>
         <p class="detail__ship">
-          {% if deal.is_free_shipping %}{% trans "Livraison gratuite" %}{% else %}{% trans "Livraison" %} {{ deal.shipping_cost }} €{% endif %}
+          {% if deal.availability == "in_store" %}{% trans "En magasin" %}{% elif deal.is_free_shipping %}{% trans "Livraison gratuite" %}{% else %}{% trans "Livraison" %} {{ deal.shipping_cost }} €{% endif %}
           · {% trans "Dispo. chez" %} <strong>{{ deal.merchant.name }}</strong>
         </p>
+        {% if deal.promo_code %}
+        <p class="promo">{% trans "Code promo" %} : <span>{{ deal.promo_code }}</span>
+          <button type="button" data-share="copy" data-url="{{ deal.promo_code }}" data-copied="{% trans 'Copié !' %}"><span>{% trans "Copier" %}</span></button>
+        </p>
+        {% endif %}
+        {% if deal.external_url %}
         {# rel=nofollow noopener : pas de transfert de référencement, pas d'accès à window.opener #}
         <a class="cta is-lg" href="{{ deal.external_url }}" rel="nofollow noopener external" target="_blank">{% trans "Voir le deal" %}</a>
+        {% endif %}
 
         {# Partage : lien wa.me officiel de WhatsApp, menu natif du téléphone, copie #}
         {% with share_url=request.build_absolute_uri %}

@@ -1,215 +1,163 @@
-{% extends "base.html" %}{% load i18n %}
+{% extends "base.html" %}{% load i18n static %}
 {% block title %}{% trans "Publier un deal" %} — DealTrack.be{% endblock %}
 {% block content %}
-<div class="shell"><div class="form">
+{% comment %}
+  Assistant de publication en six étapes. Tout est dans UN formulaire envoyé
+  à la fin : les étapes ne sont qu'un affichage (JavaScript), le serveur
+  revalide chaque champ. Après un envoi invalide, le script ouvre l'étape qui
+  contient la première erreur. Sans JavaScript, toutes les étapes s'affichent
+  à la suite et le formulaire reste utilisable.
+{% endcomment %}
+<div class="wizard" id="wizard">
+  <aside class="wizard__nav" aria-label="{% trans 'Étapes de la publication' %}">
+    <h1 class="wizard__title">{% trans "Partager un deal" %}</h1>
+    <ol>
+      <li><button type="button" data-goto="link">{% trans "Lien" %}</button></li>
+      <li><button type="button" data-goto="essentials">{% trans "Essentiel" %}</button></li>
+      <li><button type="button" data-goto="images">{% trans "Galerie d'images" %}</button></li>
+      <li><button type="button" data-goto="description">{% trans "Description" %}</button></li>
+      <li><button type="button" data-goto="details">{% trans "Derniers détails" %}</button></li>
+      <li class="wizard__nav-sep"><button type="button" data-goto="review">{% trans "Vérification" %}</button></li>
+    </ol>
+  </aside>
 
-  {% comment %}
-    Formulaire en deux étapes : 1) le lien, 2) le formulaire complet.
-    Si le formulaire a déjà été soumis (form.is_bound), on affiche
-    directement l'étape 2 : c'est là que se trouvent les messages d'erreur.
-  {% endcomment %}
+  <form method="post" enctype="multipart/form-data" novalidate class="wizard__main" id="deal-form">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<p class="moderation wizard__alert">{{ form.non_field_errors|join:" " }}</p>{% endif %}
 
-  <!-- ÉTAPE 1 : saisie du lien -->
-  <div id="step1-link"{% if form.is_bound %} hidden{% endif %}>
-    <h1 style="font-size:var(--fs-h1)">{% trans "Partagez un bon plan" %}</h1>
-    <p style="color:var(--dt-ink-2); margin-bottom: 24px;">{% trans "Entrez le lien de la page où il est possible de profiter du deal." %}</p>
-
-    <section class="panel">
-      <div class="field">
-        <label class="field__label" for="magic-url-input">{% trans "Lien de l'offre" %}</label>
+    {# ---------------------------------------------------------- 1. Lien #}
+    <section class="wizard__step is-centered" data-step="link">
+      <h2>{% trans "Partagez un bon plan avec toute la Belgique" %}</h2>
+      <p class="wizard__lead">{% trans "Entrez le lien de la page où l'on peut profiter du deal : titre, prix, photos et marchand sont récupérés automatiquement." %}</p>
+      <div class="field{% if form.external_url.errors %} has-error{% endif %}" data-field="external_url">
+        <label class="visually-hidden" for="{{ form.external_url.id_for_label }}">{% trans "Lien de l'offre" %}</label>
         <div class="linkbox">
-          <input type="url" id="magic-url-input" class="input" placeholder="https://www.amazon.com.be/dp/..." maxlength="800" required autofocus>
-          <button type="button" id="btn-fetch-data" class="cta">{% trans "Vérifier le lien" %}</button>
+          {{ form.external_url }}
+          <button type="button" class="cta" id="btn-fetch">{% trans "Continuer" %}</button>
         </div>
-        <p class="field__hint">{% trans "Collez le lien : titre, prix, photo et marchand sont récupérés automatiquement." %}</p>
-        <p id="url-error" class="field__hint" style="color:var(--dt-hot)" hidden></p>
+        {% for e in form.external_url.errors %}<p class="field__hint field__error">{{ e }}</p>{% endfor %}
+        <p class="field__hint" id="fetch-status" hidden>{% trans "Lecture de la page en cours…" %}</p>
+        <p class="field__hint field__error" id="fetch-error" hidden></p>
       </div>
-      <p id="scrape-status" style="color: var(--dt-warn); margin-top: 12px; text-align: center;" hidden>
-        {% trans "Extraction des données en cours..." %}
-      </p>
-      <p style="margin-top: 12px; text-align: center;">
-        <a href="#" id="skip-link">{% trans "Remplir le formulaire sans lien" %}</a>
-      </p>
+      <button type="button" class="linkbtn" id="btn-nolink">{% trans "Je n'ai pas de lien (deal en magasin)" %}</button>
     </section>
-  </div>
 
-  <!-- ÉTAPE 2 : le formulaire complet -->
-  <div id="step2-form"{% if not form.is_bound %} hidden{% endif %}>
-    <h1 style="font-size:var(--fs-h1)">{% trans "Publier un deal" %}</h1>
-    <p style="color:var(--dt-ink-2)">{% trans "Chaque publication passe par la modération avant d'apparaître dans le flux." %}</p>
-
-    <p id="scrape-warning" class="moderation" style="background:var(--dt-warn-bg);color:var(--dt-warn);margin-bottom:16px" hidden></p>
-
-    {# Aperçu de ce que le lien a permis de récupérer #}
-    <div id="scrape-preview" class="scrapepreview" hidden>
-      <img id="preview-img" alt="" referrerpolicy="no-referrer" hidden>
-      <div>
-        <strong id="preview-title"></strong>
-        <p id="preview-price" class="scrapepreview__price"></p>
-        <p id="preview-found" class="field__hint"></p>
+    {# ----------------------------------------------------- 2. Essentiel #}
+    <section class="wizard__step" data-step="essentials">
+      <h2>{% trans "Commençons par l'essentiel" %}</h2>
+      <p id="fetch-summary" class="wizard__found" hidden></p>
+      <div class="field{% if form.title.errors %} has-error{% endif %}" data-field="title">
+        <label class="field__label" for="{{ form.title.id_for_label }}">{% trans "Titre" %} * <span class="counter" data-count-for="{{ form.title.id_for_label }}" data-max="140"></span></label>
+        {{ form.title }}
+        {% for e in form.title.errors %}<p class="field__hint field__error">{{ e }}</p>{% endfor %}
       </div>
-    </div>
-
-    <div class="moderation" style="background:var(--dt-warn-bg);color:var(--dt-warn);margin-bottom:16px">
-      <div>
-        <strong>{% trans "Règle belge sur l'annonce de réduction" %}</strong>
-        <p>{% trans "Le prix de référence doit être le prix le plus bas pratiqué par le marchand durant les 30 jours précédents. Un prix barré gonflé entraîne le refus." %}</p>
+      <h3 class="wizard__sub">{% trans "Détails du prix" %}</h3>
+      <div class="field__row">
+        {% include "deals/_field.html" with field=form.price %}
+        <div class="field{% if form.reference_price.errors %} has-error{% endif %}" data-field="reference_price">
+          <label class="field__label" for="{{ form.reference_price.id_for_label }}">{% trans "Prix de référence (30 jours)" %} <span class="badge is-save" id="discount-badge">0 %</span></label>
+          {{ form.reference_price }}
+          <p class="field__hint">{% trans "Le prix le plus bas pratiqué par le marchand durant les 30 jours précédents (loi belge)." %}</p>
+          {% for e in form.reference_price.errors %}<p class="field__hint field__error">{{ e }}</p>{% endfor %}
+        </div>
       </div>
-    </div>
-
-    <section class="panel">
-      <form method="post" enctype="multipart/form-data" novalidate>
-        {% csrf_token %}
-        {% include "_form.html" %}
-        <button class="cta is-block" type="submit">{% trans "Soumettre à la modération" %}</button>
-      </form>
+      {% include "deals/_field.html" with field=form.promo_code %}
+      <h3 class="wizard__sub">{% trans "Disponibilité" %}</h3>
+      <div class="field segmented{% if form.availability.errors %} has-error{% endif %}" data-field="availability">
+        {% for radio in form.availability %}<label class="segmented__item">{{ radio.tag }}<span>{{ radio.choice_label }}</span></label>{% endfor %}
+      </div>
+      <div class="field__row">
+        <div data-show-when="online">{% include "deals/_field.html" with field=form.shipping_cost %}</div>
+        <div>{% include "deals/_field.html" with field=form.regions %}</div>
+      </div>
     </section>
-  </div>
 
-</div></div>
+    {# ----------------------------------------------- 3. Galerie d'images #}
+    <section class="wizard__step" data-step="images">
+      <h2>{% trans "Mettez votre deal en valeur avec des images" %}</h2>
+      <p class="wizard__lead">{% trans "Jusqu'à 8 images. Cliquez sur une image pour en faire l'image principale, sur × pour la retirer." %}</p>
+      {{ form.gallery_urls }}{{ form.main_index }}
+      <div class="gallery" id="gallery" aria-live="polite"></div>
+      <p class="field__hint" id="gallery-empty">{% trans "Aucune image pour l'instant : ajoutez-en via une adresse ou depuis votre appareil." %}</p>
+      <div class="field{% if form.gallery_urls.errors %} has-error{% endif %}" data-field="gallery_urls">
+        <label class="field__label" for="image-url-input">{% trans "Ajouter via une adresse" %}</label>
+        <div class="linkbox">
+          <input type="url" id="image-url-input" class="input" placeholder="https://…">
+          <button type="button" class="pill" id="btn-add-url">{% trans "Ajouter" %}</button>
+        </div>
+        {% for e in form.gallery_urls.errors %}<p class="field__hint field__error">{{ e }}</p>{% endfor %}
+      </div>
+      {% include "deals/_field.html" with field=form.gallery_files %}
+    </section>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Textes traduits côté serveur ; escapejs évite qu'une apostrophe casse le script.
-    const MSG = {
-      invalid: "{% trans 'Veuillez entrer un lien valide (http:// ou https://).' as m %}{{ m|escapejs }}",
-      failed: "{% trans 'Impossible de lire cette page : complétez le formulaire vous-même.' as m %}{{ m|escapejs }}",
-      refused: "{% trans 'Ce lien a été refusé. Seules les pages web publiques sont acceptées.' as m %}{{ m|escapejs }}",
-      tooMany: "{% trans 'Trop de vérifications en peu de temps. Réessayez dans une minute.' as m %}{{ m|escapejs }}",
-      blocked: "{% trans 'Ce site bloque la lecture automatique : complétez les champs vous-même, le lien est déjà renseigné.' as m %}{{ m|escapejs }}",
-      found: "{% trans 'Récupéré automatiquement :' as m %}{{ m|escapejs }}",
-      missing: "{% trans 'À compléter :' as m %}{{ m|escapejs }}",
-      check: "{% trans 'Vérifiez avant d’envoyer.' as m %}{{ m|escapejs }}",
-      fields: {
-        title: "{% trans 'titre' as m %}{{ m|escapejs }}",
-        price: "{% trans 'prix' as m %}{{ m|escapejs }}",
-        reference: "{% trans 'prix de référence (30 jours)' as m %}{{ m|escapejs }}",
-        photo: "{% trans 'photo' as m %}{{ m|escapejs }}",
-        merchant: "{% trans 'marchand' as m %}{{ m|escapejs }}",
-        description: "{% trans 'description' as m %}{{ m|escapejs }}"
-      }
-    };
+    {# --------------------------------------------------- 4. Description #}
+    <section class="wizard__step" data-step="description">
+      <h2>{% trans "Pourquoi ce deal vaut-il la peine d'être partagé ?" %}</h2>
+      <div class="field{% if form.description.errors %} has-error{% endif %}" data-field="description">
+        <label class="field__label" for="{{ form.description.id_for_label }}">{% trans "Description" %} * <span class="counter" data-count-for="{{ form.description.id_for_label }}" data-max="4000"></span></label>
+        {{ form.description }}
+        <p class="field__hint">{% trans "Conditions, astuces, comparaison avec d'autres magasins… 30 caractères minimum." %}</p>
+        {% for e in form.description.errors %}<p class="field__hint field__error">{{ e }}</p>{% endfor %}
+      </div>
+    </section>
 
-    const step1 = document.getElementById("step1-link");
-    const step2 = document.getElementById("step2-form");
-    const urlInput = document.getElementById("magic-url-input");
-    const urlError = document.getElementById("url-error");
-    const status = document.getElementById("scrape-status");
-    const warning = document.getElementById("scrape-warning");
-    const button = document.getElementById("btn-fetch-data");
+    {# ---------------------------------------------- 5. Derniers détails #}
+    <section class="wizard__step" data-step="details">
+      <h2>{% trans "Derniers détails" %}</h2>
+      <div class="merchantbox{% if form.merchant_name.errors %} has-error{% endif %}" data-field="merchant_name">
+        <p class="field__label" style="margin:0">{% trans "Marchand" %}</p>
+        <p id="merchant-detected" class="merchantbox__name">{% trans "Reconnu automatiquement d'après le lien" %}</p>
+        <p class="field__hint" id="merchant-new-note" hidden>{% trans "Nouveau marchand : il sera ajouté et vérifié par la modération." %}</p>
+        {% for e in form.merchant_name.errors %}<p class="field__hint field__error">{{ e }}</p>{% endfor %}
+        <details {% if form.merchant_name.errors or form.merchant_name.value or form.merchant.value %}open{% endif %}>
+          <summary>{% trans "Changer de marchand" %}</summary>
+          <div class="field__row">
+            {% include "deals/_field.html" with field=form.merchant %}
+            {% include "deals/_field.html" with field=form.merchant_name %}
+          </div>
+        </details>
+      </div>
+      <div class="field__row">
+        {% include "deals/_field.html" with field=form.category %}
+        {% include "deals/_field.html" with field=form.language %}
+      </div>
+      <div class="field__row">
+        {% include "deals/_field.html" with field=form.starts_at %}
+        {% include "deals/_field.html" with field=form.ends_at %}
+      </div>
+    </section>
 
-    function setValue(id, value) {
-      const field = document.getElementById(id);
-      if (field && value) field.value = value;
-    }
+    {# --------------------------------------------------- 6. Vérification #}
+    <section class="wizard__step" data-step="review">
+      <h2>{% trans "Vérifiez votre deal" %}</h2>
+      <article class="deal reviewcard">
+        <div class="deal__media"><div class="dealmedia"><img id="review-img" class="dealmedia__photo" alt="" referrerpolicy="no-referrer" hidden></div></div>
+        <div class="deal__body">
+          <div class="deal__flags" id="review-flags"></div>
+          <h3 class="deal__title" id="review-title"></h3>
+          <div class="priceline"><span class="price" id="review-price"></span><span class="price--was" id="review-ref"></span></div>
+          <p class="meta" id="review-meta"></p>
+          <p class="deal__desc" id="review-desc"></p>
+        </div>
+      </article>
+      <div class="moderation" style="margin-top:16px">
+        <div>
+          <strong>{% trans "Règle belge sur l'annonce de réduction" %}</strong>
+          <p>{% trans "Le prix de référence doit être le prix le plus bas pratiqué par le marchand durant les 30 jours précédents. Un prix barré gonflé entraîne le refus." %}</p>
+        </div>
+      </div>
+      <p class="field__hint">{% trans "Chaque publication passe par la modération avant d'apparaître dans le flux." %}</p>
+      <button class="cta is-block is-lg" type="submit">{% trans "Soumettre à la modération" %}</button>
+    </section>
 
-    function showForm(url, message) {
-      step1.hidden = true;
-      step2.hidden = false;
-      setValue("id_external_url", url);
-      if (message) {
-        warning.textContent = message;
-        warning.hidden = false;
-      }
-    }
+    <div class="wizard__footer">
+      <button type="button" class="pill" id="btn-prev">{% trans "Précédent" %}</button>
+      <button type="button" class="cta" id="btn-next">{% trans "Suivant" %}</button>
+    </div>
+  </form>
+</div>
 
-    function showPreview(data) {
-      const found = [], missing = [];
-      const add = function (ok, key) { (ok ? found : missing).push(MSG.fields[key]); };
-      add(data.title, "title");
-      add(data.price, "price");
-      add(data.reference_price, "reference");
-      add(data.image_url, "photo");
-      add(data.merchant_id, "merchant");
-      add(data.description, "description");
-
-      const img = document.getElementById("preview-img");
-      img.hidden = !data.image_url;
-      if (data.image_url) img.src = data.image_url;
-      document.getElementById("preview-title").textContent = data.title || "";
-      document.getElementById("preview-price").textContent =
-        (data.price ? data.price.replace(".", ",") + " €" : "") +
-        (data.merchant_name ? " · " + data.merchant_name : "");
-      document.getElementById("preview-found").textContent =
-        MSG.found + " " + (found.join(", ") || "—") + ". " +
-        (missing.length ? MSG.missing + " " + missing.join(", ") + ". " : "") + MSG.check;
-      document.getElementById("scrape-preview").hidden = false;
-    }
-
-    function fillForm(data) {
-      setValue("id_title", data.title);
-      setValue("id_image_url", data.image_url);
-      setValue("id_price", data.price);
-      setValue("id_reference_price", data.reference_price);
-      setValue("id_merchant", data.merchant_id);
-      // La description du marchand n'est qu'un point de départ (30 caractères minimum).
-      const description = document.getElementById("id_description");
-      if (description && !description.value && data.description && data.description.length >= 30) {
-        description.value = data.description;
-      }
-      const crossBorder = document.getElementById("id_is_cross_border");
-      if (crossBorder && data.is_cross_border) crossBorder.checked = true;
-    }
-
-    // Comme sur les grands sites de deals : coller un lien lance la vérification.
-    urlInput.addEventListener("paste", function () {
-      setTimeout(function () { if (/^https?:\/\//i.test(urlInput.value.trim())) button.click(); }, 50);
-    });
-    urlInput.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") { e.preventDefault(); button.click(); }
-    });
-
-    document.getElementById("skip-link").addEventListener("click", function (e) {
-      e.preventDefault();
-      showForm("", "");
-    });
-
-    button.addEventListener("click", function () {
-      const url = urlInput.value.trim();
-      urlError.hidden = true;
-
-      // Validation côté navigateur (confort) ; le serveur revalide tout.
-      if (!urlInput.checkValidity() || !/^https?:\/\//i.test(url)) {
-        urlError.textContent = MSG.invalid;
-        urlError.hidden = false;
-        return;
-      }
-
-      status.hidden = false;
-      button.disabled = true;
-
-      fetch("{% url 'deals:scrape-link' %}", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
-        },
-        body: JSON.stringify({ url: url })
-      })
-        .then(function (response) { return response.json(); })
-        .then(function (data) {
-          if (data.success) {
-            showForm(url, "");
-            fillForm(data);
-            showPreview(data);
-          } else if (data.error === "blocked") {
-            showForm(url, MSG.blocked);
-          } else if (data.error === "unsafe_url") {
-            urlError.textContent = MSG.refused;
-            urlError.hidden = false;
-          } else if (data.error === "rate_limited") {
-            urlError.textContent = MSG.tooMany;
-            urlError.hidden = false;
-          } else {
-            showForm(url, MSG.failed);
-          }
-        })
-        .catch(function () { showForm(url, MSG.failed); })
-        .finally(function () {
-          status.hidden = true;
-          button.disabled = false;
-        });
-    });
-  });
-</script>
+{# Textes de l'interface pour submit.js, traduits côté serveur (json_script échappe tout). #}
+{{ wizard_messages|json_script:"wizard-messages" }}
+<script src="{% static 'js/submit.js' %}" defer data-scrape-url="{% url 'deals:scrape-link' %}"></script>
 {% endblock %}

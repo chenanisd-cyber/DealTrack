@@ -96,7 +96,9 @@ class Deal(models.Model):
         help_text=_("JPEG, PNG ou WebP, 2 Mo maximum."),
     )
     image_url = models.URLField(_("URL de l'image"), max_length=800, blank=True)
-    external_url = models.URLField(_("lien vers l'offre"), max_length=600)
+    # Facultatif pour un deal « en magasin » (commerçant local sans site) ;
+    # le formulaire l'exige pour un deal en ligne.
+    external_url = models.URLField(_("lien vers l'offre"), max_length=600, blank=True)
 
     price = models.DecimalField(
         _("prix"),
@@ -117,6 +119,18 @@ class Deal(models.Model):
         ),
     )
     currency = models.CharField(_("devise"), max_length=3, default="EUR")
+    promo_code = models.CharField(
+        _("code promo"),
+        max_length=40,
+        blank=True,
+        validators=[validate_no_control_characters],
+    )
+    availability = models.CharField(
+        _("disponibilité"),
+        max_length=10,
+        choices=[("online", _("En ligne")), ("in_store", _("En magasin"))],
+        default="online",
+    )
     shipping_cost = models.DecimalField(
         _("frais de livraison"),
         max_digits=8,
@@ -230,6 +244,18 @@ class Deal(models.Model):
     def is_new(self):
         """Badge « Nouveau » : publiée depuis moins de 24 heures."""
         return bool(self.published_at) and timezone.now() - self.published_at < NEW_WINDOW
+
+    @property
+    def all_photos(self):
+        """Photo principale puis galerie : la page de détail affiche les vignettes."""
+        photos = [self.photo_url] if self.photo_url else []
+        photos += [item.url for item in self.gallery.all() if item.url]
+        return photos
+
+    @property
+    def starts_later(self):
+        """Offre annoncée à l'avance (« Ce deal commence le … »)."""
+        return self.starts_at and self.starts_at > timezone.now()
 
     @property
     def photo_url(self):
@@ -516,6 +542,40 @@ class Comment(models.Model):
         self.deleted_at = timezone.now()
         self.save(update_fields=["deleted_at"])
         AuditLog.record(actor=actor, action=AuditLog.Action.COMMENT_DELETED, target=self)
+
+
+class DealImage(models.Model):
+    """
+    Images supplémentaires d'une offre (la principale reste Deal.image ou
+    Deal.image_url). Huit images au total au maximum, limite vérifiée par le
+    formulaire. Chaque ligne porte soit un fichier envoyé, soit une adresse.
+    """
+
+    id = models.BigAutoField(primary_key=True)
+    deal = models.ForeignKey(Deal, on_delete=models.CASCADE, related_name="gallery")
+    image = models.ImageField(
+        _("image"), upload_to=deal_image_path, blank=True, validators=IMAGE_VALIDATORS
+    )
+    image_url = models.URLField(_("URL de l'image"), max_length=800, blank=True)
+    position = models.PositiveSmallIntegerField(_("position"), default=0)
+
+    class Meta:
+        verbose_name = _("image de deal")
+        verbose_name_plural = _("images de deal")
+        ordering = ["position", "id"]
+        constraints = [
+            models.CheckConstraint(
+                condition=~models.Q(image="") | ~models.Q(image_url=""),
+                name="dealimage_has_source",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.deal_id} #{self.position}"
+
+    @property
+    def url(self):
+        return self.image.url if self.image else self.image_url
 
 
 class CommentTranslation(models.Model):

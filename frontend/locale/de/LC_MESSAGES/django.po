@@ -1822,3 +1822,245 @@ msgstr "Buchhandlung"
 #: templates
 msgid "Vélos"
 msgstr "Fahrräder"
+
+#: templates
+msgid "Étapes de la publication"
+msgstr "Schritte der Veröffentlichung"
+
+#: templates
+msgid "Partager un deal"
+msgstr "Ein Angebot teilen"
+
+#: templates
+msgid "Lien"
+msgstr "Link"
+
+#: templates
+msgid "Essentiel"
+msgstr "Das Wichtigste"
+
+#: templates
+msgid "Galerie d'images"
+msgstr "Bildergalerie"
+
+#: templates
+msgid "Description"
+msgstr "Beschreibung"
+
+#: templates
+msgid "Derniers détails"
+msgstr "Letzte Details"
+
+#: templates
+msgid "Vérification"
+msgstr "Überprüfung"
+
+#: templates
+msgid "Partagez un bon plan avec toute la Belgique"
+msgstr "Teilen Sie ein Schnäppchen mit ganz Belgien"
+
+#: templates
+msgid ""
+"Entrez le lien de la page où l'on peut profiter du deal : titre, prix, "
+"photos et marchand sont récupérés automatiquement."
+msgstr ""
+"Geben Sie den Link der Seite mit dem Angebot ein: Titel, Preis, Fotos und "
+"Händler werden automatisch übernommen."
+
+#: templates
+msgid "Continuer"
+msgstr "Weiter"
+
+#: templates
+msgid "Lecture de la page en cours…"
+msgstr "Seite wird gelesen…"
+
+#: templates
+msgid "Je n'ai pas de lien (deal en magasin)"
+msgstr "Ich habe keinen Link (Angebot im Geschäft)"
+
+#: templates
+msgid "Commençons par l'essentiel"
+msgstr "Zuerst das Wichtigste"
+
+#: templates
+msgid "Détails du prix"
+msgstr "Preisdetails"
+
+#: templates
+msgid "Prix de référence (30 jours)"
+msgstr "Referenzpreis (30 Tage)"
+
+#: templates
+msgid ""
+"Le prix le plus bas pratiqué par le marchand durant les 30 jours précédents "
+"(loi belge)."
+msgstr ""
+"Der niedrigste Preis des Händlers in den letzten 30 Tagen (belgisches "
+"Recht)."
+
+#: templates
+msgid "Disponibilité"
+msgstr "Verfügbarkeit"
+
+#: templates
+msgid "Mettez votre deal en valeur avec des images"
+msgstr "Setzen Sie Ihr Angebot mit Bildern in Szene"
+
+#: templates
+msgid ""
+"Jusqu'à 8 images. Cliquez sur une image pour en faire l'image principale, "
+"sur × pour la retirer."
+msgstr ""
+"Bis zu 8 Bilder. Klicken Sie auf ein Bild, um es als Hauptbild zu wählen, "
+"auf ×, um es zu entfernen."
+
+#: templates
+msgid ""
+"Aucune image pour l'instant : ajoutez-en via une adresse ou depuis votre "
+"appareil."
+msgstr ""
+"Noch keine Bilder: Fügen Sie welche über eine Adresse oder von Ihrem Gerät "
+"hinzu."
+
+#: templates
+msgid "Ajouter via une adresse"
+msgstr "Über eine Adresse hinzufügen"
+
+#: templates
+msgid "Ajouter"
+msgstr "Hinzufügen"
+
+#: templates
+msgid "Pourquoi ce deal vaut-il la peine d'être partagé ?"
+msgstr "Warum lohnt es sich, dieses Angebot zu teilen?"
+
+#: templates
+msgid ""
+"Conditions, astuces, comparaison avec d'autres magasins… 30 caractères "
+"minimum."
+msgstr ""
+"Bedingungen, Tipps, Vergleich mit anderen Geschäften… mindestens 30 Zeichen."
+
+#: templates
+msgid "Marchand"
+msgstr "Händler"
+
+#: templates
+msgid "Reconnu automatiquement d'après le lien"
+msgstr "Automatisch anhand des Links erkannt"
+
+#: templates
+msgid "Nouveau marchand : il sera ajouté et vérifié par la modération."
+msgstr "Neuer Händler: Er wird hinzugefügt und von der Moderation geprüft."
+
+#: templates
+msgid "Changer de marchand"
+msgstr "Händler ändern"
+
+#: templates
+msgid "Vérifiez votre deal"
+msgstr "Überprüfen Sie Ihr Angebot"
+
+#: templates
+msgid "Photos du deal"
+msgstr "Fotos des Angebots"
+
+#: templates
+msgid "En magasin"
+msgstr "Im Geschäft"
+
+#: templates
+msgid "En ligne"
+msgstr "Online"
+
+#: templates
+msgid "Code promo"
+msgstr "Rabattcode"
+
+#: templates
+msgid "code promo"
+msgstr "Rabattcode"
+
+#: templates
+msgid "disponibilité"
+msgstr "Verfügbarkeit"
+
+#: templates
+msgid "Copié !"
+msgstr "Kopiert!"
+
+#: templates
+msgid "Copier"
+msgstr "Kopieren"
+
+#: templates
+#, python-format
+msgid "Ce deal commence le %(date)s"
+msgstr "Dieses Angebot beginnt am %(date)s"
+
+#: templates
+msgid "Marchand à préciser à l'étape « Derniers détails »"
+msgstr "Händler im Schritt „Letzte Details“ angeben"
+
+#: templates
+msgid "Image principale"
+msgstr "Hauptbild"
+
+#: templates
+msgid "Choisir comme image principale"
+msgstr "Als Hauptbild wählen"
+
+#: templates
+msgid "Retirer l'image"
+msgstr "Bild entfernen"
+
+#: templates
+msgid "Huit images au maximum."
+msgstr "Höchstens acht Bilder."
+
+#: templates
+msgid "Code :"
+msgstr "Code:"
+
+#: templates
+msgid "Lieux"
+msgstr "Orte"
+
+#: templates
+msgid "Aucune case cochée : toute la Belgique."
+msgstr "Kein Feld angekreuzt: ganz Belgien."
+
+#: templates
+msgid "Nom du marchand"
+msgstr "Name des Händlers"
+
+#: templates
+msgid "ex. Joybuy"
+msgstr "z. B. Joybuy"
+
+#: templates
+msgid "Ajouter des photos"
+msgstr "Fotos hinzufügen"
+
+#: templates
+msgid "Prix de référence (le plus bas des 30 derniers jours)"
+msgstr "Referenzpreis (niedrigster der letzten 30 Tage)"
+
+#: templates
+msgid "Liste d'images invalide."
+msgstr "Ungültige Bilderliste."
+
+#: templates
+msgid "Un deal en ligne doit avoir un lien vers l'offre."
+msgstr "Ein Online-Angebot braucht einen Link zum Angebot."
+
+#: templates
+msgid "La fin doit être postérieure au début."
+msgstr "Das Ende muss nach dem Beginn liegen."
+
+#: templates
+msgid "Indiquez le nom du marchand (ou collez le lien de l'offre)."
+msgstr ""
+"Geben Sie den Namen des Händlers an (oder fügen Sie den Link zum Angebot "
+"ein)."

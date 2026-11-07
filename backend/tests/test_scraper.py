@@ -143,18 +143,19 @@ class SubmitFormDisplayTests(TestCase):
         seed_reference_data()
         cls.member = make_user("membre@example.be", "Membre")
 
-    def test_erreurs_visibles_apres_envoi_invalide(self):
-        """Après un envoi invalide, l'étape 2 (et ses erreurs) doit être affichée."""
+    def test_erreurs_marquees_pour_ouvrir_la_bonne_etape(self):
+        """Après un envoi invalide, chaque champ fautif porte has-error : submit.js
+        ouvre l'étape qui contient la première erreur."""
         self.client.force_login(self.member)
         response = self.client.post(reverse("deals:submit"), {"title": "trop court"})
         html = response.content.decode()
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn('<div id="step1-link" hidden>', html)
-        self.assertIn('<div id="step2-form">', html)
+        self.assertIn('class="field has-error" data-field="title"', html)
 
-    def test_premier_affichage_commence_par_le_lien(self):
+    def test_assistant_en_six_etapes(self):
         self.client.force_login(self.member)
         html = self.client.get(reverse("deals:submit")).content.decode()
-        self.assertIn('<div id="step1-link">', html)
-        self.assertIn('<div id="step2-form" hidden>', html)
+        for step in ("link", "essentials", "images", "description", "details", "review"):
+            self.assertIn(f'data-step="{step}"', html)
+        self.assertIn('id="wizard-messages"', html)

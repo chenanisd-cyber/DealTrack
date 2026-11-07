@@ -253,7 +253,7 @@ change à chaque lancement. `cloudflared.exe` est attendu dans `.tools/`
 python manage.py test tests --settings=config.settings.test
 ```
 
-162 tests, répartis en sept fichiers dans `backend/tests/` :
+169 tests, répartis en sept fichiers dans `backend/tests/` :
 
 | Fichier | Tests | Contenu |
 |---|---|---|
@@ -263,7 +263,7 @@ python manage.py test tests --settings=config.settings.test
 | test_images.py | 13 | Validation des photos envoyées, priorité photo / image externe / vignette du marchand |
 | test_comments.py | 5 | Commentaires traduits selon la langue de la page, repli sur l'original |
 | test_checkout.py | 8 | Paiement hébergé : parcours, fraude au retour, idempotence, webhook |
-| test_live_features.py | 12 | Lecture du prix, marchand par domaine, vote en direct, annuaire, mode partage |
+| test_live_features.py | 19 | Lecture du prix, marchand automatique, assistant de publication, vote en direct, annuaire, mode partage |
 
 ## API REST
 

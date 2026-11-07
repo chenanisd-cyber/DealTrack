@@ -160,6 +160,7 @@ class Merchant(models.Model):
         FR = "FR", _("France")
         DE = "DE", _("Allemagne")
         LU = "LU", _("Luxembourg")
+        OTHER = "ZZ", _("Autre pays")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(

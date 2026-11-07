@@ -851,13 +851,18 @@ class FormValidationTests(BaseIntegrationTest):
                 ),
                 "external_url": "https://example.nl/bosch-seche-linge",
                 "price": "449.00",
+                "availability": "online",
                 "shipping_cost": "0.00",
                 "merchant": str(dutch.pk),
                 "category": str(self.published.category_id),
                 "language": "nl",
             },
         )
-        self.assertIn("is_cross_border", response.context["form"].errors)
+        # Plus de case à cocher : un marchand hors Belgique rend l'offre
+        # transfrontalière automatiquement, impossible de l'oublier.
+        self.assertEqual(response.status_code, 302)
+        deal = Deal.objects.get(external_url="https://example.nl/bosch-seche-linge")
+        self.assertTrue(deal.is_cross_border)
 
     def test_url_parameter_injection_is_ignored(self):
         """Un code région inexistant ne doit pas casser la page ni tout révéler."""

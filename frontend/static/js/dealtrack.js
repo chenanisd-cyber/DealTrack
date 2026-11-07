@@ -98,6 +98,17 @@
     // data-share="whatsapp" : simple lien https://wa.me/?text=…, rien à faire.
   });
 
+  // -- Galerie de la page du deal : une vignette remplace la photo principale
+  document.addEventListener("click", function (event) {
+    var thumb = event.target.closest("[data-photo]");
+    if (!thumb) return;
+    var main = document.querySelector(".detail__gallery .dealmedia__photo");
+    if (main) main.src = thumb.dataset.photo;
+    thumb.parentElement.querySelectorAll("[data-photo]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b === thumb));
+    });
+  });
+
   // Le bouton « Partager » natif n'apparaît que si le navigateur le permet.
   if (navigator.share) {
     document.querySelectorAll('[data-share="native"]').forEach(function (b) { b.hidden = false; });

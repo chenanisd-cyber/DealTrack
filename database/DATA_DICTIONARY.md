@@ -30,6 +30,7 @@
 | `deals_comment` | commentaires | id · UUID | 34 |
 | `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 68 |
 | `deals_deal` | deals | id · UUID | 20 |
+| `deals_dealimage` | images de deal | id · BIGINT auto | 0 |
 | `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 36 |
 | `deals_vote` | votes | id · BIGINT auto | 72 |
 | `payments_payment` | paiements | id · UUID | 4 |
@@ -113,7 +114,7 @@ Enseigne chez qui le deal est disponible.
 | `id` | UUID | non | `uuid4` | **clé primaire** |
 | `name` | VARCHAR(120) | non | — | — |
 | `slug` | VARCHAR (slug)(120) | non | — | unique |
-| `country` | VARCHAR(2) | non | `BE` | indexée · valeurs : `BE`, `NL`, `FR`, `DE`, `LU` |
+| `country` | VARCHAR(2) | non | `BE` | indexée · valeurs : `BE`, `NL`, `FR`, `DE`, `LU`, `ZZ` |
 | `website` | VARCHAR(300) | non | — | — |
 | `vat_number` | VARCHAR(20) | non | — | Format belge uniquement, contrôlé par sa clé modulo 97. |
 | `is_local_independent` | BOOLEAN | non | `False` | Déclenche le badge « Commerçant local » dans le flux. |
@@ -195,7 +196,7 @@ Commentaire dans une autre langue. Même modèle que DealTranslation : une ligne
 - `uniq_comment_language` — unicité sur `comment`, `language`
 
 ### `deals_deal`
-Deal(id, title, slug, description, image, image_url, external_url, price, reference_price, currency, shipping_cost, merchant, category, submitted_by, status, is_cross_border, language, starts_at, ends_at, published_at, temperature, created_at, updated_at, deleted_at)
+Deal(id, title, slug, description, image, image_url, external_url, price, reference_price, currency, promo_code, availability, shipping_cost, merchant, category, submitted_by, status, is_cross_border, language, starts_at, ends_at, published_at, temperature, created_at, updated_at, deleted_at)
 
 | Colonne | Type | Null | Défaut | Contraintes et rôle |
 |---|---|---|---|---|
@@ -209,6 +210,8 @@ Deal(id, title, slug, description, image, image_url, external_url, price, refere
 | `price` | DECIMAL(10,2) | non | — | — |
 | `reference_price` | DECIMAL(10,2) | oui | — | Prix le plus bas pratiqué par le marchand durant les 30 jours précédents (Code de droit économique, art. VI.18). |
 | `currency` | VARCHAR(3) | non | `EUR` | — |
+| `promo_code` | VARCHAR(40) | non | — | — |
+| `availability` | VARCHAR(10) | non | `online` | valeurs : `online`, `in_store` |
 | `shipping_cost` | DECIMAL(8,2) | non | `0.00` | — |
 | `merchant_id` | FK | non | — | indexée · → `catalog_merchant` · `PROTECT` · _bloque la suppression physique du parent_ |
 | `category_id` | FK | non | — | indexée · → `catalog_category` · `PROTECT` · _bloque la suppression physique du parent_ |
@@ -233,6 +236,20 @@ Deal(id, title, slug, description, image, image_url, external_url, price, refere
 - `deal_published_requires_date` — vérification : `(OR: (NOT (AND: ('status', 'published'))), ('published_at__isnull', False))`
 
 **Index** : `deal_status_pub_idx`, `deal_merchant_status_idx`
+
+### `deals_dealimage`
+Images supplémentaires d'une offre (la principale reste Deal.image ou Deal.image_url). Huit images au total au maximum, limite vérifiée par le formulaire. Chaque ligne porte soit un fichier envoyé, soit une adresse.
+
+| Colonne | Type | Null | Défaut | Contraintes et rôle |
+|---|---|---|---|---|
+| `id` | BIGINT auto | non | auto | **clé primaire** |
+| `deal_id` | FK | non | — | indexée · → `deals_deal` · `CASCADE` |
+| `image` | FileField | non | — | — |
+| `image_url` | VARCHAR(800) | non | — | — |
+| `position` | SMALLINT ≥ 0 | non | `0` | — |
+
+**Contraintes de table**
+- `dealimage_has_source` — vérification : `(OR: (NOT (AND: ('image', ''))), (NOT (AND: ('image_url', ''))))`
 
 ### `deals_dealtranslation`
 Titre et description d'une offre dans une autre langue.
@@ -414,4 +431,4 @@ Le comportement de suppression est choisi champ par champ, jamais laissé par d�
 
 ---
 
-_Schéma : 30 tables, moteur `sqlite`._
+_Schéma : 31 tables, moteur `sqlite`._

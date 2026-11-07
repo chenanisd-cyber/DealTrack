@@ -1,5 +1,4 @@
 import json
-from urllib.parse import urlparse
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,6 +11,7 @@ from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods, require_POST
 
+from apps.catalog.merchants import domain_of, find_merchant, name_from_domain
 from apps.catalog.models import Category, Merchant, Region
 from apps.moderation.models import AuditLog
 
@@ -73,7 +73,7 @@ def deal_detail(request, slug):
     deal = get_object_or_404(
         Deal.objects.for_user(request.user)
         .select_related("merchant", "category", "submitted_by")
-        .prefetch_related("translations"),
+        .prefetch_related("translations", "gallery"),
         slug=slug,
     )
     comments = (
@@ -124,7 +124,44 @@ def deal_submit(request):
             ),
         )
         return redirect("accounts:profile")
-    return render(request, "deals/submit.html", {"form": form})
+    return render(
+        request, "deals/submit.html", {"form": form, "wizard_messages": _wizard_messages()}
+    )
+
+
+def _wizard_messages():
+    """Textes de l'assistant de publication, traduits ici et lus par submit.js."""
+    return {
+        "invalid": _("Veuillez entrer un lien valide (http:// ou https://)."),
+        "refused": _("Ce lien a été refusé. Seules les pages web publiques sont acceptées."),
+        "tooMany": _("Trop de vérifications en peu de temps. Réessayez dans une minute."),
+        "blocked": _(
+            "Ce site bloque la lecture automatique : complétez les champs vous-même, "
+            "le lien est déjà renseigné."
+        ),
+        "failed": _("Impossible de lire cette page : complétez le formulaire vous-même."),
+        "found": _("Récupéré automatiquement :"),
+        "missing": _("À compléter :"),
+        "check": _("Vérifiez avant d’envoyer."),
+        "fields": {
+            "title": _("titre"),
+            "price": _("prix"),
+            "reference": _("prix de référence (30 jours)"),
+            "photo": _("photo"),
+            "merchant": _("marchand"),
+            "description": _("description"),
+        },
+        "merchantUnknown": _("Marchand à préciser à l'étape « Derniers détails »"),
+        "main": _("Image principale"),
+        "makeMain": _("Choisir comme image principale"),
+        "remove": _("Retirer l'image"),
+        "maxImages": _("Huit images au maximum."),
+        "httpsOnly": _("L'adresse de l'image doit être en HTTPS."),
+        "online": _("En ligne"),
+        "inStore": _("En magasin"),
+        "promo": _("Code :"),
+        "availableAt": _("Dispo. chez"),
+    }
 
 
 @login_required
@@ -265,31 +302,20 @@ def scrape_link_view(request):
 
     info = fetch_deal_info(url.strip())
     if info.get("success"):
-        merchant = match_merchant(info.get("final_url") or url)
+        page_url = info.get("final_url") or url
+        merchant = match_merchant(page_url)
         if merchant:
             info["merchant_id"] = str(merchant.pk)
             info["merchant_name"] = merchant.name
             info["is_cross_border"] = merchant.country != "BE"
+        else:
+            # Marchand inconnu : nom proposé, créé à la publication (non vérifié).
+            info["merchant_name"] = info.get("site_name") or name_from_domain(
+                domain_of(page_url)
+            )
+            info["merchant_is_new"] = True
     return JsonResponse(info)
 
 
-def _domain(url):
-    host = (urlparse(url).hostname or "").lower()
-    return host[4:] if host.startswith("www.") else host
-
-
-def match_merchant(url):
-    """
-    Reconnaît le marchand d'après le nom de domaine du lien : un lien
-    amazon.com.be sélectionne « Amazon.com.be » dans le formulaire. Un
-    sous-domaine (smile.amazon.com.be) correspond aussi ; un domaine qui ne
-    fait que contenir le nom (amazon.com.be.example.org) ne correspond pas.
-    """
-    host = _domain(url)
-    if not host:
-        return None
-    for merchant in Merchant.objects.exclude(website=""):
-        domain = _domain(merchant.website)
-        if domain and (host == domain or host.endswith("." + domain)):
-            return merchant
-    return None
+# Reconnaissance du marchand par domaine : voir apps/catalog/merchants.py.
+match_merchant = find_merchant

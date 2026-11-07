@@ -17,6 +17,7 @@ hébergeur cloud (169.254.169.254). Les protections appliquées ici :
    part dans les logs.
 """
 
+import html
 import ipaddress
 import json
 import logging
@@ -132,20 +133,11 @@ def fetch_deal_info(url):
         or _select_text(soup, "#productTitle")
         or (soup.title.get_text(strip=True) if soup.title else "")
     )
+    title = html.unescape(title)
     title = re.sub(r"^Amazon\.[a-z.]+\s*:\s*", "", title).split(" | ")[0].strip()
 
-    image_url = ""
-    for candidate in (
-        _first_image(product.get("image")),
-        _meta(soup, "og:image"),
-        _attr(soup, "#landingImage", "data-old-hires"),
-    ):
-        if candidate:
-            candidate = urljoin(final_url, candidate.strip())
-            # https uniquement : écarte data:, javascript: et le contenu mixte http.
-            if urlparse(candidate).scheme == "https":
-                image_url = candidate
-                break
+    images = _collect_images(soup, product, final_url)
+    image_url = images[0] if images else ""
 
     price = (
         parse_price(offer.get("price") or offer.get("lowPrice"))
@@ -178,9 +170,11 @@ def fetch_deal_info(url):
         "url": url,
         "final_url": final_url,
         "image_url": image_url[:800],
+        "images": images,
         "price": str(price) if price is not None else "",
         "reference_price": str(reference) if reference is not None else "",
-        "description": " ".join(description.split())[:1500],
+        # html.unescape : certaines boutiques encodent deux fois (« &amp;eacute; »).
+        "description": " ".join(html.unescape(description).split())[:1500],
         "site_name": _meta(soup, "og:site_name")[:120],
     }
 
@@ -251,6 +245,52 @@ def _first_offer(product):
     if isinstance(offers, list):
         offers = offers[0] if offers else {}
     return offers if isinstance(offers, dict) else {}
+
+
+MAX_IMAGES = 8
+AMAZON_HIRES = re.compile(r'"hiRes":"(https://[^"]+)"')
+
+
+def _collect_images(soup, product, base_url):
+    """
+    Jusqu'à huit images distinctes, en https uniquement (écarte data:,
+    javascript: et le contenu mixte http) : données structurées, toutes les
+    balises og:image, puis la galerie haute résolution d'Amazon.
+    """
+    candidates = []
+    image = product.get("image")
+    candidates += image if isinstance(image, list) else [image]
+    candidates += [tag.get("content") for tag in soup.find_all("meta", property="og:image")]
+    candidates.append(_attr(soup, "#landingImage", "data-old-hires"))
+    for script in soup.find_all("script"):
+        candidates += AMAZON_HIRES.findall(script.string or "")
+
+    images, seen = [], set()
+    for candidate in candidates:
+        url = _first_image(candidate).strip()
+        if not url:
+            continue
+        url = urljoin(base_url, url)
+        if urlparse(url).scheme != "https" or len(url) > 800 or IGNORED_IMAGES.search(url):
+            continue
+        key = _image_key(url)
+        if key not in seen:
+            seen.add(key)
+            images.append(url)
+        if len(images) == MAX_IMAGES:
+            break
+    return images
+
+
+# Icônes de partage, logos et pictogrammes génériques : pas des photos produit.
+IGNORED_IMAGES = re.compile(r"/images/G/|share-icon|sprite|logo|favicon", re.IGNORECASE)
+AMAZON_IMAGE_ID = re.compile(r"/images/I/([A-Za-z0-9+%-]+)")
+
+
+def _image_key(url):
+    """Une même photo Amazon existe en plusieurs tailles : même identifiant, une seule fois."""
+    match = AMAZON_IMAGE_ID.search(url)
+    return match.group(1) if match else url
 
 
 def _first_image(value):

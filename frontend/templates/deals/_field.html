@@ -1,0 +1,6 @@
+{% load i18n %}<div class="field{% if field.errors %} has-error{% endif %}" data-field="{{ field.name }}">
+  <label class="field__label" for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+  {{ field }}
+  {% if field.help_text %}<p class="field__hint">{{ field.help_text }}</p>{% endif %}
+  {% for e in field.errors %}<p class="field__hint field__error">{{ e }}</p>{% endfor %}
+</div>

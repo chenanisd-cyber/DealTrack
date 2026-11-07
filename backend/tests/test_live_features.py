@@ -158,3 +158,97 @@ class ShareModeTests(TestCase):
         self.assertEqual(self.middleware(local).status_code, 200)
         public_page = self.factory.get("/fr/", HTTP_HOST="abc.trycloudflare.com")
         self.assertEqual(self.middleware(public_page).status_code, 200)
+
+
+class SubmissionWizardTests(TestCase):
+    """Publication façon site de deals : marchand automatique, galerie, magasin."""
+
+    @classmethod
+    def setUpTestData(cls):
+        seed_reference_data()
+        cls.member = make_user("membre@example.be", "Membre")
+
+    def setUp(self):
+        self.client.force_login(self.member)
+
+    def post(self, **overrides):
+        from apps.catalog.models import Category
+
+        data = {
+            "title": "Nintendo Switch 2 avec Mario Kart World",
+            "description": "Pack console et jeu, livraison depuis les Pays-Bas en trois jours.",
+            "external_url": "https://www.joybuy.nl/switch-2",
+            "price": "448.90",
+            "availability": "online",
+            "shipping_cost": "0.00",
+            "category": Category.objects.filter(is_active=True).first().pk,
+            "language": "fr",
+        }
+        data.update(overrides)
+        return self.client.post(reverse("deals:submit"), data)
+
+    def test_marchand_cree_d_apres_le_domaine(self):
+        from apps.deals.models import Deal
+
+        response = self.post(promo_code=" SWITCH10 ")
+        self.assertEqual(response.status_code, 302, response.content.decode()[:300])
+        deal = Deal.objects.get(external_url="https://www.joybuy.nl/switch-2")
+        self.assertEqual(deal.merchant.name, "Joybuy")
+        self.assertEqual(deal.merchant.country, "NL")
+        self.assertFalse(deal.merchant.is_verified)
+        self.assertTrue(deal.is_cross_border)  # hors Belgique : automatique
+        self.assertEqual(deal.promo_code, "SWITCH10")
+        self.assertEqual(deal.regions.count(), 3)  # aucune case : toute la Belgique
+
+    def test_deuxieme_deal_reutilise_le_meme_marchand(self):
+        self.post()
+        self.post(
+            external_url="https://joybuy.nl/autre", title="Manette Pro Nintendo Switch 2 noire"
+        )
+        self.assertEqual(Merchant.objects.filter(name="Joybuy").count(), 1)
+
+    def test_deal_en_magasin_sans_lien(self):
+        from apps.deals.models import Deal
+
+        response = self.post(
+            external_url="", availability="in_store", merchant_name="Fromagerie du Coin"
+        )
+        self.assertEqual(response.status_code, 302, response.content.decode()[:300])
+        deal = Deal.objects.get(title__startswith="Nintendo")
+        self.assertEqual(deal.merchant.name, "Fromagerie du Coin")
+        self.assertFalse(deal.is_cross_border)
+
+    def test_deal_en_ligne_exige_un_lien(self):
+        response = self.post(external_url="")
+        self.assertTrue(response.context["form"].has_error("external_url"))
+
+    def test_huit_images_au_maximum(self):
+        import json
+
+        urls = [f"https://cdn.joybuy.nl/{i}.jpg" for i in range(9)]
+        response = self.post(gallery_urls=json.dumps(urls))
+        self.assertTrue(response.context["form"].has_error("gallery_files"))
+
+    def test_fin_avant_debut_refusee(self):
+        response = self.post(starts_at="2026-11-14T10:00", ends_at="2026-11-13T10:00")
+        self.assertTrue(response.context["form"].has_error("ends_at"))
+
+    def test_page_du_deal_galerie_code_promo_date_de_debut(self):
+        import json
+
+        from apps.deals.models import Deal
+
+        self.post(
+            gallery_urls=json.dumps(
+                ["https://cdn.joybuy.nl/a.jpg", "https://cdn.joybuy.nl/b.jpg"]
+            ),
+            promo_code="SWITCH10",
+            starts_at="2030-11-14T10:00",
+        )
+        deal = Deal.objects.get(external_url="https://www.joybuy.nl/switch-2")
+        self.assertEqual(deal.image_url, "https://cdn.joybuy.nl/a.jpg")  # principale
+        self.client.force_login(self.member)  # l'auteur voit son deal en attente
+        html = self.client.get(deal.get_absolute_url()).content.decode()
+        self.assertIn('data-photo="https://cdn.joybuy.nl/b.jpg"', html)
+        self.assertIn("SWITCH10", html)
+        self.assertIn('class="startsbanner"', html)
