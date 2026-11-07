@@ -24,7 +24,7 @@ python manage.py runserver        # http://localhost:8000/fr/
 | `apps/payments/` | Formules, paiements, abonnements, passerelle de paiement |
 | `apps/moderation/` | Journal d'audit, décisions, signalements |
 | `apps/api/` | API REST : sérialiseurs, vues, permissions, limitation de débit |
-| `tests/` | 124 tests unitaires et d'intégration |
+| `tests/` | 136 tests unitaires et d'intégration |
 | `scripts/` | Démonstration de l'API, traductions, collection Postman |
 | `logs/` | Journaux `dealtrack.log` et `security.log` (non versionnés) |
 
@@ -43,3 +43,4 @@ Les chemins sont définis une seule fois, dans `config/settings/base.py` :
 | `STATICFILES_DIRS` | `../frontend/static/` |
 | `LOCALE_PATHS` | `../frontend/locale/` |
 | `DATABASES["default"]["NAME"]` | `../database/db.sqlite3` |
+| `MEDIA_ROOT` | `../database/media/` (photos et logos envoyés) |

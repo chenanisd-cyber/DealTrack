@@ -46,7 +46,7 @@
     </div>
 
     <section class="panel">
-      <form method="post" novalidate>
+      <form method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
         {% include "_form.html" %}
         <button class="cta is-block" type="submit">{% trans "Soumettre à la modération" %}</button>

@@ -93,7 +93,7 @@ def deal_detail(request, slug):
 @login_required
 @require_http_methods(["GET", "POST"])
 def deal_submit(request):
-    form = DealSubmissionForm(request.POST or None, user=request.user)
+    form = DealSubmissionForm(request.POST or None, request.FILES or None, user=request.user)
     if request.method == "POST" and form.is_valid():
         deal = form.save()
         AuditLog.record(

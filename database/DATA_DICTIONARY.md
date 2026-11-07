@@ -117,6 +117,8 @@ Enseigne chez qui le deal est disponible.
 | `vat_number` | VARCHAR(20) | non | — | Format belge uniquement, contrôlé par sa clé modulo 97. |
 | `is_local_independent` | BOOLEAN | non | `False` | Déclenche le badge « Commerçant local » dans le flux. |
 | `is_verified` | BOOLEAN | non | `False` | Vérifiée par la modération : identité et site marchand contrôlés. |
+| `logo` | FileField | non | — | JPEG, PNG ou WebP, 2 Mo maximum. |
+| `brand_color` | VARCHAR(7) | non | `#01182B` | Fond de la vignette affichée à la place de la photo. |
 | `created_at` | TIMESTAMP | non | — | — |
 
 **Contraintes de table**
@@ -171,7 +173,7 @@ Comment(id, deal, author, body, is_verified_purchase, created_at, deleted_at)
 | `deleted_at` | TIMESTAMP | oui | — | — |
 
 ### `deals_deal`
-Deal(id, title, slug, description, image_url, external_url, price, reference_price, currency, shipping_cost, merchant, category, submitted_by, status, is_cross_border, language, starts_at, ends_at, published_at, temperature, created_at, updated_at, deleted_at)
+Deal(id, title, slug, description, image, image_url, external_url, price, reference_price, currency, shipping_cost, merchant, category, submitted_by, status, is_cross_border, language, starts_at, ends_at, published_at, temperature, created_at, updated_at, deleted_at)
 
 | Colonne | Type | Null | Défaut | Contraintes et rôle |
 |---|---|---|---|---|
@@ -179,6 +181,7 @@ Deal(id, title, slug, description, image_url, external_url, price, reference_pri
 | `title` | VARCHAR(140) | non | — | — |
 | `slug` | VARCHAR (slug)(160) | non | — | unique |
 | `description` | TEXT | non | — | — |
+| `image` | FileField | non | — | JPEG, PNG ou WebP, 2 Mo maximum. |
 | `image_url` | VARCHAR(800) | non | — | — |
 | `external_url` | VARCHAR(600) | non | — | — |
 | `price` | DECIMAL(10,2) | non | — | — |

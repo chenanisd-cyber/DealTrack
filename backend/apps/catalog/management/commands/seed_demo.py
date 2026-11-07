@@ -67,18 +67,20 @@ CATEGORIES = [
 ]
 
 MERCHANTS = [
-    # (nom, pays, indépendant belge, vérifié, TVA)
-    ("Coolblue", "BE", False, True, "BE0673617277"),
-    ("Colruyt", "BE", False, True, "BE0400378485"),
-    ("Delhaize", "BE", False, True, "BE0402206045"),
-    ("Krëfel", "BE", False, True, ""),
-    ("MediaMarkt", "BE", False, True, ""),
-    ("Proximus", "BE", False, True, "BE0202239951"),
-    ("Brasserie de Molenbeek", "BE", True, True, ""),
-    ("Fromagerie Saint-Aubert", "BE", True, True, ""),
-    ("Torréfaction Ostbelgien", "BE", True, False, ""),
-    ("Bol.com", "NL", False, True, ""),
-    ("Action Maastricht", "NL", False, False, ""),
+    # (nom, pays, indépendant belge, vérifié, TVA, couleur de la vignette)
+    # La couleur sert de fond quand une offre n'a pas de photo ; elle
+    # s'inspire de l'enseigne sans reproduire son logo (marque déposée).
+    ("Coolblue", "BE", False, True, "BE0673617277", "#0090E3"),
+    ("Colruyt", "BE", False, True, "BE0400378485", "#E8541E"),
+    ("Delhaize", "BE", False, True, "BE0402206045", "#C8102E"),
+    ("Krëfel", "BE", False, True, "", "#E30613"),
+    ("MediaMarkt", "BE", False, True, "", "#DF0000"),
+    ("Proximus", "BE", False, True, "BE0202239951", "#5C2D91"),
+    ("Brasserie de Molenbeek", "BE", True, True, "", "#7A4A1E"),
+    ("Fromagerie Saint-Aubert", "BE", True, True, "", "#F2C14E"),
+    ("Torréfaction Ostbelgien", "BE", True, False, "", "#3E2723"),
+    ("Bol.com", "NL", False, True, "", "#0000A4"),
+    ("Action Maastricht", "NL", False, False, "", "#0057B8"),
 ]
 
 MEMBERS = [
@@ -490,7 +492,7 @@ class Command(BaseCommand):
 
     def _merchants(self):
         out = {}
-        for name, country, local, verified, vat in MERCHANTS:
+        for name, country, local, verified, vat, color in MERCHANTS:
             out[name], _ = Merchant.objects.update_or_create(
                 slug=slugify(name),
                 defaults={
@@ -499,6 +501,7 @@ class Command(BaseCommand):
                     "vat_number": vat,
                     "is_local_independent": local,
                     "is_verified": verified,
+                    "brand_color": color,
                     "website": f"https://example.{country.lower()}/{slugify(name)}",
                 },
             )

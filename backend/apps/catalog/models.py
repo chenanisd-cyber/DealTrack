@@ -19,6 +19,8 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.accounts.validators import validate_be_vat, validate_no_control_characters
 
+from .images import IMAGE_VALIDATORS, merchant_logo_path
+
 
 class Region(models.Model):
     """
@@ -169,6 +171,23 @@ class Merchant(models.Model):
         default=False,
         help_text=_("Vérifiée par la modération : identité et site marchand contrôlés."),
     )
+    # Identité visuelle : affichée quand une offre n'a pas de photo.
+    logo = models.ImageField(
+        _("logo"),
+        upload_to=merchant_logo_path,
+        blank=True,
+        validators=IMAGE_VALIDATORS,
+        help_text=_("JPEG, PNG ou WebP, 2 Mo maximum."),
+    )
+    brand_color = models.CharField(
+        _("couleur de l'enseigne"),
+        max_length=7,
+        default="#01182B",
+        validators=[
+            RegexValidator(r"^#[0-9A-Fa-f]{6}$", _("Couleur hexadécimale, ex. #0090E3."))
+        ],
+        help_text=_("Fond de la vignette affichée à la place de la photo."),
+    )
     created_at = models.DateTimeField(_("créée le"), auto_now_add=True)
 
     class Meta:
@@ -190,3 +209,10 @@ class Merchant(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def brand_text_color(self):
+        """Texte blanc sur fond sombre, bleu nuit sur fond clair (contraste WCAG)."""
+        red, green, blue = (int(self.brand_color[i : i + 2], 16) for i in (1, 3, 5))
+        luminance = 0.299 * red + 0.587 * green + 0.114 * blue
+        return "#01182B" if luminance > 160 else "#FFFFFF"

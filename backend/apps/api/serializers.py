@@ -50,7 +50,20 @@ class MerchantSerializer(serializers.ModelSerializer):
         read_only_fields = ["is_verified"]
 
 
-class DealListSerializer(serializers.ModelSerializer):
+class PhotoUrlMixin(serializers.Serializer):
+    """Adresse absolue de la photo de l'offre (fichier envoyé ou image externe), ou null."""
+
+    photo_url = serializers.SerializerMethodField()
+
+    def get_photo_url(self, obj):
+        url = obj.photo_url
+        if not url:
+            return None
+        request = self.context.get("request")
+        return request.build_absolute_uri(url) if request and url.startswith("/") else url
+
+
+class DealListSerializer(PhotoUrlMixin, serializers.ModelSerializer):
     """Charge utile allégée pour le flux."""
 
     merchant = MerchantSerializer(read_only=True)
@@ -67,6 +80,7 @@ class DealListSerializer(serializers.ModelSerializer):
             "url",
             "title",
             "slug",
+            "photo_url",
             "price",
             "reference_price",
             "currency",
@@ -85,7 +99,7 @@ class DealListSerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
 
-class DealDetailSerializer(serializers.ModelSerializer):
+class DealDetailSerializer(PhotoUrlMixin, serializers.ModelSerializer):
     merchant = MerchantSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
     regions = RegionSerializer(many=True, read_only=True)
@@ -99,6 +113,7 @@ class DealDetailSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "slug",
+            "photo_url",
             "description",
             "external_url",
             "price",

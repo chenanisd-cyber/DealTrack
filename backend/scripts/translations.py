@@ -305,6 +305,14 @@ NL = {
     "offre transfrontalière": "grensoverschrijdende aanbieding",
     "début": "begin",
     "fin": "einde",
+    # -- Photos d'offres : champ, aide et messages d'erreur --
+    "photo": "foto",
+    "JPEG, PNG ou WebP, 2 Mo maximum.": "JPEG, PNG of WebP, maximaal 2 MB.",
+    "L'image dépasse 2 Mo.": "De afbeelding is groter dan 2 MB.",
+    "Le fichier n'est pas une image valide.": "Het bestand is geen geldige afbeelding.",
+    "Format refusé : JPEG, PNG ou WebP uniquement.": "Formaat geweigerd: alleen JPEG, PNG of WebP.",
+    "Image trop grande : 6000 pixels de côté au maximum.": "Afbeelding te groot: maximaal 6000 pixels per zijde.",
+    "L'adresse de l'image doit être en HTTPS.": "Het adres van de afbeelding moet HTTPS gebruiken.",
 }
 
 DE = {
@@ -607,6 +615,14 @@ DE = {
     "offre transfrontalière": "grenzüberschreitendes Angebot",
     "début": "Beginn",
     "fin": "Ende",
+    # -- Photos d'offres : champ, aide et messages d'erreur --
+    "photo": "Foto",
+    "JPEG, PNG ou WebP, 2 Mo maximum.": "JPEG, PNG oder WebP, maximal 2 MB.",
+    "L'image dépasse 2 Mo.": "Das Bild ist größer als 2 MB.",
+    "Le fichier n'est pas une image valide.": "Die Datei ist kein gültiges Bild.",
+    "Format refusé : JPEG, PNG ou WebP uniquement.": "Format abgelehnt: nur JPEG, PNG oder WebP.",
+    "Image trop grande : 6000 pixels de côté au maximum.": "Bild zu groß: höchstens 6000 Pixel pro Seite.",
+    "L'adresse de l'image doit être en HTTPS.": "Die Bildadresse muss HTTPS verwenden.",
 }
 
 CATALOGUES = {"nl": NL, "de": DE}

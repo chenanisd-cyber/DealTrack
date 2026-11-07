@@ -301,6 +301,24 @@ Limite assumée : le *DNS rebinding* (le domaine change d'IP entre la
 vérification et la connexion). Le risque reste faible : la requête est en
 lecture seule et la page téléchargée n'est jamais renvoyée au client.
 
+### 6.2 Envoi de photos (upload de fichiers)
+
+Le membre peut joindre une photo à son offre, et la modération un logo à un
+marchand. Un fichier envoyé est une entrée non fiable (`backend/apps/catalog/images.py`) :
+
+| Contrôle | Pourquoi |
+|---|---|
+| Extensions `jpg`, `jpeg`, `png`, `webp` uniquement | le SVG est exclu : c'est du XML qui peut embarquer du JavaScript (XSS stocké) |
+| 2 Mo maximum | évite de saturer le disque |
+| Contenu décodé par Pillow, format réel vérifié | un script renommé `photo.jpg` ou un GIF renommé `.png` est refusé |
+| 6000 px de côté maximum | protège contre les « bombes de décompression » |
+| Fichier renommé avec un UUID | pas de collision, pas de nom piégé (`../`), pas de fuite d'information |
+| Stocké dans `database/media/`, hors du code | un fichier envoyé ne peut jamais être exécuté comme du code |
+
+Une image externe (trouvée sur la page du marchand) doit être en HTTPS et
+s'affiche avec `referrerpolicy="no-referrer"`. Si elle ne se charge pas, elle
+est retirée et la vignette du marchand apparaît à sa place.
+
 ---
 
 ## 7. Journalisation et piste d'audit
@@ -438,3 +456,4 @@ Un document de sécurité qui n'énonce que des réussites n'est pas crédible.
 | Piste d'audit | `apps/moderation/` | dispersés |
 | Paiement | `apps/payments/gateways.py`, `services.py` | `PaymentTests` |
 | SSRF (lien d'offre) | `apps/deals/scraper.py`, `views.py` | `tests/test_scraper.py` |
+| Envoi de photos | `apps/catalog/images.py` | `tests/test_images.py` |

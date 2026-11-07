@@ -1,0 +1,30 @@
+{% comment %}
+  Visuel d'une offre, partagé par le flux et la page de détail.
+
+  Ordre de priorité :
+    1. la photo envoyée par le membre (deal.image) ;
+    2. l'image trouvée sur la page du marchand (deal.image_url) ;
+    3. à défaut, la vignette du marchand : son logo, ou son nom sur sa couleur.
+
+  La vignette est toujours dessinée SOUS la photo. Si la photo externe ne se
+  charge pas (lien mort, site qui bloque), onerror la retire et la vignette
+  apparaît : jamais de cadre vide ni d'icône d'image cassée.
+  referrerpolicy="no-referrer" : le site du marchand ne voit pas de quelle page
+  de DealTrack vient le visiteur.
+{% endcomment %}
+{% with merchant=deal.merchant %}
+<div class="dealmedia{% if large %} is-large{% endif %}">
+  <div class="dealmedia__brand{% if merchant.logo %} has-logo{% endif %}"
+       style="--brand:{{ merchant.brand_color }}; --brand-ink:{{ merchant.brand_text_color }}">
+    {% if merchant.logo %}
+      <img class="dealmedia__logo" src="{{ merchant.logo.url }}" alt="{{ merchant.name }}" loading="lazy">
+    {% else %}
+      <span class="dealmedia__name">{{ merchant.name }}</span>
+    {% endif %}
+  </div>
+  {% if deal.photo_url %}
+    <img class="dealmedia__photo" src="{{ deal.photo_url }}" alt="{{ deal.title_current }}"
+         loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  {% endif %}
+</div>
+{% endwith %}

@@ -1550,3 +1550,31 @@ msgstr ""
 #: apps/deals/models.py
 msgid "URL de l'image"
 msgstr "Bild-URL"
+
+#: apps/deals/models.py
+msgid "photo"
+msgstr "Foto"
+
+#: apps/deals/models.py
+msgid "JPEG, PNG ou WebP, 2 Mo maximum."
+msgstr "JPEG, PNG oder WebP, maximal 2 MB."
+
+#: apps/catalog/images.py
+msgid "L'image dépasse 2 Mo."
+msgstr "Das Bild ist größer als 2 MB."
+
+#: apps/catalog/images.py
+msgid "Le fichier n'est pas une image valide."
+msgstr "Die Datei ist kein gültiges Bild."
+
+#: apps/catalog/images.py
+msgid "Format refusé : JPEG, PNG ou WebP uniquement."
+msgstr "Format abgelehnt: nur JPEG, PNG oder WebP."
+
+#: apps/catalog/images.py
+msgid "Image trop grande : 6000 pixels de côté au maximum."
+msgstr "Bild zu groß: höchstens 6000 Pixel pro Seite."
+
+#: apps/deals/forms.py
+msgid "L'adresse de l'image doit être en HTTPS."
+msgstr "Die Bildadresse muss HTTPS verwenden."

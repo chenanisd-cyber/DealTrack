@@ -27,6 +27,7 @@ class DealSubmissionForm(forms.ModelForm):
             "title",
             "description",
             "external_url",
+            "image",
             "image_url",
             "price",
             "reference_price",
@@ -44,6 +45,12 @@ class DealSubmissionForm(forms.ModelForm):
             ),
             "description": forms.Textarea(attrs={"class": "textarea", "maxlength": 4000}),
             "external_url": forms.URLInput(attrs={"class": "input", "placeholder": "https://"}),
+            # accept : le sélecteur de fichiers ne propose que des images (confort ;
+            # le serveur revérifie extension, taille et contenu réel).
+            "image": forms.FileInput(
+                attrs={"class": "input", "accept": "image/jpeg,image/png,image/webp"}
+            ),
+            "image_url": forms.URLInput(attrs={"class": "input", "placeholder": "https://"}),
             "price": forms.NumberInput(attrs={"class": "input", "min": 0, "step": "0.01"}),
             "reference_price": forms.NumberInput(
                 attrs={"class": "input", "min": 0, "step": "0.01"}
@@ -74,6 +81,14 @@ class DealSubmissionForm(forms.ModelForm):
         url = self.cleaned_data["external_url"]
         if not url.lower().startswith("https://"):
             raise forms.ValidationError(_("Le lien doit être en HTTPS."))
+        return url
+
+    def clean_image_url(self):
+        # Une image en http:// sur une page en https:// serait bloquée par le
+        # navigateur (contenu mixte) : on n'accepte que https.
+        url = self.cleaned_data.get("image_url", "")
+        if url and not url.lower().startswith("https://"):
+            raise forms.ValidationError(_("L'adresse de l'image doit être en HTTPS."))
         return url
 
     def clean(self):

@@ -3,6 +3,7 @@
 | Fichier | Rôle |
 |---|---|
 | `db.sqlite3` | Base SQLite de développement. Créée par `migrate`, **jamais versionnée** |
+| `media/` | Photos d'offres et logos de marchands envoyés par les utilisateurs (**non versionné**) |
 | `docker-compose.yml` | PostgreSQL 16 local, pour tester dans les conditions de production |
 | `DATA_DICTIONARY.md` | Dictionnaire de données : tables, colonnes, types, contraintes |
 

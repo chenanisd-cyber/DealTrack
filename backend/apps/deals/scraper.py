@@ -111,8 +111,8 @@ def fetch_deal_info(url):
     og_image = soup.find("meta", property="og:image")
     if og_image and og_image.get("content"):
         candidate = urljoin(final_url, og_image["content"].strip())
-        # Le champ du modèle est un URLField http(s) : on écarte data:, javascript:…
-        if urlparse(candidate).scheme in ALLOWED_SCHEMES:
+        # https uniquement : écarte data:, javascript: et le contenu mixte http.
+        if urlparse(candidate).scheme == "https":
             image_url = candidate
 
     return {

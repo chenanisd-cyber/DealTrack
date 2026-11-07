@@ -21,6 +21,7 @@ from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 
 from apps.accounts.validators import validate_no_control_characters
+from apps.catalog.images import IMAGE_VALIDATORS, deal_image_path
 
 TEMPERATURE_BASE = 100  # tout deal publié démarre à 100 °
 
@@ -80,6 +81,16 @@ class Deal(models.Model):
         _("description"),
         max_length=4000,
         validators=[MinLengthValidator(30), validate_no_control_characters],
+    )
+    # Deux sources de photo : un fichier envoyé (prioritaire, hébergé chez nous)
+    # ou l'adresse de l'image trouvée sur la page du marchand. Sans l'une ni
+    # l'autre, la vignette du marchand s'affiche à la place.
+    image = models.ImageField(
+        _("photo"),
+        upload_to=deal_image_path,
+        blank=True,
+        validators=IMAGE_VALIDATORS,
+        help_text=_("JPEG, PNG ou WebP, 2 Mo maximum."),
     )
     image_url = models.URLField(_("URL de l'image"), max_length=800, blank=True)
     external_url = models.URLField(_("lien vers l'offre"), max_length=600)
@@ -206,6 +217,13 @@ class Deal(models.Model):
 
     def get_absolute_url(self):
         return reverse("deals:detail", kwargs={"slug": self.slug})
+
+    @property
+    def photo_url(self):
+        """Photo à afficher : fichier envoyé, sinon image du marchand, sinon rien."""
+        if self.image:
+            return self.image.url
+        return self.image_url
 
     # -- Règles métier ---------------------------------------------------
     @property

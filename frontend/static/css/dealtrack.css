@@ -320,9 +320,26 @@ img{max-width:100%}
   box-shadow:var(--sh-card); overflow:hidden;
 }
 .deal__media{
-  display:grid; place-items:center; padding:24px;
+  display:block; padding:16px;
   border-right:1px solid var(--dt-surface-2);
 }
+
+/* Visuel d'une offre : photo par-dessus la vignette du marchand (voir _media.html) */
+.dealmedia{
+  position:relative; width:100%; aspect-ratio:4 / 3;
+  border-radius:8px; overflow:hidden; background:var(--dt-surface-2);
+}
+.dealmedia.is-large{aspect-ratio:auto; height:100%; min-height:300px}
+.dealmedia__brand, .dealmedia__photo{position:absolute; inset:0; width:100%; height:100%}
+.dealmedia__brand{
+  display:grid; place-items:center; padding:16px; text-align:center;
+  background:var(--brand); color:var(--brand-ink);
+}
+.dealmedia__brand.has-logo{background:#FFFFFF}
+.dealmedia__name{font-size:22px; font-weight:700; line-height:1.15; overflow-wrap:anywhere}
+.dealmedia.is-large .dealmedia__name{font-size:34px}
+.dealmedia__logo{max-width:75%; max-height:60%; object-fit:contain}
+.dealmedia__photo{object-fit:contain; background:#FFFFFF}
 .deal__body{padding:18px 22px 14px; min-width:0}
 .deal__top{display:flex; align-items:center; gap:12px; margin-bottom:12px}
 .deal__top .stamp{margin-left:auto}

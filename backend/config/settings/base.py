@@ -204,6 +204,12 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [FRONTEND_DIR / "static"]
 STATIC_ROOT = PROJECT_DIR / "staticfiles"
 
+# Fichiers envoyés par les utilisateurs (photos d'offres, logos de marchands).
+# Ce sont des données : ils vivent dans database/media/, hors du dépôt Git.
+# En production, ils sont servis par le serveur web (nginx), pas par Django.
+MEDIA_URL = "/media/"
+MEDIA_ROOT = DATABASE_DIR / "media"
+
 # --------------------------------------------------------------------------
 # API REST
 # --------------------------------------------------------------------------
