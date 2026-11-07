@@ -92,10 +92,10 @@ curl "http://127.0.0.1:8000/api/v1/deals/?ordering=-temperature"
     {
       "id": "3f2b8c11-…",
       "url": "http://127.0.0.1:8000/api/v1/deals/3f2b8c11-…/",
-      "title": "Casque Sony WH-1000XM5 à réduction de bruit active…",
-      "price": "249.00",
-      "reference_price": "349.00",
-      "discount_percentage": 29,
+      "title": "TV Philips Ambilight 43\" PUS8001 (2026) à 349 € au lieu de 449 €",
+      "price": "349.00",
+      "reference_price": "449.00",
+      "discount_percentage": 22,
       "currency": "EUR",
       "shipping_cost": "0.00",
       "merchant": {

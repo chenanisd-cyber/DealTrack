@@ -83,11 +83,9 @@ MERCHANTS = [
     ("Krëfel", "BE", False, True, "", "#E30613"),
     ("MediaMarkt", "BE", False, True, "", "#DF0000"),
     ("Proximus", "BE", False, True, "BE0202239951", "#5C2D91"),
-    ("Brasserie de Molenbeek", "BE", True, True, "", "#7A4A1E"),
-    ("Fromagerie Saint-Aubert", "BE", True, True, "", "#F2C14E"),
-    ("Torréfaction Ostbelgien", "BE", True, False, "", "#3E2723"),
     ("Bol.com", "NL", False, True, "", "#0000A4"),
-    ("Action Maastricht", "NL", False, False, "", "#0057B8"),
+    # Amazon.com.be est exploité par Amazon EU S.à r.l., établie au Luxembourg.
+    ("Amazon.com.be", "LU", False, True, "", "#232F3E"),
 ]
 
 MEMBERS = [
@@ -107,328 +105,368 @@ MEMBERS = [
 # passage d'une langue à l'autre, sans quoi le visiteur néerlandophone lit une
 # offre plus alléchante que le francophone. D'où is_machine_translated=False.
 DEALS = [
+    # ------------------------------------------------------------------
+    # Offres réelles relevées le 7 novembre 2026 sur les sites marchands.
+    # Les prix évoluent : relancer un relevé avant une démonstration.
+    # « reference » = prix barré affiché par le marchand ; pour Amazon, le
+    # « prix le plus bas des 30 derniers jours » exigé par l'art. VI.18 CDE.
+    # ------------------------------------------------------------------
     dict(
-        title="Casque Sony WH-1000XM5 à réduction de bruit active, noir ou argent",
+        title='TV Philips Ambilight 43" PUS8001 (2026) à 349 € au lieu de 449 €',
         merchant="Coolblue",
         category="high-tech",
-        price="249.00",
-        reference="349.00",
+        price="349.00",
+        reference="449.00",
         shipping="0.00",
         regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=1124,
         description=(
-            "Prix le plus bas relevé en Belgique depuis six mois, le précédent plancher "
-            "étant de 279 € en juillet. Retrait gratuit en magasin à Anvers, Gand, "
-            "Bruxelles et Liège. Le coloris argent affiche un délai plus long que le noir. "
-            "La remise n'est pas cumulable avec les bons de bienvenue."
+            "Téléviseur LED 43 pouces avec Ambilight, modèle 2026, choisi par Coolblue "
+            "comme TV idéale pour une petite pièce (distance de recul 2 à 2,5 m). "
+            "Remise de 22 % sur le prix barré. Livraison le lendemain pour toute "
+            "commande passée avant 23 h 59, ou retrait en magasin Coolblue."
         ),
-        url="https://www.coolblue.be/fr/produit/sony-wh-1000xm5",
+        url="https://www.coolblue.be/fr/produit/981650/philips-ambilight-43-pus8001-2026.html",
+        image="https://image.coolblue.be/transparent/max/380xauto/products/695138008",
         translations={
             "nl": (
-                "Sony WH-1000XM5 koptelefoon met actieve ruisonderdrukking, zwart of zilver",
-                "Laagste prijs in België sinds zes maanden; de vorige bodem lag in juli op "
-                "279 €. Gratis afhalen in de winkels van Antwerpen, Gent, Brussel en Luik. "
-                "De zilveren uitvoering heeft een langere levertijd dan de zwarte. "
-                "De korting is niet cumuleerbaar met welkomstbonnen.",
+                'Tv Philips Ambilight 43" PUS8001 (2026) voor 349 € in plaats van 449 €',
+                "Led-tv van 43 inch met Ambilight, model 2026, door Coolblue gekozen als "
+                "ideale tv voor een kleine kamer (kijkafstand 2 tot 2,5 m). 22 % korting "
+                "op de doorstreepte prijs. Morgen geleverd bij bestelling voor 23.59 uur, "
+                "of afhalen in een Coolblue-winkel.",
             ),
             "de": (
-                "Sony WH-1000XM5 Kopfhörer mit aktiver Geräuschunterdrückung, schwarz oder silber",
-                "Niedrigster Preis in Belgien seit sechs Monaten, der bisherige Tiefstand lag "
-                "im Juli bei 279 €. Kostenlose Abholung in den Filialen Antwerpen, Gent, "
-                "Brüssel und Lüttich. Die silberne Ausführung hat eine längere Lieferzeit als "
-                "die schwarze. Der Rabatt ist nicht mit Willkommensgutscheinen kombinierbar.",
+                'TV Philips Ambilight 43" PUS8001 (2026) für 349 € statt 449 €',
+                "43-Zoll-LED-Fernseher mit Ambilight, Modell 2026, von Coolblue als "
+                "idealer Fernseher für kleine Räume empfohlen (Sitzabstand 2 bis 2,5 m). "
+                "22 % Rabatt auf den durchgestrichenen Preis. Lieferung am nächsten Tag "
+                "bei Bestellung vor 23:59 Uhr oder Abholung in einer Coolblue-Filiale.",
             ),
         },
     ),
     dict(
-        title="Internet fibre 1 Gbit/s et mobile 20 Go à 39 €/mois pendant douze mois",
-        merchant="Proximus",
-        category="telecom",
-        price="39.00",
-        reference="64.00",
+        title="Aspirateur balai Dyson V12s Detect Slim Submarine à 419 € au lieu de 599 €",
+        merchant="Coolblue",
+        category="maison",
+        price="419.00",
+        reference="599.00",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=956,
+        description=(
+            "Aspirateur balai sans fil Dyson V12s Detect Slim avec tête de lavage "
+            "Submarine : il aspire et lave les sols durs en un seul passage. 180 € de "
+            "remise sur le prix barré, soit -30 %. Vendu et expédié par Coolblue."
+        ),
+        url="https://www.coolblue.be/fr/produit/983319/dyson-v12s-detect-slim-submarine.html",
+        image="https://image.coolblue.be/transparent/max/380xauto/products/1202033838",
+        translations={
+            "nl": (
+                "Steelstofzuiger Dyson V12s Detect Slim Submarine voor 419 € in plaats van 599 €",
+                "Draadloze steelstofzuiger Dyson V12s Detect Slim met Submarine-dweilkop: "
+                "zuigt en dweilt harde vloeren in één beweging. 180 € korting op de "
+                "doorstreepte prijs, of -30 %. Verkocht en verzonden door Coolblue.",
+            ),
+            "de": (
+                "Akku-Staubsauger Dyson V12s Detect Slim Submarine für 419 € statt 599 €",
+                "Kabelloser Stielstaubsauger Dyson V12s Detect Slim mit Submarine-Nasswischkopf: "
+                "saugt und wischt Hartböden in einem Durchgang. 180 € Rabatt auf den "
+                "durchgestrichenen Preis, also -30 %. Verkauft und versandt von Coolblue.",
+            ),
+        },
+    ),
+    dict(
+        title="Robot aspirateur laveur Dreame L40s Pro Ultra à 399 €",
+        merchant="Amazon.com.be",
+        category="maison",
+        price="399.00",
+        reference="502.60",
         shipping="0.00",
         regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=892,
-        description=(
-            "Sans engagement au-delà de douze mois. Les frais d'activation de 59 € sont "
-            "remboursés sous forme de crédit sur la deuxième facture. Vérifiez l'éligibilité "
-            "fibre de votre rue avant de commander : la couverture reste partielle en zone rurale."
-        ),
-        url="https://www.proximus.be/fr/internet-fibre",
-        translations={
-            "nl": (
-                "Glasvezel 1 Gbit/s en mobiel 20 GB voor 39 €/maand gedurende twaalf maanden",
-                "Geen verbintenis na afloop van de twaalf maanden. De activatiekosten van 59 € "
-                "worden als krediet op de tweede factuur terugbetaald. Controleer eerst of uw "
-                "straat in aanmerking komt voor glasvezel: op het platteland blijft de dekking "
-                "onvolledig.",
-            ),
-            "de": (
-                "Glasfaser 1 Gbit/s und Mobilfunk 20 GB für 39 €/Monat während zwölf Monaten",
-                "Keine Bindung über die zwölf Monate hinaus. Die Aktivierungskosten von 59 € "
-                "werden als Gutschrift auf der zweiten Rechnung erstattet. Prüfen Sie vor der "
-                "Bestellung die Glasfaser-Verfügbarkeit in Ihrer Straße: im ländlichen Raum "
-                "bleibt die Abdeckung lückenhaft.",
-            ),
-        },
-    ),
-    dict(
-        title="Coffret douze bières artisanales et deux verres, brasserie bruxelloise",
-        merchant="Brasserie de Molenbeek",
-        category="restauration",
-        price="24.00",
-        reference="32.00",
-        shipping="0.00",
-        regions=["BE1"],
-        lang="fr",
-        status=DealStatus.PUBLISHED,
-        temp=415,
-        description=(
-            "Vente directe du producteur, sans intermédiaire. Le coffret change chaque "
-            "saison ; celui-ci contient quatre brassins uniquement disponibles sur place. "
-            "Retrait à la brasserie ou livraison gratuite dans les dix-neuf communes."
-        ),
-        url="https://example.be/brasserie-molenbeek/coffret-decouverte",
-        translations={
-            "nl": (
-                "Geschenkpakket met twaalf ambachtelijke bieren en twee glazen, Brusselse brouwerij",
-                "Rechtstreekse verkoop door de producent, zonder tussenpersoon. Het pakket "
-                "wisselt elk seizoen; dit exemplaar bevat vier brouwsels die enkel ter plaatse "
-                "verkrijgbaar zijn. Afhalen in de brouwerij of gratis levering in de negentien "
-                "gemeenten.",
-            ),
-            "de": (
-                "Geschenkbox mit zwölf handwerklich gebrauten Bieren und zwei Gläsern, Brüsseler Brauerei",
-                "Direktverkauf durch den Erzeuger, ohne Zwischenhändler. Die Box wechselt mit "
-                "der Saison; diese hier enthält vier Sude, die es nur vor Ort gibt. Abholung in "
-                "der Brauerei oder kostenlose Lieferung in den neunzehn Gemeinden.",
-            ),
-        },
-    ),
-    dict(
-        title="Lave-linge Bosch Serie 4 huit kilos à 389 € chez Action Maastricht",
-        merchant="Action Maastricht",
-        category="maison",
-        price="389.00",
-        reference="649.00",
-        shipping="0.00",
-        regions=["BE2"],
-        # Le texte de base est en français : « lang » désigne la langue de
-        # rédaction, pas le marché visé. Le caractère transfrontalier de
-        # l'offre est déjà porté par cross_border et par le marchand.
-        lang="fr",
-        status=DealStatus.PUBLISHED,
-        temp=372,
         cross_border=True,
         description=(
-            "Vingt-deux kilomètres de la frontière limbourgeoise. Garantie européenne valable "
-            "en Belgique, mais le service après-vente se règle depuis Rotterdam. Les conditions "
-            "de reprise de l'ancien appareil diffèrent de la réglementation belge. "
-            "Facture néerlandaise, TVA de 21 % déjà incluse."
+            "Robot aspirateur et laveur avec station, aspiration de 19 000 Pa. Amazon "
+            "affiche un prix barré de 899 €, mais le prix de référence légal est le plus "
+            "bas des 30 derniers jours : 502,60 €. La vraie remise est donc de 21 %, pas "
+            "de 56 %. Vendu et expédié par Amazon.com.be (Amazon EU, Luxembourg)."
         ),
-        url="https://example.nl/action-maastricht/bosch-serie-4",
+        url="https://www.amazon.com.be/dp/B0DY8V59LY",
+        image="https://m.media-amazon.com/images/I/71V6BOrwKnL._AC_SL1500_.jpg",
         translations={
             "nl": (
-                "Bosch Serie 4 wasmachine van acht kilo voor 389 € bij Action Maastricht",
-                "Tweeëntwintig kilometer van de Limburgse grens. De Europese garantie geldt in "
-                "België, maar de dienst na verkoop wordt vanuit Rotterdam geregeld. De "
-                "voorwaarden voor de terugname van uw oude toestel wijken af van de Belgische "
-                "regelgeving. Nederlandse factuur, 21 % btw inbegrepen.",
+                "Robotstofzuiger met dweilfunctie Dreame L40s Pro Ultra voor 399 €",
+                "Robotstofzuiger en dweilrobot met station, zuigkracht van 19 000 Pa. Amazon "
+                "toont een doorstreepte prijs van 899 €, maar de wettelijke referentieprijs is "
+                "de laagste prijs van de voorbije 30 dagen: 502,60 €. De echte korting is dus "
+                "21 %, geen 56 %. Verkocht en verzonden door Amazon.com.be (Amazon EU, Luxemburg).",
             ),
             "de": (
-                "Bosch Serie 4 Waschmaschine mit acht Kilo für 389 € bei Action Maastricht",
-                "Zweiundzwanzig Kilometer von der limburgischen Grenze entfernt. Die "
-                "europäische Garantie gilt in Belgien, der Kundendienst wird jedoch von "
-                "Rotterdam aus abgewickelt. Die Rücknahmebedingungen für das Altgerät weichen "
-                "von der belgischen Regelung ab. Niederländische Rechnung, 21 % Mehrwertsteuer "
-                "bereits enthalten.",
+                "Saug- und Wischroboter Dreame L40s Pro Ultra für 399 €",
+                "Saug- und Wischroboter mit Station, Saugleistung 19 000 Pa. Amazon zeigt einen "
+                "durchgestrichenen Preis von 899 €, der gesetzliche Referenzpreis ist jedoch der "
+                "niedrigste Preis der letzten 30 Tage: 502,60 €. Der echte Rabatt beträgt also "
+                "21 %, nicht 56 %. Verkauft und versandt von Amazon.com.be (Amazon EU, Luxemburg).",
             ),
         },
     ),
     dict(
-        title="Bon d'achat de quinze euros dès soixante euros d'achat, carte Plus",
-        merchant="Delhaize",
-        category="supermarche",
-        price="0.00",
-        reference=None,
+        title="Samsung Galaxy A57 128 Go à 9 € avec un abonnement mobile Proximus",
+        merchant="Proximus",
+        category="telecom",
+        price="9.00",
+        reference="549.99",
         shipping="0.00",
         regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=640,
         description=(
-            "Valable une fois par carte Plus, hors tabac, presse, cartes cadeaux et produits "
-            "de première nécessité subventionnés. Cumulable avec les promotions du prospectus "
-            "de la semaine. Le bon s'active depuis l'application avant le passage en caisse."
+            "Le smartphone coûte 9 € au lieu de 549,99 €, à condition de prendre un "
+            "abonnement mobile avec une option DataPhone pendant 24 mois (par exemple "
+            "un abonnement à partir de 15 € avec l'option DataPhone 1,5 GB à 15 €/mois). "
+            "Offre valable jusqu'au 3 janvier 2027 pour les nouveaux clients et les "
+            "clients GSM existants. Faites le calcul sur deux ans avant de signer."
         ),
-        url="https://www.delhaize.be/fr/promotions",
+        url="https://www.proximus.be/fr/smartphones/samsung/galaxy-a57-5g/128gb/awesome-navy",
+        image="",  # pas de photo exploitable : la vignette Proximus s'affiche
         translations={
             "nl": (
-                "Waardebon van vijftien euro vanaf zestig euro aankoop, met de Plus-kaart",
-                "Eén keer geldig per Plus-kaart, uitgezonderd tabak, pers, cadeaukaarten en "
-                "gesubsidieerde basisproducten. Combineerbaar met de promoties uit het "
-                "weekfolder. De bon wordt in de app geactiveerd vóór het afrekenen aan de kassa.",
+                "Samsung Galaxy A57 128 GB voor 9 € met een mobiel abonnement van Proximus",
+                "De smartphone kost 9 € in plaats van 549,99 €, op voorwaarde dat je 24 "
+                "maanden een mobiel abonnement met een DataPhone-optie neemt (bijvoorbeeld "
+                "een abonnement vanaf 15 € met de optie DataPhone 1,5 GB aan 15 €/maand). "
+                "Aanbod geldig tot 3 januari 2027 voor nieuwe klanten en bestaande "
+                "gsm-klanten. Reken het over twee jaar uit voor je tekent.",
             ),
             "de": (
-                "Einkaufsgutschein über fünfzehn Euro ab sechzig Euro Einkauf, mit der Plus-Karte",
-                "Einmal pro Plus-Karte gültig, ausgenommen Tabak, Presseerzeugnisse, "
-                "Geschenkkarten und subventionierte Grundnahrungsmittel. Mit den Aktionen des "
-                "Wochenprospekts kombinierbar. Der Gutschein wird vor dem Bezahlen an der Kasse "
-                "in der App aktiviert.",
+                "Samsung Galaxy A57 128 GB für 9 € mit einem Proximus-Mobilfunkvertrag",
+                "Das Smartphone kostet 9 € statt 549,99 €, sofern man 24 Monate lang einen "
+                "Mobilfunkvertrag mit DataPhone-Option abschließt (zum Beispiel einen Tarif "
+                "ab 15 € mit der Option DataPhone 1,5 GB für 15 €/Monat). Angebot gültig bis "
+                "3. Januar 2027 für Neukunden und bestehende Mobilfunkkunden. Vor der "
+                "Unterschrift die Kosten über zwei Jahre berechnen.",
             ),
         },
     ),
     dict(
-        title="Machine à café Philips Series 2200 avec broyeur intégré et mousseur",
-        merchant="Krëfel",
-        category="maison",
-        price="199.00",
-        reference="299.00",
-        shipping="0.00",
-        regions=["BE1", "BE3"],
-        lang="fr",
-        status=DealStatus.PUBLISHED,
-        temp=287,
-        description=(
-            "Broyeur céramique réglable sur douze finesses. Le mousseur classique demande un "
-            "peu de pratique par rapport à un LatteGo. Deux ans de garantie légale belge, "
-            "extensible à cinq ans moyennant supplément en caisse."
-        ),
-        url="https://www.krefel.be/fr/philips-series-2200",
-        translations={
-            "nl": (
-                "Philips Series 2200 espressomachine met ingebouwde molen en melkopschuimer",
-                "Keramische molen, instelbaar op twaalf maalgraden. De klassieke opschuimer "
-                "vraagt wat oefening in vergelijking met een LatteGo. Twee jaar Belgische "
-                "wettelijke garantie, aan de kassa tegen bijbetaling uit te breiden tot vijf jaar.",
-            ),
-            "de": (
-                "Philips Series 2200 Kaffeevollautomat mit integriertem Mahlwerk und Milchaufschäumer",
-                "Keramikmahlwerk mit zwölf einstellbaren Mahlgraden. Der klassische "
-                "Aufschäumer erfordert im Vergleich zu einem LatteGo etwas Übung. Zwei Jahre "
-                "gesetzliche belgische Garantie, an der Kasse gegen Aufpreis auf fünf Jahre "
-                "erweiterbar.",
-            ),
-        },
-    ),
-    dict(
-        title="Café de spécialité torréfié en Ostbelgien, trois paquets de deux cent cinquante grammes",
-        merchant="Torréfaction Ostbelgien",
-        category="restauration",
-        price="27.00",
-        reference="36.00",
-        shipping="4.50",
-        regions=["BE3"],
-        lang="de",
-        status=DealStatus.PENDING,
-        temp=100,
-        description=(
-            "Torréfaction artisanale à Eupen, grains d'origine unique du Rwanda et du Honduras. "
-            "Torréfié à la commande, expédié sous quarante-huit heures. Trois paquets au choix "
-            "parmi cinq références disponibles sur le site du torréfacteur."
-        ),
-        url="https://example.be/torrefaction-ostbelgien/decouverte",
-    ),
-    dict(
-        title="Trottinette électrique Xiaomi 4 Pro, autonomie cinquante-cinq kilomètres",
-        merchant="MediaMarkt",
+        title="Chromebook Lenovo IdeaPad Slim 3 14 pouces à 279 € au lieu de 369 €",
+        merchant="Coolblue",
         category="high-tech",
-        price="349.00",
-        reference="549.00",
+        price="279.00",
+        reference="369.00",
         shipping="0.00",
         regions=["BE1", "BE2", "BE3"],
         lang="fr",
-        status=DealStatus.EXPIRED,
-        temp=210,
+        status=DealStatus.PUBLISHED,
+        temp=512,
         description=(
-            "Rupture de stock signalée par quatre membres deux jours après la publication. "
-            "L'offre reste consultable pour l'historique des prix. Rappel : depuis 2022, la "
-            "trottinette est interdite aux moins de seize ans sur la voie publique en Belgique."
+            "Chromebook Lenovo IdeaPad Slim 3 de 14 pouces (référence 14M868, clavier "
+            "AZERTY). Sous ChromeOS, adapté aux études et à la bureautique en ligne. "
+            "90 € de remise sur le prix barré, soit -24 %."
         ),
-        url="https://www.mediamarkt.be/fr/product/xiaomi-4-pro",
+        url=(
+            "https://www.coolblue.be/fr/produit/943117/"
+            "lenovo-ideapad-slim-3-chromebook-14m868-82xj0030mb-azerty.html"
+        ),
+        image="https://image.coolblue.be/transparent/max/380xauto/products/2155323",
+        translations={
+            "nl": (
+                "Chromebook Lenovo IdeaPad Slim 3 14 inch voor 279 € in plaats van 369 €",
+                "Chromebook Lenovo IdeaPad Slim 3 van 14 inch (referentie 14M868, "
+                "AZERTY-toetsenbord). Met ChromeOS, geschikt voor studie en online kantoorwerk. "
+                "90 € korting op de doorstreepte prijs, of -24 %.",
+            ),
+            "de": (
+                "Chromebook Lenovo IdeaPad Slim 3 14 Zoll für 279 € statt 369 €",
+                "Chromebook Lenovo IdeaPad Slim 3 mit 14 Zoll (Referenz 14M868, "
+                "AZERTY-Tastatur). Mit ChromeOS, geeignet für Studium und Online-Büroarbeit. "
+                "90 € Rabatt auf den durchgestrichenen Preis, also -24 %.",
+            ),
+        },
     ),
     dict(
-        title="Meules de fromage d'abbaye affinées vingt-quatre mois, lot de deux",
-        merchant="Fromagerie Saint-Aubert",
+        title="Lave-linge AEG LF62CB86 ProSense à 499 € au lieu de 599 €",
+        merchant="Coolblue",
+        category="maison",
+        price="499.00",
+        reference="599.00",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=388,
+        description=(
+            "Machine à laver AEG série 6000 ProSense, qui adapte la durée et la quantité "
+            "d'eau au poids du linge. 100 € de remise sur le prix barré, soit -17 %."
+        ),
+        url="https://www.coolblue.be/fr/produit/967584/aeg-lf62cb86-prosense.html",
+        image="https://image.coolblue.be/transparent/max/380xauto/products/2215763",
+        translations={
+            "nl": (
+                "Wasmachine AEG LF62CB86 ProSense voor 499 € in plaats van 599 €",
+                "Wasmachine AEG 6000-serie ProSense, die de duur en de hoeveelheid water "
+                "aanpast aan het gewicht van de was. 100 € korting op de doorstreepte prijs, "
+                "of -17 %.",
+            ),
+            "de": (
+                "Waschmaschine AEG LF62CB86 ProSense für 499 € statt 599 €",
+                "Waschmaschine AEG Serie 6000 ProSense, die Dauer und Wassermenge an das "
+                "Gewicht der Wäsche anpasst. 100 € Rabatt auf den durchgestrichenen Preis, "
+                "also -17 %.",
+            ),
+        },
+    ),
+    dict(
+        title="Myrtilles bleues Delhaize 300 g à 2,99 € au lieu de 5,49 €",
+        merchant="Delhaize",
         category="supermarche",
-        price="32.00",
-        reference="44.00",
-        shipping="6.00",
-        regions=["BE3"],
+        price="2.99",
+        reference="5.49",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=264,
+        description=(
+            "Barquette de 300 g de myrtilles en promotion dans les magasins Delhaize et "
+            "sur la boutique en ligne : 9,97 €/kg au lieu de 18,30 €/kg. Promotion de la "
+            "semaine, dans la limite des stocks disponibles."
+        ),
+        url=(
+            "https://www.delhaize.be/fr/shop/Fruits-et-legumes-frais/Fruits-frais/"
+            "Fruits-rouges-et-baies/Myrtilles/Myrtilles-Bleues/p/F2024022000131720000"
+        ),
+        image=(
+            "https://static.delhaize.be/medias/sys_master/products/h5a/hbd/"
+            "12675488645150.jpg?imwidth=600"
+        ),
+        translations={
+            "nl": (
+                "Blauwe bosbessen Delhaize 300 g voor 2,99 € in plaats van 5,49 €",
+                "Schaaltje van 300 g bosbessen in promotie in de Delhaize-winkels en in de "
+                "webshop: 9,97 €/kg in plaats van 18,30 €/kg. Promotie van de week, zolang "
+                "de voorraad strekt.",
+            ),
+            "de": (
+                "Blaubeeren Delhaize 300 g für 2,99 € statt 5,49 €",
+                "Schale mit 300 g Heidelbeeren im Angebot in den Delhaize-Filialen und im "
+                "Onlineshop: 9,97 €/kg statt 18,30 €/kg. Angebot der Woche, solange der "
+                "Vorrat reicht.",
+            ),
+        },
+    ),
+    dict(
+        title="Jean Levi's 501 Original Fit homme à partir de 50 €",
+        merchant="Amazon.com.be",
+        category="mode",
+        price="50.00",
+        reference=None,
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PUBLISHED,
+        temp=171,
+        cross_border=True,
+        description=(
+            "Le jean 501 coupe droite d'origine, vendu par Amazon.com.be. Le prix de "
+            "50 € vaut pour certaines tailles et couleurs ; Amazon indique un prix "
+            "conseillé de 110 €, qui n'est pas un prix de référence au sens de la loi "
+            "belge : aucune réduction n'est donc annoncée ici."
+        ),
+        url="https://www.amazon.com.be/dp/B001GT1WDI",
+        image="https://m.media-amazon.com/images/I/81hyY84WRCL._AC_SL1500_.jpg",
+        translations={
+            "nl": (
+                "Jeans Levi's 501 Original Fit heren vanaf 50 €",
+                "De originele 501 met rechte pijp, verkocht door Amazon.com.be. De prijs van "
+                "50 € geldt voor bepaalde maten en kleuren; Amazon vermeldt een adviesprijs "
+                "van 110 €, wat geen referentieprijs is in de zin van de Belgische wet: er "
+                "wordt hier dus geen korting aangekondigd.",
+            ),
+            "de": (
+                "Jeans Levi's 501 Original Fit Herren ab 50 €",
+                "Die originale 501 mit geradem Schnitt, verkauft von Amazon.com.be. Der Preis "
+                "von 50 € gilt für bestimmte Größen und Farben; Amazon nennt eine "
+                "unverbindliche Preisempfehlung von 110 €, die kein Referenzpreis im Sinne "
+                "des belgischen Rechts ist: Hier wird daher kein Rabatt angekündigt.",
+            ),
+        },
+    ),
+    # -- En attente de modération : pour la démonstration du back-office ----
+    dict(
+        title='PC portable HP OmniBook 3 OLED 16" à 679 € au lieu de 899 €',
+        merchant="Coolblue",
+        category="high-tech",
+        price="679.00",
+        reference="899.00",
+        shipping="0.00",
+        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PENDING,
         temp=100,
         description=(
-            "Affinage en cave par un maître fromager de la région de Namur. Expédition sous "
-            "emballage isotherme du lundi au mercredi uniquement, pour éviter un week-end en "
-            "transit. Poids total d'environ un kilo deux cents."
+            "Ordinateur portable HP OmniBook 3 Next Gen AI PC avec écran OLED de 16 "
+            "pouces (référence BZ0031NBX, clavier AZERTY). 220 € de remise sur le prix "
+            "barré. En attente de vérification du prix de référence par la modération."
         ),
-        url="https://example.be/fromagerie-saint-aubert/abbaye-24-mois",
+        url=(
+            "https://www.coolblue.be/fr/produit/980471/"
+            "hp-omnibook-3-next-gen-ai-pc-oled-16-bz0031nbx-azerty.html"
+        ),
+        image="https://image.coolblue.be/transparent/max/380xauto/products/1127009865",
     ),
     dict(
-        title="Chaussures de marche Salomon X Ultra 4 GTX, pointures 40 à 46",
-        merchant="Bol.com",
-        category="mode",
-        price="89.00",
-        reference="159.00",
+        title='TV Samsung LED 85" U8070H (2026) à 999 € au lieu de 1 199 €',
+        merchant="Coolblue",
+        category="high-tech",
+        price="999.00",
+        reference="1199.00",
         shipping="0.00",
-        regions=["BE2"],
-        lang="fr",  # texte de base français, cf. le deal Action Maastricht
-        status=DealStatus.PUBLISHED,
-        temp=318,
-        cross_border=True,
+        regions=["BE1", "BE2", "BE3"],
+        lang="fr",
+        status=DealStatus.PENDING,
+        temp=100,
         description=(
-            "Membrane Gore-Tex, semelle Contagrip. Taille petit d'une demi-pointure d'après "
-            "les retours des membres. Expédié depuis les Pays-Bas, retour gratuit sous trente "
-            "jours mais le colis part vers Utrecht."
+            "Téléviseur LED Samsung de 85 pouces, modèle 2026, pour une distance de "
+            "recul de 3,5 à 4 mètres. 200 € de remise sur le prix barré, soit -17 %."
         ),
-        url="https://www.bol.com/be/nl/p/salomon-x-ultra-4-gtx",
-        translations={
-            "nl": (
-                "Salomon X Ultra 4 GTX wandelschoenen, maten 40 tot 46",
-                "Gore-Tex-membraan, Contagrip-zool. Volgens de reacties van de leden valt de "
-                "schoen een halve maat te klein uit. Verzending vanuit Nederland, gratis retour "
-                "binnen dertig dagen, maar het pakket vertrekt richting Utrecht.",
-            ),
-            "de": (
-                "Salomon X Ultra 4 GTX Wanderschuhe, Größen 40 bis 46",
-                "Gore-Tex-Membran, Contagrip-Sohle. Nach den Rückmeldungen der Mitglieder "
-                "fällt der Schuh eine halbe Nummer kleiner aus. Versand aus den Niederlanden, "
-                "kostenlose Rücksendung innerhalb von dreißig Tagen, das Paket geht allerdings "
-                "nach Utrecht.",
-            ),
-        },
+        url="https://www.coolblue.be/fr/produit/978778/samsung-led-85-u8070h-2026.html",
+        image="https://image.coolblue.be/transparent/max/380xauto/products/767139863",
     ),
 ]
 
 COMMENTS = [
     # (texte original en français, achat confirmé, traductions)
     (
-        "Commandé ce matin, retrait à Gand dans l'heure. Le prix passe bien à 249 € au panier sans code.",
+        "Commandé hier soir, livré ce midi comme annoncé. Le prix affiché est bien celui du panier, sans code.",
         True,
         {
-            "nl": "Vanochtend besteld, binnen het uur afgehaald in Gent. De prijs staat zonder code op 249 € in het winkelmandje.",
-            "de": "Heute Morgen bestellt, innerhalb einer Stunde in Gent abgeholt. Der Preis liegt ohne Code bei 249 € im Warenkorb.",
+            "nl": "Gisteravond besteld, vanmiddag geleverd zoals aangekondigd. De getoonde prijs is ook de prijs in het winkelmandje, zonder code.",
+            "de": "Gestern Abend bestellt, heute Mittag wie angekündigt geliefert. Der angezeigte Preis ist auch der Preis im Warenkorb, ohne Code.",
         },
     ),
     (
-        "Attention, chez le même marchand aux Pays-Bas il est dix euros moins cher, mais la garantie se règle depuis Rotterdam.",
+        "Bon plan, mais regardez le prix des 30 derniers jours : la réduction réelle est souvent plus faible que le pourcentage affiché.",
         False,
         {
-            "nl": "Let op: bij dezelfde handelaar in Nederland is het tien euro goedkoper, maar de garantie wordt vanuit Rotterdam geregeld.",
-            "de": "Achtung: Beim selben Händler in den Niederlanden ist es zehn Euro günstiger, aber die Garantie wird über Rotterdam abgewickelt.",
+            "nl": "Goede deal, maar kijk naar de prijs van de voorbije 30 dagen: de echte korting is vaak kleiner dan het getoonde percentage.",
+            "de": "Gutes Angebot, aber achtet auf den Preis der letzten 30 Tage: Der echte Rabatt ist oft kleiner als der angezeigte Prozentsatz.",
         },
     ),
     (
-        "Stock épuisé sur Bruxelles depuis midi. Le noir reste disponible en ligne.",
+        "Stock limité : il n'en restait plus que quelques-uns quand j'ai commandé.",
         False,
         {
-            "nl": "Sinds de middag uitverkocht in Brussel. De zwarte versie blijft online beschikbaar.",
-            "de": "Seit Mittag in Brüssel ausverkauft. Die schwarze Variante ist online weiterhin erhältlich.",
+            "nl": "Beperkte voorraad: er waren er nog maar een paar toen ik bestelde.",
+            "de": "Begrenzter Vorrat: Als ich bestellt habe, waren nur noch wenige übrig.",
         },
     ),
     (
@@ -440,11 +478,11 @@ COMMENTS = [
         },
     ),
     (
-        "Le prix de référence me semble optimiste, je l'ai vu à 299 € il y a trois semaines chez un concurrent.",
+        "J'ai comparé avec deux autres enseignes belges : c'est bien le meilleur prix aujourd'hui.",
         False,
         {
-            "nl": "De referentieprijs lijkt me optimistisch, ik zag het drie weken geleden aan 299 € bij een concurrent.",
-            "de": "Der Referenzpreis scheint mir optimistisch, ich habe es vor drei Wochen bei einem Konkurrenten für 299 € gesehen.",
+            "nl": "Vergeleken met twee andere Belgische winkels: dit is vandaag echt de beste prijs.",
+            "de": "Mit zwei anderen belgischen Händlern verglichen: Das ist heute wirklich der beste Preis.",
         },
     ),
     (
@@ -617,6 +655,7 @@ class Command(BaseCommand):
                     "title": spec["title"],
                     "description": spec["description"],
                     "external_url": spec["url"],
+                    "image_url": spec.get("image", ""),
                     "price": Decimal(spec["price"]),
                     "reference_price": Decimal(spec["reference"])
                     if spec["reference"]
@@ -758,20 +797,23 @@ class Command(BaseCommand):
         self.stdout.write(f"Paiements et abonnements : {count}")
 
     def _reports(self, deals, members):
-        expired = [d for d in deals if d.status == DealStatus.EXPIRED]
-        if not expired:
+        # Signalements de démonstration sur le jean Levi's : le prix de 50 €
+        # ne vaut que pour certaines tailles, un cas typique de modération.
+        target = next((d for d in deals if d.external_url.endswith("B001GT1WDI")), None)
+        if target is None:
             return
-        target = expired[0]
         for member in members[:3]:
+            if member == target.submitted_by:
+                continue
             Report.objects.get_or_create(
                 deal=target,
                 reporter=member,
                 defaults={
-                    "reason": Report.Reason.OUT_OF_STOCK,
-                    "detail": "Plus aucun stock en magasin ni en ligne depuis ce matin.",
+                    "reason": Report.Reason.WRONG_PRICE,
+                    "detail": "Le prix de 50 € n'apparaît que pour quelques tailles.",
                 },
             )
-        self.stdout.write("Signalements : 3")
+        self.stdout.write("Signalements : prix à vérifier sur le jean Levi's")
 
     def _summary(self):
         rows = [

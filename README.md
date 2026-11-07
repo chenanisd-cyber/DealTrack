@@ -118,8 +118,16 @@ python manage.py seed_demo
 ```
 
 Cette commande peuple la base avec 3 régions, 6 catégories traduites en 3
-langues, 11 marchands belges, 10 comptes utilisateurs, 10 offres, 32 votes,
-14 commentaires, 2 formules d'abonnement et 4 paiements.
+langues, 8 marchands réels, 10 comptes utilisateurs, 10 offres, des votes,
+des commentaires traduits, 2 formules d'abonnement et 4 paiements.
+
+Les 10 offres sont **de vrais deals** relevés le 7 novembre 2026 sur Coolblue,
+Amazon.com.be, Proximus et Delhaize : titre, prix, prix barré, lien et photo
+du marchand. Les prix évoluent : avant une démonstration, vérifiez-les sur les
+sites et mettez à jour `DEALS` dans
+`backend/apps/catalog/management/commands/seed_demo.py`, puis relancez
+`python manage.py seed_demo --flush`. Les comptes et commentaires restent des
+données de démonstration.
 
 ### Attribution des permissions
 

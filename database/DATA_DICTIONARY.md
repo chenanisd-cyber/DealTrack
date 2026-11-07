@@ -24,19 +24,19 @@
 | `accounts_user` | utilisateurs | id · UUID | 10 |
 | `catalog_category` | catégories | id · UUID | 6 |
 | `catalog_categorytranslation` | libellés de catégorie | id · BIGINT auto | 18 |
-| `catalog_merchant` | marchands | id · UUID | 11 |
+| `catalog_merchant` | marchands | id · UUID | 8 |
 | `catalog_region` | régions | code · VARCHAR | 3 |
 | `deals_alert` | alertes | id · UUID | 0 |
-| `deals_comment` | commentaires | id · UUID | 14 |
-| `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 28 |
+| `deals_comment` | commentaires | id · UUID | 18 |
+| `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 36 |
 | `deals_deal` | deals | id · UUID | 10 |
-| `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 14 |
-| `deals_vote` | votes | id · BIGINT auto | 32 |
+| `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 16 |
+| `deals_vote` | votes | id · BIGINT auto | 38 |
 | `payments_payment` | paiements | id · UUID | 4 |
 | `payments_plan` | formules | id · UUID | 2 |
 | `payments_subscription` | abonnements | id · UUID | 4 |
-| `moderation_auditlog` | journal d'audit | id · BIGINT auto | 0 |
-| `moderation_moderationdecision` | décisions de modération | id · UUID | 7 |
+| `moderation_auditlog` | journal d'audit | id · BIGINT auto | 2 |
+| `moderation_moderationdecision` | décisions de modération | id · UUID | 8 |
 | `moderation_report` | signalements | id · UUID | 3 |
 
 ---
