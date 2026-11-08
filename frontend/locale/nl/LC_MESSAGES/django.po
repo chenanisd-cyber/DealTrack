@@ -2283,3 +2283,11 @@ msgstr "DealTrack: %(n)d deal(s) voor je alerts"
 #, python-format
 msgid "Bonjour %(name)s,"
 msgstr "Hallo %(name)s,"
+
+#: templates
+msgid ""
+"Prix inchangé depuis la publication. La courbe se dessine à chaque "
+"changement de prix."
+msgstr ""
+"Prijs ongewijzigd sinds de publicatie. De curve verschijnt bij elke "
+"prijswijziging."

@@ -156,5 +156,5 @@
 
 {# Textes de l'interface pour submit.js, traduits côté serveur (json_script échappe tout). #}
 {{ wizard_messages|json_script:"wizard-messages" }}
-<script src="{% static 'js/submit.js' %}" defer data-scrape-url="{% url 'deals:scrape-link' %}"></script>
+<script src="{% static 'js/submit.js' %}?v={{ ASSET_VERSION }}" defer data-scrape-url="{% url 'deals:scrape-link' %}"></script>
 {% endblock %}

@@ -109,7 +109,7 @@ def record_price(deal, *, source=None, at=None):
     )
 
 
-def price_chart(deal, width=560, height=180, pad=28):
+def price_chart(deal, width=760, height=170, pad=28):
     """
     Données du graphique SVG (calculé côté serveur : aucune bibliothèque JS).
     Renvoie None s'il n'y a aucun point.
@@ -127,17 +127,21 @@ def price_chart(deal, width=560, height=180, pad=28):
 
     def x(point):
         if len(points) == 1:
-            return width / 2
+            return width - pad  # un seul relevé : le point au bout de la ligne
         return pad + (width - 2 * pad) * (point.recorded_at - start).total_seconds() / duration
 
     def y(price):
         return height - pad - float((price - low) / span) * (height - 2 * pad)
 
     coords = [(round(x(p), 1), round(y(p.price), 1), p) for p in points]
+    line = [(cx, cy) for cx, cy, _ in coords]
+    if len(points) == 1:
+        # Prix inchangé depuis le relevé : ligne plate sur toute la largeur.
+        line.insert(0, (pad, line[0][1]))
     return {
         "width": width,
         "height": height,
-        "polyline": " ".join(f"{cx},{cy}" for cx, cy, _ in coords),
+        "polyline": " ".join(f"{cx},{cy}" for cx, cy in line),
         "dots": [
             {
                 "x": cx,

@@ -273,7 +273,7 @@ change à chaque lancement. `cloudflared.exe` est attendu dans `.tools/`
 python manage.py test tests --settings=config.settings.test
 ```
 
-185 tests, répartis en neuf fichiers dans `backend/tests/` :
+187 tests, répartis en neuf fichiers dans `backend/tests/` :
 
 | Fichier | Tests | Contenu |
 |---|---|---|
@@ -284,7 +284,7 @@ python manage.py test tests --settings=config.settings.test
 | test_comments.py | 5 | Commentaires traduits selon la langue de la page, repli sur l'original |
 | test_checkout.py | 8 | Paiement hébergé : parcours, fraude au retour, idempotence, webhook |
 | test_dump.py | 4 | DUMP SQL : structure, clés, contraintes, sessions exclues, rechargement |
-| test_vip.py | 12 | Abonnement VIP : historique du prix, comparaison réservée, alertes en priorité, régions supprimées |
+| test_vip.py | 14 | Abonnement VIP : historique du prix, graphique, comparaison réservée, alertes en priorité, régions supprimées |
 | test_live_features.py | 19 | Lecture du prix, marchand automatique, assistant de publication, vote en direct, annuaire, mode partage |
 
 ## API REST

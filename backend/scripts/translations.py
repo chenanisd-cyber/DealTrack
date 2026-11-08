@@ -476,6 +476,8 @@ NL = {
     "Suivi automatique": "Automatische opvolging",
     "DealTrack : %(n)d deal(s) pour vos alertes": "DealTrack: %(n)d deal(s) voor je alerts",
     "Bonjour %(name)s,": "Hallo %(name)s,",
+    # -- Graphique VIP --
+    "Prix inchangé depuis la publication. La courbe se dessine à chaque changement de prix.": "Prijs ongewijzigd sinds de publicatie. De curve verschijnt bij elke prijswijziging.",
 }
 
 DE = {
@@ -949,6 +951,8 @@ DE = {
     "Suivi automatique": "Automatische Verfolgung",
     "DealTrack : %(n)d deal(s) pour vos alertes": "DealTrack: %(n)d Angebot(e) für Ihre Alarme",
     "Bonjour %(name)s,": "Hallo %(name)s,",
+    # -- Graphique VIP --
+    "Prix inchangé depuis la publication. La courbe se dessine à chaque changement de prix.": "Preis seit der Veröffentlichung unverändert. Die Kurve entsteht bei jeder Preisänderung.",
 }
 
 CATALOGUES = {"nl": NL, "de": DE}

@@ -807,7 +807,7 @@ img{max-width:100%}
   font-size:12px; font-weight:800; letter-spacing:.06em;
 }
 .vipbadge.is-lg{font-size:16px; padding:4px 10px}
-.pricechart{width:100%; height:auto; background:var(--dt-surface); border:1px solid var(--dt-surface-2); border-radius:10px}
+.pricechart{display:block; width:100%; height:auto; max-height:240px; background:var(--dt-surface); border:1px solid var(--dt-surface-2); border-radius:10px}
 .pricechart__line{fill:none; stroke:var(--dt-accent); stroke-width:3; stroke-linejoin:round}
 .pricechart__dot{fill:var(--dt-surface); stroke:var(--dt-accent); stroke-width:3}
 .pricechart__ref{stroke:var(--dt-ink-2); stroke-dasharray:6 6}

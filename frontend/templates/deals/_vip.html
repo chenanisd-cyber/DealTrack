@@ -27,6 +27,9 @@
         <div><dt>{% trans "Relevés" %}</dt><dd>{{ price_chart.count }}</dd></div>
         <div><dt>{% trans "Suivi depuis le" %}</dt><dd>{{ price_chart.since|date:"d/m/Y" }}</dd></div>
       </dl>
+      {% if price_chart.count == 1 %}
+        <p class="field__hint">{% trans "Prix inchangé depuis la publication. La courbe se dessine à chaque changement de prix." %}</p>
+      {% endif %}
       <p class="field__hint">{% trans "Seuls des prix réellement observés sont affichés : relevé à la publication, chaque changement de prix et le suivi automatique quotidien." %}</p>
     {% else %}
       <p class="meta">{% trans "Pas encore de relevé de prix pour ce deal." %}</p>

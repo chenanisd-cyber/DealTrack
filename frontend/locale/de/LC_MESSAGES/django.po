@@ -2294,3 +2294,11 @@ msgstr "DealTrack: %(n)d Angebot(e) für Ihre Alarme"
 #, python-format
 msgid "Bonjour %(name)s,"
 msgstr "Hallo %(name)s,"
+
+#: templates
+msgid ""
+"Prix inchangé depuis la publication. La courbe se dessine à chaque "
+"changement de prix."
+msgstr ""
+"Preis seit der Veröffentlichung unverändert. Die Kurve entsteht bei jeder "
+"Preisänderung."

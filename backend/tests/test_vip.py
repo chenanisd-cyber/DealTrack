@@ -88,6 +88,19 @@ class PriceHistoryTests(VipTestCase):
         self.assertIn("449,00 €", page)  # ligne du prix de référence
         self.assertNotIn('cy="152,0"', page)  # coordonnées SVG sans virgule décimale
 
+    def test_un_seul_releve_trace_une_ligne_plate(self):
+        from apps.deals.vip import price_chart
+
+        chart = price_chart(self.deal)
+        self.assertEqual(chart["count"], 1)
+        start, end = chart["polyline"].split()
+        self.assertEqual(start.split(",")[1], end.split(",")[1])  # même hauteur
+        self.assertNotEqual(start, end)
+
+    def test_styles_recharges_apres_modification(self):
+        page = self.client.get(self.deal.get_absolute_url()).content.decode()
+        self.assertRegex(page, r"dealtrack\.css\?v=[0-9a-f]{10}")
+
 
 class ComparisonTests(VipTestCase):
     def test_meme_produit_chez_un_autre_marchand(self):
