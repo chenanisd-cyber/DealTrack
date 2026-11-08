@@ -52,6 +52,9 @@ ignore = [
 # Clés de développement, jamais employées ailleurs : prod.py exige l'environnement.
 "backend/config/settings/dev.py" = ["F403", "F405", "S105"]
 "backend/config/settings/test.py" = ["F403", "F405", "S105"]
+# Diagrammes UML écrits en code : coordonnées et libellés sur une ligne se
+# relisent mieux face au dessin qu'éclatés sur plusieurs.
+"docs/uml/source/*" = ["E501"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["apps", "config"]

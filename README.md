@@ -384,6 +384,7 @@ Le détail figure dans `database/DATA_DICTIONARY.md` (régénéré par `make dic
 |---|---|
 | docs/RAPPORT_DEVELOPPEMENT.md | Plan de programmation, modules, choix techniques, difficultés |
 | database/DATA_DICTIONARY.md | Dictionnaire de données généré depuis le schéma |
+| docs/uml/index.html | Diagrammes UML 2 : cas d'utilisation, classes, états-transitions (deal, paiement, compte) — imprimable en A4 paysage |
 | docs/SECURITY.md | Protections mises en œuvre |
 | docs/API.md | Documentation de l'API |
 | docs/LEGAL_GDPR.md | RGPD et droit belge |

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 500" width="1240" height="500" role="img" aria-label="DealTrack.be — états d&#x27;un paiement"><title>DealTrack.be — états d&#x27;un paiement</title>
+<defs>
+  <marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse">
+    <path d="M1,1 L11,6 L1,11" fill="none" stroke="#1d2433" stroke-width="1.4"/>
+  </marker>
+  <marker id="filled" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto-start-reverse">
+    <path d="M1,1 L11,6 L1,11 Z" fill="#1d2433"/>
+  </marker>
+  <marker id="hollow" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="16" markerHeight="16" orient="auto-start-reverse">
+    <path d="M1,1 L15,8 L1,15 Z" fill="#fff" stroke="#1d2433" stroke-width="1.3"/>
+  </marker>
+  <marker id="diamond" viewBox="0 0 18 12" refX="17" refY="6" markerWidth="18" markerHeight="12" orient="auto-start-reverse">
+    <path d="M1,6 L9,1 L17,6 L9,11 Z" fill="#1d2433"/>
+  </marker>
+</defs>
+<style>
+  text { font-family: Arial, Helvetica, sans-serif; fill: #1d2433; }
+  .t13 { font-size: 13px; }
+  .t12 { font-size: 12px; }
+  .t11 { font-size: 11px; }
+  .b { font-weight: bold; }
+  .i { font-style: italic; }
+  .muted { fill: #5b6475; }
+  .ln { stroke: #1d2433; stroke-width: 1.3; fill: none; }
+  .dash { stroke-dasharray: 6 4; }
+</style><rect width="1240" height="500" fill="#ffffff"/><text x="20.0" y="30.0" class="t13 b" text-anchor="start">Diagramme d&#x27;états-transitions : paiement d&#x27;un abonnement VIP (Payment.status)</text><circle cx="50" cy="215" r="9" fill="#1d2433"/><rect x="150" y="165" width="270" height="100" rx="14" fill="#ffffff" stroke="#1d2433" stroke-width="1.4"/><text x="285.0" y="186.0" class="t13 b" text-anchor="middle">En attente</text><line x1="150" y1="195" x2="420" y2="195" stroke="#1d2433" stroke-width="1"/><text x="160.0" y="213.0" class="t11" text-anchor="start">entry / ligne Payment créée AVANT</text><text x="160.0" y="229.0" class="t11" text-anchor="start">          l&#x27;appel à Stripe (référence, TVA)</text><text x="160.0" y="245.0" class="t11" text-anchor="start">          puis session Stripe Checkout</text><rect x="640" y="70" width="290" height="100" rx="14" fill="#ffffff" stroke="#1d2433" stroke-width="1.4"/><text x="785.0" y="91.0" class="t13 b" text-anchor="middle">Réussi</text><line x1="640" y1="100" x2="930" y2="100" stroke="#1d2433" stroke-width="1"/><text x="650.0" y="118.0" class="t11" text-anchor="start">entry / Subscription créée (durée du plan)</text><text x="650.0" y="134.0" class="t11" text-anchor="start">          membre VIP, AuditLog</text><text x="650.0" y="150.0" class="t11" text-anchor="start">          carte : marque + 4 derniers chiffres</text><rect x="640" y="330" width="290" height="60" rx="14" fill="#ffffff" stroke="#1d2433" stroke-width="1.4"/><text x="785.0" y="365.0" class="t13 b" text-anchor="middle">Échoué</text><rect x="1000" y="85" width="210" height="70" rx="14" fill="#ffffff" stroke="#1d2433" stroke-width="1.4"/><text x="1105.0" y="125.0" class="t13 b" text-anchor="middle">Remboursé</text><path d="M59.0,215.0 L150.0,215.0" class="ln" marker-end="url(#filled)"/><rect x="28.8" y="276.0" width="132.4" height="48" fill="#ffffff" opacity="0.92"/><text x="95.0" y="290.0" class="t11" text-anchor="middle">clic « Payer »</text><text x="95.0" y="304.0" class="t11" text-anchor="middle">[case de rétractation</text><text x="95.0" y="318.0" class="t11" text-anchor="middle">cochée]</text><path d="M420.0,190.0 L640.0,120.0" class="ln" marker-end="url(#filled)"/><rect x="403.3" y="139.0" width="237.4" height="34" fill="#ffffff" opacity="0.92"/><text x="522.0" y="153.0" class="t11" text-anchor="middle">[Stripe confirme payment_status = paid]</text><text x="522.0" y="167.0" class="t11" text-anchor="middle">(retour sur le site ou webhook signé)</text><path d="M420.0,240.0 L640.0,360.0" class="ln" marker-end="url(#filled)"/><rect x="455.0" y="303.0" width="149.9" height="34" fill="#ffffff" opacity="0.92"/><text x="530.0" y="317.0" class="t11" text-anchor="middle">annulation par le membre</text><text x="530.0" y="331.0" class="t11" text-anchor="middle">ou refus de la banque</text><path d="M250.0,265.0 L250.0,300.0 L320.0,300.0 L320.0,265.0" class="ln" marker-end="url(#filled)"/><rect x="221.7" y="305.0" width="126.6" height="34" fill="#ffffff" opacity="0.92"/><text x="285.0" y="319.0" class="t11" text-anchor="middle">retour sans paiement</text><text x="285.0" y="333.0" class="t11" text-anchor="middle">/ reste en attente</text><path d="M930.0,120.0 L1000.0,120.0" class="ln dash" marker-end="url(#filled)"/><rect x="930.9" y="95.0" width="68.3" height="20" fill="#ffffff" opacity="0.92"/><text x="965.0" y="109.0" class="t11" text-anchor="middle">rembourser</text><path d="M640,420 L1196,420 L1210,434 L1210,464 L640,464 Z" fill="#fffbe6" stroke="#8a7a3a" stroke-width="1"/><path d="M1196,420 L1196,434 L1210,434" fill="none" stroke="#8a7a3a" stroke-width="1"/><text x="650.0" y="439.0" class="t11" text-anchor="start">« Remboursé » est prévu dans le modèle, sans automatisation (traitement manuel).</text><text x="650.0" y="454.0" class="t11" text-anchor="start">Un second retour sur le site ne crée pas de second abonnement (idempotence).</text></svg>

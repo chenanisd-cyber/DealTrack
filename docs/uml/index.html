@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DealTrack.be — Diagrammes UML 2</title>
+<style>
+  @page { size: A4 landscape; margin: 10mm; }
+  :root { --ink: #1d2433; --muted: #5b6475; --line: #d9dde5; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9ebef; color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+  .page { background: #fff; width: min(1180px, 100% - 32px); margin: 16px auto; padding: 24px 28px; border-radius: 6px; }
+  .cover { text-align: center; padding: 120px 28px; }
+  .cover h1 { font-size: 34px; margin: 0 0 12px; }
+  .cover p { color: var(--muted); margin: 6px 0; }
+  .cover ol { display: inline-block; text-align: left; margin-top: 28px; line-height: 1.9; }
+  h2 { font-size: 20px; margin: 0 0 4px; }
+  .lead { color: var(--muted); font-size: 13px; margin: 0 0 12px; line-height: 1.45; }
+  img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+  .print { position: fixed; right: 16px; bottom: 16px; padding: 10px 16px; border: 0; border-radius: 999px;
+           background: var(--ink); color: #fff; font-size: 14px; cursor: pointer; }
+  @media print {
+    body { background: #fff; }
+    .page { width: auto; margin: 0; padding: 0; border-radius: 0; page-break-after: always; break-after: page; }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    .cover { padding-top: 60mm; }
+    img { max-height: 165mm; width: auto; max-width: 100%; margin: 0 auto; border: 0; }
+    .print { display: none; }
+  }
+</style>
+</head>
+<body>
+<button class="print" onclick="window.print()">Imprimer / PDF</button>
+
+<section class="page cover">
+  <h1>DealTrack.be — Analyse UML 2</h1>
+  <p>Épreuve intégrée — Institut des Carrières Commerciales, Bruxelles</p>
+  <p>Mohamed-Amine Chenani</p>
+  <ol>
+    <li>Diagramme de cas d'utilisation</li>
+    <li>Diagramme de classes</li>
+    <li>Diagramme d'états-transitions : cycle de vie d'un deal</li>
+    <li>Diagramme d'états-transitions : paiement d'un abonnement VIP</li>
+    <li>Diagramme d'états-transitions : compte membre et désinscription</li>
+  </ol>
+</section>
+
+<section class="page">
+  <h2>1. Diagramme de cas d'utilisation</h2>
+  <p class="lead">Cinq acteurs humains, hiérarchisés par héritage (Visiteur → Membre → Membre VIP ; Modérateur → Administrateur), et un système externe, Stripe.
+  La fonctionnalité principale est « Publier un deal », qui inclut le pré-remplissage depuis un lien, suivie de sa modération dans le back-office.
+  « Fermer son compte » et « Gérer les membres » incluent la même désinscription logique (soft delete).</p>
+  <img src="01_cas_utilisation.svg" alt="Diagramme de cas d'utilisation de DealTrack.be">
+</section>
+
+<section class="page">
+  <h2>2. Diagramme de classes</h2>
+  <p class="lead">Fidèle aux modèles Django : 19 classes et 3 énumérations. Deal et User sont au centre ; les classes intermédiaires (Vote, Comment, Report, ModerationDecision) relient un membre à un deal.
+  Les losanges pleins indiquent une composition : traductions, photos et historique des prix n'existent pas sans leur deal. AlertMatch est la classe d'association entre une alerte et un deal (priorité VIP, date de disponibilité).</p>
+  <img src="02_classes.svg" alt="Diagramme de classes de DealTrack.be">
+</section>
+
+<section class="page">
+  <h2>3. États-transitions : cycle de vie d'un deal</h2>
+  <p class="lead">Un deal soumis attend la modération, puis il est publié ou refusé ; un deal publié expire à sa date de fin ou sur décision d'un modérateur.
+  Dans n'importe lequel de ces états, la suppression est logique : le champ deleted_at est renseigné et la ligne reste en base avec ses votes et commentaires.</p>
+  <img src="03_etats_deal.svg" alt="Diagramme d'états d'un deal">
+</section>
+
+<section class="page">
+  <h2>4. États-transitions : paiement d'un abonnement VIP</h2>
+  <p class="lead">La ligne Payment est créée « en attente » avant tout appel à Stripe, pour qu'aucun débit n'existe sans trace.
+  Le passage à « Réussi » n'a lieu que si DealTrack interroge lui-même Stripe (au retour ou par webhook signé) ; il crée alors l'abonnement.</p>
+  <img src="04_etats_paiement.svg" alt="Diagramme d'états d'un paiement">
+</section>
+
+<section class="page">
+  <h2>5. États-transitions : compte membre et désinscription</h2>
+  <p class="lead">Un membre actif est gratuit ou VIP. La désinscription d'un membre qui a payé est logique : l'accès est coupé mais la ligne et ses factures restent (obligation comptable).
+  L'anonymisation applique ensuite le droit à l'oubli en écrasant les données personnelles, sans casser le lien avec les factures.</p>
+  <img src="05_etats_compte.svg" alt="Diagramme d'états d'un compte membre">
+</section>
+</body>
+</html>
