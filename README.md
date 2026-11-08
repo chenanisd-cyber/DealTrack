@@ -117,12 +117,13 @@ Toutes les commandes `python manage.py …` se lancent depuis le dossier
 python manage.py seed_demo
 ```
 
-Cette commande peuple la base avec 3 régions, 6 catégories traduites en 3
-langues, 8 enseignes, 13 commerçants indépendants (OpenStreetMap), 10 comptes
-utilisateurs, 20 offres, des votes, des commentaires traduits, 2 formules
-d'abonnement et 4 paiements.
+Cette commande peuple **toutes les tables avec au moins 100 lignes** (sauf
+les tables naturellement limitées : régions, catégories, formules) : 120
+comptes, 135 marchands dont 133 commerces indépendants réels (OpenStreetMap),
+129 offres réelles, 600+ votes, 238 commentaires traduits, 114 paiements…
+Le détail et le DUMP SQL sont décrits dans `database/README.md`.
 
-Les 20 offres sont **de vrais deals** relevés le 7 novembre 2026 sur Coolblue,
+Les 20 offres rédigées à la main sont **de vrais deals** relevés le 7 novembre 2026 sur Coolblue,
 Amazon.com.be, Proximus et Delhaize : titre, prix, prix barré, lien et photo
 du marchand. Les prix évoluent : avant une démonstration, vérifiez-les sur les
 sites et mettez à jour `DEALS` dans
@@ -253,7 +254,7 @@ change à chaque lancement. `cloudflared.exe` est attendu dans `.tools/`
 python manage.py test tests --settings=config.settings.test
 ```
 
-169 tests, répartis en sept fichiers dans `backend/tests/` :
+173 tests, répartis en huit fichiers dans `backend/tests/` :
 
 | Fichier | Tests | Contenu |
 |---|---|---|
@@ -263,6 +264,7 @@ python manage.py test tests --settings=config.settings.test
 | test_images.py | 13 | Validation des photos envoyées, priorité photo / image externe / vignette du marchand |
 | test_comments.py | 5 | Commentaires traduits selon la langue de la page, repli sur l'original |
 | test_checkout.py | 8 | Paiement hébergé : parcours, fraude au retour, idempotence, webhook |
+| test_dump.py | 4 | DUMP SQL : structure, clés, contraintes, sessions exclues, rechargement |
 | test_live_features.py | 19 | Lecture du prix, marchand automatique, assistant de publication, vote en direct, annuaire, mode partage |
 
 ## API REST
@@ -304,6 +306,7 @@ python scripts/api_demo.py      # depuis backend/
 | audit_report --days 30 | Produit le rapport d'audit d'activité |
 | data_dictionary | Régénère le dictionnaire de données |
 | import_local_merchants --area … | Importe des commerçants indépendants depuis OpenStreetMap |
+| export_dump | Exporte le DUMP SQL complet (structure + données) dans `database/` |
 
 ## Sécurité
 

@@ -1,0 +1,1202 @@
+[
+ {
+  "osm_id": 1184758705,
+  "name": "Pierre Marcolini",
+  "shop": "chocolate",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.208128,
+  "lon": 3.223712,
+  "website": "https://eu.marcolini.com/nl/shops/steenstraat_brugge_8000/17.html"
+ },
+ {
+  "osm_id": 1184758738,
+  "name": "La Belgique Gourmande",
+  "shop": "chocolate",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.208101,
+  "lon": 3.223677,
+  "website": "https://labelgiquegourmande.com/en/shops/steenstraat/"
+ },
+ {
+  "osm_id": 1187756874,
+  "name": "Dumon",
+  "shop": "chocolate",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.206202,
+  "lon": 3.223027,
+  "website": "https://www.chocolatierdumon.be/"
+ },
+ {
+  "osm_id": 1187809495,
+  "name": "The Chocolate Line",
+  "shop": "chocolate",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.206534,
+  "lon": 3.222392,
+  "website": "https://www.thechocolateline.be/nl/"
+ },
+ {
+  "osm_id": 1202817990,
+  "name": "Babette",
+  "shop": "bakery",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.206541,
+  "lon": 3.219139,
+  "website": ""
+ },
+ {
+  "osm_id": 1203374461,
+  "name": "Trattoria Toscana",
+  "shop": "deli",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.205562,
+  "lon": 3.215085,
+  "website": ""
+ },
+ {
+  "osm_id": 1240762834,
+  "name": "Brugse Boekhandel",
+  "shop": "books",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.206725,
+  "lon": 3.227108,
+  "website": "https://www.brugseboekhandel.be/"
+ },
+ {
+  "osm_id": 1256770388,
+  "name": "De broodsmid - Stefan Vandaele",
+  "shop": "bakery",
+  "address": "Gistelse Steenweg 88, 8200 Sint-Andries",
+  "city": "Brugge",
+  "lat": 51.203478,
+  "lon": 3.206102,
+  "website": "https://www.de-broodsmid.be/"
+ },
+ {
+  "osm_id": 1301946772,
+  "name": "Kerkhove",
+  "shop": "bakery",
+  "address": "Leliestraat 1C, 8310 Brugge",
+  "city": "Brugge",
+  "lat": 51.19849,
+  "lon": 3.240455,
+  "website": "https://bakkerijkerkhove.be/"
+ },
+ {
+  "osm_id": 1301946773,
+  "name": "De Vijfhoek",
+  "shop": "bakery",
+  "address": "Hadewijchstraat 2, 8310 Brugge",
+  "city": "Brugge",
+  "lat": 51.19853,
+  "lon": 3.236607,
+  "website": ""
+ },
+ {
+  "osm_id": 1540685750,
+  "name": "Descheemaeker",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.212237,
+  "lon": 3.195667,
+  "website": "https://www.descheemaeker.be/nl"
+ },
+ {
+  "osm_id": 1634275892,
+  "name": "'t Atelier",
+  "shop": "bakery",
+  "address": "Schoolstraat 2, 8310 Assebroek",
+  "city": "Brugge",
+  "lat": 51.201678,
+  "lon": 3.249595,
+  "website": "https://www.bakkerijtatelier.be/"
+ },
+ {
+  "osm_id": 1710485913,
+  "name": "Hendrik",
+  "shop": "bakery",
+  "address": "Stationsstraat 10",
+  "city": "Brugge",
+  "lat": 51.294567,
+  "lon": 3.195815,
+  "website": ""
+ },
+ {
+  "osm_id": 1714102931,
+  "name": "Santé Wines",
+  "shop": "wine",
+  "address": "Legeweg 50, 8200",
+  "city": "Brugge",
+  "lat": 51.204851,
+  "lon": 3.205104,
+  "website": "https://santewines.be"
+ },
+ {
+  "osm_id": 1776850335,
+  "name": "Bike World",
+  "shop": "bicycle",
+  "address": "Baron Ruzettelaan 415, 8310 Assebroek",
+  "city": "Brugge",
+  "lat": 51.183367,
+  "lon": 3.234912,
+  "website": ""
+ },
+ {
+  "osm_id": 1956757499,
+  "name": "Karine’s bakkerij shop",
+  "shop": "bakery",
+  "address": "Gistelse Steenweg 136, 8200 Sint-Andries",
+  "city": "Brugge",
+  "lat": 51.201954,
+  "lon": 3.202688,
+  "website": "https://karinesbakkerijshop.be/"
+ },
+ {
+  "osm_id": 1956870448,
+  "name": "Dufoor",
+  "shop": "bakery",
+  "address": "Torhoutse Steenweg 262, 8200 Sint-Andries",
+  "city": "Brugge",
+  "lat": 51.192769,
+  "lon": 3.196665,
+  "website": ""
+ },
+ {
+  "osm_id": 2339006005,
+  "name": "Janssen",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.213944,
+  "lon": 3.256818,
+  "website": "https://www.fietsenjanssenbrugge.be/"
+ },
+ {
+  "osm_id": 2339006008,
+  "name": "Vasseur",
+  "shop": "butcher",
+  "address": "Maalse Steenweg 115, 8310",
+  "city": "Brugge",
+  "lat": 51.210096,
+  "lon": 3.24786,
+  "website": ""
+ },
+ {
+  "osm_id": 2339006011,
+  "name": "Geert en Carine",
+  "shop": "butcher",
+  "address": "Moerkerkse Steenweg 295",
+  "city": "Brugge",
+  "lat": 51.21389,
+  "lon": 3.255917,
+  "website": ""
+ },
+ {
+  "osm_id": 2358740392,
+  "name": "Strynckx",
+  "shop": "bakery",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.213763,
+  "lon": 3.263443,
+  "website": ""
+ },
+ {
+  "osm_id": 2358740413,
+  "name": "Dereeper",
+  "shop": "bakery",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.213525,
+  "lon": 3.261303,
+  "website": ""
+ },
+ {
+  "osm_id": 2358740431,
+  "name": "Carpe Diem",
+  "shop": "bakery",
+  "address": "Malehoeklaan 72, 8310",
+  "city": "Brugge",
+  "lat": 51.216046,
+  "lon": 3.279374,
+  "website": "https://www.tearoom-carpediem.be/"
+ },
+ {
+  "osm_id": 2358842010,
+  "name": "Verrewaere",
+  "shop": "bakery",
+  "address": "Moerkerkse Steenweg 142, 8310",
+  "city": "Brugge",
+  "lat": 51.213821,
+  "lon": 3.248019,
+  "website": ""
+ },
+ {
+  "osm_id": 2363357876,
+  "name": "Bakkerij De Somer",
+  "shop": "bakery",
+  "address": "Brieversweg 223, 8310",
+  "city": "Brugge",
+  "lat": 51.212382,
+  "lon": 3.27781,
+  "website": ""
+ },
+ {
+  "osm_id": 2631039851,
+  "name": "Dagbladhandel Newsflash",
+  "shop": "books",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.225033,
+  "lon": 3.232842,
+  "website": ""
+ },
+ {
+  "osm_id": 2631039877,
+  "name": "Nowé",
+  "shop": "bakery",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.227004,
+  "lon": 3.237109,
+  "website": ""
+ },
+ {
+  "osm_id": 2631039886,
+  "name": "La Brioché",
+  "shop": "bakery",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.224503,
+  "lon": 3.235009,
+  "website": ""
+ },
+ {
+  "osm_id": 2631039895,
+  "name": "Els&Jozef",
+  "shop": "butcher",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.224101,
+  "lon": 3.234663,
+  "website": ""
+ },
+ {
+  "osm_id": 2631039905,
+  "name": "Colin&Sabine",
+  "shop": "butcher",
+  "address": "",
+  "city": "Brugge",
+  "lat": 51.224669,
+  "lon": 3.228722,
+  "website": ""
+ },
+ {
+  "osm_id": 340471558,
+  "name": "Pierre Marcolini",
+  "shop": "chocolate",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.841317,
+  "lon": 4.353664,
+  "website": "https://eu.marcolini.com"
+ },
+ {
+  "osm_id": 651805514,
+  "name": "Mary",
+  "shop": "chocolate",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.849744,
+  "lon": 4.364117,
+  "website": "https://www.mary.be/"
+ },
+ {
+  "osm_id": 1210452504,
+  "name": "Stuyvenberg",
+  "shop": "bakery",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.885626,
+  "lon": 4.342892,
+  "website": ""
+ },
+ {
+  "osm_id": 1403028749,
+  "name": "Tropismes",
+  "shop": "books",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.848174,
+  "lon": 4.354839,
+  "website": "https://www.tropismes.com/"
+ },
+ {
+  "osm_id": 1613254421,
+  "name": "Adam",
+  "shop": "bakery",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.89522,
+  "lon": 4.388141,
+  "website": ""
+ },
+ {
+  "osm_id": 1631457524,
+  "name": "Atelier Roue Libre",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.813458,
+  "lon": 4.382499,
+  "website": "https://www.rouelibre.be/"
+ },
+ {
+  "osm_id": 2082643723,
+  "name": "Rachid",
+  "shop": "butcher",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.888648,
+  "lon": 4.339053,
+  "website": ""
+ },
+ {
+  "osm_id": 2082650840,
+  "name": "Houba",
+  "shop": "books",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.888976,
+  "lon": 4.338638,
+  "website": ""
+ },
+ {
+  "osm_id": 2315446891,
+  "name": "Bike Moments (Mavozan)",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.848244,
+  "lon": 4.34625,
+  "website": "https://www.velodroom.net/bikemoments"
+ },
+ {
+  "osm_id": 2334478360,
+  "name": "Gazzosa",
+  "shop": "wine",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.844507,
+  "lon": 4.354891,
+  "website": ""
+ },
+ {
+  "osm_id": 2385585705,
+  "name": "Piola Libri",
+  "shop": "books",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.845606,
+  "lon": 4.387061,
+  "website": "https://piolalibri.be/"
+ },
+ {
+  "osm_id": 2387949125,
+  "name": "Morning Cycles",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.847005,
+  "lon": 4.388389,
+  "website": "https://morningcycles.com/"
+ },
+ {
+  "osm_id": 2414370934,
+  "name": "Salon Sainte Catherine",
+  "shop": "chocolate",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.851534,
+  "lon": 4.347839,
+  "website": ""
+ },
+ {
+  "osm_id": 2414370940,
+  "name": "Atelier Sainte Catherine",
+  "shop": "chocolate",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.851907,
+  "lon": 4.347583,
+  "website": ""
+ },
+ {
+  "osm_id": 2422639578,
+  "name": "Bicyclic",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.839955,
+  "lon": 4.382772,
+  "website": "https://www.bicyclic.be/fr/stores/10-"
+ },
+ {
+  "osm_id": 2506176950,
+  "name": "Balkan",
+  "shop": "bakery",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.853368,
+  "lon": 4.35144,
+  "website": ""
+ },
+ {
+  "osm_id": 2506176966,
+  "name": "SUGG",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.853853,
+  "lon": 4.351654,
+  "website": "https://sugg.be/"
+ },
+ {
+  "osm_id": 2514192384,
+  "name": "Museum Shop",
+  "shop": "books",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.84191,
+  "lon": 4.358601,
+  "website": "https://www.fine-arts-museum.be/fr/votre-visite/aux-musees/museumshop"
+ },
+ {
+  "osm_id": 2514211688,
+  "name": "Chocolatier Gerbaud",
+  "shop": "chocolate",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.844094,
+  "lon": 4.358769,
+  "website": "https://chocolatsgerbaud.be"
+ },
+ {
+  "osm_id": 2518122880,
+  "name": "Het Atelier Participatif",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.852514,
+  "lon": 4.346062,
+  "website": "https://www.cyclo.org/en/workshops/het-atelier-participatif"
+ },
+ {
+  "osm_id": 2522238537,
+  "name": "Amim Nuts",
+  "shop": "deli",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.846185,
+  "lon": 4.347123,
+  "website": ""
+ },
+ {
+  "osm_id": 2594805882,
+  "name": "Kring",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.849107,
+  "lon": 4.345435,
+  "website": ""
+ },
+ {
+  "osm_id": 2594805954,
+  "name": "Coureur",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.848247,
+  "lon": 4.344099,
+  "website": "https://www.coureur.brussels/"
+ },
+ {
+  "osm_id": 2624165578,
+  "name": "Healthy & Beldy",
+  "shop": "butcher",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.888971,
+  "lon": 4.338033,
+  "website": ""
+ },
+ {
+  "osm_id": 2636940133,
+  "name": "Le Coq Elarabi",
+  "shop": "butcher",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.871733,
+  "lon": 4.372452,
+  "website": ""
+ },
+ {
+  "osm_id": 2656943282,
+  "name": "Nine",
+  "shop": "coffee",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.841491,
+  "lon": 4.369655,
+  "website": ""
+ },
+ {
+  "osm_id": 2659562215,
+  "name": "Cristal Bakery",
+  "shop": "bakery",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.834701,
+  "lon": 4.343458,
+  "website": ""
+ },
+ {
+  "osm_id": 2659562875,
+  "name": "Librairie Météores",
+  "shop": "books",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.835721,
+  "lon": 4.344606,
+  "website": "https://editionsmeteores.com/librairie/"
+ },
+ {
+  "osm_id": 2665166201,
+  "name": "Cave 1929",
+  "shop": "wine",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.841816,
+  "lon": 4.353439,
+  "website": "https://www.cave1929.be/"
+ },
+ {
+  "osm_id": 2665166326,
+  "name": "Pop-Up Villo!",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Bruxelles",
+  "lat": 50.841313,
+  "lon": 4.352375,
+  "website": ""
+ },
+ {
+  "osm_id": 460518190,
+  "name": "Bakkerij Gielis",
+  "shop": "bakery",
+  "address": "Brusselsestraat 106, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.880539,
+  "lon": 4.695568,
+  "website": ""
+ },
+ {
+  "osm_id": 616301111,
+  "name": "Fietsen Jacobs",
+  "shop": "bicycle",
+  "address": "Diestsestraat 192, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.881715,
+  "lon": 4.711565,
+  "website": ""
+ },
+ {
+  "osm_id": 617250010,
+  "name": "Dokter Velo",
+  "shop": "bicycle",
+  "address": "Tervuursevest 17, 3001 Heverlee",
+  "city": "Leuven",
+  "lat": 50.868708,
+  "lon": 4.696969,
+  "website": "https://www.doktervelo.be/"
+ },
+ {
+  "osm_id": 662221736,
+  "name": "Bultynck",
+  "shop": "bakery",
+  "address": "Tiensevest 8, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.882064,
+  "lon": 4.713866,
+  "website": ""
+ },
+ {
+  "osm_id": 755794225,
+  "name": "Elsen Kaasambacht",
+  "shop": "cheese",
+  "address": "Mechelsestraat 36, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.880786,
+  "lon": 4.699739,
+  "website": "https://www.elsenkaasambacht.be/"
+ },
+ {
+  "osm_id": 851415034,
+  "name": "Velo Fietspunt Leuven",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Leuven",
+  "lat": 50.879752,
+  "lon": 4.716068,
+  "website": "https://www.velo.be/"
+ },
+ {
+  "osm_id": 959133995,
+  "name": "Au Flan Breton",
+  "shop": "bakery",
+  "address": "Tiensestraat 276",
+  "city": "Leuven",
+  "lat": 50.873565,
+  "lon": 4.713571,
+  "website": "https://www.auflanbreton.be/"
+ },
+ {
+  "osm_id": 1000630490,
+  "name": "De Kapblok",
+  "shop": "butcher",
+  "address": "Tiensesteenweg 166",
+  "city": "Leuven",
+  "lat": 50.871871,
+  "lon": 4.721719,
+  "website": ""
+ },
+ {
+  "osm_id": 1148202144,
+  "name": "Boekenvoordeel",
+  "shop": "books",
+  "address": "Bondgenotenlaan 17, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.879584,
+  "lon": 4.704355,
+  "website": "https://www.boekenvoordeel.be/"
+ },
+ {
+  "osm_id": 1310181588,
+  "name": "Bakkerij Wijgmaal",
+  "shop": "bakery",
+  "address": "Nieuwstraat 2, 3018",
+  "city": "Leuven",
+  "lat": 50.926302,
+  "lon": 4.694394,
+  "website": ""
+ },
+ {
+  "osm_id": 1419902317,
+  "name": "Fietsen Hermans",
+  "shop": "bicycle",
+  "address": "Jozef Pierrestraat 68, 3010",
+  "city": "Leuven",
+  "lat": 50.885175,
+  "lon": 4.7235,
+  "website": "https://www.fietsenhermans.be/"
+ },
+ {
+  "osm_id": 2029610634,
+  "name": "Veeakker",
+  "shop": "butcher",
+  "address": "Slachthuislaan 3a, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.874074,
+  "lon": 4.689842,
+  "website": "https://veeakker.be"
+ },
+ {
+  "osm_id": 2080084349,
+  "name": "BikeFriend Leuven",
+  "shop": "bicycle",
+  "address": "",
+  "city": "Leuven",
+  "lat": 50.919604,
+  "lon": 4.718288,
+  "website": ""
+ },
+ {
+  "osm_id": 2429415222,
+  "name": "Slagerij Ox",
+  "shop": "butcher",
+  "address": "Brusselsestraat 98, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.880475,
+  "lon": 4.695863,
+  "website": "https://www.slagerijox.be/"
+ },
+ {
+  "osm_id": 2925002437,
+  "name": "Slagerij Fontein",
+  "shop": "butcher",
+  "address": "Tessenstraat 1B, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.880931,
+  "lon": 4.693299,
+  "website": ""
+ },
+ {
+  "osm_id": 2925238201,
+  "name": "Amin & Co",
+  "shop": "butcher",
+  "address": "Brusselsestraat 148, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.88075,
+  "lon": 4.693004,
+  "website": ""
+ },
+ {
+  "osm_id": 2955926520,
+  "name": "'t Slachschaep",
+  "shop": "butcher",
+  "address": "Mechelsestraat 93, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.882384,
+  "lon": 4.698597,
+  "website": "https://www.slachschaep.be/"
+ },
+ {
+  "osm_id": 2955926525,
+  "name": "De Kleine Johannes",
+  "shop": "books",
+  "address": "",
+  "city": "Leuven",
+  "lat": 50.883416,
+  "lon": 4.698222,
+  "website": "https://www.de-kleine-johannes.be"
+ },
+ {
+  "osm_id": 2957810925,
+  "name": "De Broodenier",
+  "shop": "bakery",
+  "address": "Mechelsestraat 75, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.881939,
+  "lon": 4.69895,
+  "website": "https://www.broodenier.be/"
+ },
+ {
+  "osm_id": 2963294465,
+  "name": "Sarah Renson  patisserie & ijs",
+  "shop": "pastry",
+  "address": "Pensstraat 4, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.879703,
+  "lon": 4.699907,
+  "website": ""
+ },
+ {
+  "osm_id": 2970506517,
+  "name": "Beenhouwerij Rondou",
+  "shop": "butcher",
+  "address": "Pensstraat 5, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.87983,
+  "lon": 4.699794,
+  "website": ""
+ },
+ {
+  "osm_id": 2970506532,
+  "name": "Slagerij Janssens",
+  "shop": "butcher",
+  "address": "Pensstraat 7, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.879882,
+  "lon": 4.699825,
+  "website": ""
+ },
+ {
+  "osm_id": 2986138554,
+  "name": "Van Langendonck Vleesgroothandel",
+  "shop": "butcher",
+  "address": "Riddersstraat 141, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.885039,
+  "lon": 4.692592,
+  "website": ""
+ },
+ {
+  "osm_id": 3056366791,
+  "name": "FiFo De Fruittoren",
+  "shop": "greengrocer",
+  "address": "Riddersstraat 65, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.882557,
+  "lon": 4.691294,
+  "website": ""
+ },
+ {
+  "osm_id": 3100609075,
+  "name": "Weyn's Honing",
+  "shop": "deli",
+  "address": "Diestsestraat 1, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.879652,
+  "lon": 4.70196,
+  "website": ""
+ },
+ {
+  "osm_id": 3101985186,
+  "name": "Gigi by Zoff",
+  "shop": "deli",
+  "address": "Mechelsestraat 34, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.880752,
+  "lon": 4.699798,
+  "website": ""
+ },
+ {
+  "osm_id": 3101985195,
+  "name": "Les Tartes de Françoise",
+  "shop": "bakery",
+  "address": "Mechelsestraat 30, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.880678,
+  "lon": 4.699924,
+  "website": "https://www.tartes.be/"
+ },
+ {
+  "osm_id": 3183599047,
+  "name": "Tartufo",
+  "shop": "chocolate",
+  "address": "Louis Melsensstraat 14, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.880728,
+  "lon": 4.708984,
+  "website": "https://www.chocolade-tartufo.be/"
+ },
+ {
+  "osm_id": 3238529725,
+  "name": "Kreta",
+  "shop": "wine",
+  "address": "Diestsestraat 215, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.881836,
+  "lon": 4.711557,
+  "website": ""
+ },
+ {
+  "osm_id": 3258708979,
+  "name": "In 't Profijtelijk Boeksken",
+  "shop": "books",
+  "address": "Diestsestraat 180, 3000 Leuven",
+  "city": "Leuven",
+  "lat": 50.881585,
+  "lon": 4.710902,
+  "website": "https://www.tweedehandsboeken.be/"
+ },
+ {
+  "osm_id": 330811163,
+  "name": "Carrément Bon",
+  "shop": "bakery",
+  "address": "",
+  "city": "Namur",
+  "lat": 50.480448,
+  "lon": 4.882384,
+  "website": ""
+ },
+ {
+  "osm_id": 500859794,
+  "name": "Caprice",
+  "shop": "bakery",
+  "address": "Chaussée de Louvain",
+  "city": "Namur",
+  "lat": 50.481444,
+  "lon": 4.883889,
+  "website": ""
+ },
+ {
+  "osm_id": 721406054,
+  "name": "Pro Velo Namur",
+  "shop": "bicycle",
+  "address": "Place de la Station 1",
+  "city": "Namur",
+  "lat": 50.468602,
+  "lon": 4.862116,
+  "website": "https://www.provelo.org/"
+ },
+ {
+  "osm_id": 973859679,
+  "name": "Galler",
+  "shop": "chocolate",
+  "address": "Rue de l'Ange 17, 5000 Namur",
+  "city": "Namur",
+  "lat": 50.463077,
+  "lon": 4.866035,
+  "website": ""
+ },
+ {
+  "osm_id": 984582702,
+  "name": "Librairie Point Virgule",
+  "shop": "books",
+  "address": "Rue Lelièvre 1, 5000 Namur",
+  "city": "Namur",
+  "lat": 50.464681,
+  "lon": 4.860857,
+  "website": "https://www.librairiepointvirgule.be/"
+ },
+ {
+  "osm_id": 984582717,
+  "name": "Le Pain Quotidien",
+  "shop": "bakery",
+  "address": "Rue du Collège 5, 5000 Namur",
+  "city": "Namur",
+  "lat": 50.463633,
+  "lon": 4.863634,
+  "website": ""
+ },
+ {
+  "osm_id": 993997988,
+  "name": "BD-World",
+  "shop": "books",
+  "address": "Rue de la Gare Fleurie 16, 5100 Jambes",
+  "city": "Namur",
+  "lat": 50.45325,
+  "lon": 4.87387,
+  "website": ""
+ },
+ {
+  "osm_id": 1198593620,
+  "name": "Vander Cammen",
+  "shop": "bakery",
+  "address": "Avenue Prince de Liège 2, 5100 Jambes",
+  "city": "Namur",
+  "lat": 50.461035,
+  "lon": 4.877796,
+  "website": ""
+ },
+ {
+  "osm_id": 1206335759,
+  "name": "Boucherie et charcuterie",
+  "shop": "butcher",
+  "address": "",
+  "city": "Namur",
+  "lat": 50.468582,
+  "lon": 4.855625,
+  "website": ""
+ },
+ {
+  "osm_id": 1210562140,
+  "name": "Delahaut",
+  "shop": "coffee",
+  "address": "Rue de l'Ange 21, 5000 Namur",
+  "city": "Namur",
+  "lat": 50.463173,
+  "lon": 4.865885,
+  "website": "https://www.cafesdelahaut.be"
+ },
+ {
+  "osm_id": 1240171690,
+  "name": "A La Gourmandise",
+  "shop": "bakery",
+  "address": "Rue du Blanc-Bois 2, 5020 Vedrin",
+  "city": "Namur",
+  "lat": 50.502455,
+  "lon": 4.876152,
+  "website": ""
+ },
+ {
+  "osm_id": 1584424695,
+  "name": "Mathias",
+  "shop": "butcher",
+  "address": "Rue Henri Blès 55, 5000",
+  "city": "Namur",
+  "lat": 50.465047,
+  "lon": 4.843815,
+  "website": ""
+ },
+ {
+  "osm_id": 1650761294,
+  "name": "Anna's Corner",
+  "shop": "bakery",
+  "address": "",
+  "city": "Namur",
+  "lat": 50.491812,
+  "lon": 4.79102,
+  "website": ""
+ },
+ {
+  "osm_id": 1740629646,
+  "name": "Librairie Sainte-Camille",
+  "shop": "books",
+  "address": "Avenue Albert 1er 189, 5000 Namur",
+  "city": "Namur",
+  "lat": 50.46706,
+  "lon": 4.888866,
+  "website": ""
+ },
+ {
+  "osm_id": 1781822730,
+  "name": "Lecire",
+  "shop": "bakery",
+  "address": "",
+  "city": "Namur",
+  "lat": 50.417679,
+  "lon": 4.878359,
+  "website": ""
+ },
+ {
+  "osm_id": 1796745696,
+  "name": "Normandie",
+  "shop": "bakery",
+  "address": "",
+  "city": "Namur",
+  "lat": 50.457393,
+  "lon": 4.869695,
+  "website": ""
+ },
+ {
+  "osm_id": 1796748578,
+  "name": "Vranckx",
+  "shop": "bakery",
+  "address": "Avenue du Bourgmestre Jean Materne 158, 5100 Jambes",
+  "city": "Namur",
+  "lat": 50.455919,
+  "lon": 4.872415,
+  "website": ""
+ },
+ {
+  "osm_id": 1964127157,
+  "name": "Bodart",
+  "shop": "bakery",
+  "address": "Place d'Armes 19, 5000 Namur",
+  "city": "Namur",
+  "lat": 50.463439,
+  "lon": 4.867029,
+  "website": ""
+ },
+ {
+  "osm_id": 1968370898,
+  "name": "Boulangerie Tilman",
+  "shop": "bakery",
+  "address": "",
+  "city": "Namur",
+  "lat": 50.464006,
+  "lon": 4.850636,
+  "website": ""
+ },
+ {
+  "osm_id": 1968371310,
+  "name": "Boulangerie pâtisserie Robaux",
+  "shop": "bakery",
+  "address": "",
+  "city": "Namur",
+  "lat": 50.4609,
+  "lon": 4.842814,
+  "website": ""
+ },
+ {
+  "osm_id": 3092674850,
+  "name": "CDD Centre Diocésain de Documentation",
+  "shop": "books",
+  "address": "",
+  "city": "Namur",
+  "lat": 50.463082,
+  "lon": 4.858688,
+  "website": ""
+ },
+ {
+  "osm_id": 3507177399,
+  "name": "Maison Saint-Aubain",
+  "shop": "deli",
+  "address": "Rue de l'Ange 11, 5000 Namur",
+  "city": "Namur",
+  "lat": 50.462972,
+  "lon": 4.86612,
+  "website": "https://maison-saint-aubain.be/"
+ },
+ {
+  "osm_id": 3808841149,
+  "name": "Boucherie Renmans",
+  "shop": "butcher",
+  "address": "Chaussée de Nivelles 89, 5020 Flawinne",
+  "city": "Namur",
+  "lat": 50.474987,
+  "lon": 4.791718,
+  "website": "https://www.renmans.be/"
+ },
+ {
+  "osm_id": 3955810397,
+  "name": "Dionysia La Vinothèque",
+  "shop": "wine",
+  "address": "Chaussée de Dinant 1213, 5100 Wépion",
+  "city": "Namur",
+  "lat": 50.404656,
+  "lon": 4.880389,
+  "website": ""
+ },
+ {
+  "osm_id": 4181650764,
+  "name": "La Bouch' Bio",
+  "shop": "butcher",
+  "address": "",
+  "city": "Namur",
+  "lat": 50.494333,
+  "lon": 4.849845,
+  "website": "https://www.labouchbio.com/"
+ },
+ {
+  "osm_id": 4877464221,
+  "name": "Boulangerie Louise",
+  "shop": "bakery",
+  "address": "Chaussée de Louvain 414, 5004 Bouge",
+  "city": "Namur",
+  "lat": 50.482139,
+  "lon": 4.884952,
+  "website": "https://www.boulangerielouise.be/"
+ },
+ {
+  "osm_id": 4877464222,
+  "name": "Carrément bon",
+  "shop": "bakery",
+  "address": "Chaussée de Waterloo",
+  "city": "Namur",
+  "lat": 50.472227,
+  "lon": 4.829407,
+  "website": ""
+ },
+ {
+  "osm_id": 4951722726,
+  "name": "ferme de Vevy Wéron",
+  "shop": "greengrocer",
+  "address": "Vevy Wéron 15, 5100 wépion",
+  "city": "Namur",
+  "lat": 50.419475,
+  "lon": 4.852683,
+  "website": "https://vevyweron.be/"
+ },
+ {
+  "osm_id": 4958658920,
+  "name": "La Petite Ferme",
+  "shop": "cheese",
+  "address": "Chaussée de Marche 431, 5101 Erpent",
+  "city": "Namur",
+  "lat": 50.448571,
+  "lon": 4.895252,
+  "website": "https://www.la-petiteferme.be"
+ },
+ {
+  "osm_id": 5564349381,
+  "name": "Au Bia Bouquin",
+  "shop": "books",
+  "address": "Avenue du Bourgmestre Jean Materne 128, 5100",
+  "city": "Namur",
+  "lat": 50.456444,
+  "lon": 4.871445,
+  "website": ""
+ }
+]

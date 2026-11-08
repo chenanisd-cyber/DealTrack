@@ -45,6 +45,8 @@ ignore = [
 # La forme dict(titre=…, prix=…) se relit mieux que des clés entre guillemets
 # pour des enregistrements, d'où C408.
 "backend/apps/catalog/management/commands/seed_demo.py" = ["S311", "E501", "S105", "S106", "C408"]
+# Même logique pour le module de volume du jeu de démonstration.
+"backend/apps/catalog/management/commands/_volume.py" = ["S311", "E501", "S105"]
 # Outillage local : URL construite depuis un argument, appel à msgfmt.
 "backend/scripts/*" = ["S310", "S603", "S607", "S105", "S106", "E501"]
 # Clés de développement, jamais employées ailleurs : prod.py exige l'environnement.

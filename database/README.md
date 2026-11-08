@@ -6,6 +6,51 @@
 | `media/` | Photos d'offres et logos de marchands envoyés par les utilisateurs (**non versionné**) |
 | `docker-compose.yml` | PostgreSQL 16 local, pour tester dans les conditions de production |
 | `DATA_DICTIONARY.md` | Dictionnaire de données : tables, colonnes, types, contraintes |
+| `dump_dealtrack.sql` | **DUMP SQL complet** : structure + données (100 lignes minimum par table) |
+
+## DUMP SQL
+
+`dump_dealtrack.sql` contient toute la base, dans l'ordre classique d'un dump :
+
+1. **Structure** : les 31 tables avec clés primaires, clés étrangères
+   (`REFERENCES … DEFERRABLE INITIALLY DEFERRED`), contraintes `CHECK` et `UNIQUE` ;
+2. **Données** : les `INSERT INTO` ;
+3. **Index** : les 75 `CREATE INDEX`.
+
+Projet en **code first** : modèles Django → migrations → données de test
+(`seed_demo`) → export. Régénérer le dump :
+
+```bash
+cd backend
+python manage.py seed_demo --flush
+python manage.py setup_roles
+python manage.py export_dump            # écrit ../database/dump_dealtrack.sql
+python manage.py export_dump --counts   # nombre de lignes par table
+```
+
+Recharger le dump dans une base vierge :
+
+```bash
+sqlite3 nouvelle_base.sqlite3 < database/dump_dealtrack.sql
+```
+
+**Volume** : au moins 100 lignes par table métier, sauf les tables
+naturellement limitées (3 régions, 6 catégories × 3 langues, 2 formules
+d'abonnement, liaisons des droits du personnel).
+
+| Table | Lignes | Origine des données |
+|---|---|---|
+| `deals_deal` | 129 | 137 vraies offres relevées le 7/11/2026 (Coolblue, Amazon.com.be, Proximus, Delhaize) |
+| `deals_dealimage` | 135 | Photos produit des fiches Coolblue |
+| `catalog_merchant` | 135 | 8 enseignes + 133 commerces indépendants réels (OpenStreetMap, licence ODbL) |
+| `accounts_user` | 120 | Comptes fictifs aux noms belges courants, adresses `@example.be` |
+| `deals_dealtranslation`, `deals_commenttranslation` | 254, 476 | Traductions NL et DE |
+| `deals_comment`, `deals_vote`, `deals_alert` | 238, 616, 169 | Générés à partir de phrases réalistes FR/NL/DE |
+| `payments_payment`, `payments_subscription` | 114, 105 | Paiements de démonstration (passerelle sandbox) |
+| `moderation_*` | 120 à 603 | Décisions, signalements, journal d'audit |
+
+Sécurité : les mots de passe sont hachés (Argon2) et les données de
+`django_session` (jetons de connexion actifs) ne sont jamais exportées.
 
 ## Où est défini le schéma ?
 

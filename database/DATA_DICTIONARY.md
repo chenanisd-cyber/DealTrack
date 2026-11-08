@@ -21,24 +21,24 @@
 
 | Table | Rôle | Clé primaire | Lignes en démo |
 |---|---|---|---|
-| `accounts_user` | utilisateurs | id · UUID | 10 |
+| `accounts_user` | utilisateurs | id · UUID | 120 |
 | `catalog_category` | catégories | id · UUID | 6 |
 | `catalog_categorytranslation` | libellés de catégorie | id · BIGINT auto | 18 |
-| `catalog_merchant` | marchands | id · UUID | 21 |
+| `catalog_merchant` | marchands | id · UUID | 135 |
 | `catalog_region` | régions | code · VARCHAR | 3 |
-| `deals_alert` | alertes | id · UUID | 0 |
-| `deals_comment` | commentaires | id · UUID | 34 |
-| `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 68 |
-| `deals_deal` | deals | id · UUID | 20 |
-| `deals_dealimage` | images de deal | id · BIGINT auto | 0 |
-| `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 36 |
-| `deals_vote` | votes | id · BIGINT auto | 72 |
-| `payments_payment` | paiements | id · UUID | 4 |
+| `deals_alert` | alertes | id · UUID | 169 |
+| `deals_comment` | commentaires | id · UUID | 238 |
+| `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 476 |
+| `deals_deal` | deals | id · UUID | 129 |
+| `deals_dealimage` | images de deal | id · BIGINT auto | 135 |
+| `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 254 |
+| `deals_vote` | votes | id · BIGINT auto | 616 |
+| `payments_payment` | paiements | id · UUID | 114 |
 | `payments_plan` | formules | id · UUID | 2 |
-| `payments_subscription` | abonnements | id · UUID | 4 |
-| `moderation_auditlog` | journal d'audit | id · BIGINT auto | 0 |
-| `moderation_moderationdecision` | décisions de modération | id · UUID | 18 |
-| `moderation_report` | signalements | id · UUID | 3 |
+| `payments_subscription` | abonnements | id · UUID | 105 |
+| `moderation_auditlog` | journal d'audit | id · BIGINT auto | 603 |
+| `moderation_moderationdecision` | décisions de modération | id · UUID | 120 |
+| `moderation_report` | signalements | id · UUID | 113 |
 
 ---
 

@@ -20,7 +20,7 @@ seed:  ## Charge le jeu de données de démonstration
 run:  ## Lance le serveur de développement
 	cd backend && python3 manage.py runserver
 
-test:  ## Exécute les 169 tests
+test:  ## Exécute les 173 tests
 	cd backend && python3 manage.py test tests --settings=config.settings.test
 
 lint:  ## Analyse statique
@@ -38,6 +38,9 @@ softdelete:  ## Démonstration de la suppression logique
 
 audit:  ## Rapport d'audit d'activité
 	cd backend && python3 manage.py audit_report --days 30
+
+dump:  ## Exporte le DUMP SQL (structure + données)
+	cd backend && python3 manage.py export_dump
 
 dict:  ## Régénère le dictionnaire de données
 	cd backend && python3 manage.py data_dictionary > ../database/DATA_DICTIONARY.md

@@ -29,6 +29,8 @@ from apps.deals.models import (
 from apps.moderation.models import ModerationDecision, Report
 from apps.payments.models import Payment, Plan, Subscription
 
+from . import _volume
+
 REGIONS = [
     (
         "BE1",
@@ -994,17 +996,45 @@ class Command(BaseCommand):
         self._local_merchants()
         staff, members = self._users(regions)
         deals = self._deals(merchants, categories, regions, members, staff)
-        self._votes(deals, members + staff)
+
+        # Volume (exigence du DUMP : 100 lignes minimum par table) : voir _volume.py.
+        more_members = _volume.members(regions)
+        everyone = members + more_members
+        self.stdout.write(f"Membres supplémentaires : {len(more_members)}")
+        self.stdout.write(f"Commerçants OpenStreetMap : {_volume.osm_merchants()}")
+        coolblue = _volume.coolblue_deals(
+            categories=categories, regions=regions, members_pool=everyone, moderator=staff[1]
+        )
+        self.stdout.write(f"Offres relevées sur Coolblue : {len(coolblue)}")
+        all_deals = deals + coolblue
+
+        self._votes(all_deals, everyone + staff)
         self._comments(deals, members)
+        self.stdout.write(
+            f"Commentaires supplémentaires : {_volume.comments(coolblue, everyone)}"
+        )
         self._payments(members)
+        self.stdout.write(f"Paiements supplémentaires : {_volume.payments(more_members)}")
         self._reports(deals, members)
+        self.stdout.write(
+            f"Signalements supplémentaires : {_volume.reports(all_deals, everyone, staff[1])}"
+        )
+        self.stdout.write(f"Alertes : {_volume.alerts(everyone, categories, regions)}")
+        self.stdout.write(
+            f"Journal d'audit : {_volume.audit_trail(staff + everyone, all_deals)} entrées"
+        )
 
         self.stdout.write(self.style.SUCCESS("\nJeu de démonstration chargé."))
         self._summary()
 
     # ------------------------------------------------------------------
     def _flush(self):
+        from apps.deals.models import Alert
+        from apps.moderation.models import AuditLog
+
         for model in (
+            AuditLog,
+            Alert,
             Report,
             ModerationDecision,
             Subscription,
