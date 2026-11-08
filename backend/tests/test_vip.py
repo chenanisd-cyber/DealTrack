@@ -196,3 +196,60 @@ class RegionsRemovedTests(VipTestCase):
         self.assertNotIn("Toute la Belgique", page)
         self.assertFalse(hasattr(Deal, "regions"))
         self.assertFalse(PricePoint.objects.filter(price__lt=0).exists())
+
+
+class RobotsTests(TestCase):
+    """La comparaison en direct respecte le robots.txt des sites."""
+
+    MEDIAMARKT = (
+        "User-agent: OAI-SearchBot\nDisallow: /\n\n"
+        "User-agent: *\nDisallow: /*/search.html\nAllow: /\n"
+    )
+
+    @classmethod
+    def setUpTestData(cls):
+        seed_reference_data()
+
+    def test_jokers_et_groupe_general(self):
+        from apps.deals.robots import is_allowed, parse_rules
+
+        rules = parse_rules(self.MEDIAMARKT)
+        self.assertFalse(is_allowed(rules, "/fr/search.html?query=tv"))
+        self.assertTrue(is_allowed(rules, "/fr/product/_philips-43pqs9001.html"))
+
+    def test_groupe_propre_au_robot_prioritaire(self):
+        from apps.deals.robots import is_allowed, parse_rules
+
+        text = "User-agent: *\nDisallow: /\n\nUser-agent: DealTrackBot\nAllow: /s\n"
+        self.assertTrue(is_allowed(parse_rules(text), "/s?k=tv"))
+
+    def test_lecture_amazon_annulee_si_interdite(self):
+        from django.core.cache import cache
+
+        cache.clear()
+        deal = make_deal(
+            make_user("r@example.be", "R"), title="TV Philips Ambilight 43 à 349 €"
+        )
+        with (
+            mock.patch("apps.deals.robots.robots_allows", return_value=False),
+            mock.patch("apps.deals.scraper._download") as download,
+        ):
+            from apps.deals.vip import amazon_offers
+
+            self.assertEqual(amazon_offers(deal), [])
+            download.assert_not_called()
+
+    def test_boutons_des_autres_magasins(self):
+        from apps.catalog.models import Merchant
+        from apps.deals.vip import search_links
+
+        deal = make_deal(
+            make_user("s@example.be", "S"),
+            title="TV Philips Ambilight 43 à 349 €",
+            merchant=Merchant.objects.get(slug="coolblue"),
+        )
+        sites = [link["site"] for link in search_links(deal)]
+        self.assertNotIn("Coolblue", sites)  # pas le marchand du deal lui-même
+        self.assertIn("Vanden Borre", sites)
+        krefel = next(link for link in search_links(deal) if link["site"] == "Krëfel")
+        self.assertIn("krefel.be/fr/chercher?text=", krefel["url"])

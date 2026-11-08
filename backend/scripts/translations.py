@@ -497,6 +497,10 @@ NL = {
     "Ne manquez plus les commerçants de votre ville": "Mis de handelaars in je stad niet meer",
     "Boulangeries, librairies, vélos : les indépendants belges et leurs offres.": "Bakkers, boekhandels, fietsen: de Belgische zelfstandigen en hun aanbiedingen.",
     "Voir les commerçants locaux": "Lokale handelaars bekijken",
+    # -- Comparaison : magasins --
+    "Voir le prix dans les autres magasins": "Bekijk de prijs in andere winkels",
+    "Voir le prix": "Bekijk de prijs",
+    "Prix en direct : Amazon.com.be, le seul de ces sites qui autorise les robots à lire ses recherches (robots.txt). Les autres l'interdisent ou les bloquent : DealTrack respecte ce choix, un clic ouvre leur recherche pour ce produit.": "Live prijzen: Amazon.com.be, de enige van deze sites die robots toestaat zijn zoekresultaten te lezen (robots.txt). De andere verbieden of blokkeren dat: DealTrack respecteert die keuze, één klik opent hun zoekopdracht voor dit product.",
 }
 
 DE = {
@@ -991,6 +995,10 @@ DE = {
     "Ne manquez plus les commerçants de votre ville": "Verpassen Sie nicht mehr die Händler Ihrer Stadt",
     "Boulangeries, librairies, vélos : les indépendants belges et leurs offres.": "Bäckereien, Buchhandlungen, Fahrräder: die belgischen Selbstständigen und ihre Angebote.",
     "Voir les commerçants locaux": "Lokale Händler ansehen",
+    # -- Comparaison : magasins --
+    "Voir le prix dans les autres magasins": "Preis in anderen Geschäften ansehen",
+    "Voir le prix": "Preis ansehen",
+    "Prix en direct : Amazon.com.be, le seul de ces sites qui autorise les robots à lire ses recherches (robots.txt). Les autres l'interdisent ou les bloquent : DealTrack respecte ce choix, un clic ouvre leur recherche pour ce produit.": "Live-Preise: Amazon.com.be, die einzige dieser Websites, die Robotern das Lesen ihrer Suchergebnisse erlaubt (robots.txt). Die anderen verbieten oder blockieren es: DealTrack respektiert diese Entscheidung, ein Klick öffnet ihre Suche nach diesem Produkt.",
 }
 
 CATALOGUES = {"nl": NL, "de": DE}

@@ -1058,7 +1058,7 @@ msgstr "Deelnemen"
 #: templates/base.html:102 templates/deals/submit.html:2
 #: templates/deals/submit.html:5
 msgid "Publier un deal"
-msgstr "Deal plaatsen"
+msgstr "Een deal plaatsen"
 
 #: templates/base.html:103 templates/payments/plans.html:2
 #: templates/payments/plans.html:5
@@ -2366,3 +2366,23 @@ msgstr ""
 #: templates
 msgid "Voir les commerçants locaux"
 msgstr "Lokale handelaars bekijken"
+
+#: templates
+msgid "Voir le prix dans les autres magasins"
+msgstr "Bekijk de prijs in andere winkels"
+
+#: templates
+msgid "Voir le prix"
+msgstr "Bekijk de prijs"
+
+#: templates
+msgid ""
+"Prix en direct : Amazon.com.be, le seul de ces sites qui autorise les robots"
+" à lire ses recherches (robots.txt). Les autres l'interdisent ou les "
+"bloquent : DealTrack respecte ce choix, un clic ouvre leur recherche pour ce"
+" produit."
+msgstr ""
+"Live prijzen: Amazon.com.be, de enige van deze sites die robots toestaat "
+"zijn zoekresultaten te lezen (robots.txt). De andere verbieden of blokkeren "
+"dat: DealTrack respecteert die keuze, één klik opent hun zoekopdracht voor "
+"dit product."

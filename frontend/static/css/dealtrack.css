@@ -819,6 +819,12 @@ img{max-width:100%}
 .pricestats dd{margin:2px 0 0; font-weight:700}
 .compare tr.is-current td{background:var(--dt-accent-soft)}
 .compare__list{list-style:none; padding:0; margin:10px 0; display:flex; flex-direction:column; gap:8px}
+.compare__title{margin:20px 0 10px; font-size:17px}
+.compare__shops{display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:10px}
+.compare__shop{display:flex; flex-direction:column; gap:2px; padding:12px 14px; border:1px solid var(--dt-border);
+  border-radius:10px; background:var(--dt-surface); color:var(--dt-ink)}
+.compare__shop span{font-size:var(--fs-meta); color:var(--dt-accent-dark); font-weight:600}
+.compare__shop:hover{text-decoration:none; border-color:var(--dt-accent); box-shadow:var(--sh-float)}
 .vip__locked{position:relative}
 .vip__pitch{
   position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center;

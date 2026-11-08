@@ -191,7 +191,7 @@ page d'un deal. Déconnecté, la même page montre l'aperçu verrouillé.
 | Avantage | Fonctionnement |
 |---|---|
 | Historique du prix | Table `deals_pricepoint` : un relevé à la publication, un à chaque changement de prix, un par passage du suivi automatique. Graphique SVG dessiné côté serveur. Aucun prix inventé. |
-| Comparaison | Même produit chez les autres marchands de DealTrack, recherche en direct sur Amazon.com.be (mise en cache 12 h) et liens de recherche Coolblue, bol.com, MediaMarkt, Krëfel. |
+| Comparaison | Même produit chez les autres marchands de DealTrack, recherche en direct sur Amazon.com.be (mise en cache 12 h, seulement si son robots.txt l'autorise) et un bouton « Voir le prix » vers Coolblue, bol.com, MediaMarkt, Krëfel et Vanden Borre, dont le robots.txt interdit aux robots de lire les recherches. |
 | Alertes en priorité | À la publication d'un deal, chaque alerte qui correspond crée une ligne `deals_alertmatch`. Disponible tout de suite pour un VIP, 2 heures plus tard pour les autres. |
 
 Tâches à planifier (une fois par jour pour les prix, toutes les 10 minutes pour
@@ -299,7 +299,7 @@ change à chaque lancement. `cloudflared.exe` est attendu dans `.tools/`
 python manage.py test tests --settings=config.settings.test
 ```
 
-197 tests, répartis en dix fichiers dans `backend/tests/` :
+201 tests, répartis en dix fichiers dans `backend/tests/` :
 
 | Fichier | Tests | Contenu |
 |---|---|---|
@@ -311,7 +311,7 @@ python manage.py test tests --settings=config.settings.test
 | test_checkout.py | 12 | Paiement hébergé : parcours, fraude au retour, idempotence, webhook, Stripe Checkout (simulé), clé live refusée, fichier .env |
 | test_dump.py | 4 | DUMP SQL : structure, clés, contraintes, sessions exclues, rechargement |
 | test_home.py | 6 | Bannière Black November / Black December selon le mois, titres des onglets, tri gardé à la page suivante, publicités sans script tiers |
-| test_vip.py | 14 | Abonnement VIP : historique du prix, graphique, comparaison réservée, alertes en priorité, régions supprimées |
+| test_vip.py | 18 | Abonnement VIP : historique du prix, graphique, respect du robots.txt, comparaison réservée, alertes en priorité, régions supprimées |
 | test_live_features.py | 19 | Lecture du prix, marchand automatique, assistant de publication, vote en direct, annuaire, mode partage |
 
 ## API REST

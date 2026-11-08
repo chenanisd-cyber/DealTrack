@@ -1059,7 +1059,7 @@ msgstr "Mitmachen"
 #: templates/base.html:102 templates/deals/submit.html:2
 #: templates/deals/submit.html:5
 msgid "Publier un deal"
-msgstr "Angebot veröffentlichen"
+msgstr "Einen Deal veröffentlichen"
 
 #: templates/base.html:103 templates/payments/plans.html:2
 #: templates/payments/plans.html:5
@@ -2377,3 +2377,23 @@ msgstr ""
 #: templates
 msgid "Voir les commerçants locaux"
 msgstr "Lokale Händler ansehen"
+
+#: templates
+msgid "Voir le prix dans les autres magasins"
+msgstr "Preis in anderen Geschäften ansehen"
+
+#: templates
+msgid "Voir le prix"
+msgstr "Preis ansehen"
+
+#: templates
+msgid ""
+"Prix en direct : Amazon.com.be, le seul de ces sites qui autorise les robots"
+" à lire ses recherches (robots.txt). Les autres l'interdisent ou les "
+"bloquent : DealTrack respecte ce choix, un clic ouvre leur recherche pour ce"
+" produit."
+msgstr ""
+"Live-Preise: Amazon.com.be, die einzige dieser Websites, die Robotern das "
+"Lesen ihrer Suchergebnisse erlaubt (robots.txt). Die anderen verbieten oder "
+"blockieren es: DealTrack respektiert diese Entscheidung, ein Klick öffnet "
+"ihre Suche nach diesem Produkt."

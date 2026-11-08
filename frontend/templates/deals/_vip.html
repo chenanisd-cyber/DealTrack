@@ -53,9 +53,16 @@
       <p class="field__hint" data-compare-status data-empty="{% trans 'Amazon.com.be : aucun résultat pour ce produit.' %}">{% trans "Recherche en direct sur Amazon.com.be…" %}</p>
       <ul class="compare__list" data-compare-list hidden></ul>
     </div>
-    <p class="field__hint">{% trans "Chercher ce produit chez :" %}
-      {% for link in search_links %}<a href="{{ link.url }}" target="_blank" rel="noopener nofollow">{{ link.site }}</a>{% if not forloop.last %} · {% endif %}{% endfor %}
-    </p>
+    <h3 class="compare__title">{% trans "Voir le prix dans les autres magasins" %}</h3>
+    <div class="compare__shops">
+      {% for link in search_links %}
+      <a class="compare__shop" href="{{ link.url }}" target="_blank" rel="noopener nofollow">
+        <strong>{{ link.site }}</strong>
+        <span>{% trans "Voir le prix" %} ↗</span>
+      </a>
+      {% endfor %}
+    </div>
+    <p class="field__hint">{% trans "Prix en direct : Amazon.com.be, le seul de ces sites qui autorise les robots à lire ses recherches (robots.txt). Les autres l'interdisent ou les bloquent : DealTrack respecte ce choix, un clic ouvre leur recherche pour ce produit." %}</p>
   {% else %}
     <div class="vip__locked">
       <svg class="pricechart is-blurred" viewBox="0 0 560 120" aria-hidden="true"><polyline points="20,90 120,70 220,80 320,40 420,55 540,30" class="pricechart__line"/></svg>

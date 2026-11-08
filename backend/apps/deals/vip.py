@@ -6,8 +6,9 @@ Avantages de l'abonnement VIP.
    modération) et par la commande « track_prices » qui relit les pages
    lisibles. Le graphique n'affiche que des prix réellement observés.
 2. Comparaison : la même offre chez d'autres marchands de DealTrack, une
-   recherche en direct sur Amazon.com.be et des liens de recherche vers les
-   grandes enseignes belges.
+   recherche en direct sur Amazon.com.be (le seul grand site dont le
+   robots.txt autorise la lecture de ses recherches) et un bouton par grande
+   enseigne belge qui ouvre sa recherche au visiteur.
 3. Alertes en priorité : à la publication d'une offre, les alertes qui
    correspondent sont libérées tout de suite pour les VIP, et après
    ALERT_DELAY pour les autres membres.
@@ -191,25 +192,37 @@ def similar_deals(deal, limit=5):
     return [other for _, other in scored[:limit]]
 
 
+# Recherche ouverte par le visiteur lui-même (un clic, nouvel onglet). Ces
+# sites interdisent aux robots de lire leurs pages de recherche (robots.txt)
+# ou les bloquent : DealTrack ne les lit donc pas en direct.
 SEARCH_SITES = [
     ("Coolblue", "https://www.coolblue.be/fr/rechercher?query={q}"),
     ("bol.com", "https://www.bol.com/be/fr/s/?searchtext={q}"),
     ("MediaMarkt", "https://www.mediamarkt.be/fr/search.html?query={q}"),
-    ("Krëfel", "https://www.krefel.be/fr/search?text={q}"),
+    ("Krëfel", "https://www.krefel.be/fr/chercher?text={q}"),
+    ("Vanden Borre", "https://www.vandenborre.be/recherche?query={q}"),
     ("Amazon.com.be", "https://www.amazon.com.be/s?k={q}&language=fr_BE"),
 ]
 
 
 def search_links(deal):
+    """Liens de recherche, sans le marchand du deal lui-même."""
     query = quote_plus(product_name(deal.title)[:80])
-    return [{"site": site, "url": url.format(q=query)} for site, url in SEARCH_SITES]
+    own = normalize(deal.merchant.name) if deal.merchant_id else ""
+    return [
+        {"site": site, "url": url.format(q=query)}
+        for site, url in SEARCH_SITES
+        if normalize(site) != own
+    ]
 
 
 def amazon_offers(deal, limit=3):
     """
     Recherche en direct sur Amazon.com.be (mise en cache 12 h, 10 min si vide). Passe par le
-    téléchargeur protégé contre la SSRF du scraper. En cas de blocage, liste vide.
+    téléchargeur protégé contre la SSRF du scraper et seulement si le robots.txt
+    d'Amazon l'autorise. En cas de blocage ou d'interdiction, liste vide.
     """
+    from .robots import robots_allows
     from .scraper import BlockedError, UnsafeURLError, _download, parse_price
 
     query = product_name(deal.title)[:80]
@@ -220,6 +233,9 @@ def amazon_offers(deal, limit=3):
         return cached
     url = f"https://www.amazon.com.be/s?k={quote_plus(query)}&language=fr_BE"
     offers = []
+    if not robots_allows(url):
+        cache.set(key, offers, 60 * 60)
+        return offers
     try:
         final_url, content = _download(url)
         soup = BeautifulSoup(content, "html.parser")
