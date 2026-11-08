@@ -1080,7 +1080,8 @@ class Command(BaseCommand):
     def _users(self):
         # Mot de passe commun aux comptes de démonstration : il satisfait la
         # politique (12 caractères, trois classes, pas de suite de touches).
-        password = "Demo-Tracker-2025"
+        # En ligne, la variable DEMO_PASSWORD le remplace par un secret.
+        password = _volume.PASSWORD
 
         admin, created = User.objects.get_or_create(
             email="admin@dealtrack.be",
@@ -1330,4 +1331,6 @@ class Command(BaseCommand):
             "\n  Connexion : admin@dealtrack.be / moderation@dealtrack.be / "
             "marc.vandenberghe@example.be"
         )
-        self.stdout.write("  Mot de passe commun : Demo-Tracker-2025\n")
+        secret = _volume.PASSWORD != "Demo-Tracker-2025"
+        shown = "valeur de DEMO_PASSWORD (secret)" if secret else _volume.PASSWORD
+        self.stdout.write(f"  Mot de passe commun : {shown}\n")

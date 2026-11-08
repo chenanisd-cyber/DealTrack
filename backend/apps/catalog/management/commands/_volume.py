@@ -20,6 +20,7 @@ le prendre pour une commande de gestion. seed_demo l'appelle.
 """
 
 import json
+import os
 import random
 import unicodedata
 from datetime import timedelta
@@ -46,7 +47,9 @@ from apps.moderation.models import AuditLog, ModerationDecision, Report
 from apps.payments.models import Payment, Plan, Subscription
 
 DATA = Path(__file__).resolve().parent / "data"
-PASSWORD = "Demo-Tracker-2025"
+# Mot de passe des comptes de démonstration. En ligne (Render), DEMO_PASSWORD
+# le remplace par un secret : celui du README ne donne alors accès à rien.
+PASSWORD = os.environ.get("DEMO_PASSWORD") or "Demo-Tracker-2025"
 
 # -- Membres ----------------------------------------------------------------------
 FIRST_NAMES = {

@@ -256,6 +256,31 @@ démarrage immédiat (art. VI.53 CDE).
   `https://<site>/fr/abonnement/webhook/stripe/`, événement
   `checkout.session.completed`, secret `whsec_…` dans `STRIPE_WEBHOOK_SECRET`.
 
+## Mise en ligne (Render)
+
+Le dépôt contient tout ce qu'il faut : `render.yaml` (site web + base
+PostgreSQL gratuits, région Francfort) et `render-build.sh` (dépendances,
+fichiers statiques, migrations, données de démonstration au premier
+déploiement seulement).
+
+1. Créer un compte sur render.com et le relier à GitHub.
+2. **New › Blueprint**, choisir le dépôt `DealTrack`, valider : Render crée la
+   base et le site, puis lance la construction (5 à 10 minutes).
+3. Le site est en ligne à l'adresse affichée (`https://dealtrack-….onrender.com`).
+
+En ligne, les réglages sont ceux de `config.settings.prod` : DEBUG coupé,
+HTTPS obligatoire, CSS et JS servis par WhiteNoise. Les comptes de
+démonstration n'utilisent **pas** le mot de passe du README : Render génère un
+secret, `DEMO_PASSWORD`, visible dans l'onglet *Environment* du service. Sans
+serveur d'e-mail configuré (`EMAIL_HOST`), les alertes sont écrites dans le
+journal de Render. Paiement : `PAYMENT_GATEWAY=sandbox` par défaut ; pour
+Stripe en mode test, mettre `stripe` et renseigner `STRIPE_SECRET_KEY`.
+
+Limites de l'offre gratuite : le site s'endort après 15 minutes sans visite
+(environ une minute pour se réveiller), la base gratuite a une durée de vie
+limitée, et les photos envoyées par les membres disparaissent à chaque
+déploiement (les photos des marchands, affichées par lien, restent).
+
 ## Partager le site (lien WhatsApp)
 
 ```powershell

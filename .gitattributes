@@ -1,0 +1,2 @@
+# Scripts exécutés sous Linux (Render) : fins de ligne Unix obligatoires.
+*.sh text eol=lf

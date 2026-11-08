@@ -1,0 +1,43 @@
+# Déploiement sur Render (https://render.com) : site web + base PostgreSQL.
+# Render lit ce fichier quand on crée un « Blueprint » depuis le dépôt GitHub.
+# Les secrets (clé Django, clé JWT, mot de passe des comptes de démonstration)
+# sont générés par Render et visibles dans l'onglet Environment du service.
+
+databases:
+  - name: dealtrack-db
+    databaseName: dealtrack
+    user: dealtrack
+    plan: free
+    region: frankfurt
+
+services:
+  - type: web
+    name: dealtrack
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: bash render-build.sh
+    startCommand: cd backend && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 60
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings.prod
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: JWT_SIGNING_KEY
+        generateValue: true
+      # Mot de passe secret de tous les comptes de démonstration en ligne
+      # (membres, modérateur, administrateur) : celui du README n'y ouvre rien.
+      - key: DEMO_PASSWORD
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dealtrack-db
+          property: connectionString
+      # « sandbox » : page de paiement de démonstration. Pour Stripe en mode test :
+      # mettre « stripe » et renseigner STRIPE_SECRET_KEY (sk_test_…) dans Render.
+      - key: PAYMENT_GATEWAY
+        value: sandbox
+      - key: STRIPE_SECRET_KEY
+        sync: false
