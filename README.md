@@ -162,6 +162,11 @@ python manage.py setup_roles
 Marc est membre VIP : il voit l'historique des prix et la comparaison sur la
 page d'un deal. Déconnecté, la même page montre l'aperçu verrouillé.
 
+**Ce mot de passe ne vaut qu'en local.** Sur le site en ligne
+(https://dealtrack-fl7w.onrender.com), les mêmes comptes utilisent un mot de
+passe secret généré par Render (`DEMO_PASSWORD`, voir « Mise en ligne ») :
+publier celui-ci dans un dépôt public ouvrirait le back-office à tout le monde.
+
 ## Adresses de l'application
 
 | URL | Contenu |
