@@ -124,7 +124,6 @@ modération sont filtrées**, y compris pour un appelant anonyme.
 |---|---|---|
 | `search` | `?search=fibre` | titre, description, nom du marchand |
 | `category` | `?category=high-tech` | par slug de catégorie |
-| `region` | `?region=BE1` | code NUTS-1 |
 | `merchant` | `?merchant=coolblue` | par slug de marchand |
 | `local_only` | `?local_only=true` | indépendants belges |
 | `is_cross_border` | `?is_cross_border=true` | offres transfrontalières |
@@ -272,7 +271,6 @@ curl "…/me/export/" -H "Authorization: Bearer $TOKEN"
   "email": "marc.vandenberghe@example.be",
   "pseudonyme": "MarcVDB",
   "langue": "fr",
-  "region": "BE3",
   "inscrit_le": "2024-03-11T09:42:00+01:00",
   "consentement_marketing": true,
   "deals_publies": [...],

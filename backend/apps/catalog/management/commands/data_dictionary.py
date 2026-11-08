@@ -14,9 +14,9 @@ APP_ORDER = ["accounts", "catalog", "deals", "payments", "moderation"]
 
 APP_TITLES = {
     "accounts": ("Comptes", "Membres, rôles et cycle de vie du compte."),
-    "catalog": ("Catalogue", "Référentiels partagés : régions, catégories, marchands."),
+    "catalog": ("Catalogue", "Référentiels partagés : catégories, marchands."),
     "deals": ("Offres", "Cœur métier : deals, votes, discussion, alertes."),
-    "payments": ("Paiements", "Abonnement Club, transactions, pièces comptables."),
+    "payments": ("Paiements", "Abonnement VIP, transactions, pièces comptables."),
     "moderation": ("Modération et audit", "Piste d'audit, décisions, signalements."),
 }
 
@@ -70,14 +70,12 @@ class Command(BaseCommand):
     # ------------------------------------------------------------------
     def _conventions(self, out):
         out("\n## Conventions\n")
-        out("**Clés primaires.** Trois stratégies coexistent, chacune motivée :\n\n")
+        out("**Clés primaires.** Deux stratégies coexistent, chacune motivée :\n\n")
         out(
             "| Stratégie | Employée pour | Motif |\n"
             "|---|---|---|\n"
             "| `UUIDv4` | entités métier exposées par l'API | invariante, non "
             "énumérable, ne divulgue pas le volume de la base |\n"
-            "| code naturel | `catalog_region` (NUTS-1) | référentiel officiel "
-            "Eurostat, stable depuis 1988 ; une clé technique n'apporterait rien |\n"
             "| `BIGINT` auto | tables en ajout seul (`moderation_auditlog`, "
             "`deals_vote`) | l'ordre d'insertion porte du sens, l'identifiant n'est "
             "jamais exposé, et l'index conserve sa localité |\n"

@@ -17,19 +17,8 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 from apps.accounts.validators import validate_no_control_characters
-from apps.catalog.models import Category, Merchant, Region
+from apps.catalog.models import Category, Merchant
 from apps.deals.models import Comment, Deal, DealStatus, Vote
-
-
-class RegionSerializer(serializers.ModelSerializer):
-    label = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Region
-        fields = ["code", "label"]
-
-    def get_label(self, obj):
-        return obj.label(get_language() or "fr")
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -102,7 +91,6 @@ class DealListSerializer(PhotoUrlMixin, serializers.ModelSerializer):
 class DealDetailSerializer(PhotoUrlMixin, serializers.ModelSerializer):
     merchant = MerchantSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
-    regions = RegionSerializer(many=True, read_only=True)
     author = serializers.CharField(source="submitted_by.display_name", read_only=True)
     discount_percentage = serializers.IntegerField(read_only=True)
     comment_count = serializers.SerializerMethodField()
@@ -123,7 +111,6 @@ class DealDetailSerializer(PhotoUrlMixin, serializers.ModelSerializer):
             "discount_percentage",
             "merchant",
             "category",
-            "regions",
             "author",
             "language",
             "status",
@@ -151,9 +138,6 @@ class DealWriteSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.filter(is_active=True)
     )
-    regions = serializers.PrimaryKeyRelatedField(
-        queryset=Region.objects.all(), many=True, required=False
-    )
 
     class Meta:
         model = Deal
@@ -168,7 +152,6 @@ class DealWriteSerializer(serializers.ModelSerializer):
             "shipping_cost",
             "merchant",
             "category",
-            "regions",
             "language",
             "is_cross_border",
             "starts_at",
@@ -244,7 +227,6 @@ class DealWriteSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated):
-        regions = validated.pop("regions", [])
         request = self.context["request"]
         deal = Deal.objects.create(
             **validated,
@@ -252,7 +234,6 @@ class DealWriteSerializer(serializers.ModelSerializer):
             status=DealStatus.PENDING,  # imposé côté serveur
             slug=self._unique_slug(validated["title"]),
         )
-        deal.regions.set(regions)
 
         from apps.moderation.models import AuditLog
 
@@ -265,12 +246,9 @@ class DealWriteSerializer(serializers.ModelSerializer):
         return deal
 
     def update(self, instance, validated):
-        regions = validated.pop("regions", None)
         for field, value in validated.items():
             setattr(instance, field, value)
         instance.save()
-        if regions is not None:
-            instance.regions.set(regions)
 
         from apps.moderation.models import AuditLog
 

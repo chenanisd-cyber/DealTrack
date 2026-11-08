@@ -334,4 +334,8 @@ LOGGING = {
 }
 
 DEFAULT_FROM_EMAIL = "no-reply@dealtrack.be"
+# Adresse publique du site, pour les liens des e-mails d'alerte.
+SITE_URL = env("SITE_URL", "http://localhost:8000")
+# Délai avant qu'un membre non VIP reçoive une alerte (les VIP la reçoivent tout de suite).
+ALERT_DELAY_HOURS = 2
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

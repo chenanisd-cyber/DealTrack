@@ -62,13 +62,12 @@ MODERATOR_PERMISSIONS = {
     ],
     # Un marchand inconnu apparaît avec la première offre qui le cite : le
     # modérateur doit pouvoir le créer et le vérifier sans appeler un admin.
-    # Catégories et régions restent en lecture seule, ce sont des référentiels.
+    # Les catégories restent en lecture seule, ce sont des référentiels.
     "catalog": [
         "view_merchant",
         "change_merchant",
         "add_merchant",
         "view_category",
-        "view_region",
     ],
     # Lecture seule : identifier l'auteur d'une offre litigieuse, vérifier
     # qu'un compte signalé est bien abonné. Aucune écriture — ni sur les

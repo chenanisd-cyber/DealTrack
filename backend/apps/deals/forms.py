@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from apps.accounts.validators import validate_no_control_characters
 from apps.catalog.images import IMAGE_VALIDATORS
 from apps.catalog.merchants import build_merchant
-from apps.catalog.models import Category, Merchant, Region
+from apps.catalog.models import Category, Merchant
 
 from .models import Comment, Deal, DealImage, DealStatus
 
@@ -45,13 +45,6 @@ class DealSubmissionForm(forms.ModelForm):
     une liste : il est reconnu, ou créé non vérifié, d'après le lien.
     """
 
-    regions = forms.ModelMultipleChoiceField(
-        queryset=Region.objects.all(),
-        required=False,
-        widget=forms.CheckboxSelectMultiple,
-        label=_("Lieux"),
-        help_text=_("Aucune case cochée : toute la Belgique."),
-    )
     merchant = forms.ModelChoiceField(
         queryset=Merchant.objects.order_by("name"),
         required=False,
@@ -78,7 +71,6 @@ class DealSubmissionForm(forms.ModelForm):
             "promo_code",
             "availability",
             "shipping_cost",
-            "regions",
             "description",
             "category",
             "language",
@@ -236,8 +228,6 @@ class DealSubmissionForm(forms.ModelForm):
         if commit:
             deal.save()
             self.save_m2m()
-            if not deal.regions.exists():
-                deal.regions.set(Region.objects.all())  # « toute la Belgique »
             for position, (kind, value) in enumerate(items[1:], start=1):
                 DealImage.objects.create(
                     deal=deal,

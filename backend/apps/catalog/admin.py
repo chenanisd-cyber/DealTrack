@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, CategoryTranslation, Merchant, Region
+from .models import Category, CategoryTranslation, Merchant
 
 
 class CategoryTranslationInline(admin.TabularInline):
@@ -35,12 +35,3 @@ class MerchantAdmin(admin.ModelAdmin):
     list_filter = ("country", "is_local_independent", "is_verified", "city", "shop_type")
     search_fields = ("name", "vat_number", "slug", "city", "address")
     prepopulated_fields = {"slug": ("name",)}
-
-
-@admin.register(Region)
-class RegionAdmin(admin.ModelAdmin):
-    list_display = ("code", "name_fr", "name_nl", "name_de")
-    search_fields = ("code", "name_fr", "name_nl", "name_de")
-
-    def has_delete_permission(self, request, obj=None):
-        return False  # référentiel officiel, non supprimable

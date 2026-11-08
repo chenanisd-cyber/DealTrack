@@ -109,6 +109,8 @@
     <div class="prose">{{ deal.description_current|linebreaks }}</div>
   </section>
 
+  {% include "deals/_vip.html" %}
+
   <section class="panel" id="discussion">
     <h2 class="panel__title">{{ comments|length }} {% trans "commentaires" %}</h2>
     {% for comment in comments %}

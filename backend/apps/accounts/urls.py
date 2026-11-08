@@ -9,6 +9,8 @@ urlpatterns = [
     path("deconnexion/", views.DealTrackLogoutView.as_view(), name="logout"),
     path("inscription/", views.register, name="register"),
     path("profil/", views.profile, name="profile"),
+    path("alertes/", views.alerts, name="alerts"),
+    path("alertes/<uuid:alert_id>/supprimer/", views.alert_delete, name="alert-delete"),
     path("profil/export/", views.export_data, name="export"),
     path("profil/fermeture/", views.close_account, name="close"),
 ]

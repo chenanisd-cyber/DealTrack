@@ -1,14 +1,28 @@
 {% extends "base.html" %}{% load i18n %}
-{% block title %}{% trans "Abonnement Club" %} — DealTrack.be{% endblock %}
+{% block title %}{% trans "Abonnement VIP" %} — DealTrack.be{% endblock %}
 {% block content %}
 <div class="shell"><div class="form">
-  <h1 style="font-size:var(--fs-h1)">{% trans "Abonnement Club" %}</h1>
+  <h1 style="font-size:var(--fs-h1)"><span class="vipbadge is-lg">VIP</span> {% trans "Abonnement VIP" %}</h1>
+
+  {% if user.is_authenticated and user.is_vip %}
+    <p class="moderation"><span>{% blocktrans with date=user.vip_until|date:"d/m/Y" %}Vous êtes VIP jusqu'au {{ date }}. Merci !{% endblocktrans %}</span></p>
+  {% endif %}
+
+  <section class="panel">
+    <h2 class="panel__title">{% trans "Ce que vous obtenez" %}</h2>
+    <ul class="vipperks">
+      <li><strong>{% trans "Historique du prix" %}</strong> — {% trans "le graphique des prix relevés pour chaque deal : vous savez si c'est vraiment le bon moment pour acheter." %}</li>
+      <li><strong>{% trans "Comparaison avec d'autres sites" %}</strong> — {% trans "la même offre chez les autres marchands, une recherche en direct sur Amazon.com.be et des liens vers Coolblue, bol.com, MediaMarkt et Krëfel." %}</li>
+      <li><strong>{% trans "Alertes en priorité" %}</strong> — {% trans "vous recevez vos alertes dès la publication du deal, 2 heures avant les autres membres." %}</li>
+    </ul>
+  </section>
+
   {% for plan in plans %}
   <section class="panel">
     <h2 class="panel__title">{{ plan.label_current }}</h2>
     <p class="detail__price">{{ plan.price }} €</p>
     <p class="meta">{% blocktrans with vat=plan.vat_rate days=plan.duration_days %}TVA {{ vat }} % comprise · valable {{ days }} jours{% endblocktrans %}</p>
-    <a class="cta" href="{% url 'payments:subscribe' plan.code %}">{% trans "Souscrire" %}</a>
+    <a class="cta" href="{% url 'payments:subscribe' plan.code %}">{% trans "Devenir VIP" %}</a>
   </section>
   {% endfor %}
 </div></div>

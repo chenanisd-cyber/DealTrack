@@ -9,12 +9,14 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import get_language
 from django.utils.translation import gettext as _
-from django.views.decorators.http import require_http_methods, require_POST
+from django.views.decorators.cache import never_cache
+from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
 from apps.catalog.merchants import domain_of, find_merchant, name_from_domain
-from apps.catalog.models import Category, Merchant, Region
+from apps.catalog.models import Category, Merchant
 from apps.moderation.models import AuditLog
 
+from . import vip
 from .forms import CommentForm, DealSubmissionForm
 from .models import Deal, Vote
 from .scraper import fetch_deal_info
@@ -31,15 +33,9 @@ def deal_list(request):
     deals = (
         Deal.objects.for_user(request.user)
         .select_related("merchant", "category", "submitted_by")
-        .prefetch_related("regions", "translations")
+        .prefetch_related("translations")
         .annotate(comment_total=Count("comments", filter=Q(comments__deleted_at__isnull=True)))
     )
-
-    # Les filtres viennent de l'URL : on valide contre le référentiel plutôt
-    # que d'injecter la valeur telle quelle dans le queryset.
-    region_code = request.GET.get("region", "")
-    if region_code and Region.objects.filter(code=region_code).exists():
-        deals = deals.filter(regions__code=region_code)
 
     category_slug = request.GET.get("categorie", "")
     if category_slug and Category.objects.filter(slug=category_slug).exists():
@@ -57,9 +53,7 @@ def deal_list(request):
         "deals/list.html",
         {
             "page_obj": page,
-            "regions": Region.objects.all(),
             "categories": Category.objects.filter(is_active=True),
-            "current_region": region_code,
             "current_sort": sort,
             "hot_deals": Deal.objects.live()
             .select_related("merchant")
@@ -85,6 +79,8 @@ def deal_detail(request, slug):
     if request.user.is_authenticated:
         user_vote = Vote.objects.filter(deal=deal, user=request.user).first()
 
+    # Avantages VIP : calculés seulement pour un abonné (les autres voient un aperçu).
+    is_vip = request.user.is_authenticated and request.user.is_vip
     return render(
         request,
         "deals/detail.html",
@@ -93,8 +89,26 @@ def deal_detail(request, slug):
             "comments": comments,
             "comment_form": CommentForm(),
             "user_vote": user_vote.value if user_vote else 0,
+            "is_vip": is_vip,
+            "price_chart": vip.price_chart(deal) if is_vip else None,
+            "similar_deals": vip.similar_deals(deal) if is_vip else [],
+            "search_links": vip.search_links(deal) if is_vip else [],
         },
     )
+
+
+@login_required
+@require_GET
+@never_cache
+def deal_compare(request, slug):
+    """
+    Comparaison en direct (VIP) : appelée par la page du deal, en JSON, pour
+    ne pas ralentir l'affichage. Refusée (403) à qui n'est pas VIP.
+    """
+    if not request.user.is_vip:
+        return JsonResponse({"error": "vip_required"}, status=403)
+    deal = get_object_or_404(Deal.objects.live(), slug=slug)
+    return JsonResponse({"amazon": vip.amazon_offers(deal)})
 
 
 @login_required

@@ -54,5 +54,5 @@ class ExportDumpTests(TestCase):
     def test_comptage_par_table(self):
         out = StringIO()
         call_command("export_dump", counts=True, stdout=out)
-        self.assertIn("catalog_region", out.getvalue())
+        self.assertIn("catalog_category", out.getvalue())
         self.assertIn("limitée", out.getvalue())

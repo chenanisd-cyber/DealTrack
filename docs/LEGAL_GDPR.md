@@ -19,7 +19,7 @@ livre XI du CDE pour le droit d'auteur.
 
 | Traitement | Base légale | Données | Conservation |
 |---|---|---|---|
-| Compte membre | contrat (art. 6.1.b) | e-mail, pseudonyme, langue, région | durée du compte, puis anonymisation |
+| Compte membre | contrat (art. 6.1.b) | e-mail, pseudonyme, langue | durée du compte, puis anonymisation |
 | Publication de deals | contrat | contenu, horodatage, auteur | conservé, réattribué à un pseudonyme anonyme |
 | Paiement de l'abonnement | contrat + **obligation légale** (art. 6.1.c) | montant, TVA, référence, 4 derniers chiffres | **7 ans** (art. 315 CIR 92) |
 | Journal de sécurité | intérêt légitime (art. 6.1.f) | IP, user-agent, action, horodatage | 365 jours |
@@ -185,7 +185,7 @@ modération. Le motif de signalement « Réduction trompeuse » existe pour la s
 
 ### 2.2 Droit de rétractation
 
-Article VI.47 : quatorze jours pour les contrats à distance. L'abonnement Club
+Article VI.47 : quatorze jours pour les contrats à distance. L'abonnement VIP
 en relève.
 
 Article VI.53, 13° : le droit s'éteint si le service a été pleinement exécuté

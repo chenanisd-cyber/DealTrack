@@ -1,9 +1,7 @@
 """
-Référentiels partagés : régions, catégories, marchands.
+Référentiels partagés : catégories, marchands.
 
 Trois stratégies de clé primaire cohabitent, chacune justifiée :
-  - Region  : code NUTS-1 officiel (BE1/BE2/BE3). Naturel, stable depuis 1988,
-              publié par Eurostat. Une clé technique n'apporterait rien.
   - Category: UUID. Le slug est traduit et peut être réécrit pour le
               référencement, donc il ne peut pas servir de clé.
   - Merchant: UUID. Le nom commercial et le numéro de TVA changent lors des
@@ -20,44 +18,6 @@ from django.utils.translation import gettext_lazy as _
 from apps.accounts.validators import validate_be_vat, validate_no_control_characters
 
 from .images import IMAGE_VALIDATORS, merchant_logo_path
-
-
-class Region(models.Model):
-    """
-    Les trois régions belges, identifiées par leur code NUTS-1 Eurostat.
-
-    La Communauté germanophone n'est pas une région : elle fait partie de la
-    Wallonie (BE3). Elle est représentée par l'indicateur is_german_speaking
-    sur la commune, pas par une quatrième ligne, sous peine de fausser tout
-    agrégat régional.
-    """
-
-    code = models.CharField(
-        _("code NUTS-1"),
-        primary_key=True,
-        max_length=3,
-        validators=[RegexValidator(r"^BE[123]$", _("Codes admis : BE1, BE2, BE3."))],
-    )
-    name_fr = models.CharField(_("nom (fr)"), max_length=60)
-    name_nl = models.CharField(_("nom (nl)"), max_length=60)
-    name_de = models.CharField(_("nom (de)"), max_length=60)
-
-    class Meta:
-        verbose_name = _("région")
-        verbose_name_plural = _("régions")
-        ordering = ["code"]
-
-    def __str__(self):
-        return self.name_fr
-
-    def label(self, language="fr"):
-        return getattr(self, f"name_{language}", self.name_fr)
-
-    @property
-    def label_current(self):
-        """Libellé dans la langue active. Les gabarits Django ne peuvent pas
-        appeler une méthode avec argument, d'où cette propriété."""
-        return self.label(get_language() or "fr")
 
 
 class Category(models.Model):

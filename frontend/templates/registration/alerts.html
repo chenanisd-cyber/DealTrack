@@ -1,0 +1,58 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Mes alertes" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell"><div class="form">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Mes alertes" %}</h1>
+  {% if user.is_vip %}
+    <p class="moderation"><span><span class="vipbadge">VIP</span> {% trans "Vous recevez vos alertes en priorité, dès la publication du deal." %}</span></p>
+  {% else %}
+    <p class="moderation" style="background:var(--dt-warn-bg); color:var(--dt-warn)">
+      <span>{% blocktrans %}Vos alertes arrivent 2 heures après la publication du deal. Les membres VIP les reçoivent tout de suite.{% endblocktrans %}
+      <a href="{% url 'payments:plans' %}">{% trans "Devenir VIP" %}</a></span>
+    </p>
+  {% endif %}
+
+  <section class="panel">
+    <h2 class="panel__title">{% trans "Créer une alerte" %}</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include "_form.html" %}
+      <button class="cta" type="submit">{% trans "Enregistrer l'alerte" %}</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel__title">{% trans "Alertes actives" %}</h2>
+    <table class="table">
+      <thead><tr><th>{% trans "Mot-clé" %}</th><th>{% trans "Catégorie" %}</th><th>{% trans "Prix maximum" %}</th><th></th></tr></thead>
+      <tbody>
+      {% for alert in alerts %}
+        <tr>
+          <td><strong>{{ alert.keyword }}</strong></td>
+          <td>{% if alert.category %}{{ alert.category.label_current }}{% else %}—{% endif %}</td>
+          <td>{% if alert.max_price %}{{ alert.max_price }} €{% else %}—{% endif %}</td>
+          <td>
+            <form method="post" action="{% url 'accounts:alert-delete' alert.pk %}">{% csrf_token %}
+              <button class="pill" type="submit">{% trans "Supprimer" %}</button>
+            </form>
+          </td>
+        </tr>
+      {% empty %}<tr><td colspan="4" class="table__sub">{% trans "Aucune alerte pour l'instant." %}</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel__title">{% trans "Deals trouvés pour vous" %}</h2>
+    {% for match in matches %}
+      <div class="hotitem">
+        <div>
+          <p class="hotitem__title"><a href="{{ match.deal.get_absolute_url }}">{{ match.deal.title_current|truncatechars:80 }}</a></p>
+          <span class="meta">« {{ match.alert.keyword }} » · {{ match.deal.price }} € · {{ match.deal.merchant.name }} · {{ match.available_at|date:"d/m/Y H:i" }}</span>
+          {% if match.is_priority %}<span class="vipbadge">{% trans "reçu en priorité" %}</span>{% endif %}
+        </div>
+      </div>
+    {% empty %}<p class="meta">{% trans "Aucun deal ne correspond encore à vos alertes." %}</p>{% endfor %}
+  </section>
+</div></div>
+{% endblock %}

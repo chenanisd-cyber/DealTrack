@@ -66,10 +66,7 @@
       <div class="field segmented{% if form.availability.errors %} has-error{% endif %}" data-field="availability">
         {% for radio in form.availability %}<label class="segmented__item">{{ radio.tag }}<span>{{ radio.choice_label }}</span></label>{% endfor %}
       </div>
-      <div class="field__row">
-        <div data-show-when="online">{% include "deals/_field.html" with field=form.shipping_cost %}</div>
-        <div>{% include "deals/_field.html" with field=form.regions %}</div>
-      </div>
+      <div data-show-when="online">{% include "deals/_field.html" with field=form.shipping_cost %}</div>
     </section>
 
     {# ----------------------------------------------- 3. Galerie d'images #}

@@ -271,13 +271,13 @@ contrôle applicatif ; ils butent sur `uniq_vote_per_user_deal`.
 plutôt qu'injectés :
 
 ```python
-if region_code and Region.objects.filter(code=region_code).exists():
-    deals = deals.filter(regions__code=region_code)
+if category_slug and Category.objects.filter(slug=category_slug).exists():
+    deals = deals.filter(category__slug=category_slug)
 ```
 
 L'ORM paramètre de toute façon ses requêtes — aucune concaténation SQL n'existe
 dans le projet. `test_url_parameter_injection_is_ignored` passe `' OR 1=1--`
-en paramètre de région : la page répond 200 sans rien révéler.
+en paramètre de catégorie : la page répond 200 sans rien révéler.
 
 ### 6.1 Pré-remplissage par lien — SSRF (OWASP A10)
 

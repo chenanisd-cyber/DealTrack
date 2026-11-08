@@ -12,12 +12,11 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ("email", "display_name")
     ordering = ("-date_joined",)
     readonly_fields = ("date_joined", "last_login", "deleted_at", "anonymised_at")
-    autocomplete_fields = ("home_region",)
     actions = ("action_soft_delete", "action_anonymise")
 
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        (_("Identité"), {"fields": ("display_name", "preferred_language", "home_region")}),
+        (_("Identité"), {"fields": ("display_name", "preferred_language")}),
         (
             _("Rôle et accès"),
             {

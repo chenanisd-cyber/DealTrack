@@ -3,12 +3,11 @@
 > Il ne peut donc pas diverger des modèles.
 
 ## Conventions
-**Clés primaires.** Trois stratégies coexistent, chacune motivée :
+**Clés primaires.** Deux stratégies coexistent, chacune motivée :
 
 | Stratégie | Employée pour | Motif |
 |---|---|---|
 | `UUIDv4` | entités métier exposées par l'API | invariante, non énumérable, ne divulgue pas le volume de la base |
-| code naturel | `catalog_region` (NUTS-1) | référentiel officiel Eurostat, stable depuis 1988 ; une clé technique n'apporterait rien |
 | `BIGINT` auto | tables en ajout seul (`moderation_auditlog`, `deals_vote`) | l'ordre d'insertion porte du sens, l'identifiant n'est jamais exposé, et l'index conserve sa localité |
 
 **Suppression.** Aucune entité rattachée à une transaction n'est supprimée physiquement. Les colonnes `deleted_at` portent la suppression logique ; `anonymised_at` marque l'effacement des données personnelles.
@@ -25,13 +24,14 @@
 | `catalog_category` | catégories | id · UUID | 6 |
 | `catalog_categorytranslation` | libellés de catégorie | id · BIGINT auto | 18 |
 | `catalog_merchant` | marchands | id · UUID | 135 |
-| `catalog_region` | régions | code · VARCHAR | 3 |
-| `deals_alert` | alertes | id · UUID | 169 |
+| `deals_alert` | alertes | id · UUID | 177 |
+| `deals_alertmatch` | alertes déclenchées | id · BIGINT auto | 231 |
 | `deals_comment` | commentaires | id · UUID | 238 |
 | `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 476 |
 | `deals_deal` | deals | id · UUID | 129 |
 | `deals_dealimage` | images de deal | id · BIGINT auto | 135 |
 | `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 254 |
+| `deals_pricepoint` | relevés de prix | id · BIGINT auto | 129 |
 | `deals_vote` | votes | id · BIGINT auto | 616 |
 | `payments_payment` | paiements | id · UUID | 114 |
 | `payments_plan` | formules | id · UUID | 2 |
@@ -46,7 +46,7 @@
 Membres, rôles et cycle de vie du compte.
 
 ### `accounts_user`
-User(password, last_login, is_superuser, id, email, display_name, role, preferred_language, home_region, is_active, is_staff, date_joined, deleted_at, anonymised_at, accepted_terms_at, marketing_consent)
+User(password, last_login, is_superuser, id, email, display_name, role, preferred_language, is_active, is_staff, date_joined, deleted_at, anonymised_at, accepted_terms_at, marketing_consent)
 
 | Colonne | Type | Null | Défaut | Contraintes et rôle |
 |---|---|---|---|---|
@@ -58,7 +58,6 @@ User(password, last_login, is_superuser, id, email, display_name, role, preferre
 | `display_name` | VARCHAR(40) | non | — | unique · Nom affiché publiquement à côté des deals et commentaires. |
 | `role` | VARCHAR(20) | non | `member` | indexée · valeurs : `member`, `moderator`, `admin` |
 | `preferred_language` | VARCHAR(5) | non | `fr` | valeurs : `fr`, `nl`, `de` |
-| `home_region_id` | FK | oui | — | indexée · → `catalog_region` · `PROTECT` · _bloque la suppression physique du parent_ · Sert à trier les deals de proximité. Facultatif. |
 | `is_active` | BOOLEAN | non | `True` | — |
 | `is_staff` | BOOLEAN | non | `False` | — |
 | `date_joined` | TIMESTAMP | non | `now` | — |
@@ -77,7 +76,7 @@ User(password, last_login, is_superuser, id, email, display_name, role, preferre
 ---
 
 ## Catalogue
-Référentiels partagés : régions, catégories, marchands.
+Référentiels partagés : catégories, marchands.
 
 ### `catalog_category`
 Arbre de catégories sur un seul niveau de profondeur en pratique.
@@ -133,16 +132,6 @@ Enseigne chez qui le deal est disponible.
 - `merchant_local_implies_be` — vérification : `(OR: ('is_local_independent', False), ('country', 'BE'))`
 - `merchant_vat_implies_be` — vérification : `(OR: ('vat_number', ''), ('country', 'BE'))`
 
-### `catalog_region`
-Les trois régions belges, identifiées par leur code NUTS-1 Eurostat.
-
-| Colonne | Type | Null | Défaut | Contraintes et rôle |
-|---|---|---|---|---|
-| `code` | VARCHAR(3) | non | — | **clé primaire** |
-| `name_fr` | VARCHAR(60) | non | — | — |
-| `name_nl` | VARCHAR(60) | non | — | — |
-| `name_de` | VARCHAR(60) | non | — | — |
-
 ---
 
 ## Offres
@@ -157,15 +146,30 @@ Alerte par mot-clé : la fonctionnalité « ne rien manquer » du projet.
 | `user_id` | FK | non | — | indexée · → `accounts_user` · `CASCADE` |
 | `keyword` | VARCHAR(80) | non | — | — |
 | `category_id` | FK | oui | — | indexée · → `catalog_category` · `CASCADE` |
-| `region_id` | FK | oui | — | indexée · → `catalog_region` · `PROTECT` · _bloque la suppression physique du parent_ |
 | `max_price` | DECIMAL(10,2) | oui | — | — |
 | `is_active` | BOOLEAN | non | `True` | — |
 | `created_at` | TIMESTAMP | non | — | — |
 | `last_notified_at` | TIMESTAMP | oui | — | — |
 
 **Contraintes de table**
-- `uniq_alert_per_user_criteria` — unicité sur `user`, `keyword`, `category`, `region`
+- `uniq_alert_per_user_criteria` — unicité sur `user`, `keyword`, `category`
 - `alert_max_price_positive` — vérification : `(OR: ('max_price__isnull', True), ('max_price__gt', 0))`
+
+### `deals_alertmatch`
+Offre publiée qui correspond à une alerte. available_at est le moment où le membre la reçoit : tout de suite pour un VIP, plus tard pour les autres.
+
+| Colonne | Type | Null | Défaut | Contraintes et rôle |
+|---|---|---|---|---|
+| `id` | BIGINT auto | non | auto | **clé primaire** |
+| `alert_id` | FK | non | — | indexée · → `deals_alert` · `CASCADE` |
+| `deal_id` | FK | non | — | indexée · → `deals_deal` · `CASCADE` |
+| `is_priority` | BOOLEAN | non | `False` | — |
+| `available_at` | TIMESTAMP | non | — | indexée |
+| `notified_at` | TIMESTAMP | oui | — | — |
+| `created_at` | TIMESTAMP | non | — | — |
+
+**Contraintes de table**
+- `uniq_alert_match` — unicité sur `alert`, `deal`
 
 ### `deals_comment`
 Comment(id, deal, author, body, language, is_verified_purchase, created_at, deleted_at)
@@ -196,7 +200,7 @@ Commentaire dans une autre langue. Même modèle que DealTranslation : une ligne
 - `uniq_comment_language` — unicité sur `comment`, `language`
 
 ### `deals_deal`
-Deal(id, title, slug, description, image, image_url, external_url, price, reference_price, currency, promo_code, availability, shipping_cost, merchant, category, submitted_by, status, is_cross_border, language, starts_at, ends_at, published_at, temperature, created_at, updated_at, deleted_at)
+Deal(id, title, slug, description, image, image_url, external_url, price, reference_price, currency, promo_code, availability, shipping_cost, merchant, category, submitted_by, status, is_cross_border, language, starts_at, ends_at, published_at, alerts_dispatched_at, temperature, created_at, updated_at, deleted_at)
 
 | Colonne | Type | Null | Défaut | Contraintes et rôle |
 |---|---|---|---|---|
@@ -222,11 +226,11 @@ Deal(id, title, slug, description, image, image_url, external_url, price, refere
 | `starts_at` | TIMESTAMP | non | `now` | — |
 | `ends_at` | TIMESTAMP | oui | — | — |
 | `published_at` | TIMESTAMP | oui | — | indexée |
+| `alerts_dispatched_at` | TIMESTAMP | oui | — | — |
 | `temperature` | INT | non | `100` | indexée · Compteur dérivé de la table Vote, recalculable. |
 | `created_at` | TIMESTAMP | non | — | — |
 | `updated_at` | TIMESTAMP | non | — | — |
 | `deleted_at` | TIMESTAMP | oui | — | indexée |
-| `regions` | M2M | — | — | table de liaison `deals_deal_regions` vers `catalog_region` |
 
 **Contraintes de table**
 - `deal_price_non_negative` — vérification : `(AND: ('price__gte', 0))`
@@ -266,6 +270,22 @@ Titre et description d'une offre dans une autre langue.
 **Contraintes de table**
 - `uniq_deal_language` — unicité sur `deal`, `language`
 
+### `deals_pricepoint`
+Prix d'une offre à une date donnée : la base de l'historique VIP.
+
+| Colonne | Type | Null | Défaut | Contraintes et rôle |
+|---|---|---|---|---|
+| `id` | BIGINT auto | non | auto | **clé primaire** |
+| `deal_id` | FK | non | — | indexée · → `deals_deal` · `CASCADE` |
+| `price` | DECIMAL(10,2) | non | — | — |
+| `source` | VARCHAR(10) | non | — | valeurs : `survey`, `update`, `tracker` |
+| `recorded_at` | TIMESTAMP | non | `now` | indexée |
+
+**Contraintes de table**
+- `pricepoint_price_positive` — vérification : `(AND: ('price__gte', 0))`
+
+**Index** : `pricepoint_deal_date_idx`
+
 ### `deals_vote`
 Un vote par membre et par deal. La contrainte d'unicité est portée par la base : c'est la seule couche que deux requêtes concurrentes ne peuvent pas contourner.
 
@@ -285,7 +305,7 @@ Un vote par membre et par deal. La contrainte d'unicité est portée par la base
 ---
 
 ## Paiements
-Abonnement Club, transactions, pièces comptables.
+Abonnement VIP, transactions, pièces comptables.
 
 ### `payments_payment`
 Transaction. Immuable une fois aboutie : un remboursement crée une nouvelle ligne de sens inverse plutôt que de réécrire l'originale, comme en comptabilité en partie double.
@@ -334,7 +354,7 @@ Formule d'abonnement. Le prix est historisé sur le paiement, pas ici.
 - `plan_duration_positive` — vérification : `(AND: ('duration_days__gt', 0))`
 
 ### `payments_subscription`
-Adhésion Club active, dérivée d'un paiement abouti.
+Adhésion VIP active, dérivée d'un paiement abouti.
 
 | Colonne | Type | Null | Défaut | Contraintes et rôle |
 |---|---|---|---|---|

@@ -536,7 +536,7 @@ class GdprTests(BaseIntegrationTest):
         self.assertTrue(User.objects.filter(pk=self.member.pk).exists())
 
     def test_api_deletion_keeps_row_when_payments_exist(self):
-        plan = Plan.objects.get(code="club-annuel")
+        plan = Plan.objects.get(code="vip-annuel")
         Payment.objects.create(
             reference="DT-2025-000900",
             user=self.member,
@@ -865,8 +865,8 @@ class FormValidationTests(BaseIntegrationTest):
         self.assertTrue(deal.is_cross_border)
 
     def test_url_parameter_injection_is_ignored(self):
-        """Un code région inexistant ne doit pas casser la page ni tout révéler."""
-        response = self.client.get(reverse("deals:list") + "?region=' OR 1=1--")
+        """Une catégorie inexistante ne doit pas casser la page ni tout révéler."""
+        response = self.client.get(reverse("deals:list") + "?categorie=' OR 1=1--")
         self.assertEqual(response.status_code, 200)
 
     def test_invalid_vote_value_is_rejected(self):

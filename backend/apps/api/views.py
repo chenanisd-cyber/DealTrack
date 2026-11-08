@@ -46,7 +46,6 @@ class DealFilter(filters.FilterSet):
 
     min_price = filters.NumberFilter(field_name="price", lookup_expr="gte")
     max_price = filters.NumberFilter(field_name="price", lookup_expr="lte")
-    region = filters.CharFilter(field_name="regions__code", lookup_expr="iexact")
     category = filters.CharFilter(field_name="category__slug", lookup_expr="iexact")
     merchant = filters.CharFilter(field_name="merchant__slug", lookup_expr="iexact")
     local_only = filters.BooleanFilter(field_name="merchant__is_local_independent")
@@ -80,7 +79,7 @@ class DealViewSet(viewsets.ModelViewSet):
         return (
             Deal.objects.for_user(self.request.user)
             .select_related("merchant", "category", "submitted_by")
-            .prefetch_related("regions", "translations")
+            .prefetch_related("translations")
         )
 
     def get_serializer_class(self):

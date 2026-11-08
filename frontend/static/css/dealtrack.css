@@ -797,3 +797,33 @@ img{max-width:100%}
   .wizard__main{padding:20px 16px 0}
   .wizard__footer{margin:auto -16px 0; padding:12px 16px}
 }
+
+/* -----------------------------------------------------------------------------
+   VIP : badge, historique du prix (SVG), comparaison, aperçu verrouillé
+   -------------------------------------------------------------------------- */
+.vipbadge{
+  display:inline-block; padding:2px 8px; border-radius:6px; vertical-align:middle;
+  background:linear-gradient(135deg, #D4A017, #F5D76E); color:#3B2A00;
+  font-size:12px; font-weight:800; letter-spacing:.06em;
+}
+.vipbadge.is-lg{font-size:16px; padding:4px 10px}
+.pricechart{width:100%; height:auto; background:var(--dt-surface); border:1px solid var(--dt-surface-2); border-radius:10px}
+.pricechart__line{fill:none; stroke:var(--dt-accent); stroke-width:3; stroke-linejoin:round}
+.pricechart__dot{fill:var(--dt-surface); stroke:var(--dt-accent); stroke-width:3}
+.pricechart__ref{stroke:var(--dt-ink-2); stroke-dasharray:6 6}
+.pricechart__label{font-size:12px; fill:var(--dt-ink-2)}
+.pricechart.is-blurred{filter:blur(3px); opacity:.6}
+.pricestats{display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin:12px 0}
+.pricestats div{padding:10px; border-radius:8px; background:var(--dt-surface-2)}
+.pricestats dt{font-size:var(--fs-meta); color:var(--dt-ink-2)}
+.pricestats dd{margin:2px 0 0; font-weight:700}
+.compare tr.is-current td{background:var(--dt-accent-soft)}
+.compare__list{list-style:none; padding:0; margin:10px 0; display:flex; flex-direction:column; gap:8px}
+.vip__locked{position:relative}
+.vip__pitch{
+  position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; gap:6px; background:rgba(255,255,255,.75); border-radius:10px; padding:12px;
+}
+.vip__pitch ul{margin:0; padding-left:18px; text-align:left}
+.vipperks{display:flex; flex-direction:column; gap:10px; padding-left:18px}
+@media (max-width:640px){ .pricestats{grid-template-columns:1fr 1fr} .vip__pitch{position:static; background:none} }

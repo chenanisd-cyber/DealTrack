@@ -192,7 +192,7 @@ class SoftDeleteTests(TestCase):
     def setUpTestData(cls):
         seed_reference_data()
         cls.member = make_user("payeur@example.be", "Payeur")
-        cls.plan = Plan.objects.get(code="club-annuel")
+        cls.plan = Plan.objects.get(code="vip-annuel")
 
     def _pay(self):
         payment, _ = purchase_subscription(
@@ -252,7 +252,7 @@ class PaymentTests(TestCase):
     def setUpTestData(cls):
         seed_reference_data()
         cls.member = make_user("client@example.be", "Client")
-        cls.plan = Plan.objects.get(code="club-annuel")
+        cls.plan = Plan.objects.get(code="vip-annuel")
 
     def test_successful_charge_creates_subscription(self):
         payment, subscription = purchase_subscription(

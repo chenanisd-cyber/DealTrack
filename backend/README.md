@@ -19,7 +19,7 @@ python manage.py runserver        # http://localhost:8000/fr/
 | `config/settings/` | Réglages : `base.py` (commun), `dev.py`, `test.py`, `prod.py` |
 | `config/urls.py` | URL racines : API, sélecteur de langue, pages traduites |
 | `apps/accounts/` | Utilisateurs, rôles, inscription, export RGPD, désinscription (soft delete) |
-| `apps/catalog/` | Régions, catégories multilingues, marchands ; commandes `seed_demo`, `data_dictionary` |
+| `apps/catalog/` | Catégories multilingues, marchands ; commandes `seed_demo`, `data_dictionary` |
 | `apps/deals/` | Offres, votes, commentaires, pré-remplissage par lien (`scraper.py`) |
 | `apps/payments/` | Formules, paiements, abonnements, passerelle de paiement |
 | `apps/moderation/` | Journal d'audit, décisions, signalements |

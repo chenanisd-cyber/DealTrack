@@ -38,10 +38,9 @@ from django.utils import timezone
 EXCLUDED_DATA = {"django_session"}
 
 # Tables « naturellement limitées » au sens du cahier des charges : référentiels
-# (3 régions belges, 6 catégories × 3 langues, 2 formules) et tables de liaison
+# (6 catégories × 3 langues, 2 formules) et tables de liaison
 # des droits du personnel (seuls admin et modérateurs y figurent).
 NATURALLY_LIMITED = {
-    "catalog_region",
     "catalog_category",
     "catalog_categorytranslation",
     "payments_plan",
@@ -101,8 +100,8 @@ class Command(BaseCommand):
             if not any(s.startswith(f'INSERT INTO "{t}"') for t in EXCLUDED_DATA)
         ]
         # iterdump écrit chaque table suivie de ses données, par ordre
-        # alphabétique : accounts_user (qui référence catalog_region) passerait
-        # avant catalog_region. Ordre classique d'un dump : toutes les tables,
+        # alphabétique : une table (deals_alert…) pourrait passer avant celle
+        # qu'elle référence. Ordre classique d'un dump : toutes les tables,
         # puis les données, puis les index. Les clés étrangères étant
         # DEFERRABLE INITIALLY DEFERRED, elles sont vérifiées au COMMIT.
         tables = [s for s in statements if s.startswith("CREATE TABLE")]

@@ -151,12 +151,6 @@ class Deal(models.Model):
         on_delete=models.PROTECT,
         related_name="deals",
     )
-    regions = models.ManyToManyField(
-        "catalog.Region",
-        verbose_name=_("régions concernées"),
-        related_name="deals",
-        blank=True,
-    )
     # PROTECT : un membre qui a publié des deals ne peut pas être effacé sans
     # que ses contributions le soient d'abord. C'est voulu — la modération doit
     # pouvoir remonter à l'auteur d'une offre litigieuse.
@@ -182,6 +176,9 @@ class Deal(models.Model):
     starts_at = models.DateTimeField(_("début"), default=timezone.now)
     ends_at = models.DateTimeField(_("fin"), null=True, blank=True)
     published_at = models.DateTimeField(_("publié le"), null=True, blank=True, db_index=True)
+
+    # Date à laquelle les alertes correspondantes ont été distribuées (une fois).
+    alerts_dispatched_at = models.DateTimeField(null=True, blank=True, editable=False)
 
     temperature = models.IntegerField(
         _("température"),
@@ -231,6 +228,16 @@ class Deal(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        from .vip import dispatch_alerts, record_price
+
+        # Journal de prix (historique VIP) : un point par prix réellement observé.
+        record_price(self)
+        # Première publication : distribution des alertes (VIP d'abord).
+        if self.status == DealStatus.PUBLISHED and self.alerts_dispatched_at is None:
+            dispatch_alerts(self)
 
     def get_absolute_url(self):
         return reverse("deals:detail", kwargs={"slug": self.slug})
@@ -613,6 +620,39 @@ class CommentTranslation(models.Model):
         return f"{self.comment_id} [{self.language}]"
 
 
+class PricePoint(models.Model):
+    """Prix d'une offre à une date donnée : la base de l'historique VIP."""
+
+    class Source(models.TextChoices):
+        SURVEY = "survey", _("Relevé à la publication")
+        UPDATE = "update", _("Prix modifié")
+        TRACKER = "tracker", _("Suivi automatique")
+
+    id = models.BigAutoField(primary_key=True)
+    deal = models.ForeignKey(Deal, on_delete=models.CASCADE, related_name="price_history")
+    price = models.DecimalField(
+        _("prix"), max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal("0"))]
+    )
+    source = models.CharField(_("origine"), max_length=10, choices=Source.choices)
+    recorded_at = models.DateTimeField(_("relevé le"), default=timezone.now, db_index=True)
+
+    class Meta:
+        verbose_name = _("relevé de prix")
+        verbose_name_plural = _("relevés de prix")
+        ordering = ["recorded_at", "id"]
+        indexes = [
+            models.Index(fields=["deal", "recorded_at"], name="pricepoint_deal_date_idx")
+        ]
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(price__gte=0), name="pricepoint_price_positive"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.deal_id} {self.price} € ({self.recorded_at:%d/%m/%Y})"
+
+
 class Alert(models.Model):
     """Alerte par mot-clé : la fonctionnalité « ne rien manquer » du projet."""
 
@@ -623,9 +663,6 @@ class Alert(models.Model):
     keyword = models.CharField(_("mot-clé"), max_length=80, validators=[MinLengthValidator(2)])
     category = models.ForeignKey(
         "catalog.Category", on_delete=models.CASCADE, null=True, blank=True
-    )
-    region = models.ForeignKey(
-        "catalog.Region", on_delete=models.PROTECT, null=True, blank=True
     )
     max_price = models.DecimalField(
         _("prix maximum"), max_digits=10, decimal_places=2, null=True, blank=True
@@ -639,7 +676,7 @@ class Alert(models.Model):
         verbose_name_plural = _("alertes")
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "keyword", "category", "region"],
+                fields=["user", "keyword", "category"],
                 name="uniq_alert_per_user_criteria",
             ),
             models.CheckConstraint(
@@ -650,3 +687,29 @@ class Alert(models.Model):
 
     def __str__(self):
         return f"{self.user} · {self.keyword}"
+
+
+class AlertMatch(models.Model):
+    """
+    Offre publiée qui correspond à une alerte. available_at est le moment où
+    le membre la reçoit : tout de suite pour un VIP, plus tard pour les autres.
+    """
+
+    id = models.BigAutoField(primary_key=True)
+    alert = models.ForeignKey(Alert, on_delete=models.CASCADE, related_name="matches")
+    deal = models.ForeignKey(Deal, on_delete=models.CASCADE, related_name="alert_matches")
+    is_priority = models.BooleanField(_("envoi prioritaire (VIP)"), default=False)
+    available_at = models.DateTimeField(_("disponible le"), db_index=True)
+    notified_at = models.DateTimeField(_("notifié le"), null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("alerte déclenchée")
+        verbose_name_plural = _("alertes déclenchées")
+        ordering = ["-available_at"]
+        constraints = [
+            models.UniqueConstraint(fields=["alert", "deal"], name="uniq_alert_match"),
+        ]
+
+    def __str__(self):
+        return f"{self.alert} → {self.deal_id}"

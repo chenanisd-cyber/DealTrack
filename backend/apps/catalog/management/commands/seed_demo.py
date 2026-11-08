@@ -1,7 +1,7 @@
 """
 Jeu de données de démonstration.
 
-Enseignes, catégories, prix et régions correspondent au marché belge réel.
+Enseignes, catégories et prix correspondent au marché belge réel.
 Les membres et leurs contributions sont fictifs, mais rédigés comme de vraies
 contributions : c'est ce qui permet de juger les écrans sur pièces, ce qu'un
 remplissage automatique ne permet pas.
@@ -17,7 +17,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 from apps.accounts.models import Role, User
-from apps.catalog.models import Category, CategoryTranslation, Merchant, Region
+from apps.catalog.models import Category, CategoryTranslation, Merchant
 from apps.deals.models import (
     Comment,
     CommentTranslation,
@@ -30,17 +30,6 @@ from apps.moderation.models import ModerationDecision, Report
 from apps.payments.models import Payment, Plan, Subscription
 
 from . import _volume
-
-REGIONS = [
-    (
-        "BE1",
-        "Région de Bruxelles-Capitale",
-        "Brussels Hoofdstedelijk Gewest",
-        "Region Brüssel-Hauptstadt",
-    ),
-    ("BE2", "Région flamande", "Vlaams Gewest", "Flämische Region"),
-    ("BE3", "Région wallonne", "Waals Gewest", "Wallonische Region"),
-]
 
 CATEGORIES = [
     ("high-tech", {"fr": "High-tech", "nl": "Elektronica", "de": "Elektronik"}),
@@ -241,14 +230,14 @@ MERCHANTS = [
 ]
 
 MEMBERS = [
-    ("marc.vandenberghe@example.be", "MarcVDB", "fr", "BE3"),
-    ("sofie.lievens@example.be", "SofieL", "nl", "BE2"),
-    ("amelie.dubois@example.be", "AmelieD", "fr", "BE1"),
-    ("jan.willems@example.be", "JanW", "nl", "BE2"),
-    ("mathieu.bastin@example.be", "MathieuB", "fr", "BE3"),
-    ("karel.dhondt@example.be", "KarelD", "nl", "BE2"),
-    ("eline.desmet@example.be", "ElineD", "nl", "BE2"),
-    ("nicolas.gerard@example.be", "NicolasG", "de", "BE3"),
+    ("marc.vandenberghe@example.be", "MarcVDB", "fr"),
+    ("sofie.lievens@example.be", "SofieL", "nl"),
+    ("amelie.dubois@example.be", "AmelieD", "fr"),
+    ("jan.willems@example.be", "JanW", "nl"),
+    ("mathieu.bastin@example.be", "MathieuB", "fr"),
+    ("karel.dhondt@example.be", "KarelD", "nl"),
+    ("eline.desmet@example.be", "ElineD", "nl"),
+    ("nicolas.gerard@example.be", "NicolasG", "de"),
 ]
 
 # Les traductions sont rédigées à la main, pas produites par un moteur : les
@@ -270,7 +259,6 @@ DEALS = [
         price="349.00",
         reference="449.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=1124,
@@ -306,7 +294,6 @@ DEALS = [
         price="419.00",
         reference="599.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=956,
@@ -339,7 +326,6 @@ DEALS = [
         price="399.00",
         reference="502.60",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=892,
@@ -376,7 +362,6 @@ DEALS = [
         price="9.00",
         reference="549.99",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=640,
@@ -415,7 +400,6 @@ DEALS = [
         price="279.00",
         reference="369.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=512,
@@ -451,7 +435,6 @@ DEALS = [
         price="499.00",
         reference="599.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=388,
@@ -483,7 +466,6 @@ DEALS = [
         price="2.99",
         reference="5.49",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=264,
@@ -522,7 +504,6 @@ DEALS = [
         price="50.00",
         reference=None,
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=171,
@@ -560,7 +541,6 @@ DEALS = [
         price="599.00",
         reference="699.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=734,
@@ -593,7 +573,6 @@ DEALS = [
         price="699.00",
         reference="899.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=468,
@@ -623,7 +602,6 @@ DEALS = [
         price="399.00",
         reference="469.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=301,
@@ -653,7 +631,6 @@ DEALS = [
         price="350.00",
         reference="482.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=287,
@@ -686,7 +663,6 @@ DEALS = [
         price="679.00",
         reference="829.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=244,
@@ -722,7 +698,6 @@ DEALS = [
         price="529.00",
         reference="614.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=196,
@@ -752,7 +727,6 @@ DEALS = [
         price="649.00",
         reference="739.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=158,
@@ -782,7 +756,6 @@ DEALS = [
         price="499.00",
         reference="579.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=421,
@@ -816,7 +789,6 @@ DEALS = [
         price="329.99",
         reference="379.99",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=217,
@@ -850,7 +822,6 @@ DEALS = [
         price="1.49",
         reference=None,
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PUBLISHED,
         temp=133,
@@ -887,7 +858,6 @@ DEALS = [
         price="679.00",
         reference="899.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PENDING,
         temp=100,
@@ -909,7 +879,6 @@ DEALS = [
         price="999.00",
         reference="1199.00",
         shipping="0.00",
-        regions=["BE1", "BE2", "BE3"],
         lang="fr",
         status=DealStatus.PENDING,
         temp=100,
@@ -990,20 +959,19 @@ class Command(BaseCommand):
         if options["flush"]:
             self._flush()
 
-        regions = self._regions()
         categories = self._categories()
         merchants = self._merchants()
         self._local_merchants()
-        staff, members = self._users(regions)
-        deals = self._deals(merchants, categories, regions, members, staff)
+        staff, members = self._users()
+        deals = self._deals(merchants, categories, members, staff)
 
         # Volume (exigence du DUMP : 100 lignes minimum par table) : voir _volume.py.
-        more_members = _volume.members(regions)
+        more_members = _volume.members()
         everyone = members + more_members
         self.stdout.write(f"Membres supplémentaires : {len(more_members)}")
         self.stdout.write(f"Commerçants OpenStreetMap : {_volume.osm_merchants()}")
         coolblue = _volume.coolblue_deals(
-            categories=categories, regions=regions, members_pool=everyone, moderator=staff[1]
+            categories=categories, members_pool=everyone, moderator=staff[1]
         )
         self.stdout.write(f"Offres relevées sur Coolblue : {len(coolblue)}")
         all_deals = deals + coolblue
@@ -1019,7 +987,8 @@ class Command(BaseCommand):
         self.stdout.write(
             f"Signalements supplémentaires : {_volume.reports(all_deals, everyone, staff[1])}"
         )
-        self.stdout.write(f"Alertes : {_volume.alerts(everyone, categories, regions)}")
+        self.stdout.write(f"Alertes : {_volume.alerts(everyone, categories)}")
+        self.stdout.write(f"Alertes déclenchées : {_volume.alert_matches(all_deals)}")
         self.stdout.write(
             f"Journal d'audit : {_volume.audit_trail(staff + everyone, all_deals)} entrées"
         )
@@ -1050,15 +1019,6 @@ class Command(BaseCommand):
             model.objects.all().delete()
         User.objects.filter(is_superuser=False).delete()
         self.stdout.write("Tables métier vidées.")
-
-    def _regions(self):
-        out = {}
-        for code, fr, nl, de in REGIONS:
-            out[code], _ = Region.objects.update_or_create(
-                code=code, defaults={"name_fr": fr, "name_nl": nl, "name_de": de}
-            )
-        self.stdout.write(f"Régions : {len(out)}")
-        return out
 
     def _categories(self):
         out = {}
@@ -1117,7 +1077,7 @@ class Command(BaseCommand):
             )
         self.stdout.write(f"Commerçants locaux (OpenStreetMap) : {len(LOCAL_MERCHANTS)}")
 
-    def _users(self, regions):
+    def _users(self):
         # Mot de passe commun aux comptes de démonstration : il satisfait la
         # politique (12 caractères, trois classes, pas de suite de touches).
         password = "Demo-Tracker-2025"
@@ -1150,13 +1110,12 @@ class Command(BaseCommand):
             moderator.save()
 
         members = []
-        for email, name, lang, region_code in MEMBERS:
+        for email, name, lang in MEMBERS:
             user, created = User.objects.get_or_create(
                 email=email,
                 defaults={
                     "display_name": name,
                     "preferred_language": lang,
-                    "home_region": regions[region_code],
                     "role": Role.MEMBER,
                     "accepted_terms_at": timezone.now()
                     - timedelta(days=random.randint(60, 900)),
@@ -1172,7 +1131,7 @@ class Command(BaseCommand):
         self.stdout.write(f"Comptes : 1 admin, 1 modérateur, {len(members)} membres")
         return [admin, moderator], members
 
-    def _deals(self, merchants, categories, regions, members, staff):
+    def _deals(self, merchants, categories, members, staff):
         created = []
         now = timezone.now()
         for index, spec in enumerate(DEALS):
@@ -1208,7 +1167,6 @@ class Command(BaseCommand):
                     else None,
                 },
             )
-            deal.regions.set([regions[c] for c in spec["regions"]])
 
             for language, (title, description) in spec.get("translations", {}).items():
                 DealTranslation.objects.update_or_create(
@@ -1275,11 +1233,11 @@ class Command(BaseCommand):
 
     def _payments(self, members):
         plan, _ = Plan.objects.update_or_create(
-            code="club-annuel",
+            code="vip-annuel",
             defaults={
-                "name_fr": "Club annuel",
-                "name_nl": "Club jaarlijks",
-                "name_de": "Club jährlich",
+                "name_fr": "VIP annuel",
+                "name_nl": "VIP jaarlijks",
+                "name_de": "VIP jährlich",
                 "price": Decimal("24.00"),
                 "vat_rate": Decimal("21.00"),
                 "duration_days": 365,
@@ -1287,11 +1245,11 @@ class Command(BaseCommand):
             },
         )
         Plan.objects.update_or_create(
-            code="club-mensuel",
+            code="vip-mensuel",
             defaults={
-                "name_fr": "Club mensuel",
-                "name_nl": "Club maandelijks",
-                "name_de": "Club monatlich",
+                "name_fr": "VIP mensuel",
+                "name_nl": "VIP maandelijks",
+                "name_de": "VIP monatlich",
                 "price": Decimal("2.50"),
                 "vat_rate": Decimal("21.00"),
                 "duration_days": 30,
@@ -1350,7 +1308,6 @@ class Command(BaseCommand):
 
     def _summary(self):
         rows = [
-            ("Régions", Region.objects.count()),
             ("Catégories", Category.objects.count()),
             ("Libellés traduits", CategoryTranslation.objects.count()),
             ("Marchands", Merchant.objects.count()),

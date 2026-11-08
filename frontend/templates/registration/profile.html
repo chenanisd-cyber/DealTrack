@@ -4,6 +4,17 @@
 <div class="shell" style="padding-bottom:40px">
   <h1 style="font-size:var(--fs-h1)">{% trans "Mon compte" %}</h1>
 
+  <section class="panel" style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between">
+    <p style="margin:0">
+      {% if user.is_vip %}
+        <span class="vipbadge">VIP</span> {% blocktrans with date=user.vip_until|date:"d/m/Y" %}Membre VIP jusqu'au {{ date }}{% endblocktrans %}
+      {% else %}
+        {% trans "Compte gratuit" %} — <a href="{% url 'payments:plans' %}">{% trans "Devenir VIP" %}</a>
+      {% endif %}
+    </p>
+    <a class="pill" href="{% url 'accounts:alerts' %}">{% trans "Mes alertes" %}</a>
+  </section>
+
   <section class="panel">
     <h2 class="panel__title">{% trans "Mes deals" %}</h2>
     <table class="table">

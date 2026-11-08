@@ -21,7 +21,7 @@ logger = logging.getLogger("dealtrack.payments")
 @require_http_methods(["GET", "POST"])
 def subscribe(request, code):
     """
-    Souscription Club, en deux temps : le bouton « Payer » crée une session
+    Souscription VIP, en deux temps : le bouton « Payer » crée une session
     chez le prestataire et redirige vers SA page de paiement sécurisée.
     Aucun champ de carte n'existe sur DealTrack.
     """

@@ -12,11 +12,12 @@ meilleures et commentent leur expérience.
 
 L'application comprend :
 
-- un catalogue d'offres, de marchands, de catégories et de régions,
+- un catalogue d'offres, de marchands et de catégories,
 - un système de vote et de commentaires,
 - un back-office de modération avec journal d'audit,
 - une API RESTful sécurisée par JWT,
-- un abonnement payant avec passerelle de paiement,
+- un abonnement VIP payant (historique des prix, comparaison, alertes en
+  priorité) avec passerelle de paiement,
 - un front-office trilingue français / néerlandais / allemand.
 
 Le projet tient compte du RGPD et du droit belge du commerce électronique :
@@ -43,7 +44,7 @@ DealTrack/
 │   ├── config/                 # Réglages (base, dev, test, prod), URL racines
 │   ├── apps/
 │   │   ├── accounts/           # Utilisateurs, rôles, RGPD
-│   │   ├── catalog/            # Régions, catégories, marchands
+│   │   ├── catalog/            # Catégories, marchands
 │   │   ├── deals/              # Offres, votes, commentaires, alertes
 │   │   ├── payments/           # Formules, paiements, abonnements
 │   │   ├── moderation/         # Journal d'audit, décisions, signalements
@@ -118,7 +119,7 @@ python manage.py seed_demo
 ```
 
 Cette commande peuple **toutes les tables avec au moins 100 lignes** (sauf
-les tables naturellement limitées : régions, catégories, formules) : 120
+les tables naturellement limitées : catégories, formules) : 120
 comptes, 135 marchands dont 133 commerces indépendants réels (OpenStreetMap),
 129 offres réelles, 600+ votes, 238 commentaires traduits, 114 paiements…
 Le détail et le DUMP SQL sont décrits dans `database/README.md`.
@@ -158,7 +159,8 @@ python manage.py setup_roles
 | moderation@dealtrack.be | Modérateur | Demo-Tracker-2025 |
 | admin@dealtrack.be | Administrateur | Demo-Tracker-2025 |
 
-Sept autres comptes membres existent, répartis sur les trois régions.
+Marc est membre VIP : il voit l'historique des prix et la comparaison sur la
+page d'un deal. Déconnecté, la même page montre l'aperçu verrouillé.
 
 ## Adresses de l'application
 
@@ -167,9 +169,26 @@ Sept autres comptes membres existent, répartis sur les trois régions.
 | /fr/ /nl/ /de/ | Front-office dans les trois langues |
 | /fr/publier/ | Publier un deal : coller le lien suffit |
 | /fr/commercants-locaux/ | Annuaire des commerçants indépendants |
-| /fr/abonnement/ | Abonnement Club et paiement |
+| /fr/abonnement/ | Abonnement VIP et paiement |
+| /fr/comptes/alertes/ | Mes alertes (VIP : reçues en priorité) |
 | /fr/back-office/ | Administration |
 | /api/v1/deals/ | API REST, lecture publique |
+
+## Abonnement VIP
+
+| Avantage | Fonctionnement |
+|---|---|
+| Historique du prix | Table `deals_pricepoint` : un relevé à la publication, un à chaque changement de prix, un par passage du suivi automatique. Graphique SVG dessiné côté serveur. Aucun prix inventé. |
+| Comparaison | Même produit chez les autres marchands de DealTrack, recherche en direct sur Amazon.com.be (mise en cache 12 h) et liens de recherche Coolblue, bol.com, MediaMarkt, Krëfel. |
+| Alertes en priorité | À la publication d'un deal, chaque alerte qui correspond crée une ligne `deals_alertmatch`. Disponible tout de suite pour un VIP, 2 heures plus tard pour les autres. |
+
+Tâches à planifier (une fois par jour pour les prix, toutes les 10 minutes pour
+les alertes) :
+
+```bash
+python manage.py track_prices    # relit les pages des deals, note les changements de prix
+python manage.py send_alerts     # envoie par e-mail les alertes arrivées à échéance
+```
 
 ## Publier un deal en collant un lien
 
@@ -242,7 +261,7 @@ change à chaque lancement. `cloudflared.exe` est attendu dans `.tools/`
 | Module | Fonctionnalités |
 |---|---|
 | accounts | Inscription, connexion, rôles, export RGPD, suppression logique, anonymisation |
-| catalog | Régions NUTS-1, catégories multilingues, marchands avec validation TVA belge |
+| catalog | Catégories multilingues, marchands avec validation TVA belge |
 | deals | Publication, modération, vote, commentaires, alertes par mot-clé |
 | payments | Formules d'abonnement, paiement par jeton, facturation numérotée |
 | moderation | Journal d'audit en ajout seul, décisions tracées, signalements |
@@ -254,7 +273,7 @@ change à chaque lancement. `cloudflared.exe` est attendu dans `.tools/`
 python manage.py test tests --settings=config.settings.test
 ```
 
-173 tests, répartis en huit fichiers dans `backend/tests/` :
+185 tests, répartis en neuf fichiers dans `backend/tests/` :
 
 | Fichier | Tests | Contenu |
 |---|---|---|
@@ -265,6 +284,7 @@ python manage.py test tests --settings=config.settings.test
 | test_comments.py | 5 | Commentaires traduits selon la langue de la page, repli sur l'original |
 | test_checkout.py | 8 | Paiement hébergé : parcours, fraude au retour, idempotence, webhook |
 | test_dump.py | 4 | DUMP SQL : structure, clés, contraintes, sessions exclues, rechargement |
+| test_vip.py | 12 | Abonnement VIP : historique du prix, comparaison réservée, alertes en priorité, régions supprimées |
 | test_live_features.py | 19 | Lecture du prix, marchand automatique, assistant de publication, vote en direct, annuaire, mode partage |
 
 ## API REST
@@ -324,11 +344,10 @@ python scripts/api_demo.py      # depuis backend/
 
 16 tables, avec clés étrangères, contraintes CHECK et contraintes d'unicité.
 
-Trois stratégies de clé primaire sont employées :
+Deux stratégies de clé primaire sont employées :
 
 - UUIDv4 pour les entités métier exposées par l'API,
-- code NUTS-1 pour les régions (BE1, BE2, BE3),
-- BigAutoField pour les tables en ajout seul.
+- BigAutoField pour les tables en ajout seul (journal, votes, historique des prix).
 
 Le détail figure dans `database/DATA_DICTIONARY.md` (régénéré par `make dict`).
 

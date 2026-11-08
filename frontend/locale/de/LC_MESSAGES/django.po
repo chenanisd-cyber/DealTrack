@@ -2064,3 +2064,233 @@ msgid "Indiquez le nom du marchand (ou collez le lien de l'offre)."
 msgstr ""
 "Geben Sie den Namen des Händlers an (oder fügen Sie den Link zum Angebot "
 "ein)."
+
+#: templates
+msgid "Historique du prix"
+msgstr "Preisverlauf"
+
+#: templates
+msgid "Évolution du prix"
+msgstr "Preisentwicklung"
+
+#: templates
+msgid "Prix le plus bas relevé"
+msgstr "Niedrigster festgestellter Preis"
+
+#: templates
+msgid "Prix le plus haut relevé"
+msgstr "Höchster festgestellter Preis"
+
+#: templates
+msgid "Relevés"
+msgstr "Messungen"
+
+#: templates
+msgid "Suivi depuis le"
+msgstr "Verfolgt seit"
+
+#: templates
+msgid ""
+"Seuls des prix réellement observés sont affichés : relevé à la publication, "
+"chaque changement de prix et le suivi automatique quotidien."
+msgstr ""
+"Es werden nur tatsächlich beobachtete Preise angezeigt: Messung bei der "
+"Veröffentlichung, jede Preisänderung und die tägliche automatische "
+"Verfolgung."
+
+#: templates
+msgid "Pas encore de relevé de prix pour ce deal."
+msgstr "Noch keine Preismessung für dieses Angebot."
+
+#: templates
+msgid "Comparer ailleurs"
+msgstr "Anderswo vergleichen"
+
+#: templates
+msgid "Offre"
+msgstr "Angebot"
+
+#: templates
+msgid "Prix"
+msgstr "Preis"
+
+#: templates
+msgid "Ce deal"
+msgstr "Dieses Angebot"
+
+#: templates
+msgid "Aucune autre offre pour ce produit sur DealTrack pour l'instant."
+msgstr "Noch kein anderes Angebot für dieses Produkt auf DealTrack."
+
+#: templates
+msgid "Amazon.com.be : aucun résultat pour ce produit."
+msgstr "Amazon.com.be: kein Ergebnis für dieses Produkt."
+
+#: templates
+msgid "Recherche en direct sur Amazon.com.be…"
+msgstr "Live-Suche auf Amazon.com.be…"
+
+#: templates
+msgid "Chercher ce produit chez :"
+msgstr "Dieses Produkt suchen bei:"
+
+#: templates
+msgid "Réservé aux membres VIP"
+msgstr "VIP-Mitgliedern vorbehalten"
+
+#: templates
+msgid "Historique du prix de chaque deal"
+msgstr "Preisverlauf jedes Angebots"
+
+#: templates
+msgid "Comparaison avec d'autres sites"
+msgstr "Vergleich mit anderen Websites"
+
+#: templates
+msgid "Alertes reçues en priorité, avant tout le monde"
+msgstr "Alarme mit Vorrang, vor allen anderen"
+
+#: templates
+msgid "Devenir VIP"
+msgstr "VIP werden"
+
+#: templates
+msgid "Mes alertes"
+msgstr "Meine Alarme"
+
+#: templates
+msgid "Vous recevez vos alertes en priorité, dès la publication du deal."
+msgstr ""
+"Sie erhalten Ihre Alarme mit Vorrang, sobald das Angebot veröffentlicht ist."
+
+#: templates
+msgid "Enregistrer l'alerte"
+msgstr "Alarm speichern"
+
+#: templates
+msgid "Alertes actives"
+msgstr "Aktive Alarme"
+
+#: templates
+msgid "Catégorie"
+msgstr "Kategorie"
+
+#: templates
+msgid "Supprimer"
+msgstr "Löschen"
+
+#: templates
+msgid "Aucune alerte pour l'instant."
+msgstr "Noch keine Alarme."
+
+#: templates
+msgid "Deals trouvés pour vous"
+msgstr "Für Sie gefundene Angebote"
+
+#: templates
+msgid "reçu en priorité"
+msgstr "mit Vorrang erhalten"
+
+#: templates
+msgid "Aucun deal ne correspond encore à vos alertes."
+msgstr "Noch kein Angebot entspricht Ihren Alarmen."
+
+#: templates
+msgid ""
+"Vos alertes arrivent 2 heures après la publication du deal. Les membres VIP "
+"les reçoivent tout de suite."
+msgstr ""
+"Ihre Alarme kommen 2 Stunden nach der Veröffentlichung des Angebots. VIP-"
+"Mitglieder erhalten sie sofort."
+
+#: templates
+msgid "Abonnement VIP"
+msgstr "VIP-Abonnement"
+
+#: templates
+msgid "Ce que vous obtenez"
+msgstr "Was Sie erhalten"
+
+#: templates
+msgid ""
+"le graphique des prix relevés pour chaque deal : vous savez si c'est "
+"vraiment le bon moment pour acheter."
+msgstr ""
+"die Grafik der festgestellten Preise jedes Angebots: Sie wissen, ob jetzt "
+"wirklich der richtige Moment zum Kaufen ist."
+
+#: templates
+msgid ""
+"la même offre chez les autres marchands, une recherche en direct sur "
+"Amazon.com.be et des liens vers Coolblue, bol.com, MediaMarkt et Krëfel."
+msgstr ""
+"dasselbe Angebot bei anderen Händlern, eine Live-Suche auf Amazon.com.be und"
+" Links zu Coolblue, bol.com, MediaMarkt und Krëfel."
+
+#: templates
+msgid "Alertes en priorité"
+msgstr "Alarme mit Vorrang"
+
+#: templates
+msgid ""
+"vous recevez vos alertes dès la publication du deal, 2 heures avant les "
+"autres membres."
+msgstr ""
+"Sie erhalten Ihre Alarme sofort bei Veröffentlichung, 2 Stunden vor den "
+"anderen Mitgliedern."
+
+#: templates
+#, python-format
+msgid "Vous êtes VIP jusqu'au %(date)s. Merci !"
+msgstr "Sie sind VIP bis zum %(date)s. Danke!"
+
+#: templates
+msgid "Compte gratuit"
+msgstr "Kostenloses Konto"
+
+#: templates
+#, python-format
+msgid "Membre VIP jusqu'au %(date)s"
+msgstr "VIP-Mitglied bis zum %(date)s"
+
+#: templates
+msgid "en priorité"
+msgstr "mit Vorrang"
+
+#: templates
+msgid "Vingt alertes au maximum."
+msgstr "Höchstens zwanzig Alarme."
+
+#: templates
+msgid "Alerte enregistrée."
+msgstr "Alarm gespeichert."
+
+#: templates
+msgid "Alerte supprimée."
+msgstr "Alarm gelöscht."
+
+#: templates
+msgid "Toutes les catégories"
+msgstr "Alle Kategorien"
+
+#: templates
+msgid "Relevé à la publication"
+msgstr "Messung bei Veröffentlichung"
+
+#: templates
+msgid "Prix modifié"
+msgstr "Preis geändert"
+
+#: templates
+msgid "Suivi automatique"
+msgstr "Automatische Verfolgung"
+
+#: templates
+#, python-format
+msgid "DealTrack : %(n)d deal(s) pour vos alertes"
+msgstr "DealTrack: %(n)d Angebot(e) für Ihre Alarme"
+
+#: templates
+#, python-format
+msgid "Bonjour %(name)s,"
+msgstr "Hallo %(name)s,"

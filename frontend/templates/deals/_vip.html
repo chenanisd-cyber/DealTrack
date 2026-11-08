@@ -1,0 +1,70 @@
+{% load i18n l10n %}{% comment %}
+  Avantages VIP sur la page d'un deal : historique du prix et comparaison.
+  Un membre non VIP voit l'aperçu verrouillé et l'invitation à s'abonner ;
+  rien n'est calculé pour lui côté serveur (voir deal_detail).
+{% endcomment %}
+<section class="panel vip" id="vip">
+  <h2 class="panel__title"><span class="vipbadge">VIP</span> {% trans "Historique du prix" %}</h2>
+  {% if is_vip %}
+    {% if price_chart %}
+      {# Coordonnées SVG : jamais de virgule décimale à la française (localize off). #}
+      {% localize off %}
+      <svg class="pricechart" viewBox="0 0 {{ price_chart.width }} {{ price_chart.height }}" role="img"
+           aria-label="{% trans 'Évolution du prix' %}">
+        {% if price_chart.reference_y %}
+          <line x1="20" x2="{{ price_chart.width }}" y1="{{ price_chart.reference_y }}" y2="{{ price_chart.reference_y }}" class="pricechart__ref"/>
+          <text x="24" y="{{ price_chart.reference_y }}" dy="-6" class="pricechart__label">{% trans "Référence" %} {{ price_chart.reference|localize }} €</text>
+        {% endif %}
+        <polyline points="{{ price_chart.polyline }}" class="pricechart__line"/>
+        {% for dot in price_chart.dots %}
+          <circle cx="{{ dot.x }}" cy="{{ dot.y }}" r="5" class="pricechart__dot"><title>{{ dot.date|date:"d/m/Y H:i" }} · {{ dot.price|localize }} € · {{ dot.source }}</title></circle>
+        {% endfor %}
+      </svg>
+      {% endlocalize %}
+      <dl class="pricestats">
+        <div><dt>{% trans "Prix le plus bas relevé" %}</dt><dd>{{ price_chart.lowest }} €</dd></div>
+        <div><dt>{% trans "Prix le plus haut relevé" %}</dt><dd>{{ price_chart.highest }} €</dd></div>
+        <div><dt>{% trans "Relevés" %}</dt><dd>{{ price_chart.count }}</dd></div>
+        <div><dt>{% trans "Suivi depuis le" %}</dt><dd>{{ price_chart.since|date:"d/m/Y" }}</dd></div>
+      </dl>
+      <p class="field__hint">{% trans "Seuls des prix réellement observés sont affichés : relevé à la publication, chaque changement de prix et le suivi automatique quotidien." %}</p>
+    {% else %}
+      <p class="meta">{% trans "Pas encore de relevé de prix pour ce deal." %}</p>
+    {% endif %}
+
+    <h2 class="panel__title" style="margin-top:24px"><span class="vipbadge">VIP</span> {% trans "Comparer ailleurs" %}</h2>
+    {% if similar_deals %}
+      <table class="table compare">
+        <thead><tr><th>{% trans "Marchand" %}</th><th>{% trans "Offre" %}</th><th>{% trans "Prix" %}</th></tr></thead>
+        <tbody>
+          <tr class="is-current"><td>{{ deal.merchant.name }}</td><td>{% trans "Ce deal" %}</td><td><strong>{{ deal.price }} €</strong></td></tr>
+          {% for other in similar_deals %}
+          <tr><td>{{ other.merchant.name }}</td><td><a href="{{ other.get_absolute_url }}">{{ other.title_current|truncatechars:70 }}</a></td><td>{{ other.price }} €</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="meta">{% trans "Aucune autre offre pour ce produit sur DealTrack pour l'instant." %}</p>
+    {% endif %}
+    <div class="compare__live" data-compare-url="{% url 'deals:compare' deal.slug %}">
+      <p class="field__hint" data-compare-status data-empty="{% trans 'Amazon.com.be : aucun résultat pour ce produit.' %}">{% trans "Recherche en direct sur Amazon.com.be…" %}</p>
+      <ul class="compare__list" data-compare-list hidden></ul>
+    </div>
+    <p class="field__hint">{% trans "Chercher ce produit chez :" %}
+      {% for link in search_links %}<a href="{{ link.url }}" target="_blank" rel="noopener nofollow">{{ link.site }}</a>{% if not forloop.last %} · {% endif %}{% endfor %}
+    </p>
+  {% else %}
+    <div class="vip__locked">
+      <svg class="pricechart is-blurred" viewBox="0 0 560 120" aria-hidden="true"><polyline points="20,90 120,70 220,80 320,40 420,55 540,30" class="pricechart__line"/></svg>
+      <div class="vip__pitch">
+        <p><strong>{% trans "Réservé aux membres VIP" %}</strong></p>
+        <ul>
+          <li>{% trans "Historique du prix de chaque deal" %}</li>
+          <li>{% trans "Comparaison avec d'autres sites" %}</li>
+          <li>{% trans "Alertes reçues en priorité, avant tout le monde" %}</li>
+        </ul>
+        <a class="cta" href="{% url 'payments:plans' %}">{% trans "Devenir VIP" %}</a>
+      </div>
+    </div>
+  {% endif %}
+</section>

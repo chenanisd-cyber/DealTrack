@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from django.views.decorators.debug import sensitive_post_parameters
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_POST
 
 from apps.moderation.models import AuditLog
 
@@ -113,3 +113,57 @@ def close_account(request):
         return redirect("deals:list")
 
     return render(request, "registration/close_account.html", {"has_payments": has_payments})
+
+
+# --------------------------------------------------------------------------
+# Alertes par mot-clé (les VIP les reçoivent en priorité)
+# --------------------------------------------------------------------------
+MAX_ALERTS = 20
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def alerts(request):
+    from django.utils import timezone
+
+    from apps.deals.models import Alert, AlertMatch
+
+    from .forms import AlertForm
+
+    form = AlertForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        if request.user.alerts.count() >= MAX_ALERTS:
+            messages.error(request, _("Vingt alertes au maximum."))
+        else:
+            Alert.objects.get_or_create(
+                user=request.user,
+                keyword=form.cleaned_data["keyword"],
+                category=form.cleaned_data["category"],
+                defaults={"max_price": form.cleaned_data["max_price"]},
+            )
+            messages.success(request, _("Alerte enregistrée."))
+            return redirect("accounts:alerts")
+
+    # Un membre non VIP ne voit une correspondance qu'une fois son délai écoulé.
+    matches = (
+        AlertMatch.objects.filter(alert__user=request.user, available_at__lte=timezone.now())
+        .select_related("deal", "deal__merchant", "alert")
+        .order_by("-available_at")[:30]
+    )
+    return render(
+        request,
+        "registration/alerts.html",
+        {
+            "form": form,
+            "alerts": request.user.alerts.select_related("category").order_by("-created_at"),
+            "matches": matches,
+        },
+    )
+
+
+@login_required
+@require_POST
+def alert_delete(request, alert_id):
+    request.user.alerts.filter(pk=alert_id).delete()
+    messages.success(request, _("Alerte supprimée."))
+    return redirect("accounts:alerts")

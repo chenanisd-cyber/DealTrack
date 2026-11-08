@@ -65,7 +65,7 @@
   <nav class="catnav" aria-label="{% trans 'Catégories' %}">
     <a href="{% url 'deals:list' %}">{% trans "Tous les deals" %}</a>
     <a href="{% url 'deals:local' %}">{% trans "Commerçants locaux" %}</a>
-    <a href="{% url 'payments:plans' %}">{% trans "Club" %}</a>
+    <a href="{% url 'payments:plans' %}"><span class="vipbadge">VIP</span></a>
   </nav>
 </header>
 
@@ -100,7 +100,7 @@
       <h4>{% trans "Participer" %}</h4>
       <ul>
         <li><a href="{% url 'deals:submit' %}">{% trans "Publier un deal" %}</a></li>
-        <li><a href="{% url 'payments:plans' %}">{% trans "Abonnement Club" %}</a></li>
+        <li><a href="{% url 'payments:plans' %}">{% trans "Abonnement VIP" %}</a></li>
       </ul>
     </div>
     <div>

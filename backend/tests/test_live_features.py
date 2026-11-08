@@ -198,7 +198,6 @@ class SubmissionWizardTests(TestCase):
         self.assertFalse(deal.merchant.is_verified)
         self.assertTrue(deal.is_cross_border)  # hors Belgique : automatique
         self.assertEqual(deal.promo_code, "SWITCH10")
-        self.assertEqual(deal.regions.count(), 3)  # aucune case : toute la Belgique
 
     def test_deuxieme_deal_reutilise_le_meme_marchand(self):
         self.post()

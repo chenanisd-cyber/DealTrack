@@ -33,7 +33,6 @@ class DealAdmin(admin.ModelAdmin):
     list_filter = ("status", "is_cross_border", "language", "category", "merchant__country")
     search_fields = ("title", "description", "merchant__name", "submitted_by__display_name")
     autocomplete_fields = ("merchant", "category", "submitted_by")
-    filter_horizontal = ("regions",)
     readonly_fields = ("temperature", "created_at", "updated_at", "published_at", "deleted_at")
     date_hierarchy = "created_at"
     actions = ("action_publish", "action_reject", "action_soft_delete")
@@ -105,7 +104,7 @@ class VoteAdmin(admin.ModelAdmin):
 
 @admin.register(Alert)
 class AlertAdmin(admin.ModelAdmin):
-    list_display = ("user", "keyword", "region", "category", "max_price", "is_active")
-    list_filter = ("is_active", "region")
+    list_display = ("user", "keyword", "category", "max_price", "is_active")
+    list_filter = ("is_active", "category")
     search_fields = ("keyword", "user__display_name")
-    autocomplete_fields = ("user", "category", "region")
+    autocomplete_fields = ("user", "category")

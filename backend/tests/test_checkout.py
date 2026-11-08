@@ -21,10 +21,10 @@ class CheckoutFlowTests(TestCase):
         cls.member = make_user("membre@example.be", "Membre")
         cls.other = make_user("autre@example.be", "Autre")
         cls.plan = Plan.objects.create(
-            code="club-test",
-            name_fr="Club test",
-            name_nl="Club test",
-            name_de="Club Test",
+            code="vip-test",
+            name_fr="VIP test",
+            name_nl="VIP test",
+            name_de="VIP Test",
             price=Decimal("4.99"),
             vat_rate=Decimal("21.00"),
             duration_days=30,

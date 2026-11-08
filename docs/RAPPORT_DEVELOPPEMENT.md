@@ -130,7 +130,7 @@ domaine dans un seul dossier.
 | Application | Responsabilité | Modèles |
 |---|---|---|
 | `accounts` | comptes, rôles, cycle de vie, RGPD | User |
-| `catalog` | référentiels partagés | Region, Category, CategoryTranslation, Merchant |
+| `catalog` | référentiels partagés | Category, CategoryTranslation, Merchant |
 | `deals` | cœur métier | Deal, DealTranslation, Vote, Comment, Alert |
 | `payments` | monétisation et comptabilité | Plan, Payment, Subscription |
 | `moderation` | traçabilité et contrôle éditorial | AuditLog, ModerationDecision, Report |
@@ -174,9 +174,7 @@ Volumétrie globale : **98 classes, 44 fonctions de module, 267 méthodes**.
 
 | Module | Élément | Rôle |
 |---|---|---|
-| `models.py` | `Region` | Trois régions belges, clé primaire = code NUTS-1 Eurostat |
-| | `Region.label()` / `label_current` | Libellé traduit, langue explicite ou langue active |
-| | `Category` | Arbre de catégories, clé UUID |
+| `models.py` | `Category` | Arbre de catégories, clé UUID |
 | | `Category.label()` | Résolution du libellé avec repli sur le français |
 | | `CategoryTranslation` | Une ligne par langue, unicité (catégorie, langue) |
 | | `Merchant` | Enseigne, avec indicateur d'indépendant belge et TVA validée |
@@ -199,7 +197,9 @@ Volumétrie globale : **98 classes, 44 fonctions de module, 267 méthodes**.
 | | `DealTranslation` | Traduction d'une offre, une ligne par langue |
 | | `Vote.cast()` | Vote transactionnel, mise à jour par `F()` |
 | | `Comment.soft_delete()` | Suppression logique d'un commentaire |
-| | `Alert` | Alerte par mot-clé, région et prix maximum |
+| | `Alert` | Alerte par mot-clé, catégorie et prix maximum |
+| | `AlertMatch` | Deal trouvé pour une alerte ; disponible tout de suite (VIP) ou après 2 h |
+| | `PricePoint` | Historique des prix réellement relevés (abonnement VIP) |
 | `forms.py` | `DealSubmissionForm` | Dépôt d'offre, statut imposé côté serveur |
 | | `CommentForm` | Commentaire avec validation de longueur et de caractères |
 | `views.py` | `deal_list()` | Flux filtrable, filtres validés contre le référentiel |
@@ -293,7 +293,7 @@ POST /deal/<slug>/vote/   (jamais GET)
 **Souscription**
 
 ```
-POST /fr/abonnement/club-annuel/   avec un jeton du prestataire
+POST /fr/abonnement/vip-annuel/   avec un jeton du prestataire
   → purchase_subscription()  @transaction.atomic
       ├─ Payment créé AVANT l'appel externe (statut pending)
       ├─ AuditLog.record(PAYMENT_INITIATED)
@@ -369,7 +369,6 @@ primaire et leur comportement de suppression.
 | **3ᵉ forme normale** | aucune dépendance transitive ; la seule dénormalisation est documentée et recalculable |
 | **ISO 4217** | codes de devise |
 | **ISO 8601** | horodatages, UTC en base |
-| **NUTS-1 Eurostat** | codes de région BE1, BE2, BE3 |
 | **BCP 47** | codes de langue fr, nl, de |
 | **WCAG 2.1 AA** | contrastes vérifiés, libellés de formulaire, navigation au clavier |
 | **HTML5 sémantique** | `header`, `nav`, `main`, `article`, `aside`, `footer` |
@@ -462,12 +461,11 @@ aurait exigé d'assembler cinq bibliothèques et d'en assumer la cohérence.
 Le coût assumé : Django impose ses conventions. Sur un projet à contraintes
 fonctionnelles fortes et à délai contraint, c'est un avantage.
 
-### 6.2 Trois stratégies de clé primaire
+### 6.2 Deux stratégies de clé primaire
 
 | Stratégie | Employée pour | Justification |
 |---|---|---|
 | **UUIDv4** | entités métier exposées par l'API | Invariante : l'e-mail et le pseudonyme changent, l'identifiant non. Non énumérable dans une URL, ce qui ferme la référence directe d'objet. Ne divulgue pas le volume d'inscriptions. Coût : 16 octets au lieu de 8. |
-| **Code naturel** | `Region` (BE1/BE2/BE3) | Référentiel NUTS-1 Eurostat officiel, stable depuis 1988. Une clé technique n'apporterait rien et ajouterait une jointure. |
 | **BigAutoField** | `AuditLog`, `Vote` | Tables en ajout seul où l'ordre d'insertion porte du sens. L'identifiant n'est jamais exposé. Un UUID aléatoire ferait perdre la localité d'index sans contrepartie. |
 
 ### 6.3 Table de traduction plutôt que colonnes par langue
@@ -560,7 +558,7 @@ l'ORM, sinon elle est liée au moteur de développement.
 
 ### 7.2 Appel de méthode avec argument dans un gabarit
 
-**Problème.** `{{ region.label(LANGUAGE_CODE) }}` levait une erreur de syntaxe.
+**Problème.** `{{ category.label(LANGUAGE_CODE) }}` levait une erreur de syntaxe.
 
 **Cause.** Le langage de gabarit Django n'autorise pas les arguments d'appel,
 par conception — c'est ce qui l'empêche de devenir un second langage de

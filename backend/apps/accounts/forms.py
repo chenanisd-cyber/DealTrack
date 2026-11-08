@@ -27,7 +27,7 @@ class RegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ["email", "display_name", "preferred_language", "home_region"]
+        fields = ["email", "display_name", "preferred_language"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -102,8 +102,12 @@ class AlertForm(forms.Form):
             attrs={"class": "input", "placeholder": _("Ex. : machine à café")}
         ),
     )
-    region = forms.ChoiceField(
-        label=_("Région"), required=False, widget=forms.Select(attrs={"class": "select"})
+    category = forms.ModelChoiceField(
+        label=_("Catégorie"),
+        queryset=None,
+        required=False,
+        empty_label=_("Toutes les catégories"),
+        widget=forms.Select(attrs={"class": "select"}),
     )
     max_price = forms.DecimalField(
         label=_("Prix maximum"),
@@ -116,11 +120,10 @@ class AlertForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        from apps.catalog.models import Region
+        from apps.catalog.models import Category
 
-        self.fields["region"].choices = [("", _("Toute la Belgique"))] + [
-            (r.code, r.name_fr) for r in Region.objects.all()
-        ]
+        self.fields["category"].queryset = Category.objects.filter(is_active=True)
+        self.fields["category"].label_from_instance = lambda c: c.label_current
 
     def clean_keyword(self):
         value = self.cleaned_data["keyword"].strip()

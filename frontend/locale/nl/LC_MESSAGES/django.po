@@ -2055,3 +2055,231 @@ msgstr "Het einde moet na het begin liggen."
 #: templates
 msgid "Indiquez le nom du marchand (ou collez le lien de l'offre)."
 msgstr "Vul de naam van de handelaar in (of plak de link van de aanbieding)."
+
+#: templates
+msgid "Historique du prix"
+msgstr "Prijsgeschiedenis"
+
+#: templates
+msgid "Évolution du prix"
+msgstr "Prijsevolutie"
+
+#: templates
+msgid "Prix le plus bas relevé"
+msgstr "Laagste vastgestelde prijs"
+
+#: templates
+msgid "Prix le plus haut relevé"
+msgstr "Hoogste vastgestelde prijs"
+
+#: templates
+msgid "Relevés"
+msgstr "Metingen"
+
+#: templates
+msgid "Suivi depuis le"
+msgstr "Gevolgd sinds"
+
+#: templates
+msgid ""
+"Seuls des prix réellement observés sont affichés : relevé à la publication, "
+"chaque changement de prix et le suivi automatique quotidien."
+msgstr ""
+"Alleen echt waargenomen prijzen worden getoond: meting bij publicatie, elke "
+"prijswijziging en de dagelijkse automatische opvolging."
+
+#: templates
+msgid "Pas encore de relevé de prix pour ce deal."
+msgstr "Nog geen prijsmeting voor deze deal."
+
+#: templates
+msgid "Comparer ailleurs"
+msgstr "Elders vergelijken"
+
+#: templates
+msgid "Offre"
+msgstr "Aanbieding"
+
+#: templates
+msgid "Prix"
+msgstr "Prijs"
+
+#: templates
+msgid "Ce deal"
+msgstr "Deze deal"
+
+#: templates
+msgid "Aucune autre offre pour ce produit sur DealTrack pour l'instant."
+msgstr "Nog geen andere aanbieding voor dit product op DealTrack."
+
+#: templates
+msgid "Amazon.com.be : aucun résultat pour ce produit."
+msgstr "Amazon.com.be: geen resultaat voor dit product."
+
+#: templates
+msgid "Recherche en direct sur Amazon.com.be…"
+msgstr "Live zoeken op Amazon.com.be…"
+
+#: templates
+msgid "Chercher ce produit chez :"
+msgstr "Zoek dit product bij:"
+
+#: templates
+msgid "Réservé aux membres VIP"
+msgstr "Voorbehouden aan VIP-leden"
+
+#: templates
+msgid "Historique du prix de chaque deal"
+msgstr "Prijsgeschiedenis van elke deal"
+
+#: templates
+msgid "Comparaison avec d'autres sites"
+msgstr "Vergelijking met andere sites"
+
+#: templates
+msgid "Alertes reçues en priorité, avant tout le monde"
+msgstr "Alerts met voorrang, voor iedereen"
+
+#: templates
+msgid "Devenir VIP"
+msgstr "VIP worden"
+
+#: templates
+msgid "Mes alertes"
+msgstr "Mijn alerts"
+
+#: templates
+msgid "Vous recevez vos alertes en priorité, dès la publication du deal."
+msgstr "Je ontvangt je alerts met voorrang, zodra de deal gepubliceerd is."
+
+#: templates
+msgid "Enregistrer l'alerte"
+msgstr "Alert opslaan"
+
+#: templates
+msgid "Alertes actives"
+msgstr "Actieve alerts"
+
+#: templates
+msgid "Catégorie"
+msgstr "Categorie"
+
+#: templates
+msgid "Supprimer"
+msgstr "Verwijderen"
+
+#: templates
+msgid "Aucune alerte pour l'instant."
+msgstr "Nog geen alerts."
+
+#: templates
+msgid "Deals trouvés pour vous"
+msgstr "Deals voor jou gevonden"
+
+#: templates
+msgid "reçu en priorité"
+msgstr "met voorrang ontvangen"
+
+#: templates
+msgid "Aucun deal ne correspond encore à vos alertes."
+msgstr "Nog geen deal komt overeen met je alerts."
+
+#: templates
+msgid ""
+"Vos alertes arrivent 2 heures après la publication du deal. Les membres VIP "
+"les reçoivent tout de suite."
+msgstr ""
+"Je alerts komen 2 uur na de publicatie van de deal. VIP-leden ontvangen ze "
+"meteen."
+
+#: templates
+msgid "Abonnement VIP"
+msgstr "VIP-abonnement"
+
+#: templates
+msgid "Ce que vous obtenez"
+msgstr "Wat je krijgt"
+
+#: templates
+msgid ""
+"le graphique des prix relevés pour chaque deal : vous savez si c'est "
+"vraiment le bon moment pour acheter."
+msgstr ""
+"de grafiek van de vastgestelde prijzen per deal: je weet of het echt het "
+"goede moment is om te kopen."
+
+#: templates
+msgid ""
+"la même offre chez les autres marchands, une recherche en direct sur "
+"Amazon.com.be et des liens vers Coolblue, bol.com, MediaMarkt et Krëfel."
+msgstr ""
+"dezelfde aanbieding bij andere handelaars, live zoeken op Amazon.com.be en "
+"links naar Coolblue, bol.com, MediaMarkt en Krëfel."
+
+#: templates
+msgid "Alertes en priorité"
+msgstr "Alerts met voorrang"
+
+#: templates
+msgid ""
+"vous recevez vos alertes dès la publication du deal, 2 heures avant les "
+"autres membres."
+msgstr ""
+"je ontvangt je alerts zodra de deal gepubliceerd is, 2 uur voor de andere "
+"leden."
+
+#: templates
+#, python-format
+msgid "Vous êtes VIP jusqu'au %(date)s. Merci !"
+msgstr "Je bent VIP tot %(date)s. Bedankt!"
+
+#: templates
+msgid "Compte gratuit"
+msgstr "Gratis account"
+
+#: templates
+#, python-format
+msgid "Membre VIP jusqu'au %(date)s"
+msgstr "VIP-lid tot %(date)s"
+
+#: templates
+msgid "en priorité"
+msgstr "met voorrang"
+
+#: templates
+msgid "Vingt alertes au maximum."
+msgstr "Maximaal twintig alerts."
+
+#: templates
+msgid "Alerte enregistrée."
+msgstr "Alert opgeslagen."
+
+#: templates
+msgid "Alerte supprimée."
+msgstr "Alert verwijderd."
+
+#: templates
+msgid "Toutes les catégories"
+msgstr "Alle categorieën"
+
+#: templates
+msgid "Relevé à la publication"
+msgstr "Meting bij publicatie"
+
+#: templates
+msgid "Prix modifié"
+msgstr "Prijs gewijzigd"
+
+#: templates
+msgid "Suivi automatique"
+msgstr "Automatische opvolging"
+
+#: templates
+#, python-format
+msgid "DealTrack : %(n)d deal(s) pour vos alertes"
+msgstr "DealTrack: %(n)d deal(s) voor je alerts"
+
+#: templates
+#, python-format
+msgid "Bonjour %(name)s,"
+msgstr "Hallo %(name)s,"

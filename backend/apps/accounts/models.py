@@ -17,6 +17,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.core.validators import MinLengthValidator, RegexValidator
 from django.db import models
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 
@@ -97,15 +98,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         choices=settings.LANGUAGES,
         default="fr",
     )
-    home_region = models.ForeignKey(
-        "catalog.Region",
-        verbose_name=_("région"),
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-        related_name="residents",
-        help_text=_("Sert à trier les deals de proximité. Facultatif."),
-    )
 
     is_active = models.BooleanField(_("actif"), default=True)
     is_staff = models.BooleanField(_("accès au back-office"), default=False)
@@ -170,6 +162,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_deleted(self):
         return self.deleted_at is not None
 
+    @cached_property
+    def is_vip(self):
+        """Abonnement VIP actif : historique des prix, comparaison, alertes en priorité."""
+        return self.subscriptions.filter(status="active", ends_at__gt=timezone.now()).exists()
+
+    @cached_property
+    def vip_until(self):
+        sub = (
+            self.subscriptions.filter(status="active", ends_at__gt=timezone.now())
+            .order_by("-ends_at")
+            .first()
+        )
+        return sub.ends_at if sub else None
+
     # -- Désinscription -------------------------------------------------
     def soft_delete(self, *, reason="", actor=None):
         """
@@ -212,7 +218,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         token = str(self.pk)[:8]
         self.email = f"anonyme-{token}@{settings.ANONYMISED_EMAIL_DOMAIN}"
         self.display_name = f"membre-supprimé-{token}"
-        self.home_region = None
         self.marketing_consent = False
         self.anonymised_at = timezone.now()
         self.set_unusable_password()
@@ -220,7 +225,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             update_fields=[
                 "email",
                 "display_name",
-                "home_region",
                 "marketing_consent",
                 "anonymised_at",
                 "password",
@@ -244,7 +248,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             "email": self.email,
             "pseudonyme": self.display_name,
             "langue": self.preferred_language,
-            "region": self.home_region.code if self.home_region else None,
             "inscrit_le": self.date_joined.isoformat(),
             "consentement_marketing": self.marketing_consent,
             "deals_publies": [

@@ -3,7 +3,7 @@ Volume du jeu de démonstration : au moins 100 lignes par table métier.
 
 Exigence du dossier (« DUMP de la base de données ») : de vraies données de
 test, pas de lorem ipsum, 100 lignes minimum par table sauf les tables
-naturellement limitées (régions, catégories, formules d'abonnement).
+naturellement limitées (catégories, formules d'abonnement).
 
 D'où viennent les données ?
 - Offres : 117 vraies promotions relevées sur coolblue.be le 7 novembre 2026
@@ -157,8 +157,8 @@ LAST_NAMES = {
     ],
     "de": ["Schmitz", "Kessler", "Lentz", "Heinen", "Mreyen", "Cremer", "Pauels", "Brüls"],
 }
-# (langue, nombre de membres, régions possibles)
-MEMBER_GROUPS = [("fr", 50, ["BE1", "BE3"]), ("nl", 45, ["BE2", "BE1"]), ("de", 15, ["BE3"])]
+# (langue, nombre de membres)
+MEMBER_GROUPS = [("fr", 50), ("nl", 45), ("de", 15)]
 
 
 def _ascii(text):
@@ -167,11 +167,11 @@ def _ascii(text):
     )
 
 
-def members(regions):
+def members():
     """110 membres supplémentaires, créés une seule fois (clé : l'adresse e-mail)."""
     password_hash = make_password(PASSWORD)  # haché une fois : Argon2 est lent exprès
     created_users, number = [], 0
-    for language, count, region_codes in MEMBER_GROUPS:
+    for language, count in MEMBER_GROUPS:
         firsts, lasts = FIRST_NAMES[language], LAST_NAMES[language]
         for i in range(count):
             number += 1
@@ -183,7 +183,6 @@ def members(regions):
                 defaults={
                     "display_name": _ascii(f"{first}{last.replace(' ', '')[:3]}{number}"),
                     "preferred_language": language,
-                    "home_region": regions[region_codes[i % len(region_codes)]],
                     "role": Role.MEMBER,
                     "password": password_hash,
                     "accepted_terms_at": timezone.now()
@@ -266,11 +265,10 @@ def _money(value):
     return whole if cents == "00" else f"{whole},{cents}"
 
 
-def coolblue_deals(*, categories, regions, members_pool, moderator):
+def coolblue_deals(*, categories, members_pool, moderator):
     """Crée les offres relevées sur Coolblue, leurs traductions, photos et décisions."""
     coolblue = Merchant.objects.get(slug="coolblue")
     items = json.loads((DATA / "coolblue.json").read_text(encoding="utf-8"))
-    all_regions = list(regions.values())
     now = timezone.now()
     # Une offre déjà présente dans la sélection rédigée à la main (DEALS de
     # seed_demo) garde son texte soigné : on ne l'écrase pas par le gabarit.
@@ -313,7 +311,6 @@ def coolblue_deals(*, categories, regions, members_pool, moderator):
                 "starts_at": published or now,
             },
         )
-        deal.regions.set(all_regions)
         for lang in ("nl", "de"):
             DealTranslation.objects.update_or_create(
                 deal=deal,
@@ -481,8 +478,7 @@ ALERT_KEYWORDS = [
 ]
 
 
-def alerts(members_pool, categories, regions):
-    region_list = list(regions.values())
+def alerts(members_pool, categories):
     count = 0
     for user in members_pool:
         for keyword, category, max_price in random.sample(
@@ -493,7 +489,6 @@ def alerts(members_pool, categories, regions):
                 keyword=keyword,
                 defaults={
                     "category": categories.get(category) if category else None,
-                    "region": random.choice(region_list) if random.random() < 0.5 else None,
                     "max_price": Decimal(max_price) if max_price else None,
                     "is_active": random.random() < 0.85,
                 },
@@ -504,7 +499,7 @@ def alerts(members_pool, categories, regions):
 
 # -- Paiements et abonnements -------------------------------------------------------
 def payments(members_pool):
-    plans = list(Plan.objects.filter(code__in=["club-annuel", "club-mensuel"]))
+    plans = list(Plan.objects.filter(code__in=["vip-annuel", "vip-mensuel"]))
     brands = ["visa", "mastercard", "bancontact"]
     count = 0
     for index, user in enumerate(members_pool):
@@ -627,3 +622,36 @@ def audit_trail(users, deals):
         add(action, payment.user, payment_type, payment.pk, reference=payment.reference)
     AuditLog.objects.bulk_create(entries)
     return len(entries)
+
+
+# -- Alertes déclenchées (VIP en priorité) ---------------------------------------------
+def alert_matches(deals):
+    """
+    Rejoue la distribution des alertes pour les offres publiées : le VIP reçoit
+    l'alerte à la publication, les autres membres ALERT_DELAY plus tard.
+    """
+    from apps.deals.models import AlertMatch
+    from apps.deals.vip import ALERT_DELAY
+    from apps.deals.vip import alert_matches as find
+
+    alerts = list(Alert.objects.filter(is_active=True).select_related("user"))
+    now, count = timezone.now(), 0
+    for deal in deals:
+        if deal.status != DealStatus.PUBLISHED or not deal.published_at:
+            continue
+        for alert in find(deal, alerts):
+            if alert.user_id == deal.submitted_by_id:
+                continue
+            vip = alert.user.is_vip
+            available = deal.published_at if vip else deal.published_at + ALERT_DELAY
+            _, created = AlertMatch.objects.get_or_create(
+                alert=alert,
+                deal=deal,
+                defaults={
+                    "available_at": available,
+                    "is_priority": vip,
+                    "notified_at": available if available <= now else None,
+                },
+            )
+            count += created
+    return count

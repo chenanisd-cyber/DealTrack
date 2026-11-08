@@ -2,15 +2,6 @@
 {% block title %}{% trans "Les meilleurs bons plans en Belgique" %} — DealTrack.be{% endblock %}
 
 {% block content %}
-<div class="regionbar" role="group" aria-label="{% trans 'Filtrer par région' %}">
-  <span class="regionbar__label">{% trans "Région" %}</span>
-  <a class="chip" href="?" aria-pressed="{% if not current_region %}true{% else %}false{% endif %}">{% trans "Toute la Belgique" %}</a>
-  {% for region in regions %}
-    <a class="chip" href="?region={{ region.code }}"
-       aria-pressed="{% if current_region == region.code %}true{% else %}false{% endif %}">{{ region.label_current }}</a>
-  {% endfor %}
-</div>
-
 <div class="tabs" role="tablist">
   <a class="tab" href="?tri=hot" aria-selected="{% if current_sort == 'hot' %}true{% else %}false{% endif %}">{% trans "Tendance" %}</a>
   <a class="tab" href="?tri=new" aria-selected="{% if current_sort == 'new' %}true{% else %}false{% endif %}">{% trans "Nouveaux" %}</a>
@@ -103,9 +94,9 @@
 
     <section class="panel alertbox">
       <h2 class="panel__title">{% trans "Créer une alerte" %}</h2>
-      <p>{% trans "Recevez un e-mail dès qu'un deal correspond à vos critères." %}</p>
+      <p>{% trans "Recevez un e-mail dès qu'un deal correspond à vos critères." %} <span class="vipbadge">VIP</span> {% trans "en priorité" %}</p>
       {% if user.is_authenticated %}
-        <a class="cta is-block" href="{% url 'accounts:profile' %}">{% trans "Gérer mes alertes" %}</a>
+        <a class="cta is-block" href="{% url 'accounts:alerts' %}">{% trans "Gérer mes alertes" %}</a>
       {% else %}
         <a class="cta is-block" href="{% url 'accounts:register' %}">{% trans "Créer un compte" %}</a>
       {% endif %}

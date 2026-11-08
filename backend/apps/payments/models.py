@@ -1,5 +1,5 @@
 """
-Paiement de l'abonnement « Club ».
+Paiement de l'abonnement « VIP ».
 
 Le point structurant : Payment.user est en on_delete=PROTECT. Supprimer un
 membre qui a payé lève ProtectedError, et c'est le comportement recherché —
@@ -169,7 +169,7 @@ class Payment(models.Model):
 
 
 class Subscription(models.Model):
-    """Adhésion Club active, dérivée d'un paiement abouti."""
+    """Adhésion VIP active, dérivée d'un paiement abouti."""
 
     class Status(models.TextChoices):
         ACTIVE = "active", _("Active")

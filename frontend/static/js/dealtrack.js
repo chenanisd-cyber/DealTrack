@@ -109,6 +109,34 @@
     });
   });
 
+  // -- VIP : comparaison en direct (Amazon.com.be), chargée après la page ------
+  var live = document.querySelector("[data-compare-url]");
+  if (live) {
+    fetch(live.dataset.compareUrl, { credentials: "same-origin", cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : { amazon: [] }; })
+      .then(function (data) {
+        var status = live.querySelector("[data-compare-status]");
+        var list = live.querySelector("[data-compare-list]");
+        var offers = data.amazon || [];
+        if (!offers.length) { status.textContent = status.dataset.empty || "Amazon.com.be : aucun résultat."; return; }
+        status.hidden = true;
+        offers.forEach(function (offer) {
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.href = offer.url; a.target = "_blank"; a.rel = "noopener nofollow";
+          a.textContent = offer.title;
+          var price = document.createElement("strong");
+          price.textContent = " " + offer.price.replace(".", ",") + " € ";
+          var site = document.createElement("span");
+          site.className = "meta"; site.textContent = "Amazon.com.be";
+          li.appendChild(site); li.appendChild(price); li.appendChild(a);
+          list.appendChild(li);
+        });
+        list.hidden = false;
+      })
+      .catch(function () {});
+  }
+
   // Le bouton « Partager » natif n'apparaît que si le navigateur le permet.
   if (navigator.share) {
     document.querySelectorAll('[data-share="native"]').forEach(function (b) { b.hidden = false; });
