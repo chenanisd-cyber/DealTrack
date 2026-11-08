@@ -306,7 +306,7 @@ python scripts/api_demo.py      # depuis backend/
 | audit_report --days 30 | Produit le rapport d'audit d'activité |
 | data_dictionary | Régénère le dictionnaire de données |
 | import_local_merchants --area … | Importe des commerçants indépendants depuis OpenStreetMap |
-| export_dump | Exporte le DUMP SQL complet (structure + données) dans `database/` |
+| export_dump | Exporte le DUMP SQL complet (structure + données) : SQLite, ou MySQL avec `--settings=config.settings.mysql` |
 
 ## Sécurité
 

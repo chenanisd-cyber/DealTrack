@@ -6,7 +6,8 @@
 | `media/` | Photos d'offres et logos de marchands envoyés par les utilisateurs (**non versionné**) |
 | `docker-compose.yml` | PostgreSQL 16 local, pour tester dans les conditions de production |
 | `DATA_DICTIONARY.md` | Dictionnaire de données : tables, colonnes, types, contraintes |
-| `dump_dealtrack.sql` | **DUMP SQL complet** : structure + données (100 lignes minimum par table) |
+| `dump_dealtrack_mysql.sql` | **DUMP MySQL** (phpMyAdmin) : structure + données, 100 lignes minimum par table |
+| `dump_dealtrack.sql` | Même DUMP au format SQLite (base de développement) |
 
 ## DUMP SQL
 
@@ -33,6 +34,35 @@ Recharger le dump dans une base vierge :
 ```bash
 sqlite3 nouvelle_base.sqlite3 < database/dump_dealtrack.sql
 ```
+
+### Version MySQL (phpMyAdmin)
+
+`dump_dealtrack_mysql.sql` contient exactement les mêmes tables et données,
+avec les types natifs MySQL 8 (`decimal(10,2)`, `datetime(6)`, `utf8mb4`) :
+31 tables, 39 clés étrangères nommées (`CONSTRAINT … FOREIGN KEY`), 78 index
+et 25 contraintes `CHECK`. Import : phpMyAdmin → créer une base `dealtrack`
+(interclassement `utf8mb4_unicode_ci`) → onglet **Importer** → choisir le
+fichier. En ligne de commande :
+
+```bash
+mysql -u root -p dealtrack < database/dump_dealtrack_mysql.sql
+```
+
+Il a été produit avec les mêmes modèles et migrations, ce qui montre que le
+projet est indépendant du moteur (ORM Django) :
+
+```bash
+cd backend
+pip install mysqlclient==2.2.7                      # pilote MySQL (facultatif, hors requirements)
+set MYSQL_OPTION_FILE=C:\chemin\vers\client.cnf   # identifiants MySQL, hors Git
+python manage.py migrate --settings=config.settings.mysql
+python manage.py seed_demo --settings=config.settings.mysql
+python manage.py setup_roles --settings=config.settings.mysql
+python manage.py export_dump --settings=config.settings.mysql --output ../database/dump_dealtrack_mysql.sql
+```
+
+Vérification : réimporté dans une base MySQL vierge, chaque table retrouve
+exactement son nombre de lignes et ses 39 clés étrangères.
 
 **Volume** : au moins 100 lignes par table métier, sauf les tables
 naturellement limitées (3 régions, 6 catégories × 3 langues, 2 formules
