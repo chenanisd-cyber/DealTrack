@@ -45,3 +45,6 @@ EMAIL_PORT = int(env("EMAIL_PORT", "587"))
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", "")
+
+# Paiement réel : une clé Stripe « live » est acceptée uniquement ici.
+STRIPE_ALLOW_LIVE = True

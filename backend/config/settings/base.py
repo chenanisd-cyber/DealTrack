@@ -23,6 +23,26 @@ FRONTEND_DIR = PROJECT_DIR / "frontend"
 DATABASE_DIR = PROJECT_DIR / "database"
 
 
+# Clés du prestataire de paiement lues depuis le fichier .env à la racine du
+# dépôt (ignoré par git). Seules ces variables sont chargées : un .env copié en
+# entier depuis .env.example ne peut pas changer DEBUG ni les hôtes autorisés.
+DOTENV_KEYS = ("PAYMENT_GATEWAY", "STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET")
+
+
+def load_dotenv(path, keys=DOTENV_KEYS):
+    if not path.is_file():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        name, sep, value = line.strip().partition("=")
+        name = name.strip()
+        if sep and name in keys and not name.startswith("#"):
+            # Une variable déjà définie dans Windows l'emporte sur le fichier.
+            os.environ.setdefault(name, value.strip().strip("\"'"))
+
+
+load_dotenv(PROJECT_DIR / ".env")
+
+
 def env(name, default=None, required=False):
     value = os.environ.get(name, default)
     if required and not value:
@@ -265,6 +285,9 @@ SIMPLE_JWT = {
 # le client obtient un jeton côté prestataire, nous ne voyons que ce jeton.
 PAYMENT_GATEWAY = env("PAYMENT_GATEWAY", "sandbox")
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY", "")
+# Une clé « live » (vrai argent) n'est acceptée qu'en production (prod.py).
+# En développement et en démonstration, seules les clés de test sk_test_… passent.
+STRIPE_ALLOW_LIVE = False
 STRIPE_WEBHOOK_SECRET = env("STRIPE_WEBHOOK_SECRET", "")
 
 # --------------------------------------------------------------------------

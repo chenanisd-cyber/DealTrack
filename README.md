@@ -238,9 +238,23 @@ démarrage immédiat (art. VI.53 CDE).
 
 - **Sans clés Stripe** (`PAYMENT_GATEWAY=sandbox`, par défaut) : une page de
   paiement de démonstration remplace celle de Stripe.
-- **Avec Stripe en mode test** : créez un compte Stripe, puis dans `.env` :
-  `PAYMENT_GATEWAY=stripe`, `STRIPE_SECRET_KEY=sk_test_…`,
-  `STRIPE_WEBHOOK_SECRET=whsec_…`. Carte de test : 4242 4242 4242 4242.
+- **Avec Stripe en mode test** : créez un compte Stripe, puis créez un fichier
+  `.env` à la racine du dépôt (ignoré par git) :
+
+  ```
+  PAYMENT_GATEWAY=stripe
+  STRIPE_SECRET_KEY=sk_test_…
+  ```
+
+  Seules `PAYMENT_GATEWAY`, `STRIPE_SECRET_KEY` et `STRIPE_WEBHOOK_SECRET` sont
+  lues dans ce fichier. Carte de test : 4242 4242 4242 4242 ; Bancontact
+  s'active dans le tableau de bord Stripe (Paramètres → Moyens de paiement).
+- **Clé « live » refusée hors production** : une clé `sk_live_…` (vrai argent)
+  n'est acceptée qu'avec `config.settings.prod`. En démonstration, aucun débit
+  réel n'est possible par erreur.
+- **Webhook** (facultatif en démonstration, le retour sur le site suffit) :
+  `https://<site>/fr/abonnement/webhook/stripe/`, événement
+  `checkout.session.completed`, secret `whsec_…` dans `STRIPE_WEBHOOK_SECRET`.
 
 ## Partager le site (lien WhatsApp)
 
@@ -285,7 +299,7 @@ change à chaque lancement. `cloudflared.exe` est attendu dans `.tools/`
 python manage.py test tests --settings=config.settings.test
 ```
 
-193 tests, répartis en dix fichiers dans `backend/tests/` :
+197 tests, répartis en dix fichiers dans `backend/tests/` :
 
 | Fichier | Tests | Contenu |
 |---|---|---|
@@ -294,7 +308,7 @@ python manage.py test tests --settings=config.settings.test
 | test_scraper.py | 11 | Protection SSRF du pré-remplissage par lien, limite d'appels, affichage des erreurs |
 | test_images.py | 13 | Validation des photos envoyées, priorité photo / image externe / vignette du marchand |
 | test_comments.py | 5 | Commentaires traduits selon la langue de la page, repli sur l'original |
-| test_checkout.py | 8 | Paiement hébergé : parcours, fraude au retour, idempotence, webhook |
+| test_checkout.py | 12 | Paiement hébergé : parcours, fraude au retour, idempotence, webhook, Stripe Checkout (simulé), clé live refusée, fichier .env |
 | test_dump.py | 4 | DUMP SQL : structure, clés, contraintes, sessions exclues, rechargement |
 | test_home.py | 6 | Bannière Black November / Black December selon le mois, titres des onglets, tri gardé à la page suivante, publicités sans script tiers |
 | test_vip.py | 14 | Abonnement VIP : historique du prix, graphique, comparaison réservée, alertes en priorité, régions supprimées |

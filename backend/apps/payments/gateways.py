@@ -216,6 +216,13 @@ class StripeGateway(StripeCheckoutMixin, BaseGateway):
             raise PaymentError(
                 "STRIPE_SECRET_KEY absent de l'environnement.", code="gateway_misconfigured"
             )
+        live = settings.STRIPE_SECRET_KEY.startswith(("sk_live_", "rk_live_"))
+        if live and not getattr(settings, "STRIPE_ALLOW_LIVE", False):
+            # Démo, partage, développement : jamais de vrai débit par erreur.
+            raise PaymentError(
+                "Clé Stripe « live » refusée hors production : utilisez une clé sk_test_.",
+                code="gateway_live_key_refused",
+            )
         try:
             import stripe
         except ImportError as exc:
