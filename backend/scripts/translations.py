@@ -478,6 +478,25 @@ NL = {
     "Bonjour %(name)s,": "Hallo %(name)s,",
     # -- Graphique VIP --
     "Prix inchangé depuis la publication. La courbe se dessine à chaque changement de prix.": "Prijs ongewijzigd sinds de publicatie. De curve verschijnt bij elke prijswijziging.",
+    # -- Accueil : bannière, onglets, publicités --
+    "Le mois des bons plans, c'est maintenant !": "De maand van de koopjes is begonnen!",
+    "Les meilleurs prix pour les cadeaux des fêtes.": "De beste prijzen voor je feestcadeaus.",
+    "Offres populaires": "Populaire aanbiedingen",
+    "Sélection des meilleures offres du moment": "Selectie van de beste aanbiedingen van het moment",
+    "Nouveaux deals": "Nieuwe deals",
+    "Les dernières offres publiées par la communauté": "De nieuwste aanbiedingen van de community",
+    "Petits prix": "Lage prijzen",
+    "Les offres les moins chères en premier": "De goedkoopste aanbiedingen eerst",
+    "Trier les deals": "Deals sorteren",
+    "Publicité": "Advertentie",
+    "Partagez": "Deel",
+    "Vous avez trouvé un bon plan ?": "Een koopje gevonden?",
+    "Collez le lien, DealTrack remplit le reste.": "Plak de link, DealTrack vult de rest in.",
+    "Achetez au meilleur moment": "Koop op het beste moment",
+    "Alertes en premier": "Als eerste alerts",
+    "Ne manquez plus les commerçants de votre ville": "Mis de handelaars in je stad niet meer",
+    "Boulangeries, librairies, vélos : les indépendants belges et leurs offres.": "Bakkers, boekhandels, fietsen: de Belgische zelfstandigen en hun aanbiedingen.",
+    "Voir les commerçants locaux": "Lokale handelaars bekijken",
 }
 
 DE = {
@@ -953,6 +972,25 @@ DE = {
     "Bonjour %(name)s,": "Hallo %(name)s,",
     # -- Graphique VIP --
     "Prix inchangé depuis la publication. La courbe se dessine à chaque changement de prix.": "Preis seit der Veröffentlichung unverändert. Die Kurve entsteht bei jeder Preisänderung.",
+    # -- Accueil : bannière, onglets, publicités --
+    "Le mois des bons plans, c'est maintenant !": "Der Monat der Schnäppchen ist da!",
+    "Les meilleurs prix pour les cadeaux des fêtes.": "Die besten Preise für Ihre Festtagsgeschenke.",
+    "Offres populaires": "Beliebte Angebote",
+    "Sélection des meilleures offres du moment": "Auswahl der besten Angebote des Augenblicks",
+    "Nouveaux deals": "Neue Angebote",
+    "Les dernières offres publiées par la communauté": "Die neuesten Angebote der Community",
+    "Petits prix": "Kleine Preise",
+    "Les offres les moins chères en premier": "Die günstigsten Angebote zuerst",
+    "Trier les deals": "Angebote sortieren",
+    "Publicité": "Werbung",
+    "Partagez": "Teilen Sie",
+    "Vous avez trouvé un bon plan ?": "Ein Schnäppchen gefunden?",
+    "Collez le lien, DealTrack remplit le reste.": "Link einfügen, DealTrack füllt den Rest aus.",
+    "Achetez au meilleur moment": "Kaufen Sie im besten Moment",
+    "Alertes en premier": "Alarme zuerst",
+    "Ne manquez plus les commerçants de votre ville": "Verpassen Sie nicht mehr die Händler Ihrer Stadt",
+    "Boulangeries, librairies, vélos : les indépendants belges et leurs offres.": "Bäckereien, Buchhandlungen, Fahrräder: die belgischen Selbstständigen und ihre Angebote.",
+    "Voir les commerçants locaux": "Lokale Händler ansehen",
 }
 
 CATALOGUES = {"nl": NL, "de": DE}

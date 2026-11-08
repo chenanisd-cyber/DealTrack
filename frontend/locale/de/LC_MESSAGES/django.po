@@ -1059,7 +1059,7 @@ msgstr "Mitmachen"
 #: templates/base.html:102 templates/deals/submit.html:2
 #: templates/deals/submit.html:5
 msgid "Publier un deal"
-msgstr "Einen Deal veröffentlichen"
+msgstr "Angebot veröffentlichen"
 
 #: templates/base.html:103 templates/payments/plans.html:2
 #: templates/payments/plans.html:5
@@ -2302,3 +2302,78 @@ msgid ""
 msgstr ""
 "Preis seit der Veröffentlichung unverändert. Die Kurve entsteht bei jeder "
 "Preisänderung."
+
+#: templates
+msgid "Le mois des bons plans, c'est maintenant !"
+msgstr "Der Monat der Schnäppchen ist da!"
+
+#: templates
+msgid "Les meilleurs prix pour les cadeaux des fêtes."
+msgstr "Die besten Preise für Ihre Festtagsgeschenke."
+
+#: templates
+msgid "Offres populaires"
+msgstr "Beliebte Angebote"
+
+#: templates
+msgid "Sélection des meilleures offres du moment"
+msgstr "Auswahl der besten Angebote des Augenblicks"
+
+#: templates
+msgid "Nouveaux deals"
+msgstr "Neue Angebote"
+
+#: templates
+msgid "Les dernières offres publiées par la communauté"
+msgstr "Die neuesten Angebote der Community"
+
+#: templates
+msgid "Petits prix"
+msgstr "Kleine Preise"
+
+#: templates
+msgid "Les offres les moins chères en premier"
+msgstr "Die günstigsten Angebote zuerst"
+
+#: templates
+msgid "Trier les deals"
+msgstr "Angebote sortieren"
+
+#: templates
+msgid "Publicité"
+msgstr "Werbung"
+
+#: templates
+msgid "Partagez"
+msgstr "Teilen Sie"
+
+#: templates
+msgid "Vous avez trouvé un bon plan ?"
+msgstr "Ein Schnäppchen gefunden?"
+
+#: templates
+msgid "Collez le lien, DealTrack remplit le reste."
+msgstr "Link einfügen, DealTrack füllt den Rest aus."
+
+#: templates
+msgid "Achetez au meilleur moment"
+msgstr "Kaufen Sie im besten Moment"
+
+#: templates
+msgid "Alertes en premier"
+msgstr "Alarme zuerst"
+
+#: templates
+msgid "Ne manquez plus les commerçants de votre ville"
+msgstr "Verpassen Sie nicht mehr die Händler Ihrer Stadt"
+
+#: templates
+msgid ""
+"Boulangeries, librairies, vélos : les indépendants belges et leurs offres."
+msgstr ""
+"Bäckereien, Buchhandlungen, Fahrräder: die belgischen Selbstständigen und "
+"ihre Angebote."
+
+#: templates
+msgid "Voir les commerçants locaux"
+msgstr "Lokale Händler ansehen"

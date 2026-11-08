@@ -1058,7 +1058,7 @@ msgstr "Deelnemen"
 #: templates/base.html:102 templates/deals/submit.html:2
 #: templates/deals/submit.html:5
 msgid "Publier un deal"
-msgstr "Een deal plaatsen"
+msgstr "Deal plaatsen"
 
 #: templates/base.html:103 templates/payments/plans.html:2
 #: templates/payments/plans.html:5
@@ -2291,3 +2291,78 @@ msgid ""
 msgstr ""
 "Prijs ongewijzigd sinds de publicatie. De curve verschijnt bij elke "
 "prijswijziging."
+
+#: templates
+msgid "Le mois des bons plans, c'est maintenant !"
+msgstr "De maand van de koopjes is begonnen!"
+
+#: templates
+msgid "Les meilleurs prix pour les cadeaux des fêtes."
+msgstr "De beste prijzen voor je feestcadeaus."
+
+#: templates
+msgid "Offres populaires"
+msgstr "Populaire aanbiedingen"
+
+#: templates
+msgid "Sélection des meilleures offres du moment"
+msgstr "Selectie van de beste aanbiedingen van het moment"
+
+#: templates
+msgid "Nouveaux deals"
+msgstr "Nieuwe deals"
+
+#: templates
+msgid "Les dernières offres publiées par la communauté"
+msgstr "De nieuwste aanbiedingen van de community"
+
+#: templates
+msgid "Petits prix"
+msgstr "Lage prijzen"
+
+#: templates
+msgid "Les offres les moins chères en premier"
+msgstr "De goedkoopste aanbiedingen eerst"
+
+#: templates
+msgid "Trier les deals"
+msgstr "Deals sorteren"
+
+#: templates
+msgid "Publicité"
+msgstr "Advertentie"
+
+#: templates
+msgid "Partagez"
+msgstr "Deel"
+
+#: templates
+msgid "Vous avez trouvé un bon plan ?"
+msgstr "Een koopje gevonden?"
+
+#: templates
+msgid "Collez le lien, DealTrack remplit le reste."
+msgstr "Plak de link, DealTrack vult de rest in."
+
+#: templates
+msgid "Achetez au meilleur moment"
+msgstr "Koop op het beste moment"
+
+#: templates
+msgid "Alertes en premier"
+msgstr "Als eerste alerts"
+
+#: templates
+msgid "Ne manquez plus les commerçants de votre ville"
+msgstr "Mis de handelaars in je stad niet meer"
+
+#: templates
+msgid ""
+"Boulangeries, librairies, vélos : les indépendants belges et leurs offres."
+msgstr ""
+"Bakkers, boekhandels, fietsen: de Belgische zelfstandigen en hun "
+"aanbiedingen."
+
+#: templates
+msgid "Voir les commerçants locaux"
+msgstr "Lokale handelaars bekijken"

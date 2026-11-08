@@ -1,0 +1,35 @@
+{% load i18n %}{% comment %}
+  Emplacement publicitaire (annonces maison de DealTrack). Aucune régie, aucun
+  script tiers, aucun traceur : rien à déclarer dans le bandeau cookies.
+  slot = "side" (colonne de gauche, format vertical) ou "rail" (colonne de droite).
+{% endcomment %}
+<aside class="ad ad--{{ slot }}" aria-label="{% trans 'Publicité' %}">
+  <div class="ad__label">{% trans "Publicité" %}</div>
+  {% if slot == "side" %}
+    {% if user.is_authenticated and user.is_vip %}
+      <a class="ad__body ad__body--tall" href="{% url 'deals:submit' %}">
+        <span class="ad__kicker">{% trans "Partagez" %}</span>
+        <strong class="ad__title">{% trans "Vous avez trouvé un bon plan ?" %}</strong>
+        <span class="ad__text">{% trans "Collez le lien, DealTrack remplit le reste." %}</span>
+        <span class="ad__cta">{% trans "Publier un deal" %}</span>
+      </a>
+    {% else %}
+      <a class="ad__body ad__body--tall ad__body--vip" href="{% url 'payments:plans' %}">
+        <span class="vipbadge">VIP</span>
+        <strong class="ad__title">{% trans "Achetez au meilleur moment" %}</strong>
+        <ul class="ad__list">
+          <li>{% trans "Historique du prix" %}</li>
+          <li>{% trans "Comparaison avec d'autres sites" %}</li>
+          <li>{% trans "Alertes en premier" %}</li>
+        </ul>
+        <span class="ad__cta">{% trans "Devenir VIP" %}</span>
+      </a>
+    {% endif %}
+  {% else %}
+    <a class="ad__body ad__body--local" href="{% url 'deals:local' %}">
+      <strong class="ad__title">{% trans "Ne manquez plus les commerçants de votre ville" %}</strong>
+      <span class="ad__text">{% trans "Boulangeries, librairies, vélos : les indépendants belges et leurs offres." %}</span>
+      <span class="ad__cta">{% trans "Voir les commerçants locaux" %}</span>
+    </a>
+  {% endif %}
+</aside>

@@ -7,8 +7,10 @@ from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.utils.translation import get_language
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _lazy
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
@@ -20,6 +22,14 @@ from . import vip
 from .forms import CommentForm, DealSubmissionForm
 from .models import Deal, Vote
 from .scraper import fetch_deal_info
+from .season import season_banner
+
+# Titre et sous-titre du flux selon l'onglet de tri choisi.
+SORT_HEADINGS = {
+    "hot": (_lazy("Offres populaires"), _lazy("Sélection des meilleures offres du moment")),
+    "new": (_lazy("Nouveaux deals"), _lazy("Les dernières offres publiées par la communauté")),
+    "price": (_lazy("Petits prix"), _lazy("Les offres les moins chères en premier")),
+}
 
 
 def deal_list(request):
@@ -45,6 +55,8 @@ def deal_list(request):
         deals = deals.filter(merchant__is_local_independent=True)
 
     sort = request.GET.get("tri", "hot")
+    if sort not in SORT_HEADINGS:
+        sort = "hot"
     deals = deals.order_by({"new": "-published_at", "price": "price"}.get(sort, "-temperature"))
 
     page = Paginator(deals, 10).get_page(request.GET.get("page"))
@@ -55,6 +67,8 @@ def deal_list(request):
             "page_obj": page,
             "categories": Category.objects.filter(is_active=True),
             "current_sort": sort,
+            "heading": SORT_HEADINGS[sort],
+            "season": season_banner(timezone.localdate()),
             "hot_deals": Deal.objects.live()
             .select_related("merchant")
             .prefetch_related("translations")

@@ -2,14 +2,34 @@
 {% block title %}{% trans "Les meilleurs bons plans en Belgique" %} — DealTrack.be{% endblock %}
 
 {% block content %}
-<div class="tabs" role="tablist">
-  <a class="tab" href="?tri=hot" aria-selected="{% if current_sort == 'hot' %}true{% else %}false{% endif %}">{% trans "Tendance" %}</a>
-  <a class="tab" href="?tri=new" aria-selected="{% if current_sort == 'new' %}true{% else %}false{% endif %}">{% trans "Nouveaux" %}</a>
-  <a class="tab" href="?tri=price" aria-selected="{% if current_sort == 'price' %}true{% else %}false{% endif %}">{% trans "Prix croissant" %}</a>
-</div>
+{% if season %}
+<section class="season season--{{ season.key }}" aria-label="{{ season.title }} {{ season.year }}">
+  <svg class="season__swoosh" viewBox="0 0 600 160" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M330 175 C 360 60, 470 20, 520 70 S 560 190, 640 40" />
+    <path d="M420 175 C 450 100, 520 70, 560 110 S 600 170, 660 90" />
+  </svg>
+  <div class="shell season__inner">
+    <p class="season__title">{{ season.title }} {{ season.year }}</p>
+    <p class="season__tagline">{{ season.tagline }}</p>
+  </div>
+</section>
+{% endif %}
+
+<nav class="tabbar" aria-label="{% trans 'Trier les deals' %}">
+  <div class="tabs">
+    <a class="tab" href="?tri=hot" aria-selected="{% if current_sort == 'hot' %}true{% else %}false{% endif %}">{% trans "Tendance" %}</a>
+    <a class="tab" href="?tri=new" aria-selected="{% if current_sort == 'new' %}true{% else %}false{% endif %}">{% trans "Nouveaux" %}</a>
+    <a class="tab" href="?tri=price" aria-selected="{% if current_sort == 'price' %}true{% else %}false{% endif %}">{% trans "Prix croissant" %}</a>
+  </div>
+</nav>
 
 <div class="shell">
-<div class="layout">
+<header class="feedhead">
+  <h1 class="feedhead__title">{{ heading.0 }}</h1>
+  <p class="feedhead__sub">{{ heading.1 }}</p>
+</header>
+<div class="layout has-ad">
+  <div class="layout__ad">{% include "deals/_ad.html" with slot="side" %}</div>
   <div class="feed">
     {% for deal in page_obj %}
     <article class="deal{% if deal.is_expired %} is-expired{% endif %}">
@@ -68,9 +88,9 @@
 
     {% if page_obj.has_other_pages %}
     <nav class="panel" style="display:flex;gap:12px;justify-content:center" aria-label="{% trans 'Pagination' %}">
-      {% if page_obj.has_previous %}<a class="pill" href="?page={{ page_obj.previous_page_number }}">{% trans "Précédent" %}</a>{% endif %}
+      {% if page_obj.has_previous %}<a class="pill" href="?tri={{ current_sort }}&amp;page={{ page_obj.previous_page_number }}">{% trans "Précédent" %}</a>{% endif %}
       <span class="meta">{% blocktrans with n=page_obj.number total=page_obj.paginator.num_pages %}Page {{ n }} sur {{ total }}{% endblocktrans %}</span>
-      {% if page_obj.has_next %}<a class="pill" href="?page={{ page_obj.next_page_number }}">{% trans "Suivant" %}</a>{% endif %}
+      {% if page_obj.has_next %}<a class="pill" href="?tri={{ current_sort }}&amp;page={{ page_obj.next_page_number }}">{% trans "Suivant" %}</a>{% endif %}
     </nav>
     {% endif %}
   </div>
@@ -91,6 +111,8 @@
       </div>
       {% endfor %}
     </section>
+
+    {% include "deals/_ad.html" with slot="rail" %}
 
     <section class="panel alertbox">
       <h2 class="panel__title">{% trans "Créer une alerte" %}</h2>

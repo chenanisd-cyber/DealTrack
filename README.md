@@ -174,6 +174,18 @@ page d'un deal. Déconnecté, la même page montre l'aperçu verrouillé.
 | /fr/back-office/ | Administration |
 | /api/v1/deals/ | API REST, lecture publique |
 
+## Page d'accueil
+
+- **Bannière saisonnière** : « Black November » en novembre, « Black December »
+  en décembre (choisie d'après la date du jour, `apps/deals/season.py`) ; aucune
+  bannière le reste de l'année.
+- **Onglets de tri** Tendance / Nouveaux / Prix croissant sur un bandeau pleine
+  largeur, avec un titre propre à chaque onglet.
+- **Deux emplacements publicitaires** (colonne de gauche, colonne de droite) :
+  annonces maison (abonnement VIP, commerçants locaux). Pas de régie ni de
+  script tiers, donc aucun traceur à déclarer au titre du RGPD. Sur petit écran,
+  seule la publicité de la colonne de droite reste affichée.
+
 ## Abonnement VIP
 
 | Avantage | Fonctionnement |
@@ -273,7 +285,7 @@ change à chaque lancement. `cloudflared.exe` est attendu dans `.tools/`
 python manage.py test tests --settings=config.settings.test
 ```
 
-187 tests, répartis en neuf fichiers dans `backend/tests/` :
+193 tests, répartis en dix fichiers dans `backend/tests/` :
 
 | Fichier | Tests | Contenu |
 |---|---|---|
@@ -284,6 +296,7 @@ python manage.py test tests --settings=config.settings.test
 | test_comments.py | 5 | Commentaires traduits selon la langue de la page, repli sur l'original |
 | test_checkout.py | 8 | Paiement hébergé : parcours, fraude au retour, idempotence, webhook |
 | test_dump.py | 4 | DUMP SQL : structure, clés, contraintes, sessions exclues, rechargement |
+| test_home.py | 6 | Bannière Black November / Black December selon le mois, titres des onglets, tri gardé à la page suivante, publicités sans script tiers |
 | test_vip.py | 14 | Abonnement VIP : historique du prix, graphique, comparaison réservée, alertes en priorité, régions supprimées |
 | test_live_features.py | 19 | Lecture du prix, marchand automatique, assistant de publication, vote en direct, annuaire, mode partage |
 

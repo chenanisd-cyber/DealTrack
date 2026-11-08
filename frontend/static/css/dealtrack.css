@@ -827,3 +827,65 @@ img{max-width:100%}
 .vip__pitch ul{margin:0; padding-left:18px; text-align:left}
 .vipperks{display:flex; flex-direction:column; gap:10px; padding-left:18px}
 @media (max-width:640px){ .pricestats{grid-template-columns:1fr 1fr} .vip__pitch{position:static; background:none} }
+
+/* -----------------------------------------------------------------------------
+   15. ACCUEIL : BANNIÈRE SAISONNIÈRE, ONGLETS, PUBLICITÉS
+   -------------------------------------------------------------------------- */
+/* Bannière Black November / Black December (choisie selon le mois). */
+.season{
+  position:relative; overflow:hidden;
+  background:linear-gradient(100deg, var(--dt-navy) 0%, #0B2A45 60%, #142F52 100%);
+  color:#fff;
+}
+.season__inner{position:relative; padding-top:22px; padding-bottom:20px}
+.season__title{margin:0; font-size:28px; font-weight:700; letter-spacing:.2px; line-height:1.15}
+.season__tagline{margin:4px 0 0; font-size:15px; opacity:.9}
+.season__swoosh{position:absolute; inset:0 0 0 auto; width:min(60%, 720px); height:100%}
+.season__swoosh path{fill:none; stroke-linecap:round; stroke-width:26}
+.season__swoosh path:first-child{stroke:var(--dt-accent)}
+.season__swoosh path:last-child{stroke:var(--dt-hot); opacity:.75; stroke-width:16}
+.season--black-december .season__swoosh path:first-child{stroke:#C9A43A}   /* doré des fêtes */
+.season--black-december .season__swoosh path:last-child{stroke:#1F7A4D}    /* vert sapin */
+
+/* Bandeau d'onglets sur toute la largeur, onglet actif souligné. */
+.tabbar{background:var(--dt-surface); border-bottom:1px solid var(--dt-border)}
+.tabbar .tab{font-size:15px; font-weight:600; padding:13px 4px 14px}
+.tabbar .tab[aria-selected="true"]{color:var(--dt-accent)}
+
+.feedhead{padding:20px 0 4px}
+.feedhead__title{margin:0; font-size:var(--fs-h2); font-weight:700}
+.feedhead__sub{margin:2px 0 0; color:var(--dt-ink-2); font-size:var(--fs-meta)}
+
+/* Grille à trois colonnes quand l'écran est assez large : pub | flux | colonne. */
+.layout__ad{display:none}
+@media (min-width:1200px){
+  .layout.has-ad{grid-template-columns:160px minmax(0,1fr) 330px}
+  .layout__ad{display:block; position:sticky; top:12px}
+}
+
+.ad{background:var(--dt-surface); border-radius:var(--r-card); box-shadow:var(--sh-card); overflow:hidden}
+.ad__label{
+  padding:8px 12px; font-size:12px; color:var(--dt-ink-2);
+  border-bottom:1px solid var(--dt-surface-2);
+}
+.ad__body{display:flex; flex-direction:column; gap:10px; padding:16px; color:var(--dt-ink)}
+.ad__body:hover{text-decoration:none}
+.ad__body:hover .ad__cta{background:var(--dt-accent-dark)}
+.ad__body--tall{min-height:520px; justify-content:center; text-align:center; align-items:center}
+.ad__body--vip{background:linear-gradient(180deg, #FFF8E6 0%, var(--dt-surface) 70%)}
+.ad__body--local{background:var(--dt-local-bg)}
+.ad__kicker{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--dt-accent)}
+.ad__title{font-size:18px; line-height:1.25}
+.ad__text{font-size:var(--fs-meta); color:var(--dt-ink-2)}
+.ad__list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; font-size:var(--fs-meta)}
+.ad__list li::before{content:"✓ "; color:var(--dt-save-ink); font-weight:700}
+.ad__cta{
+  display:inline-block; align-self:center; padding:8px 14px; border-radius:var(--r-pill);
+  background:var(--dt-accent); color:#fff; font-weight:600; font-size:var(--fs-meta);
+}
+.ad--rail .ad__cta{align-self:flex-start}
+
+@media (max-width:760px){
+  .season__title{font-size:22px}
+  .season__swoosh{width:70%; opacity:.6}
+}
