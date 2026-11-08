@@ -388,6 +388,7 @@ Le détail figure dans `database/DATA_DICTIONARY.md` (régénéré par `make dic
 | docs/SECURITY.md | Protections mises en œuvre |
 | docs/API.md | Documentation de l'API |
 | docs/LEGAL_GDPR.md | RGPD et droit belge |
+| docs/BUSINESS_PLAN.md | Positionnement, concurrence, SWOT, modèle économique, seuil de rentabilité |
 | DEVELOPMENT.md | Configuration de l'IDE et conventions |
 
 ## Licence

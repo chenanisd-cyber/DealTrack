@@ -276,10 +276,25 @@ le projet : le nom sert à identifier le vendeur, sans suggérer un partenariat.
 marchand est une reproduction d'œuvre protégée, sans exception applicable. C'est
 le risque juridique le plus concret d'un site de ce type.
 
-Le projet stocke donc uniquement un **lien** (`external_url`) et n'héberge aucune
-image marchande. Les vignettes sont des illustrations génériques. Toute
-évolution vers l'affichage de photos produit exigerait soit un accord avec les
-marchands, soit un flux officiel de type Open Graph avec autorisation explicite.
+**Ce que fait le projet.** Pour qu'un deal ait toujours une photo, DealTrack
+affiche la photo produit publiée par le marchand sur sa propre page (balise
+Open Graph ou galerie de la fiche produit). L'image n'est **pas copiée** sur
+nos serveurs : seule son adresse est enregistrée (`Deal.image_url`,
+`DealImage.image_url`) et le navigateur la charge depuis le serveur du marchand.
+Un membre peut aussi envoyer sa propre photo ; à défaut, la vignette du marchand
+s'affiche.
+
+Afficher par lien une image librement accessible sur le site d'origine, sans
+contourner de protection technique, est en principe admis par la Cour de
+justice de l'Union (arrêts Svensson, C-466/12, et BestWater, C-348/13) : ce
+n'est pas une nouvelle communication au public. C'est donc défendable, mais pas
+sans risque : un marchand peut s'y opposer, et la photo disparaît s'il la
+retire.
+
+**Avant un lancement commercial** : demander l'accord des principaux marchands
+ou passer par leurs flux officiels (programmes d'affiliation, flux produits),
+retirer une photo sur simple demande, et prévoir dans les CGU que le membre
+garantit ses droits sur les photos qu'il envoie.
 
 ### 3.3 Données de la plateforme
 
@@ -306,13 +321,14 @@ heure sert accessoirement à faire obstacle à l'extraction systématique.
 | Facturation numérotée avec TVA distincte | ✅ | `Payment.next_reference` |
 | Trilinguisme du front-office | ✅ | `frontend/locale/` |
 | Signalement et modération tracée | ✅ | `Report`, `ModerationDecision` |
-| Renonciation expresse au droit de rétractation | ⚠️ mentionnée, pas recueillie | `payments/subscribe.html` |
+| Renonciation expresse au droit de rétractation | ✅ case obligatoire, refus côté serveur sinon | `payments/views.py` (`subscribe`), test `test_case_retractation_obligatoire` |
+| Photos produit des marchands | ⚠️ affichées par lien, accord à obtenir avant lancement commercial | §3.2 |
 | Divulgation des liens d'affiliation | ❌ à implémenter | — |
 | Procédure de notification de violation | ❌ organisationnelle | — |
 | Purge automatique du journal après 365 jours | ❌ réglage défini, tâche absente | `AUDIT_LOG_RETENTION_DAYS` |
 | CGU et politique de confidentialité rédigées | ❌ hors périmètre technique | — |
 | Analyse du statut d'hébergeur au regard du DSA | ❌ à soumettre à un juriste | §2.4 |
 
-Six points ouverts sur dix-huit. Les énumérer vaut mieux que de prétendre à une
+Six points ouverts sur dix-neuf. Les énumérer vaut mieux que de prétendre à une
 conformité complète : un projet qui affiche vingt cases cochées sur vingt n'a
 généralement pas regardé d'assez près.
