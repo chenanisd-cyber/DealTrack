@@ -358,6 +358,8 @@ LOGGING = {
 }
 
 DEFAULT_FROM_EMAIL = "no-reply@dealtrack.be"
+# Destinataire des messages de la page « Aide et contact ».
+SUPPORT_EMAIL = env("SUPPORT_EMAIL", "support@dealtrack.be")
 # Adresse publique du site, pour les liens des e-mails d'alerte.
 SITE_URL = env("SITE_URL", "http://localhost:8000")
 # Délai avant qu'un membre non VIP reçoive une alerte (les VIP la reçoivent tout de suite).

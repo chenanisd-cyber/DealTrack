@@ -2386,3 +2386,180 @@ msgstr ""
 "zijn zoekresultaten te lezen (robots.txt). De andere verbieden of blokkeren "
 "dat: DealTrack respecteert die keuze, één klik opent hun zoekopdracht voor "
 "dit product."
+
+#: templates
+#, python-format
+msgid "Résultats pour « %(query)s »"
+msgstr "Resultaten voor „%(query)s”"
+
+#: templates
+#, python-format
+msgid "Deals trouvés : %(n)s"
+msgstr "Gevonden deals: %(n)s"
+
+#: templates
+msgid "Effacer la recherche"
+msgstr "Zoekopdracht wissen"
+
+#: templates
+#, python-format
+msgid "Aucun deal ne correspond à « %(query)s »."
+msgstr "Geen enkele deal komt overeen met „%(query)s”."
+
+#: templates
+msgid "Essayez un autre mot : une marque, un produit ou un magasin."
+msgstr "Probeer een ander woord: een merk, een product of een winkel."
+
+#: templates
+msgid "Voir tous les deals"
+msgstr "Alle deals bekijken"
+
+#: templates
+msgid "Aide et contact"
+msgstr "Hulp en contact"
+
+#: templates
+msgid ""
+"Une question, un problème ? Lisez les réponses aux questions fréquentes, ou "
+"écrivez-nous."
+msgstr ""
+"Een vraag of een probleem? Lees de antwoorden op veelgestelde vragen, of "
+"schrijf ons."
+
+#: templates
+msgid "Questions fréquentes"
+msgstr "Veelgestelde vragen"
+
+#: templates
+msgid "Nous écrire"
+msgstr "Schrijf ons"
+
+#: templates
+msgid ""
+"Votre message arrive à l’équipe DealTrack. Nous vous répondons par e-mail."
+msgstr "Je bericht komt bij het DealTrack-team. We antwoorden je per e-mail."
+
+#: templates
+msgid "Envoyer le message"
+msgstr "Bericht versturen"
+
+#: templates
+msgid "Vos données servent uniquement à répondre à votre demande."
+msgstr "Je gegevens dienen enkel om je vraag te beantwoorden."
+
+#: templates
+msgid "Ne pas remplir ce champ"
+msgstr "Dit veld niet invullen"
+
+#: templates
+msgid "Votre nom"
+msgstr "Je naam"
+
+#: templates
+msgid "Votre adresse e-mail"
+msgstr "Je e-mailadres"
+
+#: templates
+msgid "Sujet"
+msgstr "Onderwerp"
+
+#: templates
+msgid "Votre message"
+msgstr "Je bericht"
+
+#: templates
+#, python-format
+msgid "Décrivez votre demande en %(n)d caractères au moins."
+msgstr "Beschrijf je vraag in minstens %(n)d tekens."
+
+#: templates
+msgid "Message refusé."
+msgstr "Bericht geweigerd."
+
+#: templates
+msgid "Question sur le site"
+msgstr "Vraag over de site"
+
+#: templates
+msgid "Un deal ou un commentaire"
+msgstr "Een deal of een reactie"
+
+#: templates
+msgid "Paiement ou abonnement VIP"
+msgstr "Betaling of VIP-abonnement"
+
+#: templates
+msgid "Signaler un problème technique"
+msgstr "Een technisch probleem melden"
+
+#: templates
+msgid "Autre"
+msgstr "Andere"
+
+#: templates
+msgid "Comment publier un bon plan ?"
+msgstr "Hoe plaats ik een koopje?"
+
+#: templates
+msgid ""
+"Connectez-vous, cliquez sur « Publier » et collez le lien de l’offre. Le "
+"formulaire se remplit tout seul : vérifiez, puis envoyez à la modération."
+msgstr ""
+"Log in, klik op „Plaatsen” en plak de link van de aanbieding. Het formulier "
+"vult zichzelf in: controleer en stuur het naar de moderatie."
+
+#: templates
+msgid "Pourquoi mon deal n’apparaît-il pas tout de suite ?"
+msgstr "Waarom verschijnt mijn deal niet meteen?"
+
+#: templates
+msgid ""
+"Chaque deal est vérifié par un modérateur avant d’être publié, pour éviter "
+"les fausses promotions. Il apparaît dès qu’il est validé."
+msgstr ""
+"Elke deal wordt door een moderator gecontroleerd voor publicatie, om valse "
+"promoties te vermijden. Hij verschijnt zodra hij goedgekeurd is."
+
+#: templates
+msgid "Que m’apporte l’abonnement VIP ?"
+msgstr "Wat levert het VIP-abonnement me op?"
+
+#: templates
+msgid ""
+"L’historique du prix de chaque deal, la comparaison avec d’autres magasins "
+"et vos alertes en priorité. 2,50 € par mois ou 24 € par an."
+msgstr ""
+"De prijsgeschiedenis van elke deal, de vergelijking met andere winkels en je"
+" alerts met voorrang. 2,50 € per maand of 24 € per jaar."
+
+#: templates
+msgid "Comment exporter ou supprimer mes données ?"
+msgstr "Hoe exporteer of verwijder ik mijn gegevens?"
+
+#: templates
+msgid ""
+"Dans « Mon compte », vous pouvez télécharger vos données ou fermer votre "
+"compte. Vos factures sont conservées sept ans, comme la loi l’impose."
+msgstr ""
+"In „Mijn account” kun je je gegevens downloaden of je account sluiten. Je "
+"facturen worden zeven jaar bewaard, zoals de wet het oplegt."
+
+#: templates
+msgid "Un deal est faux ou expiré : que faire ?"
+msgstr "Een deal klopt niet of is verlopen: wat nu?"
+
+#: templates
+msgid ""
+"Écrivez-nous avec le sujet « Un deal ou un commentaire » et le lien du deal."
+" Un modérateur le vérifie."
+msgstr ""
+"Schrijf ons met het onderwerp „Een deal of een reactie” en de link van de "
+"deal. Een moderator controleert het."
+
+#: templates
+msgid "Trop de messages envoyés. Réessayez dans une heure."
+msgstr "Te veel berichten verstuurd. Probeer het over een uur opnieuw."
+
+#: templates
+msgid "Merci ! Votre message est bien envoyé. Nous vous répondons par e-mail."
+msgstr "Bedankt! Je bericht is verstuurd. We antwoorden je per e-mail."

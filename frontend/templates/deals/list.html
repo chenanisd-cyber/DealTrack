@@ -17,16 +17,21 @@
 
 <nav class="tabbar" aria-label="{% trans 'Trier les deals' %}">
   <div class="tabs">
-    <a class="tab" href="?tri=hot" aria-selected="{% if current_sort == 'hot' %}true{% else %}false{% endif %}">{% trans "Tendance" %}</a>
-    <a class="tab" href="?tri=new" aria-selected="{% if current_sort == 'new' %}true{% else %}false{% endif %}">{% trans "Nouveaux" %}</a>
-    <a class="tab" href="?tri=price" aria-selected="{% if current_sort == 'price' %}true{% else %}false{% endif %}">{% trans "Prix croissant" %}</a>
+    <a class="tab" href="?{% if query %}q={{ query|urlencode }}&amp;{% endif %}tri=hot" aria-selected="{% if current_sort == 'hot' %}true{% else %}false{% endif %}">{% trans "Tendance" %}</a>
+    <a class="tab" href="?{% if query %}q={{ query|urlencode }}&amp;{% endif %}tri=new" aria-selected="{% if current_sort == 'new' %}true{% else %}false{% endif %}">{% trans "Nouveaux" %}</a>
+    <a class="tab" href="?{% if query %}q={{ query|urlencode }}&amp;{% endif %}tri=price" aria-selected="{% if current_sort == 'price' %}true{% else %}false{% endif %}">{% trans "Prix croissant" %}</a>
   </div>
 </nav>
 
 <div class="shell">
 <header class="feedhead">
+  {% if query %}
+  <h1 class="feedhead__title">{% blocktrans %}Résultats pour « {{ query }} »{% endblocktrans %}</h1>
+  <p class="feedhead__sub">{% blocktrans with n=result_count %}Deals trouvés : {{ n }}{% endblocktrans %} · <a href="{% url 'deals:list' %}">{% trans "Effacer la recherche" %}</a></p>
+  {% else %}
   <h1 class="feedhead__title">{{ heading.0 }}</h1>
   <p class="feedhead__sub">{{ heading.1 }}</p>
+  {% endif %}
 </header>
 <div class="layout has-ad">
   <div class="layout__ad">{% include "deals/_ad.html" with slot="side" %}</div>
@@ -83,14 +88,21 @@
       </div>
     </article>
     {% empty %}
-      <div class="panel"><p>{% trans "Aucun deal ne correspond à ces critères." %}</p></div>
+      <div class="panel">
+        {% if query %}
+        <p>{% blocktrans %}Aucun deal ne correspond à « {{ query }} ».{% endblocktrans %}</p>
+        <p class="meta">{% trans "Essayez un autre mot : une marque, un produit ou un magasin." %} <a href="{% url 'deals:list' %}">{% trans "Voir tous les deals" %}</a></p>
+        {% else %}
+        <p>{% trans "Aucun deal ne correspond à ces critères." %}</p>
+        {% endif %}
+      </div>
     {% endfor %}
 
     {% if page_obj.has_other_pages %}
     <nav class="panel" style="display:flex;gap:12px;justify-content:center" aria-label="{% trans 'Pagination' %}">
-      {% if page_obj.has_previous %}<a class="pill" href="?tri={{ current_sort }}&amp;page={{ page_obj.previous_page_number }}">{% trans "Précédent" %}</a>{% endif %}
+      {% if page_obj.has_previous %}<a class="pill" href="?{% if query %}q={{ query|urlencode }}&amp;{% endif %}tri={{ current_sort }}&amp;page={{ page_obj.previous_page_number }}">{% trans "Précédent" %}</a>{% endif %}
       <span class="meta">{% blocktrans with n=page_obj.number total=page_obj.paginator.num_pages %}Page {{ n }} sur {{ total }}{% endblocktrans %}</span>
-      {% if page_obj.has_next %}<a class="pill" href="?tri={{ current_sort }}&amp;page={{ page_obj.next_page_number }}">{% trans "Suivant" %}</a>{% endif %}
+      {% if page_obj.has_next %}<a class="pill" href="?{% if query %}q={{ query|urlencode }}&amp;{% endif %}tri={{ current_sort }}&amp;page={{ page_obj.next_page_number }}">{% trans "Suivant" %}</a>{% endif %}
     </nav>
     {% endif %}
   </div>

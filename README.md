@@ -176,6 +176,7 @@ publier celui-ci dans un dépôt public ouvrirait le back-office à tout le mond
 | /fr/commercants-locaux/ | Annuaire des commerçants indépendants |
 | /fr/abonnement/ | Abonnement VIP et paiement |
 | /fr/comptes/alertes/ | Mes alertes (VIP : reçues en priorité) |
+| /fr/aide/ | Aide et contact : questions fréquentes et formulaire |
 | /fr/back-office/ | Administration |
 | /api/v1/deals/ | API REST, lecture publique |
 
@@ -329,7 +330,7 @@ change à chaque lancement. `cloudflared.exe` est attendu dans `.tools/`
 python manage.py test tests --settings=config.settings.test
 ```
 
-201 tests, répartis en dix fichiers dans `backend/tests/` :
+213 tests, répartis en onze fichiers dans `backend/tests/` :
 
 | Fichier | Tests | Contenu |
 |---|---|---|
@@ -341,6 +342,7 @@ python manage.py test tests --settings=config.settings.test
 | test_checkout.py | 12 | Paiement hébergé : parcours, fraude au retour, idempotence, webhook, Stripe Checkout (simulé), clé live refusée, fichier .env |
 | test_dump.py | 4 | DUMP SQL : structure, clés, contraintes, sessions exclues, rechargement |
 | test_home.py | 6 | Bannière Black November / Black December selon le mois, titres des onglets, tri gardé à la page suivante, publicités sans script tiers |
+| test_support.py | 12 | Barre de recherche (mots, marchand, traductions, deals non publiés exclus) ; page Aide et contact (enregistrement, e-mail à l’équipe, anti-robot, limite, CSRF) |
 | test_vip.py | 18 | Abonnement VIP : historique du prix, graphique, respect du robots.txt, comparaison réservée, alertes en priorité, régions supprimées |
 | test_live_features.py | 19 | Lecture du prix, marchand automatique, assistant de publication, vote en direct, annuaire, mode partage |
 
@@ -399,7 +401,7 @@ python scripts/api_demo.py      # depuis backend/
 
 ## Base de données
 
-16 tables, avec clés étrangères, contraintes CHECK et contraintes d'unicité.
+20 tables métier (32 avec celles de Django), avec clés étrangères, contraintes CHECK et contraintes d'unicité.
 
 Deux stratégies de clé primaire sont employées :
 

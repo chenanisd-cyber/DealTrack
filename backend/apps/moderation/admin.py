@@ -9,7 +9,7 @@ from django.contrib import admin, messages
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import ngettext
 
-from .models import AuditLog, ModerationDecision, Report
+from .models import AuditLog, ContactMessage, ModerationDecision, Report
 
 
 @admin.register(AuditLog)
@@ -73,3 +73,27 @@ class ReportAdmin(admin.ModelAdmin):
             status=Report.Status.DISMISSED, resolved_at=timezone.now(), resolved_by=request.user
         )
         self.message_user(request, _("%d signalement(s) écarté(s).") % count, messages.SUCCESS)
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    """Messages de la page « Aide et contact » : lus et marqués traités par l'équipe."""
+
+    list_display = ("created_at", "subject", "name", "email", "language", "status")
+    list_filter = ("status", "subject", "language", "created_at")
+    search_fields = ("name", "email", "message")
+    readonly_fields = ("name", "email", "user", "subject", "message", "language", "created_at")
+    fields = readonly_fields + ("status", "answered_at")
+    actions = ("mark_answered",)
+
+    def has_add_permission(self, request):
+        return False  # un message vient toujours du formulaire public
+
+    @admin.action(description=_("Marquer comme traité"))
+    def mark_answered(self, request, queryset):
+        from django.utils import timezone
+
+        count = queryset.filter(status=ContactMessage.Status.NEW).update(
+            status=ContactMessage.Status.ANSWERED, answered_at=timezone.now()
+        )
+        self.message_user(request, _("%d message(s) marqué(s) comme traité(s).") % count)

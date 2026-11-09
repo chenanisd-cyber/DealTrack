@@ -43,7 +43,7 @@ from apps.deals.models import (
     DealStatus,
     DealTranslation,
 )
-from apps.moderation.models import AuditLog, ModerationDecision, Report
+from apps.moderation.models import AuditLog, ContactMessage, ModerationDecision, Report
 from apps.payments.models import Payment, Plan, Subscription
 
 DATA = Path(__file__).resolve().parent / "data"
@@ -658,3 +658,126 @@ def alert_matches(deals):
             )
             count += created
     return count
+
+
+# -- Messages de la page « Aide et contact » -------------------------------------------
+CONTACT_TEXTS = {
+    "fr": {
+        "question": [
+            "Bonjour, comment est calculée la température d'un deal ? Merci d'avance.",
+            "Est-ce que je peux publier une offre d'un magasin de ma commune ?",
+            "Combien de temps faut-il pour qu'un deal soit validé par la modération ?",
+        ],
+        "deal": [
+            "Le deal sur l'aspirateur Dyson n'est plus disponible à ce prix depuis hier.",
+            "Le prix de référence de cette offre me semble gonflé, pouvez-vous vérifier ?",
+            "Un commentaire sous le deal du lave-linge contient de la publicité.",
+        ],
+        "account": [
+            "Je n'arrive plus à me connecter depuis que j'ai changé d'adresse e-mail.",
+            "Comment changer mon pseudonyme sur le site ?",
+            "Je voudrais recevoir les alertes en néerlandais plutôt qu'en français.",
+        ],
+        "payment": [
+            "J'ai payé l'abonnement VIP mais je ne vois pas encore l'historique des prix.",
+            "Est-il possible de recevoir la facture de mon abonnement par e-mail ?",
+            "Comment arrêter mon abonnement VIP mensuel ?",
+        ],
+        "bug": [
+            "La page des commerçants locaux s'affiche mal sur mon téléphone.",
+            "Le bouton pour voter ne réagit pas sur ma tablette.",
+            "La photo du deal ne s'affiche pas pour l'offre sur la machine à café.",
+        ],
+        "other": [
+            "Bravo pour le site, très pratique pour les bons plans en Belgique !",
+            "Je suis commerçant à Namur : comment présenter mes promotions ?",
+            "Pourriez-vous ajouter une catégorie pour le bricolage ?",
+        ],
+    },
+    "nl": {
+        "question": [
+            "Hallo, hoe wordt de temperatuur van een deal berekend?",
+            "Mag ik een aanbieding van een winkel in mijn gemeente plaatsen?",
+        ],
+        "deal": [
+            "De deal op de stofzuiger is niet meer beschikbaar aan deze prijs.",
+            "De referentieprijs van deze aanbieding lijkt me te hoog.",
+        ],
+        "account": [
+            "Ik kan niet meer inloggen sinds ik mijn e-mailadres heb gewijzigd.",
+            "Hoe kan ik mijn schuilnaam wijzigen?",
+        ],
+        "payment": [
+            "Ik heb het VIP-abonnement betaald, maar zie de prijsgeschiedenis nog niet.",
+            "Hoe zeg ik mijn maandelijks VIP-abonnement op?",
+        ],
+        "bug": [
+            "De pagina met lokale handelaars wordt slecht weergegeven op mijn gsm.",
+            "De stemknop reageert niet op mijn tablet.",
+        ],
+        "other": [
+            "Proficiat met de site, heel handig voor koopjes in België!",
+            "Ik ben handelaar in Gent: hoe kan ik mijn promoties tonen?",
+        ],
+    },
+    "de": {
+        "question": [
+            "Hallo, wie wird die Temperatur eines Angebots berechnet?",
+            "Darf ich ein Angebot eines Geschäfts aus meiner Gemeinde veröffentlichen?",
+        ],
+        "deal": [
+            "Das Angebot für den Staubsauger ist zu diesem Preis nicht mehr verfügbar.",
+            "Der Referenzpreis dieses Angebots scheint mir zu hoch.",
+        ],
+        "account": [
+            "Seit ich meine E-Mail-Adresse geändert habe, kann ich mich nicht mehr anmelden.",
+            "Wie kann ich meinen Benutzernamen ändern?",
+        ],
+        "payment": [
+            "Ich habe das VIP-Abonnement bezahlt, sehe aber den Preisverlauf noch nicht.",
+            "Wie kündige ich mein monatliches VIP-Abonnement?",
+        ],
+        "bug": [
+            "Die Seite der lokalen Händler wird auf meinem Handy schlecht angezeigt.",
+            "Der Abstimmungsknopf reagiert auf meinem Tablet nicht.",
+        ],
+        "other": [
+            "Glückwunsch zur Website, sehr praktisch für Angebote in Belgien!",
+            "Ich bin Händler in Eupen: Wie kann ich meine Aktionen zeigen?",
+        ],
+    },
+}
+
+
+def contact_messages(members_pool, target=110):
+    """Messages reçus par la page « Aide et contact » (une seule fois)."""
+    if ContactMessage.objects.exists():
+        return 0
+    now = timezone.now()
+    created = 0
+    for index in range(target):
+        language = random.choices(["fr", "nl", "de"], weights=[55, 35, 10])[0]
+        subject = random.choice(list(CONTACT_TEXTS[language]))
+        member = random.choice(members_pool) if random.random() < 0.6 else None
+        if member:
+            name, email = member.display_name, member.email
+        else:
+            first = random.choice(FIRST_NAMES[language])
+            last = random.choice(LAST_NAMES[language])
+            name = f"{first} {last}"
+            email = f"{_ascii(first)}.{_ascii(last)}{index}@example.be"
+        received = now - timedelta(days=random.randint(1, 90), hours=random.randint(0, 23))
+        answered = random.random() < 0.6
+        message = ContactMessage.objects.create(
+            name=name,
+            email=email,
+            user=member,
+            subject=subject,
+            message=random.choice(CONTACT_TEXTS[language][subject]),
+            language=language,
+            status=ContactMessage.Status.ANSWERED if answered else ContactMessage.Status.NEW,
+            answered_at=received + timedelta(hours=random.randint(2, 48)) if answered else None,
+        )
+        ContactMessage.objects.filter(pk=message.pk).update(created_at=received)
+        created += 1
+    return created

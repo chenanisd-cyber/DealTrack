@@ -59,6 +59,9 @@ MODERATOR_PERMISSIONS = {
         "view_moderationdecision",
         "add_moderationdecision",
         "view_auditlog",
+        # Répondre aux messages de la page « Aide et contact ».
+        "view_contactmessage",
+        "change_contactmessage",
     ],
     # Un marchand inconnu apparaît avec la première offre qui le cite : le
     # modérateur doit pouvoir le créer et le vérifier sans appeler un admin.

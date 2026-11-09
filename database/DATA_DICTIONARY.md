@@ -25,7 +25,7 @@
 | `catalog_categorytranslation` | libellés de catégorie | id · BIGINT auto | 18 |
 | `catalog_merchant` | marchands | id · UUID | 135 |
 | `deals_alert` | alertes | id · UUID | 177 |
-| `deals_alertmatch` | alertes déclenchées | id · BIGINT auto | 231 |
+| `deals_alertmatch` | alertes déclenchées | id · BIGINT auto | 170 |
 | `deals_comment` | commentaires | id · UUID | 238 |
 | `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 476 |
 | `deals_deal` | deals | id · UUID | 129 |
@@ -37,6 +37,7 @@
 | `payments_plan` | formules | id · UUID | 2 |
 | `payments_subscription` | abonnements | id · UUID | 105 |
 | `moderation_auditlog` | journal d'audit | id · BIGINT auto | 603 |
+| `moderation_contactmessage` | messages de contact | id · UUID | 110 |
 | `moderation_moderationdecision` | décisions de modération | id · UUID | 120 |
 | `moderation_report` | signalements | id · UUID | 113 |
 
@@ -395,6 +396,27 @@ AuditLog(id, actor, actor_label, action, target_type, target_id, ip_address, use
 
 **Index** : `audit_action_date_idx`, `audit_actor_date_idx`
 
+### `moderation_contactmessage`
+Message envoyé depuis la page « Aide et contact ». Il est enregistré en base (et non seulement envoyé par e-mail) pour qu'aucune demande ne se perde : l'équipe le traite depuis le back-office.
+
+| Colonne | Type | Null | Défaut | Contraintes et rôle |
+|---|---|---|---|---|
+| `id` | UUID | non | `uuid4` | **clé primaire** |
+| `name` | VARCHAR(80) | non | — | — |
+| `email` | VARCHAR(254) | non | — | — |
+| `user_id` | FK | oui | — | indexée · → `accounts_user` · `SET_NULL` |
+| `subject` | VARCHAR(20) | non | — | valeurs : `question`, `deal`, `account`, `payment`, `bug`, `other` |
+| `message` | TEXT | non | — | — |
+| `language` | VARCHAR(2) | non | `fr` | — |
+| `status` | VARCHAR(10) | non | `new` | valeurs : `new`, `answered` |
+| `created_at` | TIMESTAMP | non | — | — |
+| `answered_at` | TIMESTAMP | oui | — | — |
+
+**Contraintes de table**
+- `contact_answered_requires_date` — vérification : `(OR: ('status', 'new'), ('answered_at__isnull', False))`
+
+**Index** : `contact_status_date_idx`
+
 ### `moderation_moderationdecision`
 Trace nominative de chaque validation ou refus d'offre.
 
@@ -451,4 +473,4 @@ Le comportement de suppression est choisi champ par champ, jamais laissé par d�
 
 ---
 
-_Schéma : 31 tables, moteur `sqlite`._
+_Schéma : 32 tables, moteur `sqlite`._

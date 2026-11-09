@@ -221,3 +221,60 @@ class Report(models.Model):
 
     def __str__(self):
         return f"{self.get_reason_display()} · {self.deal}"
+
+
+class ContactMessage(models.Model):
+    """
+    Message envoyé depuis la page « Aide et contact ». Il est enregistré en
+    base (et non seulement envoyé par e-mail) pour qu'aucune demande ne se
+    perde : l'équipe le traite depuis le back-office.
+    """
+
+    class Subject(models.TextChoices):
+        QUESTION = "question", _("Question sur le site")
+        DEAL = "deal", _("Un deal ou un commentaire")
+        ACCOUNT = "account", _("Mon compte")
+        PAYMENT = "payment", _("Paiement ou abonnement VIP")
+        BUG = "bug", _("Signaler un problème technique")
+        OTHER = "other", _("Autre")
+
+    class Status(models.TextChoices):
+        NEW = "new", _("Nouveau")
+        ANSWERED = "answered", _("Traité")
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(_("nom"), max_length=80)
+    email = models.EmailField(_("e-mail"))
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="contact_messages",
+        verbose_name=_("membre connecté"),
+    )
+    subject = models.CharField(_("sujet"), max_length=20, choices=Subject.choices)
+    message = models.TextField(_("message"), max_length=2000)
+    language = models.CharField(_("langue"), max_length=2, default="fr")
+    status = models.CharField(
+        _("statut"), max_length=10, choices=Status.choices, default=Status.NEW
+    )
+    created_at = models.DateTimeField(_("reçu le"), auto_now_add=True)
+    answered_at = models.DateTimeField(_("traité le"), null=True, blank=True)
+
+    class Meta:
+        verbose_name = _("message de contact")
+        verbose_name_plural = _("messages de contact")
+        ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["status", "created_at"], name="contact_status_date_idx")
+        ]
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(status="new") | models.Q(answered_at__isnull=False),
+                name="contact_answered_requires_date",
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.get_subject_display()} · {self.name}"

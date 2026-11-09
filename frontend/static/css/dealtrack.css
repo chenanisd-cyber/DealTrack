@@ -895,3 +895,15 @@ img{max-width:100%}
   .season__title{font-size:22px}
   .season__swoosh{width:70%; opacity:.6}
 }
+
+/* -----------------------------------------------------------------------------
+   16. AIDE ET CONTACT
+   -------------------------------------------------------------------------- */
+.support{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:var(--gap); align-items:start; padding-top:12px}
+.support .panel + .panel{margin-top:0}
+.faq{display:flex; flex-direction:column; margin-top:8px}
+.faq__item{border-top:1px solid var(--dt-surface-2); padding:12px 0}
+.faq__item:first-child{border-top:0}
+.faq__item summary{cursor:pointer; font-weight:600; font-size:16px}
+.faq__item p{margin:8px 0 0; color:var(--dt-ink-2)}
+@media (max-width:860px){ .support{grid-template-columns:1fr} }

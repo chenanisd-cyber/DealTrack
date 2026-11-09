@@ -1,0 +1,45 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Aide et contact" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell" style="padding-bottom:48px">
+  <header class="feedhead">
+    <h1 class="feedhead__title">{% trans "Aide et contact" %}</h1>
+    <p class="feedhead__sub">{% trans "Une question, un problème ? Lisez les réponses aux questions fréquentes, ou écrivez-nous." %}</p>
+  </header>
+
+  <div class="support">
+    <section class="panel">
+      <h2 class="panel__title">{% trans "Questions fréquentes" %}</h2>
+      <div class="faq">
+        {% for question, answer in faq %}
+        <details class="faq__item"{% if forloop.first %} open{% endif %}>
+          <summary>{{ question }}</summary>
+          <p>{{ answer }}</p>
+        </details>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="panel" id="formulaire">
+      <h2 class="panel__title">{% trans "Nous écrire" %}</h2>
+      <p class="meta">{% trans "Votre message arrive à l’équipe DealTrack. Nous vous répondons par e-mail." %}</p>
+      <form method="post" action="{% url 'support:contact' %}#formulaire" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+          {% if field.name == "website" %}
+          <div class="visually-hidden" aria-hidden="true">{{ field.label_tag }}{{ field }}</div>
+          {% else %}
+          <div class="field">
+            <label class="field__label" for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+            {{ field }}
+            {% for e in field.errors %}<p class="field__hint" style="color:var(--dt-hot)">{{ e }}</p>{% endfor %}
+          </div>
+          {% endif %}
+        {% endfor %}
+        <button class="cta is-block" type="submit">{% trans "Envoyer le message" %}</button>
+      </form>
+      <p class="field__hint">{% trans "Vos données servent uniquement à répondre à votre demande." %}</p>
+    </section>
+  </div>
+</div>
+{% endblock %}

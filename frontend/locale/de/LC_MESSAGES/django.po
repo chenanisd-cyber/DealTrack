@@ -2397,3 +2397,185 @@ msgstr ""
 "Lesen ihrer Suchergebnisse erlaubt (robots.txt). Die anderen verbieten oder "
 "blockieren es: DealTrack respektiert diese Entscheidung, ein Klick öffnet "
 "ihre Suche nach diesem Produkt."
+
+#: templates
+#, python-format
+msgid "Résultats pour « %(query)s »"
+msgstr "Ergebnisse für „%(query)s“"
+
+#: templates
+#, python-format
+msgid "Deals trouvés : %(n)s"
+msgstr "Gefundene Angebote: %(n)s"
+
+#: templates
+msgid "Effacer la recherche"
+msgstr "Suche löschen"
+
+#: templates
+#, python-format
+msgid "Aucun deal ne correspond à « %(query)s »."
+msgstr "Kein Angebot entspricht „%(query)s“."
+
+#: templates
+msgid "Essayez un autre mot : une marque, un produit ou un magasin."
+msgstr ""
+"Versuchen Sie ein anderes Wort: eine Marke, ein Produkt oder ein Geschäft."
+
+#: templates
+msgid "Voir tous les deals"
+msgstr "Alle Angebote ansehen"
+
+#: templates
+msgid "Aide et contact"
+msgstr "Hilfe und Kontakt"
+
+#: templates
+msgid ""
+"Une question, un problème ? Lisez les réponses aux questions fréquentes, ou "
+"écrivez-nous."
+msgstr ""
+"Eine Frage, ein Problem? Lesen Sie die Antworten auf häufige Fragen oder "
+"schreiben Sie uns."
+
+#: templates
+msgid "Questions fréquentes"
+msgstr "Häufige Fragen"
+
+#: templates
+msgid "Nous écrire"
+msgstr "Schreiben Sie uns"
+
+#: templates
+msgid ""
+"Votre message arrive à l’équipe DealTrack. Nous vous répondons par e-mail."
+msgstr ""
+"Ihre Nachricht geht an das DealTrack-Team. Wir antworten Ihnen per E-Mail."
+
+#: templates
+msgid "Envoyer le message"
+msgstr "Nachricht senden"
+
+#: templates
+msgid "Vos données servent uniquement à répondre à votre demande."
+msgstr "Ihre Daten dienen nur der Beantwortung Ihrer Anfrage."
+
+#: templates
+msgid "Ne pas remplir ce champ"
+msgstr "Dieses Feld nicht ausfüllen"
+
+#: templates
+msgid "Votre nom"
+msgstr "Ihr Name"
+
+#: templates
+msgid "Votre adresse e-mail"
+msgstr "Ihre E-Mail-Adresse"
+
+#: templates
+msgid "Sujet"
+msgstr "Betreff"
+
+#: templates
+msgid "Votre message"
+msgstr "Ihre Nachricht"
+
+#: templates
+#, python-format
+msgid "Décrivez votre demande en %(n)d caractères au moins."
+msgstr "Beschreiben Sie Ihre Anfrage in mindestens %(n)d Zeichen."
+
+#: templates
+msgid "Message refusé."
+msgstr "Nachricht abgelehnt."
+
+#: templates
+msgid "Question sur le site"
+msgstr "Frage zur Website"
+
+#: templates
+msgid "Un deal ou un commentaire"
+msgstr "Ein Angebot oder ein Kommentar"
+
+#: templates
+msgid "Paiement ou abonnement VIP"
+msgstr "Zahlung oder VIP-Abonnement"
+
+#: templates
+msgid "Signaler un problème technique"
+msgstr "Ein technisches Problem melden"
+
+#: templates
+msgid "Autre"
+msgstr "Sonstiges"
+
+#: templates
+msgid "Comment publier un bon plan ?"
+msgstr "Wie veröffentliche ich ein Angebot?"
+
+#: templates
+msgid ""
+"Connectez-vous, cliquez sur « Publier » et collez le lien de l’offre. Le "
+"formulaire se remplit tout seul : vérifiez, puis envoyez à la modération."
+msgstr ""
+"Melden Sie sich an, klicken Sie auf „Veröffentlichen“ und fügen Sie den Link"
+" des Angebots ein. Das Formular füllt sich selbst aus: prüfen und an die "
+"Moderation senden."
+
+#: templates
+msgid "Pourquoi mon deal n’apparaît-il pas tout de suite ?"
+msgstr "Warum erscheint mein Angebot nicht sofort?"
+
+#: templates
+msgid ""
+"Chaque deal est vérifié par un modérateur avant d’être publié, pour éviter "
+"les fausses promotions. Il apparaît dès qu’il est validé."
+msgstr ""
+"Jedes Angebot wird vor der Veröffentlichung von einem Moderator geprüft, um "
+"falsche Aktionen zu vermeiden. Es erscheint, sobald es freigegeben ist."
+
+#: templates
+msgid "Que m’apporte l’abonnement VIP ?"
+msgstr "Was bringt mir das VIP-Abonnement?"
+
+#: templates
+msgid ""
+"L’historique du prix de chaque deal, la comparaison avec d’autres magasins "
+"et vos alertes en priorité. 2,50 € par mois ou 24 € par an."
+msgstr ""
+"Den Preisverlauf jedes Angebots, den Vergleich mit anderen Geschäften und "
+"Ihre Alarme mit Vorrang. 2,50 € pro Monat oder 24 € pro Jahr."
+
+#: templates
+msgid "Comment exporter ou supprimer mes données ?"
+msgstr "Wie exportiere oder lösche ich meine Daten?"
+
+#: templates
+msgid ""
+"Dans « Mon compte », vous pouvez télécharger vos données ou fermer votre "
+"compte. Vos factures sont conservées sept ans, comme la loi l’impose."
+msgstr ""
+"Unter „Mein Konto“ können Sie Ihre Daten herunterladen oder Ihr Konto "
+"schließen. Ihre Rechnungen werden sieben Jahre aufbewahrt, wie es das Gesetz"
+" verlangt."
+
+#: templates
+msgid "Un deal est faux ou expiré : que faire ?"
+msgstr "Ein Angebot ist falsch oder abgelaufen: was tun?"
+
+#: templates
+msgid ""
+"Écrivez-nous avec le sujet « Un deal ou un commentaire » et le lien du deal."
+" Un modérateur le vérifie."
+msgstr ""
+"Schreiben Sie uns mit dem Betreff „Ein Angebot oder ein Kommentar“ und dem "
+"Link des Angebots. Ein Moderator prüft es."
+
+#: templates
+msgid "Trop de messages envoyés. Réessayez dans une heure."
+msgstr ""
+"Zu viele Nachrichten gesendet. Versuchen Sie es in einer Stunde erneut."
+
+#: templates
+msgid "Merci ! Votre message est bien envoyé. Nous vous répondons par e-mail."
+msgstr "Danke! Ihre Nachricht wurde gesendet. Wir antworten Ihnen per E-Mail."

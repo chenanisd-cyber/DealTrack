@@ -13,7 +13,7 @@
 
 `dump_dealtrack.sql` contient toute la base, dans l'ordre classique d'un dump :
 
-1. **Structure** : les 31 tables avec clés primaires, clés étrangères
+1. **Structure** : les 32 tables avec clés primaires, clés étrangères
    (`REFERENCES … DEFERRABLE INITIALLY DEFERRED`), contraintes `CHECK` et `UNIQUE` ;
 2. **Données** : les `INSERT INTO` ;
 3. **Index** : les 75 `CREATE INDEX`.
@@ -39,8 +39,8 @@ sqlite3 nouvelle_base.sqlite3 < database/dump_dealtrack.sql
 
 `dump_dealtrack_mysql.sql` contient exactement les mêmes tables et données,
 avec les types natifs MySQL 8 (`decimal(10,2)`, `datetime(6)`, `utf8mb4`) :
-31 tables, 38 clés étrangères nommées (`CONSTRAINT … FOREIGN KEY`), 80 index
-et 26 contraintes `CHECK`. Import : phpMyAdmin → créer une base `dealtrack`
+32 tables, 39 clés étrangères nommées (`CONSTRAINT … FOREIGN KEY`), 82 index
+et 27 contraintes `CHECK`. Import : phpMyAdmin → créer une base `dealtrack`
 (interclassement `utf8mb4_unicode_ci`) → onglet **Importer** → choisir le
 fichier. En ligne de commande :
 
@@ -62,7 +62,7 @@ python manage.py export_dump --settings=config.settings.mysql --output ../databa
 ```
 
 Vérification : réimporté dans une base MySQL vierge, chaque table retrouve
-exactement son nombre de lignes et ses 38 clés étrangères.
+exactement son nombre de lignes et ses 39 clés étrangères.
 
 **Volume** : au moins 100 lignes par table métier, sauf les tables
 naturellement limitées (6 catégories × 3 langues, 2 formules

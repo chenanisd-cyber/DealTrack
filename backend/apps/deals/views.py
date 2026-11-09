@@ -32,6 +32,37 @@ SORT_HEADINGS = {
 }
 
 
+SEARCH_MAX_LENGTH = 100
+SEARCH_MAX_WORDS = 6
+
+
+def clean_query(raw):
+    """Texte de recherche nettoyé : espaces réduits, longueur bornée."""
+    return " ".join((raw or "").split())[:SEARCH_MAX_LENGTH]
+
+
+def search_ids(query):
+    """
+    Identifiants des deals qui contiennent TOUS les mots cherchés, chacun dans
+    le titre, la description, le marchand, la catégorie ou une traduction
+    (néerlandais, allemand). L'ORM paramètre la requête : pas d'injection SQL.
+    Une sous-requête par mot évite les doublons dus aux jointures.
+    """
+    words = [w for w in query.split() if len(w) >= 2][:SEARCH_MAX_WORDS]
+    matching = Deal.objects.all()
+    for word in words:
+        condition = (
+            Q(title__icontains=word)
+            | Q(description__icontains=word)
+            | Q(merchant__name__icontains=word)
+            | Q(category__translations__name__icontains=word)
+            | Q(translations__title__icontains=word)
+            | Q(translations__description__icontains=word)
+        )
+        matching = matching.filter(pk__in=Deal.objects.filter(condition).values("pk"))
+    return matching.values("pk")
+
+
 def deal_list(request):
     """
     Flux public. `for_user` applique le filtre d'accès ; aucun paramètre
@@ -54,6 +85,10 @@ def deal_list(request):
     if request.GET.get("local") == "1":
         deals = deals.filter(merchant__is_local_independent=True)
 
+    query = clean_query(request.GET.get("q"))
+    if query:
+        deals = deals.filter(pk__in=search_ids(query))
+
     sort = request.GET.get("tri", "hot")
     if sort not in SORT_HEADINGS:
         sort = "hot"
@@ -68,6 +103,8 @@ def deal_list(request):
             "categories": Category.objects.filter(is_active=True),
             "current_sort": sort,
             "heading": SORT_HEADINGS[sort],
+            "query": query,
+            "result_count": page.paginator.count,
             "season": season_banner(timezone.localdate()),
             "hot_deals": Deal.objects.live()
             .select_related("merchant")

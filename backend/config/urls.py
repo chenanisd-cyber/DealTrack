@@ -16,6 +16,7 @@ urlpatterns += i18n_patterns(
     path("back-office/", admin.site.urls),
     path("comptes/", include("apps.accounts.urls", namespace="accounts")),
     path("abonnement/", include("apps.payments.urls", namespace="payments")),
+    path("aide/", include("apps.moderation.urls", namespace="support")),
     path("", include("apps.deals.urls", namespace="deals")),
     prefix_default_language=True,
 )
