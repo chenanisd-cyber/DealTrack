@@ -6,6 +6,24 @@
    ============================================================================= */
 
 /* -----------------------------------------------------------------------------
+   0. POLICE
+   Jost (licence OFL) est servie par le site lui-même : aucun appel à Google
+   Fonts, donc aucune adresse IP de visiteur transmise à un tiers (RGPD) et
+   une connexion de moins à ouvrir avant d'afficher le texte.
+   Police variable : un seul fichier couvre les graisses 400 à 700.
+   -------------------------------------------------------------------------- */
+@font-face{
+  font-family:"Jost"; font-style:normal; font-weight:400 700; font-display:swap;
+  src:url("../fonts/jost-latin-ext.woff2") format("woff2");
+  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face{
+  font-family:"Jost"; font-style:normal; font-weight:400 700; font-display:swap;
+  src:url("../fonts/jost-latin.woff2") format("woff2");
+  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* -----------------------------------------------------------------------------
    1. TOKENS
    -------------------------------------------------------------------------- */
 :root{
@@ -907,3 +925,11 @@ img{max-width:100%}
 .faq__item summary{cursor:pointer; font-weight:600; font-size:16px}
 .faq__item p{margin:8px 0 0; color:var(--dt-ink-2)}
 @media (max-width:860px){ .support{grid-template-columns:1fr} }
+
+/* 17. Favoris et signalement ------------------------------------------- */
+.inline-form { display: inline; margin: 0; }
+.share__btn.is-active { border-color: var(--dt-accent); color: var(--dt-accent-dark); }
+.report { margin-top: 14px; font-size: 14px; }
+.report summary { cursor: pointer; color: var(--dt-ink-2); }
+.report form { margin-top: 10px; display: grid; gap: 10px; max-width: 460px; }
+

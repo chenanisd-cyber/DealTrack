@@ -9,10 +9,12 @@
     3. à défaut, la vignette du marchand : son logo, ou son nom sur sa couleur.
 
   La vignette est toujours dessinée SOUS la photo. Si la photo externe ne se
-  charge pas (lien mort, site qui bloque), onerror la retire et la vignette
+  charge pas (lien mort, site qui bloque), dealtrack.js la retire et la vignette
   apparaît : jamais de cadre vide ni d'icône d'image cassée.
   referrerpolicy="no-referrer" : le site du marchand ne voit pas de quelle page
   de DealTrack vient le visiteur.
+  La première photo du flux (eager=True) et celle de la page d'un deal sont
+  chargées en priorité ; les autres seulement à l'approche de l'écran.
 {% endcomment %}
 {% with merchant=deal.merchant %}
 <div class="dealmedia{% if large %} is-large{% endif %}{% if small %} is-small{% endif %}">
@@ -26,7 +28,7 @@
   </div>
   {% if deal.photo_url %}
     <img class="dealmedia__photo" src="{{ deal.photo_url }}" alt="{{ deal.title_current }}"
-         loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+         {% if eager or large %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async" referrerpolicy="no-referrer">
   {% endif %}
 </div>
 {% endwith %}

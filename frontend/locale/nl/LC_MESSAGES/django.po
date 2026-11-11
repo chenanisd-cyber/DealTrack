@@ -2563,3 +2563,124 @@ msgstr "Te veel berichten verstuurd. Probeer het over een uur opnieuw."
 #: templates
 msgid "Merci ! Votre message est bien envoyé. Nous vous répondons par e-mail."
 msgstr "Bedankt! Je bericht is verstuurd. We antwoorden je per e-mail."
+
+#: backend/apps/accounts/views.py
+msgid "Trop de tentatives d'inscription. Réessayez dans une heure."
+msgstr "Te veel registratiepogingen. Probeer het over een uur opnieuw."
+
+#: templates
+msgid "favori"
+msgstr "favoriet"
+
+#: templates
+msgid "favoris"
+msgstr "favorieten"
+
+#: templates
+msgid "Profil modifié"
+msgstr "Profiel gewijzigd"
+
+#: templates
+msgid "Deal signalé"
+msgstr "Deal gemeld"
+
+#: templates
+msgid "Motif"
+msgstr "Reden"
+
+#: templates
+msgid "Précisions (facultatif)"
+msgstr "Toelichting (optioneel)"
+
+#: templates
+msgid "Pseudonyme"
+msgstr "Gebruikersnaam"
+
+#: templates
+msgid "Langue préférée"
+msgstr "Voorkeurstaal"
+
+#: templates
+msgid "Deal ajouté à vos favoris."
+msgstr "Deal toegevoegd aan uw favorieten."
+
+#: templates
+msgid "Deal retiré de vos favoris."
+msgstr "Deal verwijderd uit uw favorieten."
+
+#: templates
+msgid "Vous ne pouvez pas signaler votre propre deal."
+msgstr "U kunt uw eigen deal niet melden."
+
+#: templates
+msgid "Vous avez déjà signalé ce deal."
+msgstr "U hebt deze deal al gemeld."
+
+#: templates
+msgid "Merci, votre signalement a été transmis à la modération."
+msgstr "Bedankt, uw melding is doorgestuurd naar de moderatie."
+
+#: templates
+msgid "Signalement refusé : choisissez un motif valide."
+msgstr "Melding geweigerd: kies een geldige reden."
+
+#: templates
+msgid "Votre profil a été mis à jour."
+msgstr "Uw profiel is bijgewerkt."
+
+#: templates
+msgid "Retirer des favoris"
+msgstr "Verwijderen uit favorieten"
+
+#: templates
+msgid "Ajouter aux favoris"
+msgstr "Toevoegen aan favorieten"
+
+#: templates
+msgid "Signaler ce deal"
+msgstr "Deze deal melden"
+
+#: templates
+msgid "Vous avez déjà signalé ce deal. Merci, la modération l'examine."
+msgstr "U hebt deze deal al gemeld. Bedankt, de moderatie bekijkt hem."
+
+#: templates
+msgid "Envoyer le signalement"
+msgstr "Melding versturen"
+
+#: templates
+msgid "Modifier mon profil"
+msgstr "Mijn profiel wijzigen"
+
+#: templates
+msgid "Mes favoris"
+msgstr "Mijn favorieten"
+
+#: templates
+#, python-format
+msgid "Adresse de connexion : %(email)s"
+msgstr "Aanmeldadres: %(email)s"
+
+#: templates
+msgid "Enregistrer"
+msgstr "Opslaan"
+
+#: templates
+msgid "Annuler"
+msgstr "Annuleren"
+
+#: templates
+msgid "Deal"
+msgstr "Deal"
+
+#: templates
+msgid "Retirer"
+msgstr "Verwijderen"
+
+#: templates
+msgid ""
+"Aucun favori pour l'instant. Cliquez sur « Ajouter aux favoris » sur la page"
+" d'un deal."
+msgstr ""
+"Nog geen favorieten. Klik op « Toevoegen aan favorieten » op de pagina van "
+"een deal."

@@ -42,6 +42,7 @@ from apps.deals.models import (
     DealImage,
     DealStatus,
     DealTranslation,
+    Favorite,
 )
 from apps.moderation.models import AuditLog, ContactMessage, ModerationDecision, Report
 from apps.payments.models import Payment, Plan, Subscription
@@ -747,6 +748,24 @@ CONTACT_TEXTS = {
         ],
     },
 }
+
+
+def favorites(deals, members_pool, target=150):
+    """Deals mis en favori par des membres (une seule fois, sans doublon)."""
+    if Favorite.objects.exists() or not deals or not members_pool:
+        return 0
+    now = timezone.now()
+    pairs = set()
+    attempts = 0
+    while len(pairs) < target and attempts < target * 20:
+        attempts += 1
+        pairs.add((random.choice(members_pool).pk, random.choice(deals).pk))
+    rows = [Favorite(user_id=user_id, deal_id=deal_id) for user_id, deal_id in sorted(pairs)]
+    Favorite.objects.bulk_create(rows)
+    for favorite in Favorite.objects.all():
+        added = now - timedelta(days=random.randint(0, 60), hours=random.randint(0, 23))
+        Favorite.objects.filter(pk=favorite.pk).update(created_at=added)
+    return len(rows)
 
 
 def contact_messages(members_pool, target=110):

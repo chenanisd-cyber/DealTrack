@@ -15,6 +15,8 @@ PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 PAYMENT_GATEWAY = "sandbox"
+# Les tests créent des comptes en série depuis la même adresse.
+REGISTER_RATE_LIMIT = 10_000
 
 LOGGING["loggers"]["django"]["level"] = "CRITICAL"  # noqa: F405
 LOGGING["loggers"]["axes"]["level"] = "CRITICAL"  # noqa: F405

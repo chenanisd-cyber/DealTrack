@@ -254,6 +254,10 @@ class User(AbstractBaseUser, PermissionsMixin):
                 {"titre": d.title, "publie_le": d.created_at.isoformat()}
                 for d in self.submitted_deals.all()
             ],
+            "favoris": [
+                {"titre": f.deal.title, "ajoute_le": f.created_at.isoformat()}
+                for f in self.favorites.select_related("deal")
+            ],
             "commentaires": [
                 {"texte": c.body, "publie_le": c.created_at.isoformat()}
                 for c in self.comments.filter(deleted_at__isnull=True)

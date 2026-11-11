@@ -425,19 +425,23 @@ Voir `.env.example` pour la liste complète.
 
 Un document de sécurité qui n'énonce que des réussites n'est pas crédible.
 
-- **Pas de Content-Security-Policy.** Les gabarits comportent des attributs
-  `style=` en ligne, incompatibles avec une CSP stricte sans nonce. À traiter
-  avant mise en production réelle.
+- **Content-Security-Policy : attributs `style=` encore permis.** La CSP
+  (`config/security_middleware.py`) interdit tout script en ligne ou tiers,
+  mais garde `style-src-attr 'unsafe-inline'` pour les attributs `style=` des
+  gabarits. Ils ne peuvent pas exécuter de code ; les déplacer dans la feuille
+  de style permettrait de retirer cette exception.
 - **Pas de double authentification.** Souhaitable au moins pour les comptes
   modérateur et administrateur.
 - **`SESSION_ENGINE` en base.** Convient jusqu'à quelques milliers de sessions
   simultanées ; au-delà, passer sur Redis.
-- **`AXES` s'appuie sur le cache local.** En déploiement multi-processus, il faut
-  un cache partagé, sinon le compteur d'échecs se fragmente et le verrou devient
-  bien plus permissif qu'annoncé.
+- **Adresse du visiteur lue dans `X-Forwarded-For`.** Les limites de débit par
+  adresse IP (inscription, contact) font confiance à la première entrée de cet
+  en-tête : exact derrière un proxy qui l'écrase, contournable s'il se contente
+  de la compléter. À vérifier chez l'hébergeur retenu.
 - **Adresses IP dans la piste d'audit.** Ce sont des données personnelles au sens
   du RGPD. La rétention est fixée à 365 jours (`AUDIT_LOG_RETENTION_DAYS`), mais
-  la purge automatique n'est pas encore planifiée.
+  la purge (`manage.py purge_audit`) est lancée à chaque déploiement ; une
+  tâche planifiée quotidienne serait plus régulière.
 - **Aucun audit externe.** Les tests vérifient ce que j'ai pensé à tester. Un
   test de pénétration indépendant reste nécessaire avant toute exploitation.
 
@@ -457,3 +461,7 @@ Un document de sécurité qui n'énonce que des réussites n'est pas crédible.
 | Paiement | `apps/payments/gateways.py`, `services.py` | `PaymentTests` |
 | SSRF (lien d'offre) | `apps/deals/scraper.py`, `views.py` | `tests/test_scraper.py` |
 | Envoi de photos | `apps/catalog/images.py` | `tests/test_images.py` |
+| CSP et en-têtes | `config/security_middleware.py` | `tests/test_launch.py` |
+| Limite d'inscriptions | `config/ratelimit.py`, `apps/accounts/views.py` | `tests/test_launch.py` |
+| Cache partagé (limites de débit) | `config/settings/prod.py` | — |
+| Purge de la piste d'audit | `purge_audit` (commande) | `tests/test_launch.py` |

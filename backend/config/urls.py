@@ -2,13 +2,18 @@ from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.contrib.sitemaps.views import sitemap
+from django.urls import include, path, re_path
+
+from . import site_views
 
 # Hors i18n_patterns : l'API ne doit pas être préfixée par la langue.
 # Un client REST négocie via l'en-tête Accept-Language, pas via l'URL.
 urlpatterns = [
     path("api/v1/", include("apps.api.urls", namespace="api")),
     path("i18n/", include("django.conf.urls.i18n")),
+    path("robots.txt", site_views.robots_txt, name="robots"),
+    path("sitemap.xml", sitemap, {"sitemaps": site_views.SITEMAPS}, name="sitemap"),
 ]
 
 # Front-office et back-office, préfixés /fr/, /nl/, /de/.
@@ -25,14 +30,9 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG or getattr(settings, "SERVE_MEDIA", False):
-    # static() ne fait rien hors DEBUG : en mode partage on sert les photos
+    # static() ne fait rien hors DEBUG : en production on sert les photos
     # explicitement (django.views.static.serve refuse les chemins « ../ »).
-    from django.urls import re_path
-    from django.views.static import serve
-
-    urlpatterns += [
-        re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
-    ]
+    urlpatterns += [re_path(r"^media/(?P<path>.*)$", site_views.media)]
 
 handler403 = "apps.deals.views.forbidden"
 handler404 = "apps.deals.views.not_found"

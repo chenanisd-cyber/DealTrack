@@ -8,6 +8,7 @@ from .models import (
     Deal,
     DealStatus,
     DealTranslation,
+    Favorite,
     Vote,
 )
 
@@ -108,3 +109,11 @@ class AlertAdmin(admin.ModelAdmin):
     list_filter = ("is_active", "category")
     search_fields = ("keyword", "user__display_name")
     autocomplete_fields = ("user", "category")
+
+
+@admin.register(Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ("deal", "user", "created_at")
+    list_filter = ("created_at",)
+    search_fields = ("deal__title", "user__display_name")
+    autocomplete_fields = ("deal", "user")

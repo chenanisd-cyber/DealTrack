@@ -2579,3 +2579,126 @@ msgstr ""
 #: templates
 msgid "Merci ! Votre message est bien envoyé. Nous vous répondons par e-mail."
 msgstr "Danke! Ihre Nachricht wurde gesendet. Wir antworten Ihnen per E-Mail."
+
+#: backend/apps/accounts/views.py
+msgid "Trop de tentatives d'inscription. Réessayez dans une heure."
+msgstr ""
+"Zu viele Registrierungsversuche. Versuchen Sie es in einer Stunde erneut."
+
+#: templates
+msgid "favori"
+msgstr "Favorit"
+
+#: templates
+msgid "favoris"
+msgstr "Favoriten"
+
+#: templates
+msgid "Profil modifié"
+msgstr "Profil geändert"
+
+#: templates
+msgid "Deal signalé"
+msgstr "Deal gemeldet"
+
+#: templates
+msgid "Motif"
+msgstr "Grund"
+
+#: templates
+msgid "Précisions (facultatif)"
+msgstr "Details (optional)"
+
+#: templates
+msgid "Pseudonyme"
+msgstr "Benutzername"
+
+#: templates
+msgid "Langue préférée"
+msgstr "Bevorzugte Sprache"
+
+#: templates
+msgid "Deal ajouté à vos favoris."
+msgstr "Deal zu Ihren Favoriten hinzugefügt."
+
+#: templates
+msgid "Deal retiré de vos favoris."
+msgstr "Deal aus Ihren Favoriten entfernt."
+
+#: templates
+msgid "Vous ne pouvez pas signaler votre propre deal."
+msgstr "Sie können Ihren eigenen Deal nicht melden."
+
+#: templates
+msgid "Vous avez déjà signalé ce deal."
+msgstr "Sie haben diesen Deal bereits gemeldet."
+
+#: templates
+msgid "Merci, votre signalement a été transmis à la modération."
+msgstr "Danke, Ihre Meldung wurde an die Moderation weitergeleitet."
+
+#: templates
+msgid "Signalement refusé : choisissez un motif valide."
+msgstr "Meldung abgelehnt: Wählen Sie einen gültigen Grund."
+
+#: templates
+msgid "Votre profil a été mis à jour."
+msgstr "Ihr Profil wurde aktualisiert."
+
+#: templates
+msgid "Retirer des favoris"
+msgstr "Aus Favoriten entfernen"
+
+#: templates
+msgid "Ajouter aux favoris"
+msgstr "Zu Favoriten hinzufügen"
+
+#: templates
+msgid "Signaler ce deal"
+msgstr "Diesen Deal melden"
+
+#: templates
+msgid "Vous avez déjà signalé ce deal. Merci, la modération l'examine."
+msgstr ""
+"Sie haben diesen Deal bereits gemeldet. Danke, die Moderation prüft ihn."
+
+#: templates
+msgid "Envoyer le signalement"
+msgstr "Meldung senden"
+
+#: templates
+msgid "Modifier mon profil"
+msgstr "Mein Profil bearbeiten"
+
+#: templates
+msgid "Mes favoris"
+msgstr "Meine Favoriten"
+
+#: templates
+#, python-format
+msgid "Adresse de connexion : %(email)s"
+msgstr "Anmeldeadresse: %(email)s"
+
+#: templates
+msgid "Enregistrer"
+msgstr "Speichern"
+
+#: templates
+msgid "Annuler"
+msgstr "Abbrechen"
+
+#: templates
+msgid "Deal"
+msgstr "Deal"
+
+#: templates
+msgid "Retirer"
+msgstr "Entfernen"
+
+#: templates
+msgid ""
+"Aucun favori pour l'instant. Cliquez sur « Ajouter aux favoris » sur la page"
+" d'un deal."
+msgstr ""
+"Noch keine Favoriten. Klicken Sie auf der Seite eines Deals auf « Zu "
+"Favoriten hinzufügen »."

@@ -48,6 +48,7 @@ def database_from_url(url):
         "HOST": parts.hostname or "",
         "PORT": str(parts.port or 5432),
         "CONN_MAX_AGE": 60,
+        "CONN_HEALTH_CHECKS": True,
         "OPTIONS": {"sslmode": query.get("sslmode", [env("POSTGRES_SSLMODE", "prefer")])[0]},
     }
 
@@ -64,9 +65,24 @@ else:
             "HOST": env("POSTGRES_HOST", "localhost"),
             "PORT": env("POSTGRES_PORT", "5432"),
             "CONN_MAX_AGE": 60,
+            "CONN_HEALTH_CHECKS": True,
             "OPTIONS": {"sslmode": env("POSTGRES_SSLMODE", "require")},
         }
     }
+
+
+# -- Cache partagé ---------------------------------------------------------------
+# Le serveur tourne en plusieurs processus. Avec le cache en mémoire par
+# défaut, chacun aurait son propre compteur : les limites de débit (API,
+# inscription, contact, lecture de liens) seraient multipliées d'autant.
+# Une table de cache en base les met en commun, sans service supplémentaire
+# (table créée par « manage.py createcachetable », voir render-build.sh).
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "dealtrack_cache",
+    }
+}
 
 
 # -- Transport -----------------------------------------------------------------

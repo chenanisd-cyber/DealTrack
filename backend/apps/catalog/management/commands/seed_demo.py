@@ -988,6 +988,7 @@ class Command(BaseCommand):
             f"Signalements supplémentaires : {_volume.reports(all_deals, everyone, staff[1])}"
         )
         self.stdout.write(f"Messages de contact : {_volume.contact_messages(everyone)}")
+        self.stdout.write(f"Favoris : {_volume.favorites(all_deals, everyone)}")
         self.stdout.write(f"Alertes : {_volume.alerts(everyone, categories)}")
         self.stdout.write(f"Alertes déclenchées : {_volume.alert_matches(all_deals)}")
         self.stdout.write(

@@ -8,10 +8,18 @@
   {# Le navigateur ne devine pas les autres langues : on les déclare. #}
   {% get_available_languages as LANGUAGES %}
   {% for code, name in LANGUAGES %}
-  <link rel="alternate" hreflang="{{ code }}" href="/{{ code }}{{ request.get_full_path|slice:'3:' }}">
+  <link rel="alternate" hreflang="{{ code }}" href="{{ request.scheme }}://{{ request.get_host }}/{{ code }}{{ request.get_full_path|slice:'3:' }}">
   {% endfor %}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+  <meta property="og:site_name" content="DealTrack.be">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}DealTrack.be{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{% trans "La plateforme communautaire des bons plans en Belgique." %}{% endblock %}">
+  {% block og_image %}{% endblock %}
+  <meta name="theme-color" content="#01182B">
+  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+  {# Police servie par le site : préchargée pour éviter un changement de police à l'affichage. #}
+  <link rel="preload" href="{% static 'fonts/jost-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% static 'css/dealtrack.css' %}?v={{ ASSET_VERSION }}">
 </head>
 <body data-authenticated="{% if user.is_authenticated %}1{% else %}0{% endif %}" data-login-url="{% url 'accounts:login' %}">
@@ -116,7 +124,7 @@
     </div>
   </div>
   <div class="foot__legal">
-    <span>© 2025 DealTrack.be — {% trans "Bruxelles, Belgique" %}</span>
+    <span>© {% now "Y" %} DealTrack.be — {% trans "Bruxelles, Belgique" %}</span>
     <span>{% trans "Prix TVA belge comprise." %}</span>
   </div>
 </footer>

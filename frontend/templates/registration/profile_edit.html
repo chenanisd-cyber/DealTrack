@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Modifier mon profil" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell"><div class="form">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Modifier mon profil" %}</h1>
+  <section class="panel">
+    <p class="meta">{% blocktrans with email=user.email %}Adresse de connexion : {{ email }}{% endblocktrans %}</p>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include "_form.html" %}
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button class="cta" type="submit">{% trans "Enregistrer" %}</button>
+        <a class="pill" href="{% url 'accounts:profile' %}">{% trans "Annuler" %}</a>
+      </div>
+    </form>
+  </section>
+</div></div>
+{% endblock %}

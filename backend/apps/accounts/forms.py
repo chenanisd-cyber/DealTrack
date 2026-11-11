@@ -71,6 +71,37 @@ class RegistrationForm(UserCreationForm):
         return user
 
 
+class ProfileForm(forms.ModelForm):
+    """
+    Modification du profil. L'e-mail, le rôle et le statut VIP ne sont pas dans
+    la liste des champs : un membre ne peut pas les changer, même en forgeant
+    la requête.
+    """
+
+    class Meta:
+        model = User
+        fields = ["display_name", "preferred_language", "marketing_consent"]
+        labels = {
+            "display_name": _("Pseudonyme"),
+            "preferred_language": _("Langue préférée"),
+            "marketing_consent": _(
+                "Je souhaite recevoir la sélection hebdomadaire des meilleurs deals"
+            ),
+        }
+        widgets = {
+            "display_name": forms.TextInput(attrs={"class": "input", "maxlength": 40}),
+            "preferred_language": forms.Select(attrs={"class": "select"}),
+        }
+
+    def clean_display_name(self):
+        name = self.cleaned_data["display_name"].strip()
+        validate_no_control_characters(name)
+        taken = User.objects.filter(display_name__iexact=name).exclude(pk=self.instance.pk)
+        if taken.exists():
+            raise forms.ValidationError(_("Ce pseudonyme est déjà pris."))
+        return name
+
+
 class EmailAuthenticationForm(AuthenticationForm):
     """
     Connexion par e-mail. Le message d'échec est volontairement identique que

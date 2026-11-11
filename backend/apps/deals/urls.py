@@ -12,5 +12,7 @@ urlpatterns = [
     path("deal/<slug:slug>/vote/", views.deal_vote, name="vote"),
     path("deal/<slug:slug>/comparer/", views.deal_compare, name="compare"),
     path("deal/<slug:slug>/commentaire/", views.comment_create, name="comment"),
+    path("deal/<slug:slug>/favori/", views.deal_favorite, name="favorite"),
+    path("deal/<slug:slug>/signaler/", views.deal_report, name="report"),
     path("api/scrape/", views.scrape_link_view, name="scrape-link"),
 ]

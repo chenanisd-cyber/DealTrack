@@ -1,0 +1,31 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Mes favoris" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell" style="padding-bottom:40px">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Mes favoris" %}</h1>
+  <section class="panel">
+    <table class="table">
+      <thead><tr><th>{% trans "Deal" %}</th><th>{% trans "Prix" %}</th><th></th></tr></thead>
+      <tbody>
+      {% for deal in deals %}
+        <tr>
+          <td>
+            <a class="table__deal" href="{{ deal.get_absolute_url }}">
+              <span class="table__thumb">{% include "deals/_media.html" with small=True %}</span>
+              <span class="table__title">{{ deal.title_current|truncatechars:70 }}</span>
+            </a>
+          </td>
+          <td>{{ deal.price }} €</td>
+          <td>
+            <form method="post" action="{% url 'deals:favorite' deal.slug %}">
+              {% csrf_token %}
+              <button type="submit" class="pill">{% trans "Retirer" %}</button>
+            </form>
+          </td>
+        </tr>
+      {% empty %}<tr><td colspan="3" class="table__sub">{% trans "Aucun favori pour l'instant. Cliquez sur « Ajouter aux favoris » sur la page d'un deal." %}</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </section>
+</div>
+{% endblock %}

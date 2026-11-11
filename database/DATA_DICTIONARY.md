@@ -20,25 +20,26 @@
 
 | Table | Rôle | Clé primaire | Lignes en démo |
 |---|---|---|---|
-| `accounts_user` | utilisateurs | id · UUID | 120 |
+| `accounts_user` | utilisateurs | id · UUID | 124 |
 | `catalog_category` | catégories | id · UUID | 6 |
 | `catalog_categorytranslation` | libellés de catégorie | id · BIGINT auto | 18 |
-| `catalog_merchant` | marchands | id · UUID | 135 |
-| `deals_alert` | alertes | id · UUID | 177 |
-| `deals_alertmatch` | alertes déclenchées | id · BIGINT auto | 170 |
-| `deals_comment` | commentaires | id · UUID | 238 |
-| `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 476 |
-| `deals_deal` | deals | id · UUID | 129 |
+| `catalog_merchant` | marchands | id · UUID | 137 |
+| `deals_alert` | alertes | id · UUID | 170 |
+| `deals_alertmatch` | alertes déclenchées | id · BIGINT auto | 207 |
+| `deals_comment` | commentaires | id · UUID | 271 |
+| `deals_commenttranslation` | traductions de commentaire | id · BIGINT auto | 540 |
+| `deals_deal` | deals | id · UUID | 132 |
 | `deals_dealimage` | images de deal | id · BIGINT auto | 135 |
 | `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 254 |
-| `deals_pricepoint` | relevés de prix | id · BIGINT auto | 129 |
-| `deals_vote` | votes | id · BIGINT auto | 616 |
-| `payments_payment` | paiements | id · UUID | 114 |
+| `deals_favorite` | favoris | id · BIGINT auto | 150 |
+| `deals_pricepoint` | relevés de prix | id · BIGINT auto | 132 |
+| `deals_vote` | votes | id · BIGINT auto | 691 |
+| `payments_payment` | paiements | id · UUID | 120 |
 | `payments_plan` | formules | id · UUID | 2 |
-| `payments_subscription` | abonnements | id · UUID | 105 |
-| `moderation_auditlog` | journal d'audit | id · BIGINT auto | 603 |
+| `payments_subscription` | abonnements | id · UUID | 108 |
+| `moderation_auditlog` | journal d'audit | id · BIGINT auto | 636 |
 | `moderation_contactmessage` | messages de contact | id · UUID | 110 |
-| `moderation_moderationdecision` | décisions de modération | id · UUID | 120 |
+| `moderation_moderationdecision` | décisions de modération | id · UUID | 121 |
 | `moderation_report` | signalements | id · UUID | 113 |
 
 ---
@@ -271,6 +272,19 @@ Titre et description d'une offre dans une autre langue.
 **Contraintes de table**
 - `uniq_deal_language` — unicité sur `deal`, `language`
 
+### `deals_favorite`
+Deal mis de côté par un membre. Une seule ligne par couple (membre, deal), garantie par la base ; supprimer le deal ou le compte supprime le favori.
+
+| Colonne | Type | Null | Défaut | Contraintes et rôle |
+|---|---|---|---|---|
+| `id` | BIGINT auto | non | auto | **clé primaire** |
+| `user_id` | FK | non | — | indexée · → `accounts_user` · `CASCADE` |
+| `deal_id` | FK | non | — | indexée · → `deals_deal` · `CASCADE` |
+| `created_at` | TIMESTAMP | non | — | — |
+
+**Contraintes de table**
+- `uniq_favorite_per_user_deal` — unicité sur `user`, `deal`
+
 ### `deals_pricepoint`
 Prix d'une offre à une date donnée : la base de l'historique VIP.
 
@@ -473,4 +487,4 @@ Le comportement de suppression est choisi champ par champ, jamais laissé par d�
 
 ---
 
-_Schéma : 32 tables, moteur `sqlite`._
+_Schéma : 33 tables, moteur `sqlite`._

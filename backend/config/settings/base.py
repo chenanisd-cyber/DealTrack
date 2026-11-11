@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
     # Tiers
     "rest_framework",
     "django_filters",
@@ -79,6 +80,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # Content-Security-Policy et Permissions-Policy sur toutes les réponses.
+    "config.security_middleware.SecurityHeadersMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     # LocaleMiddleware doit suivre Session et précéder Common.
     "django.middleware.locale.LocaleMiddleware",
@@ -178,6 +181,10 @@ AXES_RESET_ON_SUCCESS = True
 AXES_LOCKOUT_TEMPLATE = "registration/lockout.html"
 AXES_VERBOSE = True
 AXES_ENABLE_ACCESS_FAILURE_LOG = True
+
+# Inscriptions : envois du formulaire autorisés par heure et par adresse IP.
+# Freine la création de comptes en série et le test d'adresses e-mail.
+REGISTER_RATE_LIMIT = 20
 
 # --------------------------------------------------------------------------
 # Sessions et CSRF

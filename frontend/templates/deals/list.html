@@ -39,7 +39,7 @@
     {% for deal in page_obj %}
     <article class="deal{% if deal.is_expired %} is-expired{% endif %}">
       <a class="deal__media" href="{{ deal.get_absolute_url }}" tabindex="-1" aria-hidden="true">
-        {% include "deals/_media.html" %}
+        {% include "deals/_media.html" with eager=forloop.first %}
       </a>
       <div class="deal__body">
         <div class="deal__top">

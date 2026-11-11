@@ -330,7 +330,7 @@ change à chaque lancement. `cloudflared.exe` est attendu dans `.tools/`
 python manage.py test tests --settings=config.settings.test
 ```
 
-213 tests, répartis en onze fichiers dans `backend/tests/` :
+251 tests, répartis en treize fichiers dans `backend/tests/` :
 
 | Fichier | Tests | Contenu |
 |---|---|---|
@@ -345,6 +345,7 @@ python manage.py test tests --settings=config.settings.test
 | test_support.py | 12 | Barre de recherche (mots, marchand, traductions, deals non publiés exclus) ; page Aide et contact (enregistrement, e-mail à l’équipe, anti-robot, limite, CSRF) |
 | test_vip.py | 18 | Abonnement VIP : historique du prix, graphique, respect du robots.txt, comparaison réservée, alertes en priorité, régions supprimées |
 | test_live_features.py | 19 | Lecture du prix, marchand automatique, assistant de publication, vote en direct, annuaire, mode partage |
+| test_member_features.py | 21 | Favoris (ajout, retrait, page, export RGPD), signalement d'un deal (motif, doublon, propre deal, back-office), modification du profil (pseudonyme pris, e-mail et rôle non modifiables) |
 
 ## API REST
 

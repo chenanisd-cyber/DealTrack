@@ -16,11 +16,11 @@ from django.views.decorators.http import require_GET, require_http_methods, requ
 
 from apps.catalog.merchants import domain_of, find_merchant, name_from_domain
 from apps.catalog.models import Category, Merchant
-from apps.moderation.models import AuditLog
+from apps.moderation.models import AuditLog, Report
 
 from . import vip
-from .forms import CommentForm, DealSubmissionForm
-from .models import Deal, Vote
+from .forms import CommentForm, DealSubmissionForm, ReportForm
+from .models import Deal, Favorite, Vote
 from .scraper import fetch_deal_info
 from .season import season_banner
 
@@ -127,8 +127,11 @@ def deal_detail(request, slug):
         .prefetch_related("translations")
     )
     user_vote = None
+    is_favorite = already_reported = False
     if request.user.is_authenticated:
         user_vote = Vote.objects.filter(deal=deal, user=request.user).first()
+        is_favorite = Favorite.objects.filter(deal=deal, user=request.user).exists()
+        already_reported = Report.objects.filter(deal=deal, reporter=request.user).exists()
 
     # Avantages VIP : calculés seulement pour un abonné (les autres voient un aperçu).
     is_vip = request.user.is_authenticated and request.user.is_vip
@@ -140,6 +143,9 @@ def deal_detail(request, slug):
             "comments": comments,
             "comment_form": CommentForm(),
             "user_vote": user_vote.value if user_vote else 0,
+            "is_favorite": is_favorite,
+            "already_reported": already_reported,
+            "report_form": ReportForm(),
             "is_vip": is_vip,
             "price_chart": vip.price_chart(deal) if is_vip else None,
             "similar_deals": vip.similar_deals(deal) if is_vip else [],
@@ -253,6 +259,54 @@ def deal_vote(request, slug):
         return JsonResponse(
             {"temperature": temperature, "user_vote": vote.value if vote else 0}
         )
+    return redirect(deal.get_absolute_url())
+
+
+@login_required
+@require_POST
+def deal_favorite(request, slug):
+    """Ajoute le deal aux favoris du membre, ou l'en retire s'il y est déjà."""
+    deal = get_object_or_404(Deal.objects.for_user(request.user), slug=slug)
+    favorite, created = Favorite.objects.get_or_create(deal=deal, user=request.user)
+    if created:
+        messages.success(request, _("Deal ajouté à vos favoris."))
+    else:
+        favorite.delete()
+        messages.info(request, _("Deal retiré de vos favoris."))
+    return redirect(deal.get_absolute_url())
+
+
+@login_required
+@require_POST
+def deal_report(request, slug):
+    """
+    Signalement d'un deal par un membre (exigence du DSA). Le modérateur le
+    traite dans le back-office ; un membre ne signale qu'une fois un même deal.
+    """
+    deal = get_object_or_404(Deal.objects.live(), slug=slug)
+    if deal.submitted_by_id == request.user.pk:
+        messages.error(request, _("Vous ne pouvez pas signaler votre propre deal."))
+        return redirect(deal.get_absolute_url())
+    if Report.objects.filter(deal=deal, reporter=request.user).exists():
+        messages.info(request, _("Vous avez déjà signalé ce deal."))
+        return redirect(deal.get_absolute_url())
+
+    form = ReportForm(request.POST)
+    if form.is_valid():
+        report = form.save(commit=False)
+        report.deal = deal
+        report.reporter = request.user
+        report.save()
+        AuditLog.record(
+            action=AuditLog.Action.DEAL_REPORTED,
+            actor=request.user,
+            target=deal,
+            request=request,
+            metadata={"reason": report.reason},
+        )
+        messages.success(request, _("Merci, votre signalement a été transmis à la modération."))
+    else:
+        messages.error(request, _("Signalement refusé : choisissez un motif valide."))
     return redirect(deal.get_absolute_url())
 
 

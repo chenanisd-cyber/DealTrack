@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -10,8 +11,9 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods, require_POST
 
 from apps.moderation.models import AuditLog
+from config.ratelimit import allow, client_ip
 
-from .forms import EmailAuthenticationForm, RegistrationForm
+from .forms import EmailAuthenticationForm, ProfileForm, RegistrationForm
 
 
 class DealTrackLoginView(LoginView):
@@ -33,6 +35,13 @@ def register(request):
         return redirect("deals:list")
 
     form = RegistrationForm(request.POST or None)
+    if request.method == "POST" and not allow(
+        f"register-rate:{client_ip(request)}", settings.REGISTER_RATE_LIMIT, 60 * 60
+    ):
+        messages.error(
+            request, _("Trop de tentatives d'inscription. Réessayez dans une heure.")
+        )
+        return render(request, "registration/register.html", {"form": form}, status=429)
     if request.method == "POST" and form.is_valid():
         user = form.save()
         AuditLog.record(
@@ -65,6 +74,43 @@ def profile(request):
             "subscriptions": request.user.subscriptions.all(),
         },
     )
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def profile_edit(request):
+    """Le membre modifie son pseudonyme, sa langue et son consentement marketing."""
+    form = ProfileForm(request.POST or None, instance=request.user)
+    if request.method == "POST" and form.is_valid():
+        changed = form.changed_data
+        form.save()
+        if changed:
+            AuditLog.record(
+                action=AuditLog.Action.USER_UPDATED,
+                actor=request.user,
+                target=request.user,
+                request=request,
+                metadata={"fields": changed},
+            )
+        messages.success(request, _("Votre profil a été mis à jour."))
+        return redirect("accounts:profile")
+    return render(request, "registration/profile_edit.html", {"form": form})
+
+
+@login_required
+@require_http_methods(["GET"])
+def favorites(request):
+    """Liste des deals mis en favori, encore visibles pour le membre."""
+    from apps.deals.models import Deal
+
+    deals = (
+        Deal.objects.for_user(request.user)
+        .filter(favorited_by__user=request.user)
+        .select_related("merchant")
+        .prefetch_related("translations", "gallery")
+        .order_by("-favorited_by__created_at")
+    )
+    return render(request, "registration/favorites.html", {"deals": deals})
 
 
 @login_required

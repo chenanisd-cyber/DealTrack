@@ -101,7 +101,9 @@ class DealPhotoTests(TestCase):
         self.publish(image_url="https://shop.example/casque.jpg")
         html = self.client.get(reverse("deals:list")).content.decode()
         self.assertIn('src="https://shop.example/casque.jpg"', html)
-        self.assertIn('onerror="this.remove()"', html)  # repli si le lien est mort
+        # Repli si le lien est mort : dealtrack.js retire la photo. Pas d'attribut
+        # onerror, que la Content-Security-Policy bloquerait.
+        self.assertNotIn("onerror=", html)
         self.assertIn("dealmedia__brand", html)
 
     def test_photo_envoyee_prioritaire_sur_l_image_externe(self):

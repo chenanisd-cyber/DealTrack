@@ -484,6 +484,33 @@ class Vote(models.Model):
         return deal.temperature
 
 
+class Favorite(models.Model):
+    """
+    Deal mis de côté par un membre. Une seule ligne par couple (membre, deal),
+    garantie par la base ; supprimer le deal ou le compte supprime le favori.
+    """
+
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="favorites"
+    )
+    deal = models.ForeignKey(Deal, on_delete=models.CASCADE, related_name="favorited_by")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("favori")
+        verbose_name_plural = _("favoris")
+        ordering = ["-created_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "deal"], name="uniq_favorite_per_user_deal"
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.user} ★ {self.deal}"
+
+
 class Comment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     deal = models.ForeignKey(Deal, on_delete=models.CASCADE, related_name="comments")

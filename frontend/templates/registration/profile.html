@@ -12,7 +12,11 @@
         {% trans "Compte gratuit" %} — <a href="{% url 'payments:plans' %}">{% trans "Devenir VIP" %}</a>
       {% endif %}
     </p>
-    <a class="pill" href="{% url 'accounts:alerts' %}">{% trans "Mes alertes" %}</a>
+    <span style="display:flex;gap:8px;flex-wrap:wrap">
+      <a class="pill" href="{% url 'accounts:profile-edit' %}">{% trans "Modifier mon profil" %}</a>
+      <a class="pill" href="{% url 'accounts:favorites' %}">{% trans "Mes favoris" %}</a>
+      <a class="pill" href="{% url 'accounts:alerts' %}">{% trans "Mes alertes" %}</a>
+    </span>
   </section>
 
   <section class="panel">

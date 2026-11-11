@@ -1,6 +1,9 @@
 {% extends "base.html" %}{% load i18n %}
 {% block title %}{{ deal.title_current }} — DealTrack.be{% endblock %}
 {% block description %}{{ deal.description_current|truncatechars:150 }}{% endblock %}
+{% block og_title %}{{ deal.title_current }}{% endblock %}
+{% block og_description %}{{ deal.description_current|truncatechars:150 }}{% endblock %}
+{% block og_image %}{% if deal.image %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ deal.image.url }}">{% elif deal.image_url %}<meta property="og:image" content="{{ deal.image_url }}">{% endif %}{% endblock %}
 
 {% block content %}
 <div class="shell">
@@ -79,8 +82,38 @@
           <button type="button" class="share__btn" data-share="copy" data-url="{{ share_url }}" data-copied="{% trans 'Lien copié !' %}">
             <span>{% trans "Copier le lien" %}</span>
           </button>
+          {% if user.is_authenticated %}
+          <form method="post" action="{% url 'deals:favorite' deal.slug %}" class="inline-form">
+            {% csrf_token %}
+            <button type="submit" class="share__btn{% if is_favorite %} is-active{% endif %}" aria-pressed="{% if is_favorite %}true{% else %}false{% endif %}">
+              <span>{% if is_favorite %}★ {% trans "Retirer des favoris" %}{% else %}☆ {% trans "Ajouter aux favoris" %}{% endif %}</span>
+            </button>
+          </form>
+          {% endif %}
         </div>
         {% endwith %}
+
+        {% if user.is_authenticated and deal.submitted_by_id != user.pk %}
+        <details class="report">
+          <summary>{% trans "Signaler ce deal" %}</summary>
+          {% if already_reported %}
+            <p class="meta">{% trans "Vous avez déjà signalé ce deal. Merci, la modération l'examine." %}</p>
+          {% else %}
+          <form method="post" action="{% url 'deals:report' deal.slug %}">
+            {% csrf_token %}
+            <div class="field">
+              <label class="field__label" for="{{ report_form.reason.id_for_label }}">{{ report_form.reason.label }}</label>
+              {{ report_form.reason }}
+            </div>
+            <div class="field">
+              <label class="field__label" for="{{ report_form.detail.id_for_label }}">{{ report_form.detail.label }}</label>
+              {{ report_form.detail }}
+            </div>
+            <button type="submit" class="pill">{% trans "Envoyer le signalement" %}</button>
+          </form>
+          {% endif %}
+        </details>
+        {% endif %}
       </div>
     </div>
   </article>

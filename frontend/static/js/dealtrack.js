@@ -14,6 +14,19 @@
     return field ? field.value : "";
   }
 
+  // -- Photo d'offre introuvable : on la retire, la vignette du marchand
+  //    dessinée dessous apparaît. (Écouteur ici plutôt qu'un attribut onerror :
+  //    la Content-Security-Policy du site interdit tout script en ligne.)
+  // « error » ne remonte pas dans le document : il faut l'écouter en capture.
+  document.addEventListener("error", function (event) {
+    var img = event.target;
+    if (img.matches && img.matches(".dealmedia__photo")) img.remove();
+  }, true);
+  // Photos déjà en échec avant le chargement de ce script.
+  document.querySelectorAll(".dealmedia__photo").forEach(function (img) {
+    if (img.complete && img.naturalWidth === 0) img.remove();
+  });
+
   // -- Votes : la température change instantanément ------------------------
   function setTemperature(form, temperature, userVote) {
     var temp = form.querySelector(".vote__temp");

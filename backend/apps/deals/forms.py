@@ -9,6 +9,7 @@ from apps.accounts.validators import validate_no_control_characters
 from apps.catalog.images import IMAGE_VALIDATORS
 from apps.catalog.merchants import build_merchant
 from apps.catalog.models import Category, Merchant
+from apps.moderation.models import Report
 
 from .models import Comment, Deal, DealImage, DealStatus
 
@@ -259,3 +260,21 @@ class CommentForm(forms.ModelForm):
         if len(value) < 2:
             raise forms.ValidationError(_("Commentaire trop court."))
         return value
+
+
+class ReportForm(forms.ModelForm):
+    """Signalement d'un deal : un motif obligatoire, un détail facultatif."""
+
+    class Meta:
+        model = Report
+        fields = ["reason", "detail"]
+        labels = {"reason": _("Motif"), "detail": _("Précisions (facultatif)")}
+        widgets = {
+            "reason": forms.Select(attrs={"class": "select"}),
+            "detail": forms.Textarea(attrs={"class": "textarea", "rows": 3, "maxlength": 500}),
+        }
+
+    def clean_detail(self):
+        detail = self.cleaned_data.get("detail", "").strip()
+        validate_no_control_characters(detail)
+        return detail
