@@ -18,6 +18,11 @@
   {% block og_image %}{% endblock %}
   <meta name="theme-color" content="#01182B">
   <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+  {# Application installable sur téléphone (PWA). #}
+  <link rel="manifest" href="{% url 'manifest' %}">
+  <link rel="apple-touch-icon" href="{% static 'img/icon-180.png' %}">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="DealTrack">
   {# Police servie par le site : préchargée pour éviter un changement de police à l'affichage. #}
   <link rel="preload" href="{% static 'fonts/jost-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% static 'css/dealtrack.css' %}?v={{ ASSET_VERSION }}">
@@ -34,9 +39,10 @@
       <span class="brand__word">DealTrack<span class="brand__tld">.be</span></span>
     </a>
 
-    <form class="search" role="search" method="get" action="{% url 'deals:list' %}">
+    {# Sur l'annuaire des commerçants, la barre cherche un commerce ; ailleurs, un deal. #}
+    <form class="search" role="search" method="get" action="{% block search_action %}{% url 'deals:list' %}{% endblock %}">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <label class="visually-hidden" for="q">{% trans "Rechercher un bon plan" %}</label>
+      <label class="visually-hidden" for="q">{% block search_label %}{% trans "Rechercher un bon plan" %}{% endblock %}</label>
       <input id="q" name="q" type="search" value="{{ request.GET.q|default:'' }}" placeholder="{% trans 'Recherche…' %}">
     </form>
 
@@ -109,6 +115,7 @@
       <ul>
         <li><a href="{% url 'deals:submit' %}">{% trans "Publier un deal" %}</a></li>
         <li><a href="{% url 'payments:plans' %}">{% trans "Abonnement VIP" %}</a></li>
+        <li><a href="{% url 'merchant:space' %}">{% trans "Espace commerçant" %}</a></li>
         <li><a href="{% url 'support:contact' %}">{% trans "Aide et contact" %}</a></li>
       </ul>
     </div>
@@ -128,6 +135,12 @@
     <span>{% trans "Prix TVA belge comprise." %}</span>
   </div>
 </footer>
+
+<div class="installbar" data-install hidden>
+  <p>{% trans "Installez DealTrack sur votre téléphone : un accès direct depuis l'écran d'accueil." %}</p>
+  <button class="cta" type="button" data-install-yes>{% trans "Installer" %}</button>
+  <button class="installbar__close" type="button" data-install-no aria-label="{% trans 'Fermer' %}">×</button>
+</div>
 
 <script src="{% static 'js/dealtrack.js' %}?v={{ ASSET_VERSION }}" defer></script>
 </body>

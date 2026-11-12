@@ -52,12 +52,15 @@ class Command(BaseCommand):
                     [_("Bonjour %(name)s,") % {"name": user.display_name}, "", *lines]
                 )
             with transaction.atomic():
-                send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [user.email])
+                # Le membre peut couper ces e-mails : l'alerte reste alors
+                # visible sur le site, dans « Mes alertes ».
+                if user.notify_alerts and user.is_active:
+                    send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [user.email])
+                    sent += 1
                 AlertMatch.objects.filter(pk__in=[m.pk for m in matches]).update(
                     notified_at=now
                 )
                 for match in matches:
                     match.alert.last_notified_at = now
                     match.alert.save(update_fields=["last_notified_at"])
-            sent += 1
         self.stdout.write(self.style.SUCCESS(f"{sent} e-mail(s) d'alerte envoyé(s)."))

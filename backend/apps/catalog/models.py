@@ -220,3 +220,93 @@ class Merchant(models.Model):
         red, green, blue = (int(self.brand_color[i : i + 2], 16) for i in (1, 3, 5))
         luminance = 0.299 * red + 0.587 * green + 0.114 * blue
         return "#01182B" if luminance > 160 else "#FFFFFF"
+
+
+class MerchantAccount(models.Model):
+    """
+    Lien entre un membre et le commerce qu'il gère : c'est la clé de
+    l'« espace commerçant ».
+
+    Le membre demande à gérer une fiche ; la modération vérifie qu'il s'agit
+    bien du commerçant, puis accepte ou refuse. Tant que la demande n'est pas
+    acceptée, elle n'ouvre aucun droit : sans ce contrôle, n'importe qui
+    pourrait modifier la fiche d'un concurrent.
+    """
+
+    class Status(models.TextChoices):
+        PENDING = "pending", _("En attente")
+        APPROVED = "approved", _("Acceptée")
+        REJECTED = "rejected", _("Refusée")
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(
+        "accounts.User",
+        on_delete=models.CASCADE,
+        related_name="merchant_accounts",
+        verbose_name=_("membre"),
+    )
+    merchant = models.ForeignKey(
+        Merchant,
+        on_delete=models.CASCADE,
+        related_name="accounts",
+        verbose_name=_("commerce"),
+    )
+    status = models.CharField(
+        _("statut"),
+        max_length=10,
+        choices=Status.choices,
+        default=Status.PENDING,
+        db_index=True,
+    )
+    message = models.CharField(
+        _("justification"),
+        max_length=300,
+        validators=[MinLengthValidator(10), validate_no_control_characters],
+        help_text=_("Ce qui prouve le lien avec le commerce : fonction, numéro de TVA…"),
+    )
+    created_at = models.DateTimeField(_("demandée le"), auto_now_add=True)
+    decided_at = models.DateTimeField(_("traitée le"), null=True, blank=True)
+    decided_by = models.ForeignKey(
+        "accounts.User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+        verbose_name=_("traitée par"),
+    )
+
+    class Meta:
+        verbose_name = _("compte commerçant")
+        verbose_name_plural = _("comptes commerçants")
+        ordering = ["-created_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "merchant"], name="uniq_merchant_account_per_user"
+            ),
+            # Une demande acceptée ou refusée est datée.
+            models.CheckConstraint(
+                condition=models.Q(status="pending") | models.Q(decided_at__isnull=False),
+                name="merchant_account_decided_requires_date",
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.user} → {self.merchant} ({self.get_status_display()})"
+
+    def decide(self, *, moderator, approve):
+        """Accepte ou refuse la demande, et trace la décision."""
+        from django.utils import timezone
+
+        from apps.moderation.models import AuditLog
+
+        self.status = self.Status.APPROVED if approve else self.Status.REJECTED
+        self.decided_at = timezone.now()
+        self.decided_by = moderator
+        self.save(update_fields=["status", "decided_at", "decided_by"])
+        AuditLog.record(
+            actor=moderator,
+            action=AuditLog.Action.MERCHANT_CLAIM_DECIDED,
+            target=self.merchant,
+            metadata={"member": str(self.user_id), "approved": approve},
+        )
+        return self

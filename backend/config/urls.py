@@ -14,6 +14,10 @@ urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path("robots.txt", site_views.robots_txt, name="robots"),
     path("sitemap.xml", sitemap, {"sitemaps": site_views.SITEMAPS}, name="sitemap"),
+    # Application installable (PWA) : ces trois adresses doivent être à la racine.
+    path("manifest.webmanifest", site_views.manifest, name="manifest"),
+    path("sw.js", site_views.service_worker, name="service-worker"),
+    path("hors-ligne/", site_views.offline, name="offline"),
 ]
 
 # Front-office et back-office, préfixés /fr/, /nl/, /de/.
@@ -22,6 +26,7 @@ urlpatterns += i18n_patterns(
     path("comptes/", include("apps.accounts.urls", namespace="accounts")),
     path("abonnement/", include("apps.payments.urls", namespace="payments")),
     path("aide/", include("apps.moderation.urls", namespace="support")),
+    path("commercant/", include("apps.catalog.urls", namespace="merchant")),
     path("", include("apps.deals.urls", namespace="deals")),
     prefix_default_language=True,
 )

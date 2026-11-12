@@ -813,7 +813,7 @@ msgstr ""
 
 #: apps/moderation/models.py:136
 msgid "Refusée"
-msgstr ""
+msgstr "Abgelehnt"
 
 #: apps/moderation/models.py:137
 msgid "Marquée expirée"
@@ -2702,3 +2702,212 @@ msgid ""
 msgstr ""
 "Noch keine Favoriten. Klicken Sie auf der Seite eines Deals auf « Zu "
 "Favoriten hinzufügen »."
+
+msgid "M'écrire quand mon deal est publié ou refusé"
+msgstr "Mir schreiben, wenn mein Deal veröffentlicht oder abgelehnt wird"
+
+msgid "M'écrire quand un membre commente un de mes deals"
+msgstr "Mir schreiben, wenn ein Mitglied einen meiner Deals kommentiert"
+
+msgid "M'écrire quand un deal correspond à mes alertes"
+msgstr "Mir schreiben, wenn ein Deal zu meinen Benachrichtigungen passt"
+
+msgid "Vous pouvez choisir les e-mails que vous recevez dans votre profil :"
+msgstr "In Ihrem Profil wählen Sie, welche E-Mails Sie erhalten:"
+
+msgid "DealTrack : votre deal est en ligne"
+msgstr "DealTrack: Ihr Deal ist online"
+
+msgid "Bonne nouvelle : votre deal a été validé et il est maintenant visible."
+msgstr "Gute Nachricht: Ihr Deal wurde freigegeben und ist jetzt sichtbar."
+
+msgid "DealTrack : votre deal n'a pas été publié"
+msgstr "DealTrack: Ihr Deal wurde nicht veröffentlicht"
+
+msgid "Votre deal n'a pas pu être publié."
+msgstr "Ihr Deal konnte nicht veröffentlicht werden."
+
+msgid "Motif indiqué par la modération : %(reason)s"
+msgstr "Begründung der Moderation: %(reason)s"
+
+msgid "Vous pouvez le corriger et le proposer à nouveau."
+msgstr "Sie können ihn korrigieren und erneut einreichen."
+
+msgid "DealTrack : nouveau commentaire sur votre deal"
+msgstr "DealTrack: neuer Kommentar zu Ihrem Deal"
+
+msgid "%(name)s a commenté votre deal :"
+msgstr "%(name)s hat Ihren Deal kommentiert:"
+
+msgid "Acceptée"
+msgstr "Angenommen"
+
+msgid "Votre commerce"
+msgstr "Ihr Geschäft"
+
+msgid "Votre lien avec ce commerce"
+msgstr "Ihre Verbindung zu diesem Geschäft"
+
+msgid "Par exemple : « Je suis le gérant, numéro de TVA BE0… »."
+msgstr "Zum Beispiel: „Ich bin der Geschäftsführer, MwSt.-Nummer BE0…“."
+
+msgid "Choisissez un commerce"
+msgstr "Geschäft auswählen"
+
+msgid "Vous avez déjà fait une demande pour ce commerce."
+msgstr "Sie haben für dieses Geschäft bereits eine Anfrage gestellt."
+
+msgid "Adresse"
+msgstr "Adresse"
+
+msgid "Ville"
+msgstr "Stadt"
+
+msgid "Couleur de la vignette"
+msgstr "Farbe der Kachel"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "L'adresse du site doit commencer par https://"
+msgstr "Die Adresse der Website muss mit https:// beginnen"
+
+msgid "Vous avez déjà trois demandes en attente."
+msgstr "Sie haben bereits drei offene Anfragen."
+
+msgid "Demande envoyée. Un modérateur la vérifie avant d'ouvrir votre espace."
+msgstr ""
+"Anfrage gesendet. Ein Moderator prüft sie, bevor Ihr Bereich freigeschaltet "
+"wird."
+
+msgid "La fiche de votre commerce a été mise à jour."
+msgstr "Das Profil Ihres Geschäfts wurde aktualisiert."
+
+msgid "Espace commerçant"
+msgstr "Händlerbereich"
+
+msgid ""
+"Suivez les offres de votre commerce, publiez-en de nouvelles et tenez votre "
+"fiche à jour."
+msgstr ""
+"Verfolgen Sie die Angebote Ihres Geschäfts, veröffentlichen Sie neue und "
+"halten Sie Ihr Profil aktuell."
+
+msgid "Publier une offre"
+msgstr "Angebot veröffentlichen"
+
+msgid "Modifier la fiche"
+msgstr "Profil bearbeiten"
+
+msgid "Offres en ligne"
+msgstr "Angebote online"
+
+msgid "Température cumulée"
+msgstr "Gesamttemperatur"
+
+msgid "Commentaires"
+msgstr "Kommentare"
+
+msgid "Mises en favori"
+msgstr "Als Favorit gespeichert"
+
+msgid "Température"
+msgstr "Temperatur"
+
+msgid "Favoris"
+msgstr "Favoriten"
+
+msgid "Aucune offre pour ce commerce pour l'instant."
+msgstr "Noch keine Angebote für dieses Geschäft."
+
+msgid ""
+"Vos offres sont vérifiées par un modérateur avant d'être publiées, comme "
+"celles des autres membres."
+msgstr ""
+"Ihre Angebote werden vor der Veröffentlichung von einem Moderator geprüft, "
+"wie die der anderen Mitglieder."
+
+msgid "Mes demandes"
+msgstr "Meine Anfragen"
+
+msgid "Commerce"
+msgstr "Geschäft"
+
+msgid "Gérer un autre commerce"
+msgstr "Ein weiteres Geschäft verwalten"
+
+msgid "Vous êtes commerçant ?"
+msgstr "Sind Sie Händler?"
+
+msgid ""
+"Demandez à gérer la fiche de votre commerce. Un modérateur vérifie votre "
+"demande avant d'ouvrir votre espace."
+msgstr ""
+"Beantragen Sie die Verwaltung des Profils Ihres Geschäfts. Ein Moderator "
+"prüft Ihre Anfrage, bevor Ihr Bereich freigeschaltet wird."
+
+msgid "Envoyer ma demande"
+msgstr "Anfrage senden"
+
+msgid "Votre commerce n'est pas dans la liste ?"
+msgstr "Ihr Geschäft steht nicht in der Liste?"
+
+msgid "Écrivez-nous"
+msgstr "Schreiben Sie uns"
+
+msgid "Commerce : %(name)s"
+msgstr "Geschäft: %(name)s"
+
+msgid ""
+"Le nom du commerce et son numéro de TVA sont modifiés par la modération : "
+"écrivez-nous pour les changer."
+msgstr ""
+"Der Name des Geschäfts und die MwSt.-Nummer werden von der Moderation "
+"geändert: Schreiben Sie uns für eine Änderung."
+
+msgid "Hors ligne"
+msgstr "Offline"
+
+msgid "Vous êtes hors ligne"
+msgstr "Sie sind offline"
+
+msgid ""
+"DealTrack a besoin d'une connexion pour afficher les bons plans du moment. "
+"Vérifiez votre réseau, puis réessayez."
+msgstr ""
+"DealTrack benötigt eine Verbindung, um die aktuellen Schnäppchen anzuzeigen."
+" Prüfen Sie Ihr Netzwerk und versuchen Sie es erneut."
+
+msgid "Réessayer"
+msgstr "Erneut versuchen"
+
+msgid ""
+"Installez DealTrack sur votre téléphone : un accès direct depuis l'écran "
+"d'accueil."
+msgstr ""
+"Installieren Sie DealTrack auf Ihrem Telefon: direkter Zugriff vom "
+"Startbildschirm."
+
+msgid "Installer"
+msgstr "Installieren"
+
+msgid "Fermer"
+msgstr "Schließen"
+
+msgid "C'est votre commerce ?"
+msgstr "Ist das Ihr Geschäft?"
+
+msgid "Rechercher un commerçant"
+msgstr "Händler suchen"
+
+msgid "Commerçants trouvés : %(n)s"
+msgstr "Gefundene Händler: %(n)s"
+
+msgid "Aucun commerçant ne correspond à « %(query)s »."
+msgstr "Kein Händler passt zu „%(query)s“."
+
+msgid "Commerçants locaux correspondants"
+msgstr "Passende lokale Händler"
+
+msgid "Voir dans l'annuaire"
+msgstr "Im Verzeichnis ansehen"

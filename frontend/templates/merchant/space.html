@@ -1,0 +1,85 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Espace commerçant" %} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell" style="padding-bottom:40px">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Espace commerçant" %}</h1>
+  <p class="meta">{% trans "Suivez les offres de votre commerce, publiez-en de nouvelles et tenez votre fiche à jour." %}</p>
+
+  {% for board in dashboards %}
+  <section class="panel">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+      <h2 class="panel__title">{{ board.merchant.name }}
+        {% if board.merchant.is_verified %}<span class="badge is-verified">{% trans "Offre vérifiée" %}</span>{% endif %}
+        {% if board.merchant.is_local_independent %}<span class="badge is-local">{% trans "Commerçant local" %}</span>{% endif %}
+      </h2>
+      <span style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="cta" href="{% url 'deals:submit' %}?marchand={{ board.merchant.pk }}">{% trans "Publier une offre" %}</a>
+        <a class="pill" href="{% url 'merchant:edit' board.merchant.pk %}">{% trans "Modifier la fiche" %}</a>
+      </span>
+    </div>
+
+    <dl class="pricestats" style="margin-top:16px">
+      <div><dt>{% trans "Offres en ligne" %}</dt><dd>{{ board.stats.live }}</dd></div>
+      <div><dt>{% trans "En attente de modération" %}</dt><dd>{{ board.stats.pending }}</dd></div>
+      <div><dt>{% trans "Température cumulée" %}</dt><dd>{{ board.stats.temperature }}°</dd></div>
+      <div><dt>{% trans "Commentaires" %}</dt><dd>{{ board.stats.comments }}</dd></div>
+      <div><dt>{% trans "Mises en favori" %}</dt><dd>{{ board.stats.favorites }}</dd></div>
+    </dl>
+
+    <table class="table" style="margin-top:16px">
+      <thead><tr><th>{% trans "Deal" %}</th><th>{% trans "Statut" %}</th><th>{% trans "Température" %}</th><th>{% trans "Commentaires" %}</th><th>{% trans "Favoris" %}</th></tr></thead>
+      <tbody>
+      {% for deal in board.deals %}
+        <tr>
+          <td>
+            <a class="table__deal" href="{{ deal.get_absolute_url }}">
+              <span class="table__thumb">{% include "deals/_media.html" with small=True %}</span>
+              <span class="table__title">{{ deal.title_current|truncatechars:70 }}</span>
+            </a>
+          </td>
+          <td><span class="stamp{% if deal.status == 'pending' %} is-pending{% endif %}">{{ deal.get_status_display }}</span></td>
+          <td>{{ deal.temperature }}°</td>
+          <td>{{ deal.comment_total }}</td>
+          <td>{{ deal.favorite_total }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5" class="table__sub">{% trans "Aucune offre pour ce commerce pour l'instant." %}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <p class="meta" style="margin-top:12px">{% trans "Vos offres sont vérifiées par un modérateur avant d'être publiées, comme celles des autres membres." %}</p>
+  </section>
+  {% endfor %}
+
+  {% if requests %}
+  <section class="panel">
+    <h2 class="panel__title">{% trans "Mes demandes" %}</h2>
+    <table class="table">
+      <thead><tr><th>{% trans "Commerce" %}</th><th>{% trans "Statut" %}</th><th>{% trans "Date" %}</th></tr></thead>
+      <tbody>
+      {% for item in requests %}
+        <tr>
+          <td><span class="table__title">{{ item.merchant.name }}</span></td>
+          <td><span class="stamp{% if item.status == 'pending' %} is-pending{% endif %}">{{ item.get_status_display }}</span></td>
+          <td><span class="table__sub">{{ item.created_at|date:"d/m/Y" }}</span></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  {% endif %}
+
+  <section class="panel">
+    <h2 class="panel__title">{% if dashboards %}{% trans "Gérer un autre commerce" %}{% else %}{% trans "Vous êtes commerçant ?" %}{% endif %}</h2>
+    <p>{% trans "Demandez à gérer la fiche de votre commerce. Un modérateur vérifie votre demande avant d'ouvrir votre espace." %}</p>
+    <div class="form" style="margin:0">
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% include "_form.html" %}
+        <button class="cta" type="submit">{% trans "Envoyer ma demande" %}</button>
+      </form>
+    </div>
+    <p class="meta" style="margin-top:12px">{% trans "Votre commerce n'est pas dans la liste ?" %} <a href="{% url 'support:contact' %}">{% trans "Écrivez-nous" %}</a></p>
+  </section>
+</div>
+{% endblock %}

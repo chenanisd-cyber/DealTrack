@@ -812,7 +812,7 @@ msgstr ""
 
 #: apps/moderation/models.py:136
 msgid "Refusée"
-msgstr ""
+msgstr "Geweigerd"
 
 #: apps/moderation/models.py:137
 msgid "Marquée expirée"
@@ -2684,3 +2684,211 @@ msgid ""
 msgstr ""
 "Nog geen favorieten. Klik op « Toevoegen aan favorieten » op de pagina van "
 "een deal."
+
+msgid "M'écrire quand mon deal est publié ou refusé"
+msgstr "Mail me wanneer mijn deal is gepubliceerd of geweigerd"
+
+msgid "M'écrire quand un membre commente un de mes deals"
+msgstr "Mail me wanneer een lid op een van mijn deals reageert"
+
+msgid "M'écrire quand un deal correspond à mes alertes"
+msgstr "Mail me wanneer een deal overeenkomt met mijn alerts"
+
+msgid "Vous pouvez choisir les e-mails que vous recevez dans votre profil :"
+msgstr "U kiest in uw profiel welke e-mails u ontvangt:"
+
+msgid "DealTrack : votre deal est en ligne"
+msgstr "DealTrack: uw deal staat online"
+
+msgid "Bonne nouvelle : votre deal a été validé et il est maintenant visible."
+msgstr "Goed nieuws: uw deal is goedgekeurd en is nu zichtbaar."
+
+msgid "DealTrack : votre deal n'a pas été publié"
+msgstr "DealTrack: uw deal is niet gepubliceerd"
+
+msgid "Votre deal n'a pas pu être publié."
+msgstr "Uw deal kon niet worden gepubliceerd."
+
+msgid "Motif indiqué par la modération : %(reason)s"
+msgstr "Reden van de moderatie: %(reason)s"
+
+msgid "Vous pouvez le corriger et le proposer à nouveau."
+msgstr "U kunt hem aanpassen en opnieuw indienen."
+
+msgid "DealTrack : nouveau commentaire sur votre deal"
+msgstr "DealTrack: nieuwe reactie op uw deal"
+
+msgid "%(name)s a commenté votre deal :"
+msgstr "%(name)s heeft op uw deal gereageerd:"
+
+msgid "Acceptée"
+msgstr "Aanvaard"
+
+msgid "Votre commerce"
+msgstr "Uw zaak"
+
+msgid "Votre lien avec ce commerce"
+msgstr "Uw band met deze zaak"
+
+msgid "Par exemple : « Je suis le gérant, numéro de TVA BE0… »."
+msgstr "Bijvoorbeeld: „Ik ben de zaakvoerder, btw-nummer BE0…”."
+
+msgid "Choisissez un commerce"
+msgstr "Kies een zaak"
+
+msgid "Vous avez déjà fait une demande pour ce commerce."
+msgstr "U hebt al een aanvraag voor deze zaak ingediend."
+
+msgid "Adresse"
+msgstr "Adres"
+
+msgid "Ville"
+msgstr "Stad"
+
+msgid "Couleur de la vignette"
+msgstr "Kleur van de miniatuur"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "L'adresse du site doit commencer par https://"
+msgstr "Het adres van de website moet beginnen met https://"
+
+msgid "Vous avez déjà trois demandes en attente."
+msgstr "U hebt al drie aanvragen in behandeling."
+
+msgid "Demande envoyée. Un modérateur la vérifie avant d'ouvrir votre espace."
+msgstr ""
+"Aanvraag verzonden. Een moderator controleert ze voordat uw ruimte wordt "
+"geopend."
+
+msgid "La fiche de votre commerce a été mise à jour."
+msgstr "De fiche van uw zaak is bijgewerkt."
+
+msgid "Espace commerçant"
+msgstr "Handelaarsruimte"
+
+msgid ""
+"Suivez les offres de votre commerce, publiez-en de nouvelles et tenez votre "
+"fiche à jour."
+msgstr ""
+"Volg de aanbiedingen van uw zaak, plaats nieuwe en houd uw fiche up-to-date."
+
+msgid "Publier une offre"
+msgstr "Een aanbieding plaatsen"
+
+msgid "Modifier la fiche"
+msgstr "Fiche wijzigen"
+
+msgid "Offres en ligne"
+msgstr "Aanbiedingen online"
+
+msgid "Température cumulée"
+msgstr "Totale temperatuur"
+
+msgid "Commentaires"
+msgstr "Reacties"
+
+msgid "Mises en favori"
+msgstr "Keer als favoriet bewaard"
+
+msgid "Température"
+msgstr "Temperatuur"
+
+msgid "Favoris"
+msgstr "Favorieten"
+
+msgid "Aucune offre pour ce commerce pour l'instant."
+msgstr "Nog geen aanbiedingen voor deze zaak."
+
+msgid ""
+"Vos offres sont vérifiées par un modérateur avant d'être publiées, comme "
+"celles des autres membres."
+msgstr ""
+"Uw aanbiedingen worden door een moderator gecontroleerd voor publicatie, net"
+" als die van andere leden."
+
+msgid "Mes demandes"
+msgstr "Mijn aanvragen"
+
+msgid "Commerce"
+msgstr "Zaak"
+
+msgid "Gérer un autre commerce"
+msgstr "Een andere zaak beheren"
+
+msgid "Vous êtes commerçant ?"
+msgstr "Bent u handelaar?"
+
+msgid ""
+"Demandez à gérer la fiche de votre commerce. Un modérateur vérifie votre "
+"demande avant d'ouvrir votre espace."
+msgstr ""
+"Vraag aan om de fiche van uw zaak te beheren. Een moderator controleert uw "
+"aanvraag voordat uw ruimte wordt geopend."
+
+msgid "Envoyer ma demande"
+msgstr "Mijn aanvraag versturen"
+
+msgid "Votre commerce n'est pas dans la liste ?"
+msgstr "Staat uw zaak niet in de lijst?"
+
+msgid "Écrivez-nous"
+msgstr "Schrijf ons"
+
+msgid "Commerce : %(name)s"
+msgstr "Zaak: %(name)s"
+
+msgid ""
+"Le nom du commerce et son numéro de TVA sont modifiés par la modération : "
+"écrivez-nous pour les changer."
+msgstr ""
+"De naam van de zaak en het btw-nummer worden door de moderatie gewijzigd: "
+"schrijf ons om ze aan te passen."
+
+msgid "Hors ligne"
+msgstr "Offline"
+
+msgid "Vous êtes hors ligne"
+msgstr "U bent offline"
+
+msgid ""
+"DealTrack a besoin d'une connexion pour afficher les bons plans du moment. "
+"Vérifiez votre réseau, puis réessayez."
+msgstr ""
+"DealTrack heeft een verbinding nodig om de koopjes van het moment te tonen. "
+"Controleer uw netwerk en probeer opnieuw."
+
+msgid "Réessayer"
+msgstr "Opnieuw proberen"
+
+msgid ""
+"Installez DealTrack sur votre téléphone : un accès direct depuis l'écran "
+"d'accueil."
+msgstr ""
+"Installeer DealTrack op uw telefoon: rechtstreeks toegankelijk vanaf het "
+"startscherm."
+
+msgid "Installer"
+msgstr "Installeren"
+
+msgid "Fermer"
+msgstr "Sluiten"
+
+msgid "C'est votre commerce ?"
+msgstr "Is dit uw zaak?"
+
+msgid "Rechercher un commerçant"
+msgstr "Zoek een handelaar"
+
+msgid "Commerçants trouvés : %(n)s"
+msgstr "Gevonden handelaars: %(n)s"
+
+msgid "Aucun commerçant ne correspond à « %(query)s »."
+msgstr "Geen handelaar komt overeen met „%(query)s”."
+
+msgid "Commerçants locaux correspondants"
+msgstr "Overeenkomende lokale handelaars"
+
+msgid "Voir dans l'annuaire"
+msgstr "Bekijk in de gids"

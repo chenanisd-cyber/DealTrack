@@ -80,8 +80,18 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["display_name", "preferred_language", "marketing_consent"]
+        fields = [
+            "display_name",
+            "preferred_language",
+            "notify_moderation",
+            "notify_comments",
+            "notify_alerts",
+            "marketing_consent",
+        ]
         labels = {
+            "notify_moderation": _("M'écrire quand mon deal est publié ou refusé"),
+            "notify_comments": _("M'écrire quand un membre commente un de mes deals"),
+            "notify_alerts": _("M'écrire quand un deal correspond à mes alertes"),
             "display_name": _("Pseudonyme"),
             "preferred_language": _("Langue préférée"),
             "marketing_consent": _(

@@ -1,6 +1,42 @@
 from django.contrib import admin
 
-from .models import Category, CategoryTranslation, Merchant
+from .models import Category, CategoryTranslation, Merchant, MerchantAccount
+
+
+@admin.register(MerchantAccount)
+class MerchantAccountAdmin(admin.ModelAdmin):
+    """Demandes d'accès à l'espace commerçant : la modération accepte ou refuse."""
+
+    list_display = ("merchant", "user", "status", "message", "created_at", "decided_by")
+    list_filter = ("status",)
+    search_fields = ("merchant__name", "user__email", "user__display_name")
+    readonly_fields = ("user", "merchant", "message", "created_at", "decided_at", "decided_by")
+    fields = (*readonly_fields, "status")
+    actions = ["approve", "reject"]
+
+    def has_add_permission(self, request):
+        return False  # une demande vient toujours du membre, depuis le site
+
+    def save_model(self, request, obj, form, change):
+        # Statut modifié depuis la fiche : même traçabilité que les actions groupées.
+        if "status" in form.changed_data and obj.status != MerchantAccount.Status.PENDING:
+            obj.decide(
+                moderator=request.user, approve=obj.status == MerchantAccount.Status.APPROVED
+            )
+        else:
+            super().save_model(request, obj, form, change)
+
+    @admin.action(description="Accepter les demandes sélectionnées")
+    def approve(self, request, queryset):
+        for account in queryset:
+            account.decide(moderator=request.user, approve=True)
+        self.message_user(request, f"{queryset.count()} demande(s) acceptée(s).")
+
+    @admin.action(description="Refuser les demandes sélectionnées")
+    def reject(self, request, queryset):
+        for account in queryset:
+            account.decide(moderator=request.user, approve=False)
+        self.message_user(request, f"{queryset.count()} demande(s) refusée(s).")
 
 
 class CategoryTranslationInline(admin.TabularInline):

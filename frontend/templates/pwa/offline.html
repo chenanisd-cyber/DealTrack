@@ -1,0 +1,19 @@
+{% load i18n static %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>{% trans "Hors ligne" %} — DealTrack.be</title>
+  <meta name="theme-color" content="#01182B">
+  <link rel="stylesheet" href="{% static 'css/dealtrack.css' %}">
+</head>
+<body>
+<main class="shell" style="max-width:520px; padding-top:18vh; text-align:center">
+  <img src="{% static 'img/icon-192.png' %}" alt="" width="96" height="96" style="border-radius:22px">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Vous êtes hors ligne" %}</h1>
+  <p>{% trans "DealTrack a besoin d'une connexion pour afficher les bons plans du moment. Vérifiez votre réseau, puis réessayez." %}</p>
+  <p><a class="cta" href="/">{% trans "Réessayer" %}</a></p>
+</main>
+</body>
+</html>

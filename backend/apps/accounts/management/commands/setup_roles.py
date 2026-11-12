@@ -71,6 +71,9 @@ MODERATOR_PERMISSIONS = {
         "change_merchant",
         "add_merchant",
         "view_category",
+        # Accepter ou refuser un membre qui demande à gérer la fiche de son commerce.
+        "view_merchantaccount",
+        "change_merchantaccount",
     ],
     # Lecture seule : identifier l'auteur d'une offre litigieuse, vérifier
     # qu'un compte signalé est bien abonné. Aucune écriture — ni sur les

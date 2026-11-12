@@ -342,6 +342,9 @@ class Deal(models.Model):
             reason=reason,
         )
         AuditLog.record(actor=moderator, action=AuditLog.Action.DEAL_PUBLISHED, target=self)
+        from apps.accounts import notifications
+
+        notifications.deal_published(self)
         return self
 
     def reject(self, *, moderator, reason):
@@ -361,6 +364,9 @@ class Deal(models.Model):
             target=self,
             metadata={"reason": reason},
         )
+        from apps.accounts import notifications
+
+        notifications.deal_rejected(self, reason)
         return self
 
     def soft_delete(self, *, actor):

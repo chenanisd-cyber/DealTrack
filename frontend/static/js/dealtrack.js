@@ -154,4 +154,28 @@
   if (navigator.share) {
     document.querySelectorAll('[data-share="native"]').forEach(function (b) { b.hidden = false; });
   }
+  // -- Application installable (PWA) ---------------------------------------
+  // Le service worker affiche une page d'attente quand il n'y a pas de
+  // connexion. Sans lui (vieux navigateur), le site marche comme avant.
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("/sw.js").catch(function () {});
+    });
+  }
+  // Chrome et Edge sur Android signalent quand l'installation est possible :
+  // on propose alors un bandeau discret, une seule fois par appareil.
+  window.addEventListener("beforeinstallprompt", function (event) {
+    event.preventDefault();
+    var bar = document.querySelector("[data-install]");
+    try { if (!bar || localStorage.getItem("dt-install-dismissed")) return; } catch (e) { return; }
+    bar.hidden = false;
+    bar.querySelector("[data-install-yes]").addEventListener("click", function () {
+      bar.hidden = true;
+      event.prompt();
+    });
+    bar.querySelector("[data-install-no]").addEventListener("click", function () {
+      bar.hidden = true;
+      try { localStorage.setItem("dt-install-dismissed", "1"); } catch (e) {}
+    });
+  });
 })();

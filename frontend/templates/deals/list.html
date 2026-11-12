@@ -36,6 +36,16 @@
 <div class="layout has-ad">
   <div class="layout__ad">{% include "deals/_ad.html" with slot="side" %}</div>
   <div class="feed">
+    {% if merchant_hits %}
+    <section class="panel">
+      <h2 class="panel__title">{% trans "Commerçants locaux correspondants" %}</h2>
+      {% for merchant in merchant_hits %}
+      <p style="margin:8px 0 0"><a href="{% url 'deals:local' %}?q={{ merchant.name|urlencode }}"><strong>{{ merchant.name }}</strong></a>
+        <span class="meta">{% if merchant.shop_type_label %}{{ merchant.shop_type_label }} · {% endif %}{{ merchant.city }}</span></p>
+      {% endfor %}
+      <p style="margin:12px 0 0"><a class="pill" href="{% url 'deals:local' %}?q={{ query|urlencode }}">{% trans "Voir dans l'annuaire" %}</a></p>
+    </section>
+    {% endif %}
     {% for deal in page_obj %}
     <article class="deal{% if deal.is_expired %} is-expired{% endif %}">
       <a class="deal__media" href="{{ deal.get_absolute_url }}" tabindex="-1" aria-hidden="true">

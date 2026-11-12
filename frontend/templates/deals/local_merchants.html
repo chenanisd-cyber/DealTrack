@@ -2,11 +2,18 @@
 {% block title %}{% trans "Commerçants locaux" %} — DealTrack.be{% endblock %}
 {% block description %}{% trans "Les commerçants indépendants de votre région et leurs bons plans." %}{% endblock %}
 
+{% block search_action %}{% url 'deals:local' %}{% endblock %}
+{% block search_label %}{% trans "Rechercher un commerçant" %}{% endblock %}
+
 {% block content %}
 <div class="shell">
   <section class="panel">
     <h1 style="font-size:var(--fs-h1); margin-top:0">{% trans "Commerçants locaux" %}</h1>
     <p style="color:var(--dt-ink-2)">{% trans "Des commerces indépendants près de chez vous : boulangeries, fromageries, librairies, vélocistes… Vous connaissez une bonne affaire chez l'un d'eux ? Partagez-la." %}</p>
+
+    {% if query %}
+    <p style="margin:12px 0 0"><strong>{% blocktrans %}Résultats pour « {{ query }} »{% endblocktrans %}</strong> · {% blocktrans with n=result_count %}Commerçants trouvés : {{ n }}{% endblocktrans %} · <a href="{% url 'deals:local' %}">{% trans "Effacer la recherche" %}</a></p>
+    {% endif %}
 
     <nav class="regionbar" style="padding:0; margin:12px 0 0" aria-label="{% trans 'Filtrer par ville' %}">
       <a class="chip" href="?" aria-pressed="{% if not current_city %}true{% else %}false{% endif %}">{% trans "Toutes les villes" %}</a>
@@ -16,7 +23,7 @@
     </nav>
   </section>
 
-  {% if local_deals %}
+  {% if local_deals and not query %}
   <section class="panel">
     <h2 class="panel__title">{% trans "Bons plans chez les commerçants locaux" %}</h2>
     {% for deal in local_deals %}
@@ -42,10 +49,11 @@
           {% if merchant.osm_url %}<a href="{{ merchant.osm_url }}" target="_blank" rel="noopener">{% trans "Voir sur la carte" %}</a>{% endif %}
         </div>
         <a class="pill" href="{% url 'deals:submit' %}?marchand={{ merchant.pk }}">{% trans "Proposer un deal ici" %}</a>
+        <a class="localcard__claim" href="{% url 'merchant:space' %}?commerce={{ merchant.slug }}">{% trans "C'est votre commerce ?" %}</a>
       </div>
     </article>
     {% empty %}
-      <div class="panel"><p>{% trans "Aucun commerçant local pour cette ville pour l'instant." %}</p></div>
+      <div class="panel"><p>{% if query %}{% blocktrans %}Aucun commerçant ne correspond à « {{ query }} ».{% endblocktrans %}{% else %}{% trans "Aucun commerçant local pour cette ville pour l'instant." %}{% endif %}</p></div>
     {% endfor %}
   </div>
 

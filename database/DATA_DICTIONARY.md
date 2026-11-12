@@ -24,6 +24,7 @@
 | `catalog_category` | catégories | id · UUID | 6 |
 | `catalog_categorytranslation` | libellés de catégorie | id · BIGINT auto | 18 |
 | `catalog_merchant` | marchands | id · UUID | 137 |
+| `catalog_merchantaccount` | comptes commerçants | id · UUID | 0 |
 | `deals_alert` | alertes | id · UUID | 170 |
 | `deals_alertmatch` | alertes déclenchées | id · BIGINT auto | 207 |
 | `deals_comment` | commentaires | id · UUID | 271 |
@@ -31,7 +32,7 @@
 | `deals_deal` | deals | id · UUID | 132 |
 | `deals_dealimage` | images de deal | id · BIGINT auto | 135 |
 | `deals_dealtranslation` | traductions de deal | id · BIGINT auto | 254 |
-| `deals_favorite` | favoris | id · BIGINT auto | 150 |
+| `deals_favorite` | favoris | id · BIGINT auto | 151 |
 | `deals_pricepoint` | relevés de prix | id · BIGINT auto | 132 |
 | `deals_vote` | votes | id · BIGINT auto | 691 |
 | `payments_payment` | paiements | id · UUID | 120 |
@@ -48,7 +49,7 @@
 Membres, rôles et cycle de vie du compte.
 
 ### `accounts_user`
-User(password, last_login, is_superuser, id, email, display_name, role, preferred_language, is_active, is_staff, date_joined, deleted_at, anonymised_at, accepted_terms_at, marketing_consent)
+User(password, last_login, is_superuser, id, email, display_name, role, preferred_language, is_active, is_staff, date_joined, deleted_at, anonymised_at, accepted_terms_at, marketing_consent, notify_moderation, notify_comments, notify_alerts)
 
 | Colonne | Type | Null | Défaut | Contraintes et rôle |
 |---|---|---|---|---|
@@ -67,6 +68,9 @@ User(password, last_login, is_superuser, id, email, display_name, role, preferre
 | `anonymised_at` | TIMESTAMP | oui | — | Renseigné une fois les données personnelles écrasées. |
 | `accepted_terms_at` | TIMESTAMP | oui | — | — |
 | `marketing_consent` | BOOLEAN | non | `False` | Consentement explicite, distinct des CGU (art. 7 RGPD). |
+| `notify_moderation` | BOOLEAN | non | `True` | — |
+| `notify_comments` | BOOLEAN | non | `True` | — |
+| `notify_alerts` | BOOLEAN | non | `True` | — |
 | `groups` | M2M | — | — | table de liaison `accounts_user_groups` vers `auth_group` |
 | `user_permissions` | M2M | — | — | table de liaison `accounts_user_user_permissions` vers `auth_permission` |
 
@@ -133,6 +137,24 @@ Enseigne chez qui le deal est disponible.
 **Contraintes de table**
 - `merchant_local_implies_be` — vérification : `(OR: ('is_local_independent', False), ('country', 'BE'))`
 - `merchant_vat_implies_be` — vérification : `(OR: ('vat_number', ''), ('country', 'BE'))`
+
+### `catalog_merchantaccount`
+Lien entre un membre et le commerce qu'il gère : c'est la clé de l'« espace commerçant ».
+
+| Colonne | Type | Null | Défaut | Contraintes et rôle |
+|---|---|---|---|---|
+| `id` | UUID | non | `uuid4` | **clé primaire** |
+| `user_id` | FK | non | — | indexée · → `accounts_user` · `CASCADE` |
+| `merchant_id` | FK | non | — | indexée · → `catalog_merchant` · `CASCADE` |
+| `status` | VARCHAR(10) | non | `pending` | indexée · valeurs : `pending`, `approved`, `rejected` |
+| `message` | VARCHAR(300) | non | — | Ce qui prouve le lien avec le commerce : fonction, numéro de TVA… |
+| `created_at` | TIMESTAMP | non | — | — |
+| `decided_at` | TIMESTAMP | oui | — | — |
+| `decided_by_id` | FK | oui | — | indexée · → `accounts_user` · `SET_NULL` |
+
+**Contraintes de table**
+- `uniq_merchant_account_per_user` — unicité sur `user`, `merchant`
+- `merchant_account_decided_requires_date` — vérification : `(OR: ('status', 'pending'), ('decided_at__isnull', False))`
 
 ---
 
@@ -487,4 +509,4 @@ Le comportement de suppression est choisi champ par champ, jamais laissé par d�
 
 ---
 
-_Schéma : 33 tables, moteur `sqlite`._
+_Schéma : 34 tables, moteur `sqlite`._

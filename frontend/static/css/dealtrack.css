@@ -835,6 +835,13 @@ img{max-width:100%}
 .pricestats div{padding:10px; border-radius:8px; background:var(--dt-surface-2)}
 .pricestats dt{font-size:var(--fs-meta); color:var(--dt-ink-2)}
 .pricestats dd{margin:2px 0 0; font-weight:700}
+.localcard__claim{display:inline-block; margin-top:8px; font-size:var(--fs-meta); color:var(--dt-ink-2)}
+/* Bandeau « installer l'application » (affiché par dealtrack.js quand le navigateur le permet). */
+.installbar{position:fixed; left:12px; right:12px; bottom:12px; z-index:50; display:flex; align-items:center; gap:12px;
+  max-width:520px; margin:0 auto; padding:12px 14px; border-radius:var(--r-card); background:var(--dt-navy); color:#fff; box-shadow:var(--sh-pop)}
+.installbar p{margin:0; flex:1; font-size:var(--fs-meta)}
+.installbar .cta{height:40px; padding:0 18px; font-size:var(--fs-meta)}
+.installbar__close{border:0; background:none; color:#fff; font-size:22px; line-height:1; cursor:pointer; padding:4px 6px}
 .compare tr.is-current td{background:var(--dt-accent-soft)}
 .compare__list{list-style:none; padding:0; margin:10px 0; display:flex; flex-direction:column; gap:8px}
 .compare__title{margin:20px 0 10px; font-size:17px}

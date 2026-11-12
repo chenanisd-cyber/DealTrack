@@ -21,3 +21,4 @@ REGISTER_RATE_LIMIT = 10_000
 LOGGING["loggers"]["django"]["level"] = "CRITICAL"  # noqa: F405
 LOGGING["loggers"]["axes"]["level"] = "CRITICAL"  # noqa: F405
 LOGGING["loggers"]["dealtrack.audit"]["level"] = "CRITICAL"  # noqa: F405
+LOGGING["loggers"]["dealtrack.notifications"]["level"] = "CRITICAL"  # noqa: F405

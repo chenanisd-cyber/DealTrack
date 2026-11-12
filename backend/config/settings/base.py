@@ -356,6 +356,11 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
+        "dealtrack.notifications": {
+            "handlers": ["console", "app_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
         "dealtrack.payments": {
             "handlers": ["console", "app_file"],
             "level": "INFO",

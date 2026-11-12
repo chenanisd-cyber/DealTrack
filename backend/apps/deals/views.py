@@ -15,7 +15,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
 from apps.catalog.merchants import domain_of, find_merchant, name_from_domain
-from apps.catalog.models import Category, Merchant
+from apps.catalog.models import SHOP_TYPES, Category, Merchant
 from apps.moderation.models import AuditLog, Report
 
 from . import vip
@@ -63,6 +63,27 @@ def search_ids(query):
     return matching.values("pk")
 
 
+def search_merchants(query):
+    """
+    Commerçants locaux qui contiennent TOUS les mots cherchés, chacun dans le
+    nom, la ville, l'adresse ou le type de commerce. Le type est stocké sous sa
+    valeur OpenStreetMap (« bakery ») : on cherche donc aussi dans son libellé
+    traduit, pour que « boulangerie » ou « bakkerij » trouvent les boulangeries.
+    """
+    words = [w for w in query.split() if len(w) >= 2][:SEARCH_MAX_WORDS]
+    merchants = Merchant.objects.filter(is_local_independent=True)
+    for word in words:
+        types = [key for key, label in SHOP_TYPES.items() if word.lower() in str(label).lower()]
+        merchants = merchants.filter(
+            Q(name__icontains=word)
+            | Q(city__icontains=word)
+            | Q(address__icontains=word)
+            | Q(shop_type__icontains=word)
+            | Q(shop_type__in=types)
+        )
+    return merchants.order_by("city", "name")
+
+
 def deal_list(request):
     """
     Flux public. `for_user` applique le filtre d'accès ; aucun paramètre
@@ -105,6 +126,8 @@ def deal_list(request):
             "heading": SORT_HEADINGS[sort],
             "query": query,
             "result_count": page.paginator.count,
+            # La recherche couvre aussi l'annuaire : un commerce sans deal reste trouvable.
+            "merchant_hits": list(search_merchants(query)[:6]) if query else [],
             "season": season_banner(timezone.localdate()),
             "hot_deals": Deal.objects.live()
             .select_related("merchant")
@@ -331,8 +354,8 @@ def comment_create(request, slug):
 def local_merchants(request):
     """
     Annuaire des commerçants indépendants (données OpenStreetMap), filtrable
-    par ville. La ville vient de l'URL : elle n'est utilisée que si elle existe
-    dans la base, jamais injectée telle quelle.
+    par ville et par mots (nom, ville, adresse, type). La ville vient de l'URL :
+    elle n'est utilisée que si elle existe dans la base, jamais injectée telle quelle.
     """
     merchants = Merchant.objects.filter(is_local_independent=True).order_by("city", "name")
     # sorted(set()) et non .distinct() : le tri par nom ajouté par order_by
@@ -343,6 +366,10 @@ def local_merchants(request):
         merchants = merchants.filter(city=current_city)
     else:
         current_city = ""
+    # Barre de recherche : sur cette page, elle cherche dans l'annuaire.
+    query = clean_query(request.GET.get("q"))
+    if query:
+        merchants = merchants.filter(pk__in=search_merchants(query).values("pk"))
     local_deals = (
         Deal.objects.live()
         .filter(merchant__is_local_independent=True)
@@ -357,6 +384,8 @@ def local_merchants(request):
             "cities": cities,
             "current_city": current_city,
             "local_deals": local_deals,
+            "query": query,
+            "result_count": merchants.count() if query else None,
         },
     )
 

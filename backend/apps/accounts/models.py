@@ -126,6 +126,19 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text=_("Consentement explicite, distinct des CGU (art. 7 RGPD)."),
     )
 
+    # --- Notifications par e-mail ---------------------------------------
+    # Messages de service liés à l'activité du membre : il peut couper
+    # chacun d'eux depuis son profil.
+    notify_moderation = models.BooleanField(
+        _("e-mail quand mon deal est publié ou refusé"), default=True
+    )
+    notify_comments = models.BooleanField(
+        _("e-mail quand un membre commente mon deal"), default=True
+    )
+    notify_alerts = models.BooleanField(
+        _("e-mail quand un deal correspond à mes alertes"), default=True
+    )
+
     objects = UserManager()
 
     USERNAME_FIELD = "email"

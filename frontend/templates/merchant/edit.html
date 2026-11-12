@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Modifier la fiche" %} — {{ merchant.name }} — DealTrack.be{% endblock %}
+{% block content %}
+<div class="shell"><div class="form">
+  <h1 style="font-size:var(--fs-h1)">{% trans "Modifier la fiche" %}</h1>
+  <section class="panel">
+    <p class="meta">{% blocktrans with name=merchant.name %}Commerce : {{ name }}{% endblocktrans %}</p>
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {% include "_form.html" %}
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button class="cta" type="submit">{% trans "Enregistrer" %}</button>
+        <a class="pill" href="{% url 'merchant:space' %}">{% trans "Annuler" %}</a>
+      </div>
+    </form>
+    <p class="field__hint" style="margin-top:12px">{% trans "Le nom du commerce et son numéro de TVA sont modifiés par la modération : écrivez-nous pour les changer." %}</p>
+  </section>
+</div></div>
+{% endblock %}
